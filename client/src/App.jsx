@@ -1,11 +1,20 @@
-import { useState } from 'react'
+// import { useState } from 'react'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import Signup from './pages/auth/views/Signup'
+import Login from './pages/auth/views/Login'
 
 function App() {
 
   return (
-    <>  
-      <h4 className='text-center text-[40px] text-blue-500 animate-bounce'>Enjoy your time here !!</h4>  
-    </>
+    <Router>  
+      <Routes>
+        {/* <Route exact path="/" element={<SignupPage/>}/> */}
+        <Route path="/signup" element={<Signup/>}/>
+        <Route path="/login" element={<Login/>}/>
+       
+        {/* <Route path="*" element={<NotFound/>}/> */}
+      </Routes>  
+    </Router>
   )
 }
 
