@@ -15,14 +15,14 @@ const Login = () => {
             <h2 className="text-3xl mb-2 text-indigo-700 text-center">Welcome</h2>
             <div className="flex flex-col w-full mb-4">
               <div className ="w-full mb-2">
-                  <a href="" className="w-full border rounded bg-gray-50 border-gray-400 p-1 flex flex-row items-baseline justify-center m-auto border-b-4 border-r-2 border-l-2">
-                      <FaLinkedin/>
+                  <a href="" className="w-full border rounded bg-gray-50 border-indigo-300 p-1 flex flex-row items-baseline justify-center m-auto border-b-4 border-r-2 border-l-2">
+                      <FaLinkedin className="text-indigo-700 text-xl"/>
                       <p className="px-2">Sign In with LinkedIn</p>
                   </a>
               </div>
               <div className ="w-full md:mb-0">
-                  <a className="w-full rounded border border-gray-400 p-1 flex flex-row items-baseline justify-center m-auto bg-gray-50 border-b-4 border-r-2 border-l-2">
-                      <ImGooglePlus3/>
+                  <a className="w-full rounded border border-indigo-300 p-1 flex flex-row items-baseline justify-center m-auto bg-gray-50 border-b-4 border-r-2 border-l-2">
+                      <ImGooglePlus3 className="text-indigo-700 text-xl"/>
                       <p className="px-2">Sign In with Google</p>
                   </a>
               </div>
