@@ -1,10 +1,13 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react"
-import Input from "../../../components/Input"
-import InputLabel from "../../../components/InputLabel"
-import Button from "../../../components/Button"
+import { useState, useEffect} from "react"
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { register, reset } from '../../../features/auth/authSlice'
 import {FaLinkedin} from "react-icons/fa"
 import {ImGooglePlus3} from "react-icons/im"
+import { Button, Input, InputLabel } from "../../../components"
+
 const Signup = () => {
   
   const [formData, setFormData] = useState({
@@ -22,9 +25,53 @@ const Signup = () => {
 
   const {firstName,lastName,email,phoneNumber,address,city, state,postalCode,password, confirmPassword} = formData
 
-  const onChange = () => {}
-  const OnSubmit = (e) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  )
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+
+    if (isSuccess || user) {
+      navigate('/')
+    }
+
+    dispatch(reset())
+  }, [user, isError, isSuccess, message, navigate, dispatch])
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const onSubmit = (e) => {
     e.preventDefault()
+
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match')
+    } else {
+      const userData = {
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        address,
+        city,
+        state,
+        postalCode,
+        password,
+        confirmPassword
+      }
+
+      dispatch(register(userData))
+    }
   }
 
   return (
@@ -46,7 +93,7 @@ const Signup = () => {
             </div>
         </div>
         <h2 className="text-2xl mb-2 text-center">OR</h2>
-      <form className="w-full">
+      <form className="w-full" onSubmit={onSubmit}>
         <div className="flex flex-wrap w-full m-auto justify-between">
             <div className ="w-3/6 px-6 md:mb-0">
                 <InputLabel label="FirstName" />

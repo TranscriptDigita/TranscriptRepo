@@ -1,10 +1,61 @@
+/* eslint-disable no-unused-vars */
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { login, reset } from '../../../features/auth/authSlice'
 import LoginImg from "../../../assets/loginImg.jpg"
-import Input from "../../../components/Input"
-import Button from "../../../components/Button"
+import Input from "../../../components/form/Input"
+import Button from "../../../components/form/Button"
 import { FaLinkedin } from "react-icons/fa"
 import { ImGooglePlus3 } from "react-icons/im"
 
 const Login = () => {
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  })
+
+  const { email, password } = formData
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  )
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+
+    if (isSuccess || user) {
+      navigate('/')
+    }
+
+    dispatch(reset())
+  }, [user, isError, isSuccess, message, navigate, dispatch])
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+
+    const userData = {
+      email,
+      password,
+    }
+
+    dispatch(login(userData))
+  }
+
   return (
     <div className="flex justify-center align-center h-screen w-full ">
         <div className="flex-1 w-full">
@@ -29,12 +80,12 @@ const Login = () => {
         </div>
           </div>
           <h2 className="text-xl font-bold my-4 text-indigo-700 text-center">OR</h2>
-          <form action="" method="post" className="w-4/6 m-auto">
+          <form onSubmit={onSubmit} className="w-4/6 m-auto">
             <div className ="w-full  md:mb-0">
-                <Input type="text" placeholder="Email" />
+                <Input type="text" placeholder="Email" name ="email" id ="email" value ={email} onChange={onChange}/>
             </div>
             <div className ="w-full  md:mb-0">
-                <Input type="text" placeholder="password"/>
+                <Input type="text" placeholder="password" name ="password" id ="password" value ={password} onChange={onChange}/>
             </div>
             <div className ="w-full  md:mb-0">
                 <Button btn="Sign In" />
