@@ -82,10 +82,10 @@ const Login = () => {
           <h2 className="text-xl font-bold my-4 text-indigo-700 text-center">OR</h2>
           <form onSubmit={onSubmit} className="w-4/6 m-auto">
             <div className ="w-full  md:mb-0">
-                <Input type="text" placeholder="Email" name ="email" id ="email" value ={email} onChange={onChange}/>
+                <Input type="text" placeholder="Email" name ="email" id ="email" onChange={onChange}/>
             </div>
             <div className ="w-full  md:mb-0">
-                <Input type="text" placeholder="password" name ="password" id ="password" value ={password} onChange={onChange}/>
+                <Input type="text" placeholder="password" name ="password" id ="password" onChange={onChange}/>
             </div>
             <div className ="w-full  md:mb-0">
                 <Button btn="Sign In" />

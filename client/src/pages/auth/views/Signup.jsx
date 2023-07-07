@@ -97,51 +97,51 @@ const Signup = () => {
         <div className="flex flex-wrap w-full m-auto justify-between">
             <div className ="w-3/6 px-6 md:mb-0">
                 <InputLabel label="FirstName" />
-                <Input type="text" name ="firstName" id ="firstName" value ={firstName} onChange={onChange}/>
+                <Input type="text" name ="firstName" id ="firstName" onChange={onChange}/>
             </div>
             <div className ="w-3/6 px-6 md:mb-0">
                 <InputLabel label="LastName"/>
-                <Input type="text"  name ="lastName" id ="lastName" value ={lastName} onChange={onChange}/>
+                <Input type="text"  name ="lastName" id ="lastName" onChange={onChange}/>
             </div>
         </div>
         <div className="flex flex-wrap w-full m-auto justify-between">
             <div className ="w-3/6 px-6 md:mb-0">
                 <InputLabel label="Email" />
-                <Input type="email" name ="email" id ="email" value ={email} onChange={onChange}/>
+                <Input type="email" name ="email" id ="email" onChange={onChange}/>
             </div>
             <div className ="w-3/6 px-6 md:mb-0">
                 <InputLabel label="Phone Number" />
-                <Input type="text" name ="phoneNumber" id ="phoneNumber" value ={phoneNumber} onChange={onChange} />
+                <Input type="text" name ="phoneNumber" id ="phoneNumber" onChange={onChange} />
             </div>
         </div>
         <div className="flex flex-wrap w-full m-auto justify-between">
             <div className ="w-3/6 px-6 md:mb-0">
                 <InputLabel label="Address" />
-                <Input type="text" name ="address" id ="address" value ={address} onChange={onChange} />
+                <Input type="text" name ="address" id ="address" onChange={onChange} />
             </div>
             <div className ="w-3/6 px-6 md:mb-0">
                 <InputLabel label="City" />
-                <Input type="text"  name ="city" id ="city" value ={city} onChange={onChange} />
+                <Input type="text"  name ="city" id ="city" onChange={onChange} />
             </div>
         </div>
         <div className="flex flex-wrap w-full m-auto justify-between">
             <div className ="w-3/6 px-6 md:mb-0">
                 <InputLabel label="State" />
-                <Input type="text" name ="state" id ="state" value ={state} onChange={onChange} />
+                <Input type="text" name ="state" id ="state" onChange={onChange} />
             </div>
             <div className ="w-3/6 px-6 md:mb-0">
                 <InputLabel label="Postal Code"  />
-                <Input type="text" name ="postalCode" id ="postalCode" value ={postalCode} onChange={onChange}/>
+                <Input type="text" name ="postalCode" id ="postalCode" onChange={onChange}/>
             </div>
         </div>
         <div className="flex flex-wrap w-full m-auto justify-between">
             <div className ="w-3/6 px-6 md:mb-0">
                 <InputLabel label="Password"  />
-                <Input type="text" name ="password" id ="password" value ={password} onChange={onChange}/>
+                <Input type="text" name ="password" id ="password" onChange={onChange}/>
             </div>
             <div className ="w-3/6 px-6 md:mb-0">
                 <InputLabel label="Confirm Password"  />
-                <Input type="text" name ="confirmPassword" id ="confirmPassword" value ={confirmPassword} onChange={onChange}/>
+                <Input type="text" name ="confirmPassword" id ="confirmPassword" onChange={onChange}/>
             </div>
         </div>
         <div className="flex items-center mb-2 px-6">
