@@ -1,11 +1,11 @@
+import { Link } from 'react-router-dom'
 
 const Home = () => {
   return (
     <div>
       TRANSCRIPT DIGITA
-
-      <a href="/login">Login here</a>
-      <a href="/signup">Signup here</a>
+      <Link to="/login">Login</Link>
+      <Link to="/signup">Register</Link>
     </div>
   )
 }
