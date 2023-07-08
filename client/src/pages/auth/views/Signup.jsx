@@ -77,7 +77,7 @@ const Signup = () => {
   }
 
   return (
-    <div className="bg-indigo-800">
+    <div className="bg-indigo-800 min-h-full">
         <div className="bg-indigo-100 m-auto w-7/12 px-4 pt-2">
         <h2 className="text-3xl mb-2 text-center font-semibold">Sign Up With</h2>
         <div className="flex flex-row w-full justify-center">
