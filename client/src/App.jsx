@@ -8,7 +8,7 @@ import Home from './pages/main/Home'
 function App() {
 
   return (
-    <>
+    <div className='h-screen'>
     <Router>  
       <Routes>
         <Route exact path="/" element={<Home/>}/>
@@ -18,7 +18,7 @@ function App() {
       </Routes>  
     </Router>
     <ToastContainer />
-    </>
+    </div>
   )
 }
 
