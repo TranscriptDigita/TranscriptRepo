@@ -11,9 +11,9 @@ import { Button, Input, InputLabel } from "../../../components"
 const Signup = () => {
   
   const [formData, setFormData] = useState({
-    firstName : "",
-    lastName : "",
-    email : "",
+    fullName : "",
+    matricNo: "",
+    emailAddress : "",
     phoneNumber : "",
     address: "",
     city : "",
@@ -23,7 +23,7 @@ const Signup = () => {
     confirmPassword:"",
   })
 
-  const {firstName,lastName,email,phoneNumber,address,city, state,postalCode,password, confirmPassword} = formData
+  const {fullName,matricNo,emailAddress,phoneNumber,address,city, state,postalCode,password, confirmPassword} = formData
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -56,11 +56,12 @@ const Signup = () => {
 
     if (password !== confirmPassword) {
       toast.error('Passwords do not match')
+      console.log("passwords do not match")
     } else {
       const userData = {
-        firstName,
-        lastName,
-        email,
+        fullName,
+        matricNo,
+        emailAddress,
         phoneNumber,
         address,
         city,
@@ -71,6 +72,7 @@ const Signup = () => {
       }
 
       dispatch(register(userData))
+      console.log(userData)
     }
   }
 
@@ -96,18 +98,18 @@ const Signup = () => {
       <form className="w-full" onSubmit={onSubmit}>
         <div className="flex flex-wrap w-full m-auto justify-between">
             <div className ="w-3/6 px-6 md:mb-0">
-                <InputLabel label="FirstName" />
-                <Input type="text" name ="firstName" id ="firstName" onChange={onChange}/>
+                <InputLabel label="FullName" />
+                <Input type="text" name ="fullName" id ="fullName" onChange={onChange}/>
             </div>
             <div className ="w-3/6 px-6 md:mb-0">
-                <InputLabel label="LastName"/>
-                <Input type="text"  name ="lastName" id ="lastName" onChange={onChange}/>
+                <InputLabel label="Matric No"/>
+                <Input type="text"  name ="matricNo" id ="matricNo" onChange={onChange}/>
             </div>
         </div>
         <div className="flex flex-wrap w-full m-auto justify-between">
             <div className ="w-3/6 px-6 md:mb-0">
                 <InputLabel label="Email" />
-                <Input type="email" name ="email" id ="email" onChange={onChange}/>
+                <Input type="email" name ="emailAddress" id ="emailAddress" onChange={onChange}/>
             </div>
             <div className ="w-3/6 px-6 md:mb-0">
                 <InputLabel label="Phone Number" />
