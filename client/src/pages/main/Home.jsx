@@ -4,8 +4,8 @@ const Home = () => {
     <div>
       TRANSCRIPT DIGITA
 
-      <div>Login here<a href="/login"></a></div>
-      <div>Signup here<a href="/signup"></a></div>
+      <a href="/login">Login here</a>
+      <a href="/signup">Signup here</a>
     </div>
   )
 }
