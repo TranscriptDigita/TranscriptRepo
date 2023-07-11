@@ -28,7 +28,7 @@ const review =[
             review.map((review) => {
                 return(
                 <div className="bg-bgprimary flex-1 h-40 rounded-bl-3xl rounded-tr-3xl" key={review.name}>
-                <div className="p-4">
+                <div className="p-4 pb-0.5">
                     <p className="text-sm text-justify">{review.testimony}</p>
                     <div className="flex flex-row gap-3 align-baseline pt-3">
                         <img src={review.image} alt="One" className="h-10 w-10 rounded-full"/>
