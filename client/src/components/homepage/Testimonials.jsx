@@ -32,7 +32,7 @@ const review =[
                     <p className="text-sm text-justify">{review.testimony}</p>
                     <div className="flex flex-row gap-3 align-baseline pt-3">
                         <img src={review.image} alt="One" className="h-10 w-10 rounded-full"/>
-                        <h4>{review.name}</h4>
+                        <h4 className="pt-3">{review.name}</h4>
                     </div>
                     </div>
                 </div>
