@@ -10,7 +10,7 @@ const NavBar = () => {
         </div>
         <div className="px-1 xl:px-6 p-3 flex w-6/12 justify-end">
             <ul className="hidden md:flex w-5/6 mx-4 justify-between text-xl font-bold font-heading space-x-8 align-baseline ">
-                <li ><Link to="/login">Home</Link></li>
+                <li ><Link className ="text-xl font-bold" to="/login">Home</Link></li>
                 <li><Link to="/login">About</Link></li>
                 <li><Link to="/login">FAQ</Link></li>
                 <li className='bg-primary px-6 rounded-lg text-white'><Link to="/login">Sign In</Link></li>
