@@ -3,7 +3,7 @@ import  image from "../../assets/hero.jpg"
 
 const Hero = () => {
   return (
-    <div className="w-11/12 mx-auto">
+    <div className="w-11/12 mx-auto mb-2">
       <div >
         <NavBar/>
       </div>

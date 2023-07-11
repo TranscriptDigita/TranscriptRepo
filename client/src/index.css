@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bungee+Spice&family=Libre+Baskerville:wght@400;700&family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bungee+Spice&family=Libre+Baskerville:wght@400;700&family=Montserrat&display=swap;700&family=Martel:wght@300;400&family=Montserrat&display=swap');
 
   /* font-family: 'Bungee Spice', cursive;
 font-family: 'Libre Baskerville', serif;
@@ -11,5 +11,7 @@ font-family: 'Montserrat', sans-serif; */
 
 h1, h2{
     font-family: 'Archivo Black', sans-serif;
-    
+}
+h3, p{
+    font-family: 'Martel', serif;
 }
