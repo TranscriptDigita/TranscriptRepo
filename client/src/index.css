@@ -1,7 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bungee+Spice&family=Libre+Baskerville:wght@400;700&family=Montserrat&display=swap');
+
+  /* font-family: 'Bungee Spice', cursive;
+font-family: 'Libre Baskerville', serif;
+font-family: 'Montserrat', sans-serif; */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* body{
-    background-color: #3c1361;
-} */
+
+h1, h2{
+    font-family: 'Archivo Black', sans-serif;
+    
+}

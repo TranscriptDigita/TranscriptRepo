@@ -1,11 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Hero } from '../../components'
+
 
 const Home = () => {
   return (
     <div>
-      TRANSCRIPT DIGITA
-      <Link to="/login">Login</Link>
-      <Link to="/signup">Register</Link>
+      <Hero/>   
     </div>
   )
 }
