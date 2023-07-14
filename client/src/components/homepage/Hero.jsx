@@ -18,7 +18,7 @@ const Hero = () => {
         <h3 className="text-sm md:text-xl">Get your transcript delivered quickly and accurately with Transcript Digita from your school to anywhere in the world without stress. 100% Efficient and Reliable</h3>
       </div> 
       <div className="flex justify-around pt-4 lg:w-4/12 md:w-8/12 sm:w-full sm:jusify-between m-auto">
-        <button className=" font-semibold sm:py-8 md:px-6 md:py-2 text-white bg-primary hover:bg-white hover:text-black hover:border border-black rounded-lg">Track Request</button>
+        <button className=" font-semibold sm:py-8 md:px-6 md:py-2 border border-primary text-gray-800 bg-white hover:bg-primary hover:text-white hover:border rounded-lg">Track Request</button>
         <button className="font-semibold px-6 py-2 text-white bg-primary hover:bg-white hover:text-black hover:border border-black rounded-lg">Get Started</button>
       </div>
     </div>

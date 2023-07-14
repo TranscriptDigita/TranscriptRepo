@@ -9,7 +9,7 @@ const NavBar = () => {
             </a>
         </div>
         <div className="px-1 xl:px-6 p-3 flex w-6/12 justify-end">
-            <ul className="hidden md:flex w-5/6 mx-4 justify-between text-2xl font-semibold font-heading space-x-8 align-baseline ">
+            <ul className="hidden md:flex w-5/6 mx-4 justify-between text-2xl font-medium space-x-8 align-baseline ">
                 <li ><Link to="/login">Home</Link></li>
                 <li><Link to="/login">About</Link></li>
                 <li><Link to="/login">FAQ</Link></li>
