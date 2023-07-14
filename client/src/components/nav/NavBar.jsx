@@ -13,7 +13,7 @@ const NavBar = () => {
                 <li ><Link to="/login">Home</Link></li>
                 <li><Link to="/login">About</Link></li>
                 <li><Link to="/login">FAQ</Link></li>
-                <li className='bg-primary px-6 py-1 rounded-lg text-white'><Link to="/login">Sign In</Link></li>
+                <li className='bg-primary px-6 py-1 rounded-lg text-white font-medium'><Link to="/login">Sign In</Link></li>
             </ul>
         </div>
     
