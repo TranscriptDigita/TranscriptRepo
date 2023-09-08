@@ -3,15 +3,17 @@
 // ===============================================
 require('dotenv').config()
 const express = require('express'),
-      app    = express(),
-      cors = require('cors'),
-      path = require('path'),
-      bodyParser = require('body-parser'),
-      models = require('./models/'),
-      alumniRoutes = require('./routes/alumni'),
-      institutionRoutes = require('./routes/institution'),
-      transcriptRoutes = require('./routes/transcripts')
-      
+    app = express(),
+    cors = require('cors'),
+    path = require('path'),
+    bodyParser = require('body-parser'),
+    models = require('./models/'),
+    alumniRoutes = require('./routes/alumni'),
+    institutionRoutes = require('./routes/institution'),
+    transcriptRoutes = require('./routes/transcripts'),
+    contactUsRoutes = require('./routes/contact'),
+    staffRoutes = require('./routes/staff')
+
 // using cors 
 app.use(cors())
 
@@ -19,13 +21,13 @@ app.use(cors())
 // =========================================================
 // === using bodyParser access to req body in post route ===
 // =========================================================
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 // =============================================================
 // === Printing all request paths and methods for each route ===
 // =============================================================
-app.use((req, res, next)=>{
+app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
 })
@@ -41,6 +43,11 @@ app.get('/', (req, res) => {
 app.use('/api/v1/alumnus', alumniRoutes)
 app.use('/api/v1/institution', institutionRoutes)
 app.use('/api/v1/transcript', transcriptRoutes)
+    // contact us endpoint
+app.use('/api/v1/contact-us', contactUsRoutes)
+
+// staff endpoint
+app.use('/api/v1/staff', staffRoutes)
 
 // ===========================================
 // ============ serving app ==================
