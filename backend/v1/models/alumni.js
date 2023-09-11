@@ -127,7 +127,7 @@ alumniSchema.statics.sendEmail = async function(email, subject, message) {
             html: message
 
         }, (err, sent) => {
-            err ? console.log('error send email') : console.log('succesfully sent', sent)
+            err ? console.log('error send email', err) : console.log('succesfully sent', sent)
 
         })
     }

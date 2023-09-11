@@ -1,5 +1,6 @@
 // imports
-const Transcripts = require('../models/transcripts')
+const Transcripts = require('../models/transcripts'),
+    mongoose = require('mongoose')
 
 const generateRefrenceId = () => {
     return `T-001`
@@ -19,15 +20,17 @@ exports.createNewRequest = async(req, res) => {
         // generate refrenceId
         var referenceId;
         const lastId = await Transcripts.findOne().sort({ _id: -1 })
+            // console.log(lastId.referenceId)
 
-        if (!lastId) {
+
+        if (lastId == null) {
             referenceId = await generateRefrenceId()
-            return res.json(newId)
+                // return res.json(newId)
+        } else {
+            const splitted = await lastId.referenceId + 1 //.split('-')
+            referenceId = splitted;
+            // return res.json(splitted)
         }
-
-        const splitted = await lastId.split('-')
-        referenceId = splitted;
-        // return res.json(splitted)
 
         // getting userid from middleware
         const createdBy = req.user._id
@@ -43,7 +46,7 @@ exports.createNewRequest = async(req, res) => {
             createdBy
         );
         // return succesful status code, message and the new creaed transcript
-        return res.status(200).json({ message: "Alumni updated!", Transcript: newTranscript })
+        return res.status(200).json({ message: "Transcripted Successfully created!", Transcript: newTranscript })
 
     } catch (error) {
         return res.json(error.message)
@@ -64,20 +67,26 @@ exports.trackTranscript = async(req, res) => {
             //    return status code with message
             return res.status(404).json({ message: "No match record!" })
         }
-        let isSubmitted = transcriptStatus.isSubmitted,
-            isVerified = transcriptStatus.isVerified,
-            isApproved = transcriptStatus.isApproved,
-            isQuerried = transcriptStatus.isQuerried,
-            isDeclined = transcriptStatus.isDeclined
-            // return succesful status code, message and the new creaed transcript
+        var status = {}
+        if (transcriptStatus.isSubmitted == true) {
+            status.isSubmitted = transcriptStatus.isSubmitted
+        }
+        if (transcriptStatus.isVerified == true) {
+            status.isVerified = transcriptStatus.isVerified
+        }
+        if (transcriptStatus.isApproved == true) {
+            status.isApproved = transcriptStatus.isApproved
+        }
+        if (transcriptStatus.isQuerried == true) {
+            status.isQuerried = transcriptStatus.isQuerried
+        }
+        if (transcriptStatus.isDeclined == true) {
+            status.isDeclined = transcriptStatus.isDeclined
+        }
+
+        // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
-            status: {
-                submtted: isSubmitted,
-                verified: isVerified,
-                approved: isApproved,
-                querried: isQuerried,
-                declined: isDeclined
-            },
+            status: status,
             transcript: transcriptStatus
         })
 
@@ -123,7 +132,7 @@ exports.approveTranscript = async(req, res) => {
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 throw Error('not a valid id')
             }
-            const approved = await Transcripts.findByIdAndUpdate(id, { isApproved: true, verfiedBy: req.user._id })
+            const approved = await Transcripts.findByIdAndUpdate(id, { isApproved: true, approvedBy: req.user._id })
 
             // If record found
             if (!approved) {
@@ -150,17 +159,17 @@ exports.querryTranscript = async(req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw Error('not a valid id')
         }
-        const querrid = await Transcripts.findByIdAndUpdate(id, { isQuerried: true, querridBy: req.user._id })
+        const querried = await Transcripts.findByIdAndUpdate(id, { isQuerried: true, querriedBy: req.user._id })
 
         // If record found
-        if (!querrid) {
+        if (!querried) {
             //    return status code with message
             return res.status(501).json({ message: "Something went wrong!" })
         }
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
-            message: 'querrid successfully.',
-            querrid
+            message: 'querried successfully.',
+            querried
         })
 
     } catch (error) {

@@ -10,7 +10,10 @@ exports.createNewStaff = async(req, res) => {
 
         try {
             // destructure requestbody
-            const { emailAddress, role, institution } = req.body
+            const { emailAddress, role } = req.body
+
+            // getting the institution Id from the database
+            let institution = req.user._id
 
             // signup user using statics func
             const newStaff = await Staff.createStaff(emailAddress, role, institution)
@@ -26,7 +29,7 @@ exports.createNewStaff = async(req, res) => {
     // function to get all Staff
 exports.getAllStaff = async(req, res) => {
     try {
-        const { institution } = req.params
+        const institution = req.user._id
             // find all staff in database
         let allStaff = await Staff.fetchAllStaff(institution)
 
@@ -49,7 +52,7 @@ exports.getAllStaff = async(req, res) => {
 exports.deactivateStaff = async(req, res) => {
     // get staffId from user parameters
 
-    const { id } = req.body
+    const { id } = req.params
 
     try {
         // Deactivating staff

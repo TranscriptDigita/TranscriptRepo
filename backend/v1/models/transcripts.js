@@ -25,7 +25,7 @@ const transcriptSchema = new mongoose.Schema({
     isQuerried: { type: Boolean, default: false },
     isDeclined: { type: Boolean, default: false },
 
-    createdBy: { type: mongoose.Schema.Types.ObjectId },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, required: true },
 
     verfiedBy: { type: mongoose.Schema.Types.ObjectId },
     approvedBy: { type: mongoose.Schema.Types.ObjectId },
@@ -39,7 +39,7 @@ const transcriptSchema = new mongoose.Schema({
 transcriptSchema.statics.createNewTranscript = async function(referenceId, degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program, createdBy) {
 
     // check if all required data are filled
-    if (!referenceId || degreeType || institution || !faculty || !department || !matricNumber || !yearOfGraduation || !program, createdBy) {
+    if (!referenceId || !degreeType || !institution || !faculty || !department || !matricNumber || !yearOfGraduation || !program || !createdBy) {
         throw Error('All fields are required')
     }
 

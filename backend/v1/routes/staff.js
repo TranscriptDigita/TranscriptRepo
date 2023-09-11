@@ -11,7 +11,7 @@ const express = require('express'),
 // ==== Retrieving all Staff =======
 // ================================= 
 router.route('/')
-    .post(controller.createNewStaff)
+    .post(isAuth, controller.createNewStaff)
     .get(isAuth, controller.getAllStaff)
 
 // ==== Deactivating staff by Id ========

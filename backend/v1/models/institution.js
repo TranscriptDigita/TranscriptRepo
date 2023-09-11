@@ -6,6 +6,7 @@ const mongoose = require('mongoose'),
     validator = require('validator'),
     nodemailer = require('nodemailer'),
     smtpTransport = require('nodemailer-smtp-transport')
+const { Schema } = mongoose;
 
 // =======================================
 // ====== Institution Schema =============
@@ -17,7 +18,7 @@ const institutionSchema = new mongoose.Schema({
     password: { type: String, required: true },
     location: { type: String, required: true },
     transcriptTypes: [],
-    staff: { type: Schema.Types.ObjectId, ref: 'Staff' }, //[]
+    staff: [{ type: Schema.Types.ObjectId, ref: 'Staff' }],
     verificationCode: { type: String },
     isActive: { type: Boolean, default: true },
     isVerified: { type: Boolean, default: false }

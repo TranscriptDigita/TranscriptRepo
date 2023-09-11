@@ -3,6 +3,7 @@
 // =================================
 const mongoose = require('mongoose'),
     validator = require('validator')
+const { Schema } = mongoose;
 
 // =======================================
 // ====== Staff Schema =============
@@ -11,7 +12,7 @@ const mongoose = require('mongoose'),
 const staffSchema = new mongoose.Schema({
     emailAddress: { type: String, required: true, unique: true },
     role: { type: String, required: true },
-    institution: { type: Schema.Types.ObjectId, ref: 'Institution', required: true }, //[]
+    institution: { type: Schema.Types.ObjectId },
     isActive: { type: Boolean, default: true },
 
 }, { timestamps: true })
@@ -71,7 +72,7 @@ staffSchema.statics.deactivateStaffById = async function(id) {
             throw Error('not a valid id')
         }
         // check if email exists already in database
-        const staff = await this.findByIdAndUpdate({ id, isActive: false })
+        const staff = await this.findByIdAndUpdate(id, { isActive: false })
 
         // returning all the available staff as json
         return staff
