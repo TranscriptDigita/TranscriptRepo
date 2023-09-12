@@ -18,14 +18,14 @@ function Navbar() {
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const toggleNavbar = () => {
+    const toggleNavbar = () => { 
         setIsOpen(!isOpen);
     };
 
     const {user} = useSelector((state) => state.auth)
 
   return (
-   <div className="grid grid-cols-1 shadow">
+   <div >
         <div className='p-3 md:p-5 flex justify-between items-center'>
             {user && user.alumni.isVerified == true
             

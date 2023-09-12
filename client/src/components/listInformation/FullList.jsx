@@ -1,6 +1,8 @@
+// A more Elaborate list for the alumni details
+
 import React from 'react'
 
-function ListInformation({title}) {
+function FullList({title}) {
   return (
     <div className='flex flex-col gap-y-4 md:p-5  '>
         <h4 className='text-black font-inter font-bold text-16'>{title}</h4>
@@ -30,7 +32,19 @@ function ListInformation({title}) {
             </span> 
 
             <span className='flex gap-x-2'>
-            <p className='text-black font-inter font-bold text-14'>Institution:</p>
+            <p className='text-black font-inter font-bold text-14'>Year Of Graduation</p>
+            <p className='text-black font-inter font-bold text-14'>:</p>
+            <p className='text-black font-inter font-bold text-14'>University of jos</p>
+            </span> 
+
+            <span className='flex gap-x-2'>
+            <p className='text-black font-inter font-bold text-14'>Email</p>
+            <p className='text-black font-inter font-bold text-14'>:</p>
+            <p className='text-black font-inter font-bold text-14'>University of jos</p>
+            </span> 
+
+            <span className='flex gap-x-2'>
+            <p className='text-black font-inter font-bold text-14'>RRR</p>
             <p className='text-black font-inter font-bold text-14'>:</p>
             <p className='text-black font-inter font-bold text-14'>University of jos</p>
             </span> 
@@ -39,4 +53,4 @@ function ListInformation({title}) {
   )
 }
 
-export default ListInformation
+export default FullList

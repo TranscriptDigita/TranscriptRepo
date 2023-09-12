@@ -1,5 +1,6 @@
 // react imports
 import React from 'react'
+import { Navbar } from '../../components'
 
 // containers imports
 import { Contact, Footer, Header, OurPartners, Services, Testimonials, WNU } from '../../containers'
