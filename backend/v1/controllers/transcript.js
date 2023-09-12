@@ -103,7 +103,7 @@ exports.verifyTranscript = async(req, res) => {
             const { id } = req.params
                 // verify if id is valid
             if (!mongoose.Types.ObjectId.isValid(id)) {
-                throw Error('not a valid id')
+                throw Error('Not a valid id')
             }
             const verified = await Transcripts.findByIdAndUpdate(id, { isVerified: true, verfiedBy: req.user._id })
 
@@ -114,7 +114,7 @@ exports.verifyTranscript = async(req, res) => {
             }
             // return succesful status code, message and the new creaed transcript
             return res.status(200).json({
-                message: 'verified successfully.',
+                message: 'Verified successfully.',
                 verified
             })
 
@@ -130,7 +130,7 @@ exports.approveTranscript = async(req, res) => {
             const { id } = req.params
                 // verify if id is valid
             if (!mongoose.Types.ObjectId.isValid(id)) {
-                throw Error('not a valid id')
+                throw Error('Not a valid id')
             }
             const approved = await Transcripts.findByIdAndUpdate(id, { isApproved: true, approvedBy: req.user._id })
 
@@ -141,7 +141,7 @@ exports.approveTranscript = async(req, res) => {
             }
             // return succesful status code, message and the new creaed transcript
             return res.status(200).json({
-                message: 'approved successfully.',
+                message: 'Approved successfully.',
                 approved
             })
 
@@ -157,7 +157,7 @@ exports.querryTranscript = async(req, res) => {
         const { id } = req.params
             // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw Error('not a valid id')
+            throw Error('Not a valid id')
         }
         const querried = await Transcripts.findByIdAndUpdate(id, { isQuerried: true, querriedBy: req.user._id })
 
@@ -168,7 +168,7 @@ exports.querryTranscript = async(req, res) => {
         }
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
-            message: 'querried successfully.',
+            message: 'Querried successfully.',
             querried
         })
 
@@ -185,7 +185,7 @@ exports.declineTranscript = async(req, res) => {
         const { id } = req.params
             // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw Error('not a valid id')
+            throw Error('Not a valid id')
         }
         const declined = await Transcripts.findByIdAndUpdate(id, { isDeclined: true, declinedBy: req.user._id })
 
@@ -196,7 +196,7 @@ exports.declineTranscript = async(req, res) => {
         }
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
-            message: 'declined successfully.',
+            message: 'Declined successfully.',
             declined
         })
 
