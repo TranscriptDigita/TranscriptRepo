@@ -3,14 +3,19 @@ import { Outlet } from "react-router-dom";
 
 // react imports
 import React from 'react'
+<<<<<<< HEAD
 import AlumniLayout from "../alumniLayout/AlumniLayout";
 import sidebar from "../../components/sidebar/Sidebar";
 import Dashboard from "../../pages/Alumni/Dashboard/Dashboard";
+=======
+
+>>>>>>> origin/godwin
 // components imports
 import { Navbar } from "../../components";
 
 function Main() {
 
+<<<<<<< HEAD
   
   {/**
   //Tried to exclude some pages from loading with the default navbar
@@ -30,6 +35,11 @@ function Main() {
          {/* {shouldRenderNavbar && <Navbar />} */} 
          {/* Adding the default Navbar to all individual pages as quickfix to navbar appearing on all pages */} 
         
+=======
+  return (
+    <div className="w-full flex flex-col w-full h-screen fixed ">
+        <Navbar/>
+>>>>>>> origin/godwin
         <div className="flex-1 grid grid-cols-1 overflow-y-scroll h-auto">
             <Outlet/>
         </div>

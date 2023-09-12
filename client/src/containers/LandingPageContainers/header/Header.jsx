@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 // assets imports
 import headerImg from '../../../assets/headerimg.png'
 
+<<<<<<< HEAD
 import { Navbar } from '../../../components'
 
 function Header() {
@@ -18,6 +19,10 @@ function Header() {
       <Navbar/> 
       {/** removed navbar from main and added it here because some pages have a different navba, 
        * hence a single navbar cannot be used accross all pages */}
+=======
+function Header() {
+  return (
+>>>>>>> origin/godwin
     <div className='flex-1 grid md:grid-cols-2 grid-cols-1 gap-y-4 md:gap-y-0'>
         <div className='flex flex-col bg-white justify-center gap-y-4'>
             <h1 className='md:text-[60px] text-[30px] font-bold leading-none'>Your Transcripts, Simplified Access, Request, Delivered</h1>
@@ -36,7 +41,10 @@ function Header() {
             <img src={headerImg} alt="headerimg" />
         </div>
     </div>
+<<<<<<< HEAD
     </div>
+=======
+>>>>>>> origin/godwin
   )
 }
 

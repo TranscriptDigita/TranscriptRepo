@@ -1,6 +1,9 @@
 // react imports
 import React from 'react'
+<<<<<<< HEAD
 import { Navbar } from '../../components'
+=======
+>>>>>>> origin/godwin
 
 // containers imports
 import { Contact, Footer, Header, OurPartners, Services, Testimonials, WNU } from '../../containers'

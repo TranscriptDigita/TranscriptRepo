@@ -4,7 +4,11 @@
 const mongoose = require('mongoose'),
     bcrypt = require('bcryptjs'),
     validator = require('validator'),
+<<<<<<< HEAD
     nodemailer = require('nodemailer') ,
+=======
+    nodemailer = require('nodemailer'),
+>>>>>>> origin/godwin
     smtpTransport = require('nodemailer-smtp-transport')
 
 
@@ -12,6 +16,7 @@ const mongoose = require('mongoose'),
 // ==== creating Alumni schema =====
 // =================================
 const alumniSchema = new mongoose.Schema({
+<<<<<<< HEAD
     fullName:           {type: String},
     matricNo:           {type: String},
     department:         {type: String},
@@ -30,20 +35,48 @@ const alumniSchema = new mongoose.Schema({
     resetPasswordExpires: {type: String}
 
 }, {timestamps: true})
+=======
+    fullName: { type: String },
+    matricNo: { type: String },
+    department: { type: String },
+    yearOfGraduation: { type: Date },
+    monthOfGraduation: { type: Number },
+    emailAddress: { type: String, required: true },
+    password: { type: String },
+    transcripts: [],
+    paymentDetails: [],
+    verfificationCode: { type: String },
+    isActive: { type: Boolean, default: true },
+    isVerified: { type: Boolean, default: false },
+    isDisabled: { type: Boolean, default: false },
+    isRestricted: { type: Boolean, default: false },
+    resetPasswordToken: { type: Number },
+    resetPasswordExpires: { type: String }
+
+}, { timestamps: true })
+>>>>>>> origin/godwin
 
 // ==================================
 // ==== static functions for Auth ===
 // ==================================
 
 // signup user function
+<<<<<<< HEAD
 alumniSchema.statics.signup = async function (fullName, emailAddress,  password, verfificationCode) {
 
     // check if all inputs are filled
     if(!fullName || !emailAddress || !password) {
+=======
+alumniSchema.statics.signup = async function(fullName, emailAddress, password, verfificationCode) {
+
+    // check if all inputs are filled
+    if (!fullName || !emailAddress || !password) {
+>>>>>>> origin/godwin
         throw Error('all fields are required')
     }
 
     // using validator to validate email
+<<<<<<< HEAD
     if(!validator.isEmail(emailAddress)){
         throw Error('email is not valid')
     }
@@ -58,6 +91,22 @@ alumniSchema.statics.signup = async function (fullName, emailAddress,  password,
 
     // throwing error if email exists
     if(exists){
+=======
+    if (!validator.isEmail(emailAddress)) {
+        throw Error('email is not valid')
+    }
+
+    // using validator to check if password is strong
+    if (!validator.isStrongPassword(password)) {
+        throw Error('password not strong enough')
+    }
+
+    // checking if email already exists in database
+    const exists = await this.findOne({ emailAddress })
+
+    // throwing error if email exists
+    if (exists) {
+>>>>>>> origin/godwin
         throw Error('Email already in use')
     }
 
@@ -66,13 +115,18 @@ alumniSchema.statics.signup = async function (fullName, emailAddress,  password,
     const hash = await bcrypt.hash(password, salt)
 
     // creating new alumni in database
+<<<<<<< HEAD
     const alumni = await this.create({fullName, emailAddress, password: hash, verfificationCode})
+=======
+    const alumni = await this.create({ fullName, emailAddress, password: hash, verfificationCode })
+>>>>>>> origin/godwin
 
     // returning the saved user
     return alumni
 }
 
 // login user
+<<<<<<< HEAD
 alumniSchema.statics.login = async function (emailAddress, password) {
     // validation
     if(!emailAddress || !password){
@@ -89,10 +143,29 @@ alumniSchema.statics.login = async function (emailAddress, password) {
     
     // if account inactive throw error    
     if(!alumni.isVerified){
+=======
+alumniSchema.statics.login = async function(emailAddress, password) {
+    // validation
+    if (!emailAddress || !password) {
+        throw Error('All fields must be filled')
+    }
+
+    // find an email in database   
+    const alumni = await this.findOne({ emailAddress })
+
+    // not exist throw error   
+    if (!alumni) {
+        throw Error('Incorrect email')
+    }
+
+    // if account inactive throw error    
+    if (!alumni.isVerified) {
+>>>>>>> origin/godwin
         throw Error('sorry your account is disabled')
     }
 
     // if account inactive throw error    
+<<<<<<< HEAD
     if(!alumni.isActive){
          throw Error('sorry your account is disabled')
     }
@@ -105,10 +178,25 @@ alumniSchema.statics.login = async function (emailAddress, password) {
         throw Error('Incorrect password')
     }
  
+=======
+    if (!alumni.isActive) {
+        throw Error('sorry your account is disabled')
+    }
+
+    // compare password with users password
+    const match = await bcrypt.compare(password, alumni.password)
+
+    // throw an error if not match
+    if (!match) {
+        throw Error('Incorrect password')
+    }
+
+>>>>>>> origin/godwin
     return alumni
 }
 
 // send Alumni and email function
+<<<<<<< HEAD
 alumniSchema.statics.sendEmail = async function (email, subject, message) {
     let transport = nodemailer.createTransport(smtpTransport({
         host: 'smtp.gmail.com',
@@ -134,6 +222,70 @@ alumniSchema.statics.sendEmail = async function (email, subject, message) {
 
 // get a single user
 alumniSchema.statics.getAlumniById = async function (id){
+=======
+alumniSchema.statics.sendEmail = async function(email, subject, message) {
+        let transport = nodemailer.createTransport(smtpTransport({
+            host: 'smtp.gmail.com',
+            secure: true,
+            port: 465,
+            auth: {
+                user: process.env.EMAIL_USERNAME,
+                pass: process.env.EMAIL_PASSWORD
+            }
+        }))
+
+        const info = await transport.sendMail({
+            from: process.env.EMAIL_USERNAME,
+            to: email,
+            subject: subject,
+            html: message
+
+        }, (err, sent) => {
+            err ? console.log('error send email', err) : console.log('succesfully sent', sent)
+
+        })
+    }
+    // update user/alumni details
+alumniSchema.statics.update = async function(
+    id, {
+        fullName,
+        matricNo,
+        phoneNumber,
+        emailAddress,
+        paymentDetails,
+        yearOfGraduation,
+        monthOfGraduation,
+        department
+    }
+) {
+
+    // using validator to validate email
+    if (!validator.isEmail(emailAddress)) {
+        throw Error('email is not valid')
+    }
+    // creating new alumni in database
+    const alumni = await this.findByIdAndUpdate({
+        id,
+        fullName,
+        matricNo,
+        phoneNumber,
+        emailAddress,
+        paymentDetails,
+        yearOfGraduation,
+        monthOfGraduation,
+        department
+    })
+
+    // returning the updated user
+    return alumni
+}
+
+
+// get a single user
+alumniSchema.statics.getAlumniById = async function(id) {
+    // fetching the alumni details from the database
+    const alumni = await this.findOne({ _id: id })
+>>>>>>> origin/godwin
 
 }
 

@@ -3,6 +3,7 @@
 // ===============================================
 require('dotenv').config()
 const express = require('express'),
+<<<<<<< HEAD
       app    = express(),
       cors = require('cors'),
       path = require('path'),
@@ -12,6 +13,19 @@ const express = require('express'),
       institutionRoutes = require('./routes/institution'),
       transcriptRoutes = require('./routes/transcripts')
       
+=======
+    app = express(),
+    cors = require('cors'),
+    path = require('path'),
+    bodyParser = require('body-parser'),
+    models = require('./models/'),
+    alumniRoutes = require('./routes/alumni'),
+    institutionRoutes = require('./routes/institution'),
+    transcriptRoutes = require('./routes/transcripts'),
+    contactUsRoutes = require('./routes/contact'),
+    staffRoutes = require('./routes/staff')
+
+>>>>>>> origin/godwin
 // using cors 
 app.use(cors())
 
@@ -19,13 +33,21 @@ app.use(cors())
 // =========================================================
 // === using bodyParser access to req body in post route ===
 // =========================================================
+<<<<<<< HEAD
 app.use(bodyParser.urlencoded({extended: true}))
+=======
+app.use(bodyParser.urlencoded({ extended: true }))
+>>>>>>> origin/godwin
 app.use(bodyParser.json())
 
 // =============================================================
 // === Printing all request paths and methods for each route ===
 // =============================================================
+<<<<<<< HEAD
 app.use((req, res, next)=>{
+=======
+app.use((req, res, next) => {
+>>>>>>> origin/godwin
     console.log(req.path, req.method)
     next()
 })
@@ -41,6 +63,14 @@ app.get('/', (req, res) => {
 app.use('/api/v1/alumnus', alumniRoutes)
 app.use('/api/v1/institution', institutionRoutes)
 app.use('/api/v1/transcript', transcriptRoutes)
+<<<<<<< HEAD
+=======
+    // contact us endpoint
+app.use('/api/v1/contact-us', contactUsRoutes)
+
+// staff endpoint
+app.use('/api/v1/staff', staffRoutes)
+>>>>>>> origin/godwin
 
 // ===========================================
 // ============ serving app ==================

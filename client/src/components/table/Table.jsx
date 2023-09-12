@@ -1,7 +1,10 @@
 import React from 'react'
 
+<<<<<<< HEAD
 import { Link } from 'react-router-dom'
 
+=======
+>>>>>>> origin/godwin
 function Table({headers, item}) {
   return (
     <div className='grid grid-cols-1 '>
