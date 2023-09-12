@@ -9,11 +9,7 @@ import { Link } from 'react-router-dom'
 
 function sidebar({menuItems}) {
   return (
-<<<<<<< HEAD
-   <div className="flex items-center md:block hidden border-r-4 border-black-500 h-full"> {/** Added Some styling to the sidebar */}
-=======
    <div className="flex items-center md:block hidden">
->>>>>>> origin/godwin
         <div className='md:p-5'>
             <Link to={`/`} className='font-bold'>TranscriptDigita</Link>
         </div>

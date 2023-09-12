@@ -13,9 +13,4 @@ export { default as ChangePassword } from './Alumni/Auth/changePassword/ChangePa
 export { default as NewTranscriptRequestPage } from './Alumni/Transcripts/NewRequestPage/NewRequestPage';
 export { default as TranscriptTrackingPage } from './Alumni/Transcripts/TrackingPage/TrackingPage';
 export { default as TranscriptDetailPage } from './Alumni/Transcripts/TranscriptDetail/TranscriptDetail';
-<<<<<<< HEAD
 export { default as LogoutPage } from './Logout/Logout';
-export { default as RequestTrackAndDelivery } from './Alumni/RTDSection/RequestTrackAndDelivery' 
-=======
-export { default as LogoutPage } from './Logout/Logout';
->>>>>>> origin/godwin
