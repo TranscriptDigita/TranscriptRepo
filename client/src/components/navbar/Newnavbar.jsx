@@ -32,7 +32,7 @@ function Newnavbar() {
         <div className='p-3 md:p-5 flex justify-between items-center'>
         <div>
         <span className='flex gap-x-2 font-semibold'>Welcome!!!!!!!!</span>
-        <h4 className='text-[black] font-semibold'>{user?.alumni?.fullName || "User"}</h4> 
+        <h4 className='text-[black] font-semibold'>{user?.data?.fullName || "User"}</h4> 
         {/** Uses a default User called user so i do not have to login each time i want to view page */}
         </div>
         <div className='p-3 md:p-5 flex justify-between items-center'>
