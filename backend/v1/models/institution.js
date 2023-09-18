@@ -20,6 +20,7 @@ const institutionSchema = new mongoose.Schema({
     transcriptTypes: [],
     staff: [{ type: Schema.Types.ObjectId, ref: 'Staff' }],
     verificationCode: { type: String },
+    apiKey: { type: String },
     isActive: { type: Boolean, default: true },
     isVerified: { type: Boolean, default: false }
 
@@ -129,6 +130,24 @@ institutionSchema.statics.login = async function(emailAddress, password) {
 
     return institution
 
+}
+
+// function to create institution api key for developers user
+institutionSchema.statics.createAPIKey = async function(institutionId, apiKey) {
+    // checking if the institution ID is passed
+    if (!institutionId) {
+        throw Error('Institution ID is required!')
+    }
+    // verify if instituion id is of type of mongoose and valid
+    if (!mongoose.Types.ObjectId.isValid(institutionId)) {
+        throw Error('Not a valid id')
+    }
+    // check if the insitution exists, then save the api key in database
+    const instituion = await this.findByIdAndUpdate(institutionId, { apiKey });
+    const apiKey = instituion.apiKey
+
+    // returning apiKey
+    return apiKey
 }
 
 
