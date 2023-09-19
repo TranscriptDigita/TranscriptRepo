@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 
 // react imports
 import React from 'react'
-
 // components imports
 import { Navbar } from "../../components";
 
