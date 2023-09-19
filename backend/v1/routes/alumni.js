@@ -4,11 +4,7 @@
 const express = require('express'),
     router = express.Router(),
     controller = require('../controllers/alumni'),
-<<<<<<< HEAD
-    {isAuth} = require('../middleware/auth')
-=======
     { isAuth } = require('../middleware/auth')
->>>>>>> origin/godwin
 
 // =================================
 // ==== retrieve all Alumnus =======
@@ -29,13 +25,8 @@ router.route('/reset-password')
 
 router.route('/reset-password/:token')
     .post(controller.passwordReset)
-<<<<<<< HEAD
-    
-    
-=======
 
 
->>>>>>> origin/godwin
 // ==================================
 // === get single alumni ============
 // === update alumni details ========
@@ -43,11 +34,7 @@ router.route('/reset-password/:token')
 //  =================================
 router.route('/:id')
     .get(controller.getAlumniById)
-<<<<<<< HEAD
-    .patch()
-=======
     .patch(controller.updateAlumni)
->>>>>>> origin/godwin
     .delete(controller.deleteAlumni)
 
 router.route('/:id/verify')

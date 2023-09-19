@@ -1,13 +1,5 @@
 const express = require('express'),
     router = express.Router(),
-<<<<<<< HEAD
-    controller = require('../controllers/transcript')
-
-router.route(`/`)
-    .get(controller.getAllTranscripts)
-    .post(controller.createNewRequest)
-    
-=======
     controller = require('../controllers/transcript'),
     { isAuth } = require('../middleware/auth')
 
@@ -32,5 +24,4 @@ router.route(`/query/:id`)
     .patch(isAuth, controller.querryTranscript)
 
 // export router
->>>>>>> origin/godwin
 module.exports = router

@@ -1,13 +1,4 @@
 // imports
-<<<<<<< HEAD
-const Transcripts = require('../models/transcripts')
-
-const generateRefrenceId = () =>{
-    return `T-001`
-}
-
-exports.getAllTranscripts = async (req, res) => {
-=======
 const Transcripts = require('../models/transcripts'),
     mongoose = require('mongoose')
 
@@ -16,42 +7,10 @@ const generateRefrenceId = () => {
 }
 
 exports.getAllTranscripts = async(req, res) => {
->>>>>>> origin/godwin
     let response = await Transcripts.find({})
     return res.json(response)
 }
 
-<<<<<<< HEAD
-exports.createNewRequest = async (req, res) => {
-    try {
-
-        // destructuring req body
-        const {institution} = req.body
-
-        // generate refrenceId
-        const lastId = await Transcripts.findOne().sort({ _id: -1 }) 
-
-
-
-        if(!lastId) {
-            let newId = await generateRefrenceId(institution)
-            return res.json(newId)
-        }
-
-        const splitted = await lastId.split('-') 
-
-        return res.json(splitted)
-
-        // check if all required data are filled
-        if(!referenceId || degreeType || institution || !faculty || !department || !matricNo || !yearOfGraduation || !program){
-            throw Error('All fields are required')
-        }
-
-        // getting userid from middleware
-        const createdBy = req.user._id
-
-        // creating new transcript request
-=======
 exports.createNewRequest = async(req, res) => {
     try {
 
@@ -240,7 +199,6 @@ exports.declineTranscript = async(req, res) => {
             message: 'declined successfully.',
             declined
         })
->>>>>>> origin/godwin
 
     } catch (error) {
         return res.json(error.message)
