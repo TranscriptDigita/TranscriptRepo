@@ -26,19 +26,21 @@ const genTrnxRefId = async() => {
             referenceId = `Trxt-001`
             return referenceId;
         } else {
-            const splitted = await lastId.split('-');
+            const lastRefId = lastId.referenceId;
+            // console.log({ "last": lastId });
+            // console.log({ "lastRefId": lastRefId });
+            const splitted = lastRefId.split('-');
             const numPart = splitted[1];
             // parse and increment the numPart
             const parseNum = Number.parseInt(numPart) + 1;
             if (parseNum >= 10) {
                 referenceId = splitted[0] + '-0' + parseNum;
+                // console.log({ referenceId });
                 return referenceId;
             }
             referenceId = splitted[0] + '-00' + parseNum;
             return referenceId;
         }
-
-
     }
     // ===========================================
     // ==== function that create API key for developer use ==
