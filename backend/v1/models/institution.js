@@ -144,10 +144,10 @@ institutionSchema.statics.createAPIKey = async function(institutionId, apiKey) {
     }
     // check if the insitution exists, then save the api key in database
     const instituion = await this.findByIdAndUpdate(institutionId, { apiKey });
-    const apiKey = instituion.apiKey
+    const api_key = instituion.apiKey
 
-    // returning apiKey
-    return apiKey
+    // returning api_key
+    return api_key
 }
 
 

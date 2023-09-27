@@ -5,28 +5,28 @@ const express = require('express'),
 
 // create API Key routes for developers 
 router.route(`/`)
-    .post(isAuth, controller.createAPIKeyAPI)
+    .post(controller.createAPIKeyAPI)
     // create transcripte routes for developers use
 router.route(`/:apiKey/transcript`)
-    .post(isAuth, controller.createTranscriptAPI)
+    .post(controller.createTranscriptAPI)
     // Fetch all institution transcripts api route for developers
-router.route(`/:apiKey`)
+router.route(`/:apiKey/transcripts`)
     .get(controller.getAllTranscriptsAPI)
     // track transcript api route for developers
-router.route(`/:apiKey/track`)
+router.route(`/:apiKey/:id/track`)
     .get(controller.trackTranscriptAPI)
     // verify transcript api routes for developers
 router.route(`/:apiKey/:transcriptId/verify`)
-    .patch(isAuth, controller.verifyTranscriptAPI)
+    .patch(controller.verifyTranscriptAPI)
     // approve transcript api route for developers
 router.route(`/:apiKey/:transcriptId/aprove`)
-    .patch(isAuth, controller.approveTranscriptAPI)
+    .patch(controller.approveTranscriptAPI)
     // decline transcript api route for developers
 router.route(`/:apiKey/:transcriptId/decline`)
-    .patch(isAuth, controller.declineTranscriptAPI)
+    .patch(controller.declineTranscriptAPI)
     // querry transcript api route for developers
 router.route(`/:apiKey/:transcriptId/query`)
-    .patch(isAuth, controller.queryTranscriptAPI)
+    .patch(controller.queryTranscriptAPI)
 
 
 

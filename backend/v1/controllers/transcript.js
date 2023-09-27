@@ -2,15 +2,53 @@
 const Transcripts = require('../models/transcripts'),
     mongoose = require('mongoose')
 
-const generateRefrenceId = () => {
-    return `T-001`
+// Function to generate transcript reference id
+const genTrnxRefId = async() => {
+    // find last transcript reference id in the database
+    const lastId = await Transcripts.findOne().sort({ _id: -1 });
+    // initializing transcript refence id
+    var referenceId;
+    // if there is no transcript in the database yet
+    if (lastId == null) {
+        referenceId = `Trxt-001`
+        return referenceId;
+    } else {
+        const splitted = await lastId.split('-');
+        const numPart = splitted[1];
+        // parse and increment the numPart
+        const parseNum = Number.parseInt(numPart) + 1;
+        if (parseNum >= 10) {
+            referenceId = splitted[0] + '-0' + parseNum;
+            return referenceId;
+        }
+        referenceId = splitted[0] + '-00' + parseNum;
+        return referenceId;
+    }
+
+
 }
 
+
+// Fetch transcript by transcript id
+exports.getTranscriptById = async(req, res) => {
+        try {
+            const { transcriptId } = req.params;
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                throw Error('Not a valid id')
+            }
+            let response = await Transcripts.findById(transcriptId)
+            return res.json(response)
+        } catch (error) {
+            res.json({ message: error.message })
+        }
+    }
+    // Fetch all transcripts
 exports.getAllTranscripts = async(req, res) => {
     let response = await Transcripts.find({})
     return res.json(response)
 }
 
+// create new transcript request
 exports.createNewRequest = async(req, res) => {
     try {
 
@@ -18,20 +56,7 @@ exports.createNewRequest = async(req, res) => {
         const { degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program } = req.body
 
         // generate refrenceId
-        var referenceId;
-        const lastId = await Transcripts.findOne().sort({ _id: -1 })
-            // console.log(lastId.referenceId)
-
-
-        if (lastId == null) {
-            referenceId = await generateRefrenceId()
-                // return res.json(newId)
-        } else {
-            const splitted = await lastId.referenceId + 1 //.split('-')
-            referenceId = splitted;
-            // return res.json(splitted)
-        }
-
+        const referenceId = await genTrnxRefId();
         // getting userid from middleware
         const createdBy = req.user._id
             // creating new transcript request
