@@ -12,8 +12,7 @@ const express = require('express'),
     institutionRoutes = require('./routes/institution'),
     transcriptRoutes = require('./routes/transcripts'),
     contactUsRoutes = require('./routes/contact'),
-    staffRoutes = require('./routes/staff'),
-    devRoutes = require('./routes/dev-apis')
+    staffRoutes = require('./routes/staff')
 
 // using cors 
 app.use(cors())
@@ -49,8 +48,6 @@ app.use('/api/v1/contact-us', contactUsRoutes)
 
 // staff endpoint
 app.use('/api/v1/staff', staffRoutes)
-    // developer api api
-app.use('/api/v1/developer-apis', devRoutes)
 
 // ===========================================
 // ============ serving app ==================

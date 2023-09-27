@@ -20,7 +20,6 @@ const institutionSchema = new mongoose.Schema({
     transcriptTypes: [],
     staff: [{ type: Schema.Types.ObjectId, ref: 'Staff' }],
     verificationCode: { type: String },
-    apiKey: { type: String },
     isActive: { type: Boolean, default: true },
     isVerified: { type: Boolean, default: false }
 
