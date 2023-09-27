@@ -6,8 +6,11 @@ const express = require('express'),
 // create and fecth transcript routes
 router.route(`/`)
     .get(controller.getAllTranscripts)
-    .post(isAuth, controller.createNewRequest)
-    // track transcript route
+    .post(isAuth, controller.createNewRequest);
+router.route(`/:transcriptId`)
+    .get(controller.getTranscriptById)
+
+// track transcript route
 router.route(`/track`)
     .get(controller.trackTranscript)
     // verify transcript route

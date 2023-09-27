@@ -15,13 +15,39 @@ const genAPIKey = () => {
         .map((e) => ((Math.random() * 36) | 0).toString(36))
         .join('');
 };
+// Function to generate transcript reference id
+const genTrnxRefId = async() => {
+        // find last transcript reference id in the database
+        const lastId = await Transcripts.findOne().sort({ _id: -1 });
+        // initializing transcript refence id
+        var referenceId;
+        // if there is no transcript in the database yet
+        if (lastId == null) {
+            referenceId = `Trxt-001`
+            return referenceId;
+        } else {
+            const lastRefId = lastId.referenceId;
+            // console.log({ "last": lastId });
+            // console.log({ "lastRefId": lastRefId });
+            const splitted = lastRefId.split('-');
+            const numPart = splitted[1];
+            // parse and increment the numPart
+            const parseNum = Number.parseInt(numPart) + 1;
+            if (parseNum >= 10) {
+                referenceId = splitted[0] + '-0' + parseNum;
+                // console.log({ referenceId });
+                return referenceId;
+            }
+            referenceId = splitted[0] + '-00' + parseNum;
+            return referenceId;
+        }
+    }
+    // ===========================================
+    // ==== function that create API key for developer use ==
+    // ===========================================
 
-// ===========================================
-// ==== function that create API key for developer use ==
-// ===========================================
-
-exports.createAPIKeyAPI = async() => {
-    const institutionId = req.user._id;
+exports.createAPIKeyAPI = async(req, res) => {
+    const institutionId = "64fd9040cc64c2fe93fdb5fc"; //req.user._id;
 
     // involve the genAPIKey function and assign the return value to API Key
     const apiKey = genAPIKey();
@@ -29,7 +55,7 @@ exports.createAPIKeyAPI = async() => {
     // create institution API Key using statics function
     const key = await Institution.createAPIKey(institutionId, apiKey);
     // return api key as json
-    return res.status(200).json({ message: "API Key has been successfully created", apiKey: key })
+    return res.status(200).json({ message: "API Key has been successfully created", apiKey: apiKey })
 }
 
 // Create transcript API for developers use
@@ -39,30 +65,20 @@ exports.createTranscriptAPI = async(req, res) => {
         // getting the data from input by destructuring request body
         const { degreeType, faculty, department, matricNumber, yearOfGraduation, program } = req.body
         if (!apiKey) {
+            // throw Error('API Key id required!')
             return res.status(401).json({ message: "apiKey is required" })
         }
         const institute = await Institution.findOne({ apiKey })
-        if (institute == null) {
-            return res.status(404).json({ message: "Incorrect apiKey passed!" })
+        console.log(apiKey)
+        console.log(institute);
+        if (!institute) {
+            return res.status(403).json({ message: "Incorrect apiKey passed!" })
         }
         const institution = institute.name;
         // generate refrenceId
-        var referenceId;
-        const lastId = await Transcripts.findOne().sort({ _id: -1 })
-            // console.log(lastId.referenceId)
-
-
-        if (lastId == null) {
-            referenceId = await generateRefrenceId()
-                // return res.json(newId)
-        } else {
-            const splitted = await lastId.referenceId + 1 //.split('-')
-            referenceId = splitted;
-            // return res.json(splitted)
-        }
-
-        // getting userid from middleware
-        const createdBy = req.user._id
+        const referenceId = await genTrnxRefId()
+            // getting userid from middleware
+        const createdBy = institute._id
             // creating new transcript request
         let newTranscript = await Transcripts.createNewTranscript(referenceId,
             degreeType,
@@ -78,7 +94,7 @@ exports.createTranscriptAPI = async(req, res) => {
         return res.status(200).json({ message: "Transcripted Successfully created!", Transcript: newTranscript })
 
     } catch (error) {
-        return res.json(error.message)
+        return resstatus(501).json(error.message)
     }
 }
 
@@ -88,18 +104,18 @@ exports.getAllTranscriptsAPI = async(req, res) => {
     try {
         const { apiKey } = req.params;
         if (!apiKey) {
-            return res.status(401).json({ message: "apiKey is required" })
+            return res.status(400).json({ message: "apiKey is required" })
         }
         const institute = await Institution.findOne({ apiKey })
         if (institute == null) {
-            return res.status(404).json({ message: "Incorrect apiKey passed!" })
+            return res.status(401).json({ message: "Incorrect apiKey passed!" })
         }
         const institution = institute.name
         let response = await Transcripts.find({ institution })
         return res.json(response)
 
     } catch (error) {
-        return res.json(error.message)
+        return res.status(501).json({ message: error.message })
     }
 }
 
@@ -107,25 +123,29 @@ exports.getAllTranscriptsAPI = async(req, res) => {
 // Tracking transcript API for developers
 exports.trackTranscriptAPI = async(req, res) => {
         try {
-            const { apiKey } = req.params;
-            // getting the data from input by destructuring request body
-            const { recipientName, deliveryAddress, deliveryContact } = req.body
+            // getting the data from input by destructuring request parameters
+            const { apiKey, id } = req.params;
+            // const { recipientName, deliveryAddress, deliveryContact } = req.body
+            // verify if id is valid
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({ message: 'Not a valid id' })
+            }
             if (!apiKey) {
-                return res.status(401).json({ message: "apiKey is required" })
+                return res.status(400).json({ message: "apiKey is required" })
             }
             // checking if apiKey exist in the database
             const institution = await Institution.findOne({ apiKey })
             if (institution == null) {
-                return res.status(404).json({ message: "Incorrect apiKey passed!" })
+                return res.status(401).json({ message: "Incorrect apiKey passed!" })
             }
 
             // finding the transcript
-            const transcriptStatus = await Transcripts.findOne({ recipientName, deliveryAddress, recipientPhoneNumber: deliveryContact })
+            const transcriptStatus = await Transcripts.findOne({ _id: id })
 
             // If record not found
             if (!transcriptStatus) {
                 //    return status code with message
-                return res.status(404).json({ message: "No match record!" })
+                return res.status(404).json({ message: "No record found with thaat id!" })
             }
             var status = {}
             if (transcriptStatus.isSubmitted == true) {
@@ -152,7 +172,7 @@ exports.trackTranscriptAPI = async(req, res) => {
 
 
         } catch (error) {
-            return res.json(error.message)
+            return res.status(501).json({ message: error.message })
         }
     }
     // create new transcript for developers use
@@ -160,11 +180,11 @@ exports.createNewTranscriptRequestAPI = async(req, res) => {
     try {
         const { apiKey } = req.params;
         if (!apiKey) {
-            return res.status(401).json({ message: "apiKey is required" })
+            return res.status(400).json({ message: "apiKey is required" })
         }
         const institute = await Institution.findOne({ apiKey })
         if (institute == null) {
-            return res.status(404).json({ message: "Incorrect apiKey passed!" })
+            return res.status(401).json({ message: "Incorrect apiKey passed!" })
         }
         // getting the data from input by destructuring request body
         const { degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program } = req.body
@@ -201,7 +221,7 @@ exports.createNewTranscriptRequestAPI = async(req, res) => {
         return res.status(200).json({ message: "Transcripted Successfully created!", Transcript: newTranscript })
 
     } catch (error) {
-        return res.json(error.message)
+        return res.status(501).json({ message: error.message })
     }
 }
 
@@ -210,12 +230,12 @@ exports.verifyTranscriptAPI = async(req, res, next) => {
     try {
         const { apiKey, transcriptId } = req.params;
         if (!apiKey || !transcriptId) {
-            return res.status(401).json({ message: "apiKey and transcriptId are required!" })
+            return res.status(400).json({ message: "apiKey and transcriptId are required!" })
         }
         // checking if apiKey exist in the databse
         const institution = await Institution.findOne({ apiKey })
         if (institution == null) {
-            return res.status(404).json({ message: "Incorrect apiKey passed!" })
+            return res.status(401).json({ message: "Incorrect apiKey passed!" })
         }
         const verifier = institution._id;
         // verifying the transcript by the transcriotId
@@ -224,7 +244,7 @@ exports.verifyTranscriptAPI = async(req, res, next) => {
         // If record not found and updated
         if (!verified) {
             //    return status code with message
-            return res.status(501).json({ message: "Something went wrong!" })
+            return res.status(401).json({ message: "Wrong transcript id passed!" })
         }
         // return succesful status code, message and the virified transcript
         return res.status(200).json({
@@ -232,7 +252,7 @@ exports.verifyTranscriptAPI = async(req, res, next) => {
             verified
         })
     } catch (error) {
-        return res.json(error.message)
+        return res.status(501).json({ message: error.message })
     }
 }
 
@@ -241,12 +261,12 @@ exports.approveTranscriptAPI = async(req, res, next) => {
     try {
         const { apiKey, transcriptId } = req.params;
         if (!apiKey || !transcriptId) {
-            return res.status(401).json({ message: "apiKey and transcriptId are required!" })
+            return res.status(400).json({ message: "apiKey and transcriptId are required!" })
         }
         // checking if apiKey is exist in the database
         const institution = await Institution.findOne({ apiKey })
         if (institution == null) {
-            return res.status(404).json({ message: "Incorrect apiKey passed!" })
+            return res.status(401).json({ message: "Incorrect apiKey passed!" })
         }
         const approver = institution._id;
         // approve the transcript by the transcriptId
@@ -255,7 +275,7 @@ exports.approveTranscriptAPI = async(req, res, next) => {
         // If record not found and updated
         if (!approved) {
             //    return status code with message
-            return res.status(501).json({ message: "Something went wrong!" })
+            return res.status(401).json({ message: "Wrong transcript id passed!" })
         }
         // return succesful status code, message and the approved transcript
         return res.status(200).json({
@@ -263,7 +283,7 @@ exports.approveTranscriptAPI = async(req, res, next) => {
             approved
         })
     } catch (error) {
-        return res.json(error.message)
+        return res.status(501).json({ message: error.message })
     }
 }
 
@@ -272,12 +292,12 @@ exports.declineTranscriptAPI = async(req, res, next) => {
     try {
         const { apiKey, transcriptId } = req.params;
         if (!apiKey || !transcriptId) {
-            return res.status(401).json({ message: "apiKey and transcriptId are required!" })
+            return res.status(400).json({ message: "apiKey and transcriptId are required!" })
         }
         // checking if apiKey is exist in the database
         const institution = await Institution.findOne({ apiKey })
         if (institution == null) {
-            return res.status(404).json({ message: "Incorrect apiKey passed!" })
+            return res.status(401).json({ message: "Incorrect apiKey passed!" })
         }
         const decliner = institution._id;
         // decline the transcript by the transcriptId
@@ -286,7 +306,7 @@ exports.declineTranscriptAPI = async(req, res, next) => {
         // If record not found and updated
         if (!declined) {
             //    return status code with message
-            return res.status(501).json({ message: "Something went wrong!" })
+            return res.status(401).json({ message: "Wrong transcript id passed!" })
         }
         // return succesful status code, message and the ceclined transcript
         return res.status(200).json({
@@ -294,7 +314,7 @@ exports.declineTranscriptAPI = async(req, res, next) => {
             declined
         })
     } catch (error) {
-        return res.json(error.message)
+        return res.status(501).json({ message: error.message })
     }
 }
 
@@ -303,12 +323,12 @@ exports.queryTranscriptAPI = async(req, res, next) => {
     try {
         const { apiKey, transcriptId } = req.params;
         if (!apiKey || !transcriptId) {
-            return res.status(401).json({ message: "apiKey and transcriptId are required!" })
+            return res.status(400).json({ message: "apiKey and transcriptId are required!" })
         }
         // checking if apiKey is exist in the database
         const institution = await Institution.findOne({ apiKey })
         if (institution == null) {
-            return res.status(404).json({ message: "Incorrect apiKey passed!" })
+            return res.status(401).json({ message: "Incorrect apiKey passed!" })
         }
         const querrier = institution._id;
         // decline the transcript by the transcriptId
@@ -317,7 +337,7 @@ exports.queryTranscriptAPI = async(req, res, next) => {
         // If record not found and updated
         if (!querried) {
             //    return status code with message
-            return res.status(501).json({ message: "Something went wrong!" })
+            return res.status(401).json({ message: "Wrong transcript id passed!" })
         }
         // return succesful status code, message and the querried transcript
         return res.status(200).json({
@@ -325,7 +345,7 @@ exports.queryTranscriptAPI = async(req, res, next) => {
             querried
         })
     } catch (error) {
-        return res.json(error.message)
+        return res.status(501).json({ message: error.message })
     }
 }
 
