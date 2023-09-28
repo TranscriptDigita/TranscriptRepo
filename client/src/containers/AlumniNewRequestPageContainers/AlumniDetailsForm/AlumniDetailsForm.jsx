@@ -6,8 +6,6 @@ import remitaImg from '../../../assets/remita.png'
 // react imports
 import React, { useState } from 'react'
 
-import { Link } from 'react-router-dom'
-
 function AlumniDetailsForm() {
 
     const [activeForm, setActiveForm] = useState(1)
@@ -28,21 +26,9 @@ function AlumniDetailsForm() {
       ];
 
   return (
-    <div className=' p-5'>
-        <Button
-                variant='contained'
-                className=' md:w-4/12 mx-auto bg-purple-700'
-                onClick={()=>{}}
-            >
-                Request Transcript
-            </Button>
     <div className='flex flex-col gap-y-4 bg-white p-5 my-auto rounded-lg'>
         <h4 className='font-bold text-center'>Fill the Form below</h4>
-        <p className='text-[14px] font-light'>When applying for your transcript, 
-        please ensure that you carefully and accurately fill out the form below. 
-        Double-check all the information you provide, including your name, student ID number, 
-        course details, and the address where you want the transcript to be sent. 
-        Any errors or discrepancies may lead to delays in processing your request.</p>
+        <p className='text-[14px] font-light'>When applying for your transcript please ensure that you ;</p>
         <ul className='p-2 border border-green-700 text-[12px] rounded-lg bg-green-50 text-green-700 gap-y-1'>
             <li>* carefully and accurately fill out theform below.</li>
             <li>* Double-check all the informations you provide, including your name, studentID number, course details, and the address where you want the transcript to be sent.</li>
@@ -153,15 +139,12 @@ function AlumniDetailsForm() {
                 </div>
             }    
             
-            
-            
-
         </form>
 
         {activeForm == 1 && 
             (<Button
                 variant='contained'
-                className=' md:w-4/12 mx-auto bg-purple-700'
+                className='lowercase md:w-4/12 mx-auto bg-blue-500'
                 onClick={()=>{setActiveForm(2)}}
             >
                 Continue
@@ -173,7 +156,7 @@ function AlumniDetailsForm() {
             <div className="grid grid-cols-2 ">
                 <Button
                     variant='contained'
-                    className=' mx-auto bg-purple-700'
+                    className='lowercase mx-auto bg-blue-500'
                     onClick={()=>{setActiveForm(1)}}
                 >
                     Previous
@@ -181,7 +164,7 @@ function AlumniDetailsForm() {
 
                 <Button
                     variant='contained'
-                    className=' mx-auto bg-purple-700'
+                    className='lowercase mx-auto bg-blue-500'
                     onClick={()=>{setActiveForm(3)}}
                 >
                     Complete
@@ -191,17 +174,15 @@ function AlumniDetailsForm() {
         } 
 
         {activeForm == 3 && 
-            (<Link to={`/alumni/:id/requesttrackanddelivery`}> {/** Added Link To the Table Items To Open The Request Track And Delivery Page */}<Button
+            (<Button
                 variant='contained'
-                className='md:w-4/12 mx-auto bg-purple-700 lowercase uppercase'
-                
+                className='lowercase md:w-4/12 mx-auto bg-blue-500'
+                onClick={()=>{}}
             >
                 Proceed
-            </Button>
-            </Link>)
+            </Button>)
         }   
         
-    </div>
     </div>
     
   )

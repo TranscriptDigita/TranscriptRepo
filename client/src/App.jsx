@@ -16,15 +16,13 @@ import { StyledEngineProvider } from '@mui/material'
 import { AlumniLayout, InstitutionLayout, Main } from './layouts'
 
 // pages imports
-import { Login, InstitutionLogin, InstitutionSignup, InstitutionDashboard, ErrorPage, ForgotPassword, ChangePassword, AlumniDashboard, LandingPage, AlumniSignup, AlumniVerification, AlumniResetPassword, NewTranscriptRequestPage, TranscriptTrackingPage, LogoutPage, TranscriptDetailPage, RequestTrackAndDelivery, RequestList } from './pages'
+import { Login, InstitutionLogin, InstitutionSignup, InstitutionDashboard, ErrorPage, ForgotPassword, ChangePassword, AlumniDashboard, LandingPage, AlumniSignup, AlumniVerification, AlumniResetPassword, NewTranscriptRequestPage, TranscriptTrackingPage, LogoutPage, TranscriptDetailPage, RequestTrackAndDelivery } from './pages'
 
 // components imports
-import { SelectLogin, TranscriptGridItem, TranscriptDataItem, Progress } from './components'
+import { SelectLogin } from './components'
 
 // redux imports
 import { useSelector } from 'react-redux';
-import TranscriptDetail from './pages/Alumni/Transcripts/TranscriptDetail/TranscriptDetail'
-import NewRequestPage from './pages/Alumni/Transcripts/NewRequestPage/NewRequestPage'
 
 function App() {
 
@@ -38,7 +36,7 @@ function App() {
       children: [
         {
           index: true,
-          element: <InstitutionLayout/>,
+          element: <AlumniLayout/>,
         },
         {
           path: '/selectlogin',
@@ -117,68 +115,38 @@ function App() {
 
     {
       path: '/alumni',
-      // replace with "user ? <AlumniLayout/> : <Navigate to={`/alumni/login`} />" to use user to load page
-      element: <AlumniLayout/>,
+      element: user ? <AlumniLayout/> : <Navigate to={`/alumni/login`} /> ,
       errorElement: <ErrorPage/>,
       children: [
 
         {
           path: '/alumni/:id/dashboard',
-           // replace with "user ? <AlumniDashboard/> : <Navigate to={`/alumni/login`} />" to use user to load page
-          element:  <AlumniDashboard/>,
+          element: user ? <AlumniDashboard/> : <Navigate to={`/alumni/login`} />,
           errorElement: <ErrorPage/>
         },
 
         {
           path: '/alumni/:id/change-password',
-           // replace with "user ? <ChangePassword/> : <Navigate to={`/alumni/login`} />" to use user to load page
-          element: <ChangePassword />,
+          element: user ? <ChangePassword /> : <Navigate to={`/alumni/login`} />,
           errorElement: <ErrorPage/>
         },
         {
           path: '/alumni/:id/transcripts/',
-           // replace with "user ? <TranscripteTrackingPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
-          element: <TranscriptTrackingPage/>,
+          element: user ? <TranscriptTrackingPage/> : <Navigate to={`/alumni/login`} />,
           errorElement: <ErrorPage/>
         },
 
         {
           path: '/alumni/:id/transcripts/:id',
-           // replace with "user ? <TranscriptDetailPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
-          element: <TranscriptDetailPage/>,
+          element: user ? <TranscriptDetailPage/> : <Navigate to={`/alumni/login`} />,
           errorElement: <ErrorPage/>
         },
 
         {
           path: '/alumni/:id/transcripts/new',
-           // replace with "user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
-          element: <NewTranscriptRequestPage/>,
+          element: user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />,
           errorElement: <ErrorPage/>
         },
-
-
-        {
-          path: '/alumni/:id/requesttrackanddelivery',
-           // replace with "user ? <RequestTrackAndDelivery/> : <Navigate to={`/alumni/login`} />" to use user to load page
-          element: <RequestTrackAndDelivery/>,
-          errorElement: <ErrorPage/>
-        },
-
-        {
-          path: '/alumni/:id/progress',
-          element: <Progress/>,
-          errorElement: <ErrorPage/>
-        },
-
-        {
-          path: '/alumni/:id/transcripts/newrequest',
-           // replace with "user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
-          element: <NewRequestPage/>,
-          errorElement: <ErrorPage/>
-        },
-
-        
-
       ]  
 
     }
