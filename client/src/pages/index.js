@@ -14,4 +14,6 @@ export { default as NewTranscriptRequestPage } from './Alumni/Transcripts/NewReq
 export { default as TranscriptTrackingPage } from './Alumni/Transcripts/TrackingPage/TrackingPage';
 export { default as TranscriptDetailPage } from './Alumni/Transcripts/TranscriptDetail/TranscriptDetail';
 export { default as LogoutPage } from './Logout/Logout';
-export { default as RequestTrackAndDelivery } from './Alumni/RTDSection/RequestTrackAndDelivery' 
+export { default as RequestTrackAndDelivery } from './Alumni/RTDSection/RequestTrackAndDelivery';
+export { default as RequestList } from './Institution/requestlist/RequestList'
+

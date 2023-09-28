@@ -9,6 +9,7 @@ import { Sidebar } from '../../components';
 import { Outlet } from 'react-router-dom'
 
 function InstitutionLayout() {
+    
 
     const menuItems = [
         {
@@ -26,7 +27,7 @@ function InstitutionLayout() {
         {
             title: 'Request',
             icon: <HiOutlineBell size={20}/>,
-            path: ''
+              path: '/institution/id:/requestlist',
         },
     
         {
