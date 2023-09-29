@@ -10,8 +10,11 @@ function TranscriptGrid({title}) {
 
         <div className='grid grid-cols-1 gap-y-[8px]'>
             <TranscriptGridItem icon={<HiCheckCircle fill='#4BD37B' size={25}/>} />
-            <TranscriptGridItem icon={<HiTrash fill='#4BD37B' size={20} />} />
-            <TranscriptGridItem />
+            <TranscriptGridItem icon={<HiCheckCircle fill='#4BD37B' size={25}/>} />
+            <TranscriptGridItem icon={<HiCheckCircle fill='#4BD37B' size={25}/>}/>
+            <TranscriptGridItem icon={<HiCheckCircle fill='#4BD37B' size={25}/>}/>
+           
+          
         </div>
     </div>
   )
