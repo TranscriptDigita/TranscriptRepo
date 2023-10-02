@@ -1,0 +1,14 @@
+/* Styles for larger screens */
+.bio-data-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+  
+  /* Media query for smaller screens */
+  @media (max-width: 767px) {
+    .bio-data-container {
+      display: block;
+    }
+  }
+  

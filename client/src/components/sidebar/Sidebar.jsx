@@ -1,37 +1,54 @@
-// react imports
-import React from 'react'
+import React, { useState } from 'react';
+import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Link } from 'react-router-dom';
+import MenuIcon from '@mui/icons-material/Menu'; // Import the Menu icon from Material-UI
+import './Sidebar.css'; // Import a CSS file for styling
 
-// mui imports
-import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
+function Sidebar({ menuItems }) {
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
 
-// rrd imports
-import { Link } from 'react-router-dom'
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+    console.log('Sidebar Open:', isSidebarOpen);
+  };
 
-function sidebar({menuItems}) {
+  const hideSidebarOnSmallScreen = () => {
+    if (window.innerWidth <= 768) {
+      setSidebarOpen(false);
+      console.log('Sidebar Hidden on Small Screen');
+    }
+  };
+
+  window.addEventListener('resize', hideSidebarOnSmallScreen);
+
   return (
-   <div className="flex items-center md:block hidden">
-        <div className='md:p-5'>
-            <Link to={`/`} className='font-bold'>TranscriptDigita</Link>
-        </div>
-        <List className='p-2 gap-y-2 flex flex-col'>
-            {menuItems && menuItems.map((menuItem)=>(
-                <Link 
-                    key={menuItem.title} 
-                    to={menuItem.path}
+    <div className={`sidebar-container ${isSidebarOpen ? 'open' : ''}`}>
+      <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+        {/* Use the Menu icon instead of the divs */}
+        <button
+          className={`md:hidden ${isSidebarOpen ? 'fixed top-5 left-5' : 'absolute top-5 left-5'}`}
+          onClick={toggleSidebar}
+        >
+          <MenuIcon />
+        </button>
+
+        <List className={`p-2 gap-y-2 flex flex-col mt-10 ${isSidebarOpen ? '' : 'hidden'}`}>
+          {menuItems &&
+            menuItems.map((menuItem) => (
+              <Link key={menuItem.title} to={menuItem.path} onClick={hideSidebarOnSmallScreen}>
+                <ListItem
+                  key={menuItem.title}
+                  className={`${menuItem.isActive ? 'bg-[#6B3FA0] bg-opacity-10' : ''} hover:bg-[#6B3FA0] hover:bg-opacity-10 rounded-lg`}
                 >
-                    <ListItem
-                        key={menuItem.title}
-                        className={`${menuItem.isActive == true ? `bg-[#6B3FA0] bg-opacity-10` : ``} hover:bg-[#6B3FA0] hover:bg-opacity-10 rounded-lg`}
-                    >
-                        <ListItemIcon>{menuItem.icon}</ListItemIcon>
-                        <ListItemText primary={menuItem.title} />
-                    </ListItem>
-                </Link>
+                  <ListItemIcon>{menuItem.icon}</ListItemIcon>
+                  <ListItemText primary={menuItem.title} />
+                </ListItem>
+              </Link>
             ))}
-            
         </List>
-   </div>
-  )
+      </div>
+    </div>
+  );
 }
 
-export default sidebar
+export default Sidebar;

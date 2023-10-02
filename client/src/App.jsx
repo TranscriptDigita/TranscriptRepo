@@ -19,10 +19,12 @@ import { AlumniLayout, InstitutionLayout, Main } from './layouts'
 import { Login, InstitutionLogin, InstitutionSignup, InstitutionDashboard, ErrorPage, ForgotPassword, ChangePassword, AlumniDashboard, LandingPage, AlumniSignup, AlumniVerification, AlumniResetPassword, NewTranscriptRequestPage, TranscriptTrackingPage, LogoutPage, TranscriptDetailPage, RequestTrackAndDelivery } from './pages'
 
 // components imports
-import { SelectLogin } from './components'
+import { SelectLogin, TranscriptGridItem, TranscriptDataItem, Progress } from './components'
 
 // redux imports
 import { useSelector } from 'react-redux';
+import TranscriptDetail from './pages/Alumni/Transcripts/TranscriptDetail/TranscriptDetail'
+import NewRequestPage from './pages/Alumni/Transcripts/NewRequestPage/NewRequestPage'
 
 function App() {
 
@@ -102,12 +104,7 @@ function App() {
               element: <InstitutionDashboard/>,
               errorElement: <ErrorPage/>
             },
-
-            {
-              path: '/institution/id:/requestlist',
-              element: <RequestList/>,
-              errorElement: <ErrorPage/>
-            }
+    
           ]
         },
       ]
@@ -115,38 +112,68 @@ function App() {
 
     {
       path: '/alumni',
-      element: user ? <AlumniLayout/> : <Navigate to={`/alumni/login`} /> ,
+      // replace with "user ? <AlumniLayout/> : <Navigate to={`/alumni/login`} />" to use user to load page
+      element: <AlumniLayout/>,
       errorElement: <ErrorPage/>,
       children: [
 
         {
           path: '/alumni/:id/dashboard',
-          element: user ? <AlumniDashboard/> : <Navigate to={`/alumni/login`} />,
+           // replace with "user ? <AlumniDashboard/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element:  <AlumniDashboard/>,
           errorElement: <ErrorPage/>
         },
 
         {
           path: '/alumni/:id/change-password',
-          element: user ? <ChangePassword /> : <Navigate to={`/alumni/login`} />,
+           // replace with "user ? <ChangePassword/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <ChangePassword />,
           errorElement: <ErrorPage/>
         },
         {
           path: '/alumni/:id/transcripts/',
-          element: user ? <TranscriptTrackingPage/> : <Navigate to={`/alumni/login`} />,
+           // replace with "user ? <TranscripteTrackingPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <TranscriptTrackingPage/>,
           errorElement: <ErrorPage/>
         },
 
         {
           path: '/alumni/:id/transcripts/:id',
-          element: user ? <TranscriptDetailPage/> : <Navigate to={`/alumni/login`} />,
+           // replace with "user ? <TranscriptDetailPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <TranscriptDetailPage/>,
           errorElement: <ErrorPage/>
         },
 
         {
           path: '/alumni/:id/transcripts/new',
-          element: user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />,
+           // replace with "user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <NewTranscriptRequestPage/>,
           errorElement: <ErrorPage/>
         },
+
+
+        {
+          path: '/alumni/:id/requesttrackanddelivery',
+           // replace with "user ? <RequestTrackAndDelivery/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <RequestTrackAndDelivery/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/alumni/:id/progress',
+          element: <Progress/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/alumni/:id/transcripts/newrequest',
+           // replace with "user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <NewRequestPage/>,
+          errorElement: <ErrorPage/>
+        },
+
+        
+
       ]  
 
     }
