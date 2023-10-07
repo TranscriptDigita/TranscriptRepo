@@ -11,6 +11,7 @@ const { Schema } = mongoose;
 
 const staffSchema = new mongoose.Schema({
     emailAddress: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     role: { type: String, required: true },
     institution: { type: Schema.Types.ObjectId },
     isActive: { type: Boolean, default: true },

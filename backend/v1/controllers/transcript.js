@@ -37,7 +37,7 @@ const genTrnxRefId = async() => {
 exports.getTranscriptById = async(req, res) => {
         try {
             const { transcriptId } = req.params;
-            if (!mongoose.Types.ObjectId.isValid(id)) {
+            if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
                 throw Error('Not a valid id')
             }
             let response = await Transcripts.findById(transcriptId)
