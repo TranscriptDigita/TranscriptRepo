@@ -1,6 +1,6 @@
 export {default as Header} from './LandingPageContainers/header/Header';
 export {default as WNU } from './LandingPageContainers/wnu/WNU';
-
+export {default as ChartSection} from './InstitutionDasboardContainers/chartSection/ChartSection';
 export {default as OurPartners} from './LandingPageContainers/ourPartners/OurPartners';
 export {default as Testimonials} from './LandingPageContainers/testimonials/Testimonials';
 export {default as Contact} from './LandingPageContainers/contact/Contact';

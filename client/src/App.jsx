@@ -103,11 +103,11 @@ function App() {
               errorElement: <ErrorPage/>
             },
 
-            {
-              path: '/institution/id:/requestlist',
-              element: <RequestList/>,
-              errorElement: <ErrorPage/>
-            }
+            // {
+            //   path: '/institution/id:/requestlist',
+            //   element: <RequestList/>,
+            //   errorElement: <ErrorPage/>
+            // }
           ]
         },
       ]
