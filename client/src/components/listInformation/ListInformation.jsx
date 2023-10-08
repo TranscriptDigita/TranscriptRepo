@@ -1,37 +1,56 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 
-function ListInformation({title}) {
+function ListInformation({ title }) {
+  const [trackingData, setTrackingData] = useState(null);
+
+  useEffect(() => {
+    // Make the GET request to the API
+    fetch('https://transcriptdigita-api.onrender.com/api/v1/transcript/track', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setTrackingData(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []);
+
   return (
-    <div className='flex flex-col gap-y-4 md:p-5 rounded-lg border  '>
-        <h4>{title}</h4>
-        <div className='flex flex-col gap-y-2'>
-            <span className='flex gap-x-4'>
-                <p>Name:</p>
-                <p className='text-slate-200'>Manoah Luka k</p>
-            </span> 
+    <div className='flex flex-col gap-y-4 md:p-5'>
+      <h4 className='text-black font-inter font-bold text-16'>{title}</h4>
+      <div className='flex flex-col gap-y-2'>
+        {/* Render the tracking data here */}
+        {trackingData && (
+          <React.Fragment>
+            <span className='flex flex-col gap-y-2 md:flex-row md:gap-x-4'>
+              <p className='text-black font-inter font-bold text-14'>Name :</p>
+              <p className='text-black font-inter font-bold text-14'>{trackingData.recipientName}</p>
+            </span>
 
-            <span className='flex gap-x-2'>
-                <p>Reg no:</p>
-                <p className='text-slate-200'>Uj/2015/ns/0190</p>
-            </span>  
+            <span className='flex flex-col gap-y-2 md:flex-row md:gap-x-2'>
+              <p className='text-black font-inter font-bold text-14'>Reg no :</p>
+              <p className='text-black font-inter font-bold text-14'>{trackingData.deliveryAddress}</p>
+            </span>
 
-            <span className='flex gap-x-2'>
-                <p>Department:</p>
-                <p className='text-slate-200'>Mathematics</p>
-            </span> 
-
-            <span className='flex gap-x-2'>
-                <p>Faculty:</p>
-                <p className='text-slate-200'>Natural scinces</p>
-            </span> 
-
-            <span className='flex gap-x-2'>
-                <p>Institution:</p>
-                <p className='text-slate-200'>University of jos</p>
-            </span> 
-        </div>
+            <span className='flex flex-col gap-y-2 md:flex-row md:gap-x-2'>
+              <p className='text-black font-inter font-bold text-14'>Department :</p>
+              <p className='text-black font-inter font-bold text-14'>{trackingData.deliveryContact}</p>
+            </span>
+          </React.Fragment>
+        )}
+      </div>
     </div>
-  )
+  );
 }
 
-export default ListInformation
+export default ListInformation;
