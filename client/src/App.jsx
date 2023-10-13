@@ -13,10 +13,10 @@ import 'react-toastify/dist/ReactToastify.css'
 import { StyledEngineProvider } from '@mui/material'
 
 // layout imports
-import { AlumniLayout, InstitutionLayout, Main } from './layouts'
+import { AlumniLayout, EvaluationLayout, InstitutionLayout, Main } from './layouts'
 
 // pages imports
-import { Login, InstitutionLogin, InstitutionSignup, InstitutionDashboard, ErrorPage, ForgotPassword, ChangePassword, AlumniDashboard, LandingPage, AlumniSignup, AlumniVerification, AlumniResetPassword, NewTranscriptRequestPage, TranscriptTrackingPage, LogoutPage, TranscriptDetailPage, RequestTrackAndDelivery } from './pages'
+import { Login, InstitutionLogin, InstitutionSignup, InstitutionDashboard, ErrorPage, ForgotPassword, ChangePassword, AlumniDashboard, LandingPage, AlumniSignup, AlumniVerification, AlumniResetPassword, NewTranscriptRequestPage, TranscriptTrackingPage, LogoutPage, TranscriptDetailPage, RequestTrackAndDelivery, RegistraDashboard, EvaluationOfficerLogin, EvaluationOfficerDashboard } from './pages'
 
 // components imports
 import { SelectLogin, TranscriptGridItem, TranscriptDataItem, Progress } from './components'
@@ -25,6 +25,7 @@ import { SelectLogin, TranscriptGridItem, TranscriptDataItem, Progress } from '.
 import { useSelector } from 'react-redux';
 import TranscriptDetail from './pages/Alumni/Transcripts/TranscriptDetail/TranscriptDetail'
 import NewRequestPage from './pages/Alumni/Transcripts/NewRequestPage/NewRequestPage'
+import RegistraLayout from './layouts/registraLayout/RegistraLayout'
 
 function App() {
 
@@ -38,7 +39,7 @@ function App() {
       children: [
         {
           index: true,
-          element: <AlumniLayout/>,
+          element: <LandingPage/>,
         },
         {
           path: '/selectlogin',
@@ -83,6 +84,32 @@ function App() {
         },
 
         {
+          path: '/evaluationofficer/login',
+          element: <EvaluationOfficerLogin/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/evaluationofficer',
+          element: <EvaluationLayout/>,
+          errorElement: <ErrorPage/>,
+          children: [
+            {
+              path: '/evaluationofficer/:id/dashboard',
+              element: <EvaluationOfficerDashboard/>,
+              errorElement: <ErrorPage/>
+            },
+
+            // {
+            //   path: '/institution/id:/requestlist',
+            //   element: <RequestList/>,
+            //   errorElement: <ErrorPage/>
+            // }
+          ]
+         
+        },
+
+        {
           path: '/institution/signup',
           element: <InstitutionSignup/>,
           errorElement: <ErrorPage/>
@@ -112,6 +139,29 @@ function App() {
             // }
           ]
         },
+
+        {
+          path: '/registra',
+          element: <RegistraLayout/>,
+          errorElement: <ErrorPage/>,
+          children:[
+            {
+              path: '/registra/:id/dashboard',
+              element: <RegistraDashboard/>,
+              errorElement: <ErrorPage/>
+            },
+
+            // {
+            //   path: '/institution/id:/requestlist',
+            //   element: <RequestList/>,
+            //   errorElement: <ErrorPage/>
+            // }
+          ]
+        },
+
+       
+
+       
       ]
     },
 
@@ -176,12 +226,9 @@ function App() {
           element: <NewRequestPage/>,
           errorElement: <ErrorPage/>
         },
-
-        
-
       ]  
 
-    }
+    },
 
   ])
 

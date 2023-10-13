@@ -17,12 +17,9 @@ function Logout() {
 
   return (
     <div className='flex flex-col flex-1'>
-        <div className='flex flex-col m-auto border rounded-md p-5 gap-y-5 shadow-lg'>
-            <h4 className='text-[20px]'>Are you are you want to logout ?</h4>
-            <button onClick={()=>{onLogout()}} className='p-2 rounded-md bg-gradient-to-r from-[#6B3FA0] via-zinc-500 to-slate-400 text-white'>
-                Logout
-            </button>
-        </div>
+       <button className="flex p-2 justify-center items-center gap-2 border-2 border-solid border-[#6B3FA0] rounded-md bg-white text-[#6B3FA0] hover:bg-[#6B3FA0] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#6B3FA0]" style={{ marginLeft: '10px', width: '100px' }} >
+        LogOut
+        </button>
     </div>
   )
 }

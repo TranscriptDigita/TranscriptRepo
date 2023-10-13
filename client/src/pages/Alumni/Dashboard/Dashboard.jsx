@@ -20,6 +20,7 @@
 
     return (
       <div className='flex flex-1 flex-col bg-white rounded-md md:p-5 p-2 gap-y-4'>
+                                         
       {/**  <div className='flex justify-end'>
         
 
@@ -49,6 +50,12 @@
 
         <div className="flex flex-col gap-y-5">
             <Table headers={[{title: 'Available schools'}]} item={ [1, 2, 3, 4, 5].map((item)=>(<TranscriptGridItem data={`University of Jos`} icon={<HiChevronRight/>}/>))}/>
+            <Button
+                  variant='contained'
+                  className='bg-[#6B3FA0]'  
+                >
+              A button
+            </Button>
           </div> 
       </div>
     )

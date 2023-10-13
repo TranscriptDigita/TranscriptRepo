@@ -11,7 +11,7 @@ import {
 import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
 
-function RegistraLayout() {
+function EvaluationLayout() {
   // Retrieve user data from Redux state
   const { user } = useSelector((state) => state.auth);
 
@@ -23,7 +23,7 @@ function RegistraLayout() {
     {
       title: 'Dashboard',
       icon: <HiOutlineRectangleGroup size={20} />,
-      path: `/registra/${user?.alumni?._id || defaultUser.alumni._id}/dashboard`,
+      path: `/evaluationofficer/${user?.alumni?._id || defaultUser.alumni._id}/dashboard`,
       isActive: true,
     },
      
@@ -39,17 +39,7 @@ function RegistraLayout() {
       path: "",
     },
 
-    {
-      title: 'Staff List',
-      icon: <HiOutlineCog6Tooth size={20} />,
-      path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/change-password`,
-    },
-
-    {
-        title: 'Account',
-        icon: <HiOutlineCog6Tooth size={20} />,
-        path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/change-password`,
-      },
+ 
 
       {
         title: 'Settings',
@@ -103,4 +93,4 @@ function RegistraLayout() {
   
 }
 
-export default RegistraLayout;
+export default EvaluationLayout;

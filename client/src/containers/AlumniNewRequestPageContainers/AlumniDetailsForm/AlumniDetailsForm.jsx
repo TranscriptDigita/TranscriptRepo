@@ -218,13 +218,38 @@ function AlumniDetailsForm() {
                 </div>
               ) : (
                 <div className='md:w-8/12 m-auto p-5 flex flex-col items-center'>
-                  <h4 className='text-center font-bold mb-4'>Delivery Method</h4>
-                  <input type='text' placeholder='Mode of delivery' ref={deliveryMethodRef} style={{ width: '100%' }} className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-5' />
-                  <input type='email' placeholder='Recipient email' ref={recipientEmailRef} className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-5' />
-                  <input type='text' placeholder='Recipient address' ref={recipientAddressRef} className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-5' />
-                  <input type='number' placeholder='Phone Number' ref={phoneNumberRef} className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-5' />
-                  <input type='file' className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-5' />
-                </div>
+                <h4 className='text-center font-bold mb-4'>Delivery Method</h4>
+                <input
+                  type='text'
+                  placeholder='Mode of delivery'
+                  ref={deliveryMethodRef}
+               
+                  className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-2 md:mt-5'
+                />
+                <input
+                  type='email'
+                  placeholder='Recipient email'
+                  ref={recipientEmailRef}
+                  className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-2 md:mt-5'
+                />
+                <input
+                  type='text'
+                  placeholder='Recipient address'
+                  ref={recipientAddressRef}
+                  className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-2 md:mt-5'
+                />
+                <input
+                  type='text'
+                  placeholder='Phone Number'
+                  ref={phoneNumberRef}
+                  className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-2 md:mt-5'
+                />
+                <input
+                  type='text'
+                  className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-2 md:mt-5'
+                />
+              </div>
+              
               )}
             </div>
           )}
@@ -251,6 +276,12 @@ function AlumniDetailsForm() {
 
           {activeForm == 2 && (
             <div className='grid grid-cols-2 '>
+
+
+
+
+
+
               <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
                onClick={() => {
                 setActiveForm(1); // Navigate to the previous step
