@@ -17,7 +17,7 @@ const transcriptSchema = new mongoose.Schema({
     recipientEmail: { type: String },
     recipientAddress: { type: String },
     recipientPhoneNumber: { type: Number },
-
+    modeOfProcessing: { type: String },
     isSubmitted: { type: Boolean, default: false },
     isVerified: { type: Boolean, default: false },
     isPaid: { type: Boolean },

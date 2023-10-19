@@ -3,7 +3,8 @@
 // =============================
 const express = require('express'),
     router = express.Router(),
-    controller = require('../controllers/institution')
+    controller = require('../controllers/institution'),
+    { isAuth } = require('../middleware/auth')
 
 // =============================
 // ======= routes ==============
@@ -14,8 +15,11 @@ router.route('/')
 
 router.route('/login')
     .post(controller.loginInstitution)
-
 router.route('/:id/verify')
-    .post(controller.verifyInstitution)    
+    .post(controller.verifyInstitution)
+    //============================
+    // =======New endpoints========
+router.route('/account')
+    .post(isAuth, controller.setupBankAccountDetails)
 
 module.exports = router

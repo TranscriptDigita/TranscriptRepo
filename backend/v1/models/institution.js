@@ -21,7 +21,13 @@ const institutionSchema = new mongoose.Schema({
     staff: [{ type: Schema.Types.ObjectId, ref: 'Staff' }],
     verificationCode: { type: String },
     isActive: { type: Boolean, default: true },
-    isVerified: { type: Boolean, default: false }
+    isVerified: { type: Boolean, default: false },
+    accountNumber: { type: String },
+    accountName: { type: String },
+    bankName: { type: String },
+    bankSortCode: { type: String },
+    amountForElectronicalMode: { type: Number },
+    amountForPhysicalMode: { type: Number },
 
 }, { timestamps: true })
 

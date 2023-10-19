@@ -60,10 +60,34 @@ exports.createNewRequest = async(req, res) => {
         const { degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program } = req.body
 
         // generate refrenceId
-        const referenceId = await genTrnxRefId();
+        // find last transcript reference id in the database
+        const lastId = await Transcripts.findOne().sort({ _id: -1 });
+        // initializing transcript refence id
+        var referenceId;
+        // if there is no transcript in the database yet
+        if (lastId == null) {
+            referenceId = `Trxt-001`
+        } else {
+            const lastRefId = lastId.referenceId;
+            // console.log({ "last": lastId });
+            // console.log({ "lastRefId": lastRefId });
+            const splitted = lastRefId.split('-');
+            const numPart = splitted[1];
+            // parse and increment the numPart
+            const parseNum = Number.parseInt(numPart) + 1;
+            if (parseNum >= 10) {
+                referenceId = splitted[0] + '-0' + parseNum;
+            } else {
+                referenceId = splitted[0] + '-00' + parseNum;
+            }
+        }
+
+        //here
+        // const referenceId = await genTrnxRefId();
+        // console.log("Here: " + referenceId);
         // getting userid from middleware
-        const createdBy = req.user._id
-            // creating new transcript request
+        const createdBy = req.user._id;
+        // creating new transcript request
         let newTranscript = await Transcripts.createNewTranscript(referenceId,
             degreeType,
             institution,
@@ -120,7 +144,7 @@ exports.trackTranscript = async(req, res) => {
         })
 
     } catch (error) {
-        return res.json(error.message)
+        return res.json("error" + error.message)
     }
 }
 
