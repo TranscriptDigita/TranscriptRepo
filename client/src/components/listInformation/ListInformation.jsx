@@ -5,7 +5,7 @@ function ListInformation({ title }) {
 
   useEffect(() => {
     // Make the GET request to the API
-    fetch('https://transcriptdigita-api.onrender.com/api/v1/transcript/track', {
+    fetch('https://dacs.onrender.com/api/v1/transcript/track', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -18,12 +18,15 @@ function ListInformation({ title }) {
         return response.json();
       })
       .then((data) => {
+        // Log a success message and set the trackingData
+        console.log('Success: API connection is successful');
         setTrackingData(data);
       })
       .catch((error) => {
         console.error('Error:', error);
       });
   }, []);
+  
 
   return (
     <div className='flex flex-col gap-y-4 md:p-5'>

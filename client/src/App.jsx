@@ -16,7 +16,7 @@ import { StyledEngineProvider } from '@mui/material'
 import { AlumniLayout, EvaluationLayout, InstitutionLayout, Main } from './layouts'
 
 // pages imports
-import { Login, InstitutionLogin, InstitutionSignup, InstitutionDashboard, ErrorPage, ForgotPassword, ChangePassword, AlumniDashboard, LandingPage, AlumniSignup, AlumniVerification, AlumniResetPassword, NewTranscriptRequestPage, TranscriptTrackingPage, LogoutPage, TranscriptDetailPage, RequestTrackAndDelivery, RegistraDashboard, EvaluationOfficerLogin, EvaluationOfficerDashboard } from './pages'
+import { Login, InstitutionLogin, InstitutionSignup, InstitutionDashboard, ErrorPage, ForgotPassword, ChangePassword, AlumniDashboard, LandingPage, AlumniSignup, AlumniVerification, AlumniResetPassword, NewTranscriptRequestPage, TranscriptTrackingPage, LogoutPage, TranscriptDetailPage, RequestTrackAndDelivery, RegistraDashboard, EvaluationOfficerLogin, EvaluationOfficerDashboard, VerifyCertificate, InstitutionVerification } from './pages'
 
 // components imports
 import { SelectLogin, TranscriptGridItem, TranscriptDataItem, Progress } from './components'
@@ -71,6 +71,15 @@ function App() {
           errorElement: <ErrorPage/>
         },
 
+
+        {
+          path: '/institution/:id/verify',
+          element: user ? <InstitutionVerification/> : <Navigate to={`/institution/login`} />,
+          errorElement: <ErrorPage/>
+        },
+
+
+
         {
           path: '/alumni/reset-password',
           element: <ForgotPassword />,
@@ -86,6 +95,12 @@ function App() {
         {
           path: '/evaluationofficer/login',
           element: <EvaluationOfficerLogin/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/verifycertificate',
+          element: <VerifyCertificate/>,
           errorElement: <ErrorPage/>
         },
 
@@ -129,6 +144,13 @@ function App() {
             {
               path: '/institution/:id/dashboard',
               element: <InstitutionDashboard/>,
+              errorElement: <ErrorPage/>
+            },
+
+
+            {
+              path:'/institution/:id/stafflist',
+              element: <RegistraDashboard/>,
               errorElement: <ErrorPage/>
             },
 

@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Divider, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { registerInstitution } from '../../../../features/auth/institutionSlice'; // Import the registerInstitution action
+import { Spinner } from '../../../../components';
+import { useNavigate } from "react-router-dom";
+// import institutionService from '../../../../features/auth/institutionService';
 
 function Signup() {
     const [formData, setFormData] = useState({
@@ -11,6 +16,9 @@ function Signup() {
         confirmedPassword: '',
     });
 
+    const navigate = useNavigate();
+   
+
     const inputChange = (e) => {
         setFormData((prevState) => ({
             ...prevState,
@@ -18,47 +26,119 @@ function Signup() {
         }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(formData); // Log all form data
+    const dispatch = useDispatch(); // Initialize the dispatch function
+    const {user, isLoading, isSuccess, isError, message } = useSelector((state) => state.institution);
 
-        // Construct the API URL and request body
-        const apiUrl = 'https://transcriptdigita-api.onrender.com/api/v1/institution';
-        const { name, emailAddress, location, password } = formData;
-        const requestData = {
-            name,
-            emailAddress,
-            location,
-            password,
-        };
+    console.log('isSuccess:', isSuccess);
+    console.log('isError:', isError);
+    console.log('message:', message);
 
-        try {
-            // Send a POST request to the API
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestData),
-            });
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     // console.log(formData); // Log all form data
 
-            if (response.ok) {
-                const responseData = await response.json();
-                console.log('API Response:', responseData); // Log the API response data if successful
-                // Add your logic here for handling the successful response
-            } else {
-                console.error('API Error:', response.statusText);
-                // Add your logic here for handling API errors
-            }
-        } catch (error) {
-            console.error('API Error:', error);
-            // Add your logic here for handling network errors
-        }
+    //     const { name, emailAddress, location, password } = formData;
+    //     const institutionData = {
+    //         name,
+    //         emailAddress,
+    //         location,
+    //         password,
+    //     };
+
+    //     try {
+    //         const response = await dispatch(registerInstitution(institutionData)); // Dispatch the registerInstitution action
+
+    //         // Handle success or error logic based on the state
+    //         if (isSuccess) {
+    //             console.log(institutionData);
+    //             navigate(`/institution/${user.institution._id}/verify`).then(() => {
+    //                 console.log(`Page open: /institution/${user.institution._id}/verify`);
+    //               });
+                  
+            
+    //             console.log(formData); 
+    //             console.log('Registration successful');
+    //         } else if (isError) {
+    //             // Handle API errors
+    //             console.error('API Error:', message);
+    //         }
+    //     } catch (error) {
+    //         // Handle network errors
+    //         console.error('API Error:', error);
+    //     }
+    // };
+
+
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    
+    //     const { name, emailAddress, location, password } = formData;
+    //     const institutionData = {
+    //         name,
+    //         emailAddress,
+    //         location,
+    //         password,
+    //     };
+    
+    //     try {
+    //         const response = await dispatch(registerInstitution(institutionData));
+    //         console.log('Registration Response:', response);
+    
+    //         if (isSuccess) {
+    //             console.log('Registration successful', institutionData);
+    //             console.log('User:', user);
+    //             navigate(`/institution/${user.institution._id}/verify`).then(() => {
+    //                 console.log('Page open:', `/institution/${user.institution._id}/verify`);
+    //             });
+    //         } else if (isError) {
+    //             console.error('API Error:', message);
+    //         }
+    //     } catch (error) {
+    //         console.error('API Error:', error);
+    //     }
+    // };
+
+
+
+
+    // Signup.js
+const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const { name, emailAddress, location, password } = formData;
+    const institutionData = {
+      name,
+      emailAddress,
+      location,
+      password,
     };
+  
+    try {
+      const response = await dispatch(registerInstitution(institutionData));
+      if (isSuccess) {
+        console.log('Registration successful', institutionData);
+        console.log('User:', user);
+  
+        // Navigate to verification page with institution ID
+        navigate(`/institution/${response.institution._id}/verify`).then(() => {
+          console.log(`Page open: /institution/${response.institution._id}/verify`);
+        });
+      } else if (isError) {
+        console.error('API Error:', message);
+      }
+    } catch (error) {
+      console.error('API Error:', error);
+    }
+  };
+  
+    
+    
 
     return (
         <div className='w-full flex flex-col justify-center items-center'>
             <div className='flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0'>
+                {isLoading ? <Spinner/> : ``}
                 <div className='grid grid-cols-2 gap-y-4 gap-x-4'>
                     <TextField
                         id='outlined-text-input'

@@ -7,6 +7,50 @@ import { RecentRequests, StaffList } from '../../containers';
 function Dashboard() {
   const [activeForm, setActiveForm] = useState(1);
 
+
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState(''); // Initialize with an empty string or a default role
+  const [password, setPassword] = useState('');
+
+  const apiEndpoint = 'https://dacs.onrender.com/api/v1/staff';
+
+  const handleCreateStaff = async () => {
+    const data = {
+      emailAddress: email,
+      role: role,
+    };
+  
+    try {
+      const response = await fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${yourBearerToken}`, // Replace with your actual Bearer token
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (response.status === 201) {
+        // Successful staff creation
+        // Log the data when the API call is successful
+        console.log('Data sent to server:', data);
+        console.log('Staff created successfully');
+        // You can handle the success scenario here, e.g., show a success message
+      } else {
+        // Handle errors, e.g., show an error message
+        console.error('Error creating staff:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error creating staff:', error);
+    }
+    
+    // Set the active form to 3 regardless of the API call status
+    setActiveForm(3);
+  };
+  
+
+  
+  
  
 
   
@@ -33,43 +77,44 @@ function Dashboard() {
           {activeForm == 2 && (
             <div className='p-5'>
             {window.innerWidth >= 768 ? (
-              <div className='flex flex-col gap-y-4'>
-                <h4 className='col-span-2 font-bold'>Create Staff List</h4>
-                <span className='font-semibold'>Email: </span>
-                <input
-                  type='text'
-                  placeholder=''
-                  
-                  className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-                />
-                <span className='font-semibold'>Role: </span>
-                <select
-                    
-                    className='custom-dropdown border-2 border-black border-solid rounded-md p-2 flex-1'
-                  >
-                    <option value='option1'>Option 1</option>
-                    <option value='option2'>Option 2</option>
-                    <option value='option3'>Option 3</option>
-                    {/* Add more options as needed */}
-                  </select>
-                  <span className='font-semibold'>Password: </span>
-                <div className='flex'>
-                <input
-                  type='text'
-                  placeholder=''
-                 
-                  className='custom-dropdown border-2 border-black border-solid rounded-md p-2 flex-1'
-                />
-                  <button
-                    className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
-                    onClick={() => {
-                      // Your onClick logic here
-                      setActiveForm(3);
-                    }}
-                  >
-                    Create
-                  </button>
-                </div>
+             <div className='flex flex-col gap-y-4'>
+             <h4 className='col-span-2 font-bold'>Create Staff List</h4>
+             <span className='font-semibold'>Email: </span>
+             <input
+               type='text'
+               placeholder=''
+               value={email}
+               onChange={e => setEmail(e.target.value)}
+               className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+             />
+             <span className='font-semibold'>Role: </span>
+             <select
+               value={role}
+               onChange={e => setRole(e.target.value)}
+               className='custom-dropdown border-2 border-black border-solid rounded-md p-2 flex-1'
+             >
+               <option value='option1'>Option 1</option>
+               <option value='option2'>Option 2</option>
+               <option value='option3'>Option 3</option>
+             </select>
+             {/* <span className='font-semibold'>Password: </span> */}
+             <div className='flex'>
+               {/* <input
+                 type='text'
+                 placeholder=''
+                 value={password}
+                 onChange={e => setPassword(e.target.value)}
+                 className='custom-dropdown border-2 border-black border-solid rounded-md p-2 flex-1'
+               /> */}
+               <button
+                 className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
+                 onClick={handleCreateStaff}
+               >
+                 Create
+               </button>
+             </div>
+          
+       
                 <h4 className='col-span-2 font-bold'>Staff List</h4>
                <StaffList/>
               </div>
@@ -86,7 +131,7 @@ function Dashboard() {
                 <h4 className='col-span-2 font-bold'>Account</h4>
                 <p className='font-light text-[14px]'>Please set price for documents obtainable from your institution</p>
                 <div className='flex flex-col md:flex-row'>
-            <div className='md:w-1/2 p-2'>
+                <div className='md:w-1/2 p-2'>
                 <label htmlFor='institutionAccountNumber' className='block font-semibold'>
                 Institutions Account Number:
                 </label>
@@ -97,7 +142,30 @@ function Dashboard() {
             
                 className='custom-textfield border-2 border-black border-solid rounded-md p-2'
                 />
+
+              
+
             </div>
+
+
+
+            <div className='md:w-1/2 p-2'>
+                <label htmlFor='institutionAccountNumber' className='block font-semibold'>
+                Sort Code:
+                </label>
+                <input
+                type='text'
+                id='institutionAccountNumber'
+                placeholder=''
+            
+                className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                />
+
+              
+
+            </div>
+
+
             <div className='md:w-1/2 p-2'>
                 <label htmlFor='bankName' className='block font-semibold'>
                 Bank Name:
@@ -117,7 +185,7 @@ function Dashboard() {
                       setActiveForm(3);
                     }}
                   >
-                    Create
+                    Save
                   </button>
 
 

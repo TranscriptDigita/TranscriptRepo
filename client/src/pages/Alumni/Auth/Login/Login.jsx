@@ -145,6 +145,7 @@ function Login() {
 
           <Divider>or continue with</Divider>
 
+          {/* Add Sign In with Google feature on the button below */}
           <Button
             variant="contained"
             endIcon={<FaGoogle />}
