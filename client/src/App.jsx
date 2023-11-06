@@ -2,105 +2,153 @@
 import {
   createBrowserRouter,
   RouterProvider,
-  Navigate
-} from 'react-router-dom'
+  Navigate,
+} from "react-router-dom";
 
 // react-toastify imports
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // mui imports
-import { StyledEngineProvider } from '@mui/material'
+import { StyledEngineProvider } from "@mui/material";
 
 // layout imports
-import { AlumniLayout, InstitutionLayout, Main } from './layouts'
+import {
+  AlumniLayout,
+  EvaluationLayout,
+  AdminLayout,
+  InstitutionLayout,
+  Main,
+} from "./layouts";
 
 // pages imports
-import { Login, InstitutionLogin, InstitutionSignup, InstitutionDashboard, ErrorPage, ForgotPassword, ChangePassword, AlumniDashboard, LandingPage, AlumniSignup, AlumniVerification, AlumniResetPassword, NewTranscriptRequestPage, TranscriptTrackingPage, LogoutPage, TranscriptDetailPage, RequestTrackAndDelivery } from './pages'
+import {
+  Login,
+  InstitutionLogin,
+  AdminLogin,
+  ChangePasswordAdmin,
+  AForgotPassword,
+  StudentList,
+  InstitutionSignup,
+  InstitutionDashboard,
+  ErrorPage,
+  ForgotPassword,
+  ChangePassword,
+  AlumniDashboard,
+  LandingPage,
+  AlumniSignup,
+  AlumniVerification,
+  AdminDashboard,
+  AlumniResetPassword,
+  NewTranscriptRequestPage,
+  TranscriptTrackingPage,
+  LogoutPage,
+  TranscriptDetailPage,
+  RequestTrackAndDelivery,
+  RegistraDashboard,
+  EvaluationOfficerLogin,
+  EvaluationOfficerDashboard,
+} from "./pages";
 
 // components imports
-import { SelectLogin } from './components'
+import {
+  SelectLogin,
+  TranscriptGridItem,
+  TranscriptDataItem,
+  Progress,
+} from "./components";
 
 // redux imports
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+import TranscriptDetail from "./pages/Alumni/Transcripts/TranscriptDetail/TranscriptDetail";
+import NewRequestPage from "./pages/Alumni/Transcripts/NewRequestPage/NewRequestPage";
+import RegistraLayout from "./layouts/registraLayout/RegistraLayout";
 
 function App() {
-
-  const { user } = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth);
 
   const router = createBrowserRouter([
     {
-      path:'/',
-      element: <Main/>,
-      errorElement: <ErrorPage/>,
+      path: "/",
+      element: <Main />,
+      errorElement: <ErrorPage />,
       children: [
         {
           index: true,
-          element: <AlumniLayout/>,
+          element: <LandingPage />,
         },
         {
-          path: '/selectlogin',
-          element: <SelectLogin/>,
-          errorElement: <ErrorPage/>
-        },
-
-        {
-          path: '/logout',
-          element: <LogoutPage/>,
-          errorElement: <ErrorPage/>
+          path: "/selectlogin",
+          element: <SelectLogin />,
+          errorElement: <ErrorPage />,
         },
 
         {
-          path: '/alumni/signup',
-          element: <AlumniSignup/>,
-          errorElement: <ErrorPage/>
+          path: "/logout",
+          element: <LogoutPage />,
+          errorElement: <ErrorPage />,
         },
 
         {
-          path: '/alumni/login',
-          element: <Login/>,
-          errorElement: <ErrorPage/>
-        },
-        
-        {
-          path: '/alumni/:id/verify',
-          element: user ? <AlumniVerification/> : <Navigate to={`/alumni/login`} />,
-          errorElement: <ErrorPage/>
+          path: "/alumni/signup",
+          element: <AlumniSignup />,
+          errorElement: <ErrorPage />,
         },
 
         {
-          path: '/alumni/reset-password',
+          path: "/alumni/login",
+          element: <Login />,
+          errorElement: <ErrorPage />,
+        },
+
+        {
+          path: "/alumni/:id/verify",
+          element: user ? (
+            <AlumniVerification />
+          ) : (
+            <Navigate to={`/alumni/login`} />
+          ),
+          errorElement: <ErrorPage />,
+        },
+
+        {
+          path: "/alumni/reset-password",
           element: <ForgotPassword />,
-          errorElement: <ErrorPage/>
+          errorElement: <ErrorPage />,
         },
 
         {
-          path: '/alumni/reset-password/:token',
-          element: <AlumniResetPassword/>,
-          errorElement: <ErrorPage/>
+          path: "/alumni/reset-password/:token",
+          element: <AlumniResetPassword />,
+          errorElement: <ErrorPage />,
         },
 
         {
-          path: '/institution/signup',
-          element: <InstitutionSignup/>,
-          errorElement: <ErrorPage/>
+          path: "/admin/login",
+          element: <AdminLogin />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/admin/forgot-password",
+          element: <AForgotPassword />,
+          errorElement: <ErrorPage />,
         },
 
         {
-          path: '/institution/login',
-          element: <InstitutionLogin/>,
-          errorElement: <ErrorPage/>
+          path: "/evaluationofficer/login",
+          element: <EvaluationOfficerLogin />,
+          errorElement: <ErrorPage />,
         },
 
         {
-          path: '/institution',
-          element: <InstitutionLayout/>,
-          errorElement: <ErrorPage/>,
-          children:[
+          path: "/evaluationofficer",
+          element: <EvaluationLayout />,
+          errorElement: <ErrorPage />,
+          children: [
             {
-              path: '/institution/:id/dashboard',
-              element: <InstitutionDashboard/>,
-              errorElement: <ErrorPage/>
+              path: "/evaluationofficer/:id/dashboard",
+              element: <EvaluationOfficerDashboard />,
+              errorElement: <ErrorPage />,
             },
 
             // {
@@ -108,59 +156,156 @@ function App() {
             //   element: <RequestList/>,
             //   errorElement: <ErrorPage/>
             // }
-          ]
+          ],
         },
-      ]
+
+        {
+          path: "/institution/signup",
+          element: <InstitutionSignup />,
+          errorElement: <ErrorPage />,
+        },
+
+        {
+          path: "/institution/login",
+          element: <InstitutionLogin />,
+          errorElement: <ErrorPage />,
+        },
+
+        {
+          path: "/institution",
+          element: <InstitutionLayout />,
+          errorElement: <ErrorPage />,
+          children: [
+            {
+              path: "/institution/:id/dashboard",
+              element: <InstitutionDashboard />,
+              errorElement: <ErrorPage />,
+            },
+
+            // {
+            //   path: '/institution/id:/requestlist',
+            //   element: <RequestList/>,
+            //   errorElement: <ErrorPage/>
+            // }
+          ],
+        },
+
+        {
+          path: "/registra",
+          element: <RegistraLayout />,
+          errorElement: <ErrorPage />,
+          children: [
+            {
+              path: "/registra/:id/dashboard",
+              element: <RegistraDashboard />,
+              errorElement: <ErrorPage />,
+            },
+
+            // {
+            //   path: '/institution/id:/requestlist',
+            //   element: <RequestList/>,
+            //   errorElement: <ErrorPage/>
+            // }
+          ],
+        },
+      ],
     },
 
     {
-      path: '/alumni',
-      element: user ? <AlumniLayout/> : <Navigate to={`/alumni/login`} /> ,
+      path: "/alumni",
+      // replace with "user ? <AlumniLayout/> : <Navigate to={`/alumni/login`} />" to use user to load page
+      element: <AlumniLayout />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: "/alumni/:id/dashboard",
+          // replace with "user ? <AlumniDashboard/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <AlumniDashboard />,
+          errorElement: <ErrorPage />,
+        },
+
+        {
+          path: "/alumni/:id/change-password",
+          // replace with "user ? <ChangePassword/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <ChangePassword />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/alumni/:id/transcripts/",
+          // replace with "user ? <TranscripteTrackingPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <TranscriptTrackingPage />,
+          errorElement: <ErrorPage />,
+        },
+
+        {
+          path: "/alumni/:id/transcripts/:id",
+          // replace with "user ? <TranscriptDetailPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <TranscriptDetailPage />,
+          errorElement: <ErrorPage />,
+        },
+
+        {
+          path: "/alumni/:id/transcripts/new",
+          // replace with "user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <NewTranscriptRequestPage />,
+          errorElement: <ErrorPage />,
+        },
+
+        {
+          path: "/alumni/:id/requesttrackanddelivery",
+          // replace with "user ? <RequestTrackAndDelivery/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <RequestTrackAndDelivery />,
+          errorElement: <ErrorPage />,
+        },
+
+        {
+          path: "/alumni/:id/progress",
+          element: <Progress />,
+          errorElement: <ErrorPage />,
+        },
+
+        {
+          path: "/alumni/:id/transcripts/newrequest",
+          // replace with "user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <NewRequestPage />,
+          errorElement: <ErrorPage />,
+        },
+      ],
+    },
+    {
+      path: '/admin',
+      // replace with "user ? <AdminLayout/> : <Navigate to={`/admin/login`} />" to use user to load page
+      element: <AdminLayout/>,
       errorElement: <ErrorPage/>,
       children: [
-
         {
-          path: '/alumni/:id/dashboard',
-          element: user ? <AlumniDashboard/> : <Navigate to={`/alumni/login`} />,
-          errorElement: <ErrorPage/>
-        },
-
-        {
-          path: '/alumni/:id/change-password',
-          element: user ? <ChangePassword /> : <Navigate to={`/alumni/login`} />,
+          path: '/admin/:id/dashboard',
+          element: <AdminDashboard/>,
           errorElement: <ErrorPage/>
         },
         {
-          path: '/alumni/:id/transcripts/',
-          element: user ? <TranscriptTrackingPage/> : <Navigate to={`/alumni/login`} />,
+          path: '/admin/:id/student-list',
+          element: <StudentList/>,
           errorElement: <ErrorPage/>
         },
-
         {
-          path: '/alumni/:id/transcripts/:id',
-          element: user ? <TranscriptDetailPage/> : <Navigate to={`/alumni/login`} />,
+          path: '/admin/:id/change-password',
+          element: <ChangePasswordAdmin/>,
           errorElement: <ErrorPage/>
         },
-
-        {
-          path: '/alumni/:id/transcripts/new',
-          element: user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />,
-          errorElement: <ErrorPage/>
+          ]
         },
-      ]  
 
-    }
-
-  ])
+  ]);
 
   return (
     <div>
       <StyledEngineProvider injectFirst>
         <RouterProvider router={router} />
-        <ToastContainer/>
+        <ToastContainer />
       </StyledEngineProvider>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

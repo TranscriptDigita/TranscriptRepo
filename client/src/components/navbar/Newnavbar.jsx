@@ -16,6 +16,7 @@ import { Button } from '@mui/material';
 // icons imports
 import { HiChevronDown, HiBars3, HiXMark } from 'react-icons/hi2'
 import MobileMenu from '../mobileMenu/MobileMenu';
+import Logout from '../../pages/Logout/Logout';
 
 function Newnavbar() {
 
@@ -29,17 +30,18 @@ function Newnavbar() {
 
   return (
     <div className="grid grid-cols-1 shadow">
-        <div className='p-3 md:p-5 flex justify-between items-center'>
-        <div>
-        <span className='flex gap-x-2 font-semibold'>Welcome!!!!!!!!</span>
-        <h4 className='text-[black] font-semibold'>{user?.data?.fullName || "User"}</h4> 
+        <div className='p-3 md:p-3 flex justify-between items-center'>
+        <div className='flex flex-col items-start justify-center'>
+        <span className='flex gap-x-2 font-semibold'>Welcome!!</span>
+        <h4 className='text-[#252424] font-semibold'>{user?.data?.fullName || "User"}</h4> 
         {/** Uses a default User called user so i do not have to login each time i want to view page */}
         </div>
         <div className='p-3 md:p-5 flex justify-between items-center'>
-        <div class="w-10 h-10 bg-gray-500 rounded-full"></div>
-        <button className="flex p-2 justify-center items-center gap-2 border-2 border-solid border-[#6B3FA0] rounded-md bg-white text-[#6B3FA0] hover:bg-[#6B3FA0] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#6B3FA0]" style={{ marginLeft: '10px', width: '100px' }} >
+        <div className="w-10 h-10 bg-blue-500 rounded-full"></div>
+        <Logout/>
+        {/* <button className="flex p-2 justify-center items-center gap-2 border-2 border-solid border-[#6B3FA0] rounded-md bg-white text-[#6B3FA0] hover:bg-[#6B3FA0] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#6B3FA0]" style={{ marginLeft: '10px', width: '100px' }} >
   LogOut
-</button>
+</button> */}
 
 
 

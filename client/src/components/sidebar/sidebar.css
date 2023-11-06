@@ -1,0 +1,21 @@
+/* Sidebar container styles */
+.sidebar-container {
+    position: fixed;
+    top: 0;
+    left: 0; /* Initially shown on the left side */
+    width: 250px; /* Adjust as needed */
+    height: 100%;
+    transition: left 0.3s ease; /* Use a transition for smooth animation */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 2;
+  }
+  
+  /* Add a class to open the sidebar */
+  .sidebar-container.open {
+    left: 0; /* Slide in from the left when open */
+    background-color: white;  
+  }
+  
+  
