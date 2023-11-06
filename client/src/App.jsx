@@ -26,6 +26,9 @@ import {
   Login,
   InstitutionLogin,
   AdminLogin,
+  ChangePasswordAdmin,
+  AForgotPassword,
+  StudentList,
   InstitutionSignup,
   InstitutionDashboard,
   ErrorPage,
@@ -123,6 +126,11 @@ function App() {
         {
           path: "/admin/login",
           element: <AdminLogin />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/admin/forgot-password",
+          element: <AForgotPassword />,
           errorElement: <ErrorPage />,
         },
 
@@ -273,6 +281,16 @@ function App() {
         {
           path: '/admin/:id/dashboard',
           element: <AdminDashboard/>,
+          errorElement: <ErrorPage/>
+        },
+        {
+          path: '/admin/:id/student-list',
+          element: <StudentList/>,
+          errorElement: <ErrorPage/>
+        },
+        {
+          path: '/admin/:id/change-password',
+          element: <ChangePasswordAdmin/>,
           errorElement: <ErrorPage/>
         },
           ]

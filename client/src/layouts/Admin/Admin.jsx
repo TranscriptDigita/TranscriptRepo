@@ -30,7 +30,7 @@ function AdminLayout() {
     {
       title: 'Student List',
       icon: <HiViewfinderCircle size={20} />,
-      path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/progress`,
+      path: `/admin/${user?.alumni?._id || defaultUser.alumni._id}/student-list`,
     },
 
     {

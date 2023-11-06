@@ -22,19 +22,19 @@ function Dashboard() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-col md:flex-row items-start justify-between">
-        <div className="w-full md:w-2/3 bg-white p-4 mb-5 mr-5">
+      <div className="flex flex-col mb-10 md:flex-row items-start justify-between">
+        <div className="w-full h-60 md:w-2/3 bg-white p-4 mb-5 mr-5">
         <LineChart />
         </div>
-        <div className="w-full md:w-1/3 bg-white mb-5 p-4">
+        <div className="w-full h-60 md:w-1/3 bg-white mb-5 p-4">
           <RequestData />
         </div>
       </div>
-      <div className="flex flex-col md:flex-row items-start justify-between">
-        <div className="w-full md:w-2/3 bg-white p-4 mb-5 mr-5">
+      <div className="flex  flex-col md:flex-row items-start justify-between">
+        <div className="w-full h-60 md:w-2/3 bg-white p-4 mb-5 mr-5">
         <RecentRequests />
         </div>
-        <div className="w-full md:w-1/3 bg-white p-4">
+        <div className="w-full h-60 md:w-1/3 bg-white p-4">
         <CompletedRequest />
         </div>
       </div>

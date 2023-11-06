@@ -13,14 +13,14 @@ const infos = [
 const RequestData = () => {
   return (
     <div className="flex flex-col">
-      <h4 className="">Document Request Data</h4>
+      <span className="">Document Request Data</span>
       {infos.map((info) => (
-        <div key={info.id} className="flex flex-col mt-4 ">
+        <div key={info.id} className="flex flex-col mt-1">
           <div className="flex flex-row items-center justify-between">
             <p className="text-start text-sm mr-3">{info.title}</p>
             <Button
               className="justify-center items-center border border-solid border-[#333] rounded-md bg-white text-[#464040] text-sm  "
-              style={{ width: "100px" }}
+             
             >
               {info.number}
             </Button>
