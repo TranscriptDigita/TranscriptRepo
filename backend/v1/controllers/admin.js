@@ -232,7 +232,7 @@ exports.verifyAlumnus = async(req, res) => {
 }
 
 // login Alumni
-exports.loginAlumnus = async(req, res) => {
+exports.loginAdmin = async(req, res) => {
     const { emailAddress, password } = req.body
 
     try {

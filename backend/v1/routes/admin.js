@@ -3,7 +3,7 @@
 // =================================
 const express = require('express'),
     router = express.Router(),
-    controller = require('../controllers/alumni'),
+    controller = require('../controllers/admin'),
     { isAuth } = require('../middleware/auth')
 
 // =================================
@@ -18,7 +18,7 @@ router.route('/')
 
 
 router.route('/login')
-    .post(controller.loginAlumnus)
+    .post(controller.loginAdmin)
 
 router.route('/reset-password')
     .post(controller.forgotPassword)

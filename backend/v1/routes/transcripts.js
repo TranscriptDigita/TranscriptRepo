@@ -22,9 +22,12 @@ router.route(`/approve/:id`)
     // decline transcript route
 router.route(`/decline/:id`)
     .patch(isAuth, controller.declineTranscript)
-    // querry transcript route
+    // querry transcript route 
 router.route(`/query/:id`)
     .patch(isAuth, controller.querryTranscript)
 
-// export router
+// set up transcript delivery method
+router.route(`/delivery-method/:transcriptId`)
+    .patch(isAuth, controller.deliveryMethod)
+    // export router
 module.exports = router

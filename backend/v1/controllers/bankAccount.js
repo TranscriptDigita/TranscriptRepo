@@ -30,6 +30,18 @@ exports.setupBankAccount = async(req, res, next) => {
             return res.status(409).json({ message: "Not a valid id!" })
                 // throw Error('Not a valid id')
         }
+        const bankAccountUpdated = await Institution.findByIdAndUpdate(id, { bankName, bankSortCode, accountNumber, accountName })
+
+        // If record found
+        if (!bankAccountUpdated) {
+            //    return status code with message
+            return res.status(404).json({ message: "Incorrect transcript ID passed!" })
+        }
+        // return succesful status code, message and the new creaed transcript
+        return res.status(200).json({
+            message: 'Bank account set and updated successfully.',
+            bankAccountUpdated
+        })
 
     } catch (error) {
         // return error code and message 

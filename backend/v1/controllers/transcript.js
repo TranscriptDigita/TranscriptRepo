@@ -232,25 +232,53 @@ exports.querryTranscript = async(req, res) => {
 
 // function to decline transcript
 exports.declineTranscript = async(req, res) => {
+        try {
+
+            // getting the data from input by destructuring request body
+            const { id } = req.params
+                // verify if id is valid
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                throw Error('not a valid id')
+            }
+            const declined = await Transcripts.findByIdAndUpdate(id, { isDeclined: true, declinedBy: req.user._id })
+
+            // If record found
+            if (!declined) {
+                //    return status code with message
+                return res.status(501).json({ message: "Something went wrong!" })
+            }
+            // return succesful status code, message and the new creaed transcript
+            return res.status(200).json({
+                message: 'declined successfully.',
+                declined
+            })
+
+        } catch (error) {
+            return res.json(error.message)
+        }
+    }
+    // function for  transcript delivery method
+exports.deliveryMethod = async(req, res) => {
     try {
 
         // getting the data from input by destructuring request body
-        const { id } = req.params
-            // verify if id is valid
-        if (!mongoose.Types.ObjectId.isValid(id)) {
+        const { transcriptId } = req.params;
+        const { modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail } = req.body;
+        // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
             throw Error('not a valid id')
         }
-        const declined = await Transcripts.findByIdAndUpdate(id, { isDeclined: true, declinedBy: req.user._id })
+        const transcriptUpdated = await Transcripts.findByIdAndUpdate(transcriptId, { modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail })
 
         // If record found
-        if (!declined) {
+        if (!transcriptUpdated) {
             //    return status code with message
-            return res.status(501).json({ message: "Something went wrong!" })
+            return res.status(404).json({ message: "Incorrect transcript ID passed!" })
         }
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
-            message: 'declined successfully.',
-            declined
+            message: 'Delivery method updated successfully.',
+            transcriptUpdated
         })
 
     } catch (error) {

@@ -14,6 +14,7 @@ const transcriptSchema = new mongoose.Schema({
     yearOfGraduation: { type: Date, required: true },
     program: { type: String, required: true },
     modeOfDelivery: { type: String },
+    recipientCountry: { type: String },
     recipientEmail: { type: String },
     recipientAddress: { type: String },
     recipientPhoneNumber: { type: Number },

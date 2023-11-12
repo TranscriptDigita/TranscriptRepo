@@ -80,21 +80,19 @@ institutionSchema.statics.signup = async function(name, emailAddress, location, 
 }
 
 // sending email to staff
+// let transport = nodemailer.createTransport(smtpTransport({
+//     host: 'smtp.gmail.com',
+//     secure: true,
+//     port: 465,
+//     auth: {
+//         user: process.env.EMAIL_USERNAME,
+//         pass: process.env.EMAIL_PASSWORD
+//     }
+// }))
 institutionSchema.statics.sendEmail = async function(email, subject, message) {
-    // let transport = nodemailer.createTransport(smtpTransport({
-    //     host: 'smtp.gmail.com',
-    //     secure: true,
-    //     port: 465,
-    //     auth: {
-    //         user: process.env.EMAIL_USERNAME,
-    //         pass: process.env.EMAIL_PASSWORD
-    //     }
-    // }))
+
     let transport = nodemailer.createTransport({
         service: 'gmail',
-        // host: process.env.EMAIL_HOST,
-        // secure: true,
-        // port: 465,
         auth: {
             user: process.env.EMAIL_USERNAME,
             pass: process.env.EMAIL_PASSWORD
@@ -107,7 +105,7 @@ institutionSchema.statics.sendEmail = async function(email, subject, message) {
         subject: subject,
         text: message
     }, (err, sent) => {
-        err ? console.log('error send email') : console.log('succesfully sent', sent)
+        err ? console.log('error send email', err) : console.log('succesfully sent', sent)
     })
 }
 

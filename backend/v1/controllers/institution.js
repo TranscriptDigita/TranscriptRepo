@@ -69,7 +69,7 @@ exports.registerInstitution = async(req, res) => {
         const token = await createToken(institution._id)
 
         // send welcome email
-        await Institution.sendEmail(emailAddress, 'Welcome to Transcript-Digita', `verfication code: ${verificationCode}`)
+        await Institution.sendEmail(emailAddress, `Hi ${name}, welcome to Centralized Academic Credentials Services. Your verfication code is: ${verificationCode}`)
 
         // return user as json
         return res.status(200).json({ institution, token })
