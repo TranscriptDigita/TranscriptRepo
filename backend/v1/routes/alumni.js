@@ -36,7 +36,6 @@ router.route('/:id')
     .get(controller.getAlumniById)
     .patch(isAuth, controller.updateAlumni)
     .delete(isAuth, controller.deleteAlumni)
-
 router.route('/:id/verify')
     .patch(controller.verifyAlumnus)
 

@@ -51,11 +51,9 @@ app.use('/api/v1/contact-us', contactUsRoutes)
 // staff endpoint
 app.use('/api/v1/staff', staffRoutes)
     // Students data endpoint
-app.use('api/v1/students-data', studentsData);
-
-
+app.use('/api/v1/students-data', studentsData);
 // admin endpoint
-app.use('api/v1/admin', adminRoutes);
+app.use('/api/v1/admin', adminRoutes);
 // ===========================================
 // ============ serving app ==================
 // ===========================================
