@@ -2,7 +2,7 @@
 // ==== libraries required =====
 // =============================
 require('dotenv').config()
-const Alumni = require('../models/alumni'),
+const Admin = require('../models/admin'),
     mongoose = require('mongoose'),
     jwt = require('jsonwebtoken'),
     validator = require('validator'),
@@ -36,23 +36,23 @@ const generateRandomNumber = () => {
 }
 
 // =====================================
-// ===== Alumni controller functions ===
+// ===== Admin controller functions ===
 // =====================================
 
-// function to get all Alumnus
-exports.getAllAlumnus = async(req, res) => {
+// function to get all Admins
+exports.getAllAdmins = async(req, res) => {
     try {
 
-        // find all alumni in database
-        let allAlumnus = await Alumni.find({})
+        // find all admin in database
+        let allAdmins = await Admin.find({})
 
-        // if not allAlumnus throw error 
-        if (!allAlumnus) {
+        // if not allAdmins throw error 
+        if (!allAdmins) {
             throw Error('resource could not be located !!')
         }
 
         // return status and data as json
-        return res.status(201).json(allAlumnus)
+        return res.status(201).json(allAdmins)
 
     } catch (error) {
         // return status and error as json
@@ -60,8 +60,8 @@ exports.getAllAlumnus = async(req, res) => {
     }
 }
 
-// function to get single Alumni
-exports.getAlumniById = async(req, res) => {
+// function to get single Admin
+exports.getAdminById = async(req, res) => {
     const { id } = req.params
 
     try {
@@ -70,16 +70,16 @@ exports.getAlumniById = async(req, res) => {
             throw Error('not a valid id')
         }
 
-        // find alumni using db using id
-        let alumni = await Alumni.findById(id)
+        // find admin using db using id
+        let admin = await Admin.findById(id)
 
         // if not found throw error
-        if (!alumni) {
+        if (!admin) {
             throw Error(`resource could ot be located`)
         }
 
         // return data and message as json
-        res.status(200).json({ message: 'successful', data: alumni })
+        res.status(200).json({ message: 'successful', data: admin })
 
     } catch (error) {
         // return status and error as json
@@ -88,27 +88,27 @@ exports.getAlumniById = async(req, res) => {
 }
 
 
-//function to create new alumni account
-exports.createAlumni = async(req, res) => {
+//function to create new admin account
+exports.createAdmin = async(req, res) => {
 
     // destructuring request body
-    let { fullName, emailAddress, password } = req.body
+    let { emailAddress, password } = req.body
 
     try {
         // generate verification code
         let verificationCode = await generateRandomNumber()
 
         // signup user using static function   
-        const alumni = await Alumni.signup(fullName, emailAddress, password, verificationCode)
+        const admin = await Admin.signup(emailAddress, password, verificationCode)
 
         // create a token
-        const token = createToken(alumni._id)
+        const token = createToken(admin._id)
 
         // send welcome email
-        await Alumni.sendEmail(emailAddress, `Hi ${fullName}, welcome to Centralized Academic Credentials Services. Your verfication code is: ${verificationCode}`)
+        await Admin.sendEmail(emailAddress, `Hi ${emailAddress}, welcome to Centralized Academic Credentials Services. You have been added to act as an admin user. Your verfication code is: ${verificationCode}`)
 
         // return status code and data as json
-        return res.status(200).json({ alumni: alumni, token: token })
+        return res.status(200).json({ admin: admin, token: token })
 
     } catch (error) {
         // return error code and message 
@@ -122,28 +122,28 @@ exports.forgotPassword = async(req, res) => {
 
         // get all info from parameters
         const { emailAddress } = req.body;
-        const foundAlumni = await Alumni.findOne({ emailAddress });
+        const foundAdmin = await Admin.findOne({ emailAddress });
 
         // check if email exists in database
-        if (!foundAlumni) {
+        if (!foundAdmin) {
             throw Error('Email does not exist in our database')
         }
 
         // Generate a reset token
         const resetToken = await generateRandomNumber()
 
-        // Set the reset token and expiration time in the foundAlumni document
-        foundAlumni.resetPasswordToken = resetToken;
-        foundAlumni.resetPasswordExpires = Date.now() + 3600000; // Token expires in 1 hour
+        // Set the reset token and expiration time in the foundAdmin document
+        foundAdmin.resetPasswordToken = resetToken;
+        foundAdmin.resetPasswordExpires = Date.now() + 3600000; // Token expires in 1 hour
 
         // save resetToken and expiry date in database
-        await foundAlumni.save();
+        await foundAdmin.save();
 
         // send password reset email
-        await Alumni.sendEmail(emailAddress, 'Reset password', `Password reset link: https://transcript360.onrender.com/alumni/reset-password/${resetToken}`)
+        await Admin.sendEmail(emailAddress, 'Reset password', `Password reset link: https://transcript360.onrender.com/admin/reset-password/${resetToken}`)
 
         // debug here for errors
-        return res.status(200).json({ message: `verification email successfully sent`, alumni: foundAlumni })
+        return res.status(200).json({ message: `verification email successfully sent`, admin: foundAdmin })
 
     } catch (error) {
         // return error code and message 
@@ -158,14 +158,14 @@ exports.passwordReset = async(req, res) => {
         const { token } = req.params;
         const { password } = req.body;
 
-        // find alumni using token and expiry time
-        const foundAlumni = await Alumni.findOne({
+        // find admin using token and expiry time
+        const foundAdmin = await Admin.findOne({
             resetPasswordToken: token,
             resetPasswordExpires: { $gt: Date.now() }
         });
 
-        // if alumni not found throw error
-        if (!foundAlumni) {
+        // if admin not found throw error
+        if (!foundAdmin) {
             throw Error("Password reset token is invalid or has expired");
         }
 
@@ -179,14 +179,14 @@ exports.passwordReset = async(req, res) => {
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password, salt)
 
-        // Update the foundAlumni's password
-        foundAlumni.password = hash;
-        foundAlumni.resetPasswordToken = '';
-        foundAlumni.resetPasswordExpires = '';
+        // Update the foundAdmin's password
+        foundAdmin.password = hash;
+        foundAdmin.resetPasswordToken = '';
+        foundAdmin.resetPasswordExpires = '';
 
-        await foundAlumni.save();
+        await foundAdmin.save();
 
-        return res.status(200).json({ message: "Password reset successful", alumni: foundAlumni });
+        return res.status(200).json({ message: "Password reset successful", admin: foundAdmin });
 
     } catch (error) {
         // return error code and message 
@@ -195,8 +195,8 @@ exports.passwordReset = async(req, res) => {
 }
 
 // verify a recently registered user
-exports.verifyAlumnus = async(req, res) => {
-    // get alumnusId and verificationCode from user parameters
+exports.verifyAdmins = async(req, res) => {
+    // get adminsId and verificationCode from user parameters
 
     const { verificationCode, id } = req.body
 
@@ -206,23 +206,23 @@ exports.verifyAlumnus = async(req, res) => {
             throw Error('not a valid id')
         }
 
-        // find alumnus in database
-        const foundAlumni = await Alumni.findById(id)
+        // find admins in database
+        const foundAdmin = await Admin.findById(id)
 
         // if user not found in database throw error
-        if (!foundAlumni) {
+        if (!foundAdmin) {
             throw Error('This user doesnt exist in our database')
         }
 
         // not match throw error
-        if (verificationCode != foundAlumni.verfificationCode) {
+        if (verificationCode != foundAdmin.verfificationCode) {
             throw Error('Incorrect verfication code')
         }
 
         // compare params code with found users verification code
-        if (verificationCode === foundAlumni.verfificationCode) {
-            let verifiedAlumni = await Alumni.findByIdAndUpdate(id, { isVerified: true }, { new: true, useFindAndModify: false })
-            return res.status(200).json({ message: 'successfully updated', alumni: verifiedAlumni })
+        if (verificationCode === foundAdmin.verfificationCode) {
+            let verifiedAdmin = await Admin.findByIdAndUpdate(id, { isVerified: true }, { new: true, useFindAndModify: false })
+            return res.status(200).json({ message: 'successfully updated', admin: verifiedAdmin })
         }
 
     } catch (error) {
@@ -231,21 +231,21 @@ exports.verifyAlumnus = async(req, res) => {
     }
 }
 
-// login Alumni
+// login Admin
 exports.loginAdmin = async(req, res) => {
     const { emailAddress, password } = req.body
 
     try {
-        // login alumni
-        const alumni = await Alumni.login(emailAddress, password)
+        // login admin
+        const admin = await Admin.login(emailAddress, password)
 
-        if (!alumni) {
+        if (!admin) {
             throw Error('Login unsucessful')
         }
         // create a token
-        const token = createToken(alumni._id)
+        const token = createToken(admin._id)
 
-        return res.status(200).json({ alumni, token })
+        return res.status(200).json({ admin, token })
 
     } catch (error) {
         // return error code and message 
@@ -253,8 +253,8 @@ exports.loginAdmin = async(req, res) => {
     }
 }
 
-// update alumni information
-exports.updateAlumni = async(req, res) => {
+// update admin information
+exports.updateAdmin = async(req, res) => {
     const { id } = req.params
     const {
         fullName,
@@ -272,8 +272,8 @@ exports.updateAlumni = async(req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw Error('not a valid id')
         }
-        // find alumnus in database the id and update
-        let updatedDetails = await Alumni.update(id, {
+        // find admins in database the id and update
+        let updatedDetails = await Admin.update(id, {
             fullName,
             matricNo,
             phoneNumber,
@@ -284,7 +284,7 @@ exports.updateAlumni = async(req, res) => {
             department
         });
         // return succesful status code, message and the updated user
-        return res.status(200).json({ message: "Alumni updated!", Alumni: updatedDetails })
+        return res.status(200).json({ message: "Admin updated!", Admin: updatedDetails })
 
     } catch (error) {
         // return error code and message 
@@ -292,8 +292,8 @@ exports.updateAlumni = async(req, res) => {
     }
 }
 
-// delete Alumni
-exports.deleteAlumni = async(req, res) => {
+// delete Admin
+exports.deleteAdmin = async(req, res) => {
     const { id } = req.params
 
     try {
@@ -302,14 +302,14 @@ exports.deleteAlumni = async(req, res) => {
             throw Error('not a valid id')
         }
 
-        // search alumni db and delete item with the id
-        let deletedAlumni = await Alumni.findByIdAndDelete(id)
+        // search admin db and delete item with the id
+        let deletedAdmin = await Admin.findByIdAndDelete(id)
 
-        if (!deletedAlumni) {
+        if (!deletedAdmin) {
             throw Error('this resource could not be deleted, it seems it doest exist in our database')
         }
 
-        return res.status(200).json({ message: 'successfully deleted', data: deletedAlumni })
+        return res.status(200).json({ message: 'successfully deleted', data: deletedAdmin })
 
     } catch (error) {
         // return error code and message 

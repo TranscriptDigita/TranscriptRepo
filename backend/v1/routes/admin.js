@@ -13,8 +13,8 @@ const express = require('express'),
 // ==== reset password =============
 // ================================= 
 router.route('/')
-    .get(isAuth, controller.getAllAlumnus)
-    .post(controller.createAlumni)
+    .get(isAuth, controller.getAllAdmins)
+    .post(controller.createAdmin);
 
 
 router.route('/login')
