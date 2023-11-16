@@ -33,11 +33,11 @@ router.route('/reset-password/:token')
 // === delete alumni ================
 //  =================================
 router.route('/:id')
-    .get(controller.getAlumniById)
-    .patch(isAuth, controller.updateAlumni)
-    .delete(isAuth, controller.deleteAlumni)
+    .get(controller.getAdminById)
+    .patch(isAuth, controller.updateAdmin)
+    .delete(isAuth, controller.deleteAdmin)
 
 router.route('/:id/verify')
-    .patch(controller.verifyAlumnus)
+    .patch(controller.verifyAdmin)
 
 module.exports = router

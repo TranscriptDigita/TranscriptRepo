@@ -195,8 +195,8 @@ exports.passwordReset = async(req, res) => {
 }
 
 // verify a recently registered user
-exports.verifyAdmins = async(req, res) => {
-    // get adminsId and verificationCode from user parameters
+exports.verifyAdmin = async(req, res) => {
+    // get adminId and verificationCode from user parameters
 
     const { verificationCode, id } = req.body
 
