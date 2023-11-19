@@ -6,7 +6,7 @@ const express = require('express'),
     controller = require('../controllers/institution'),
     accountController = require('../controllers/bankAccount'),
     resultController = require('../controllers/studentsData'),
-    { isAuth } = require('../middleware/auth')
+    { isAuthInstitution } = require('../middleware/auth')
 
 // =============================
 // ======= routes ==============
@@ -22,10 +22,10 @@ router.route('/:id/verify')
     //============================
     // =======New endpoints========
 router.route('/account')
-    .post(isAuth, accountController.setupBankAccount)
+    .post(isAuthInstitution, accountController.setupBankAccount)
 
 router.route('/students-records')
-    .post(isAuth, resultController.uploadData)
+    .post(isAuthInstitution, resultController.uploadData)
 
 
 module.exports = router
