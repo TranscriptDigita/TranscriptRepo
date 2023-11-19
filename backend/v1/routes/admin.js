@@ -4,7 +4,7 @@
 const express = require('express'),
     router = express.Router(),
     controller = require('../controllers/admin'),
-    { isAuth } = require('../middleware/auth')
+    { isAuthAdminAdmin } = require('../middleware/auth')
 
 // =================================
 // ==== retrieve all Alumnus =======
@@ -13,7 +13,7 @@ const express = require('express'),
 // ==== reset password =============
 // ================================= 
 router.route('/')
-    .get(isAuth, controller.getAllAdmins)
+    .get(isAuthAdminAdmin, controller.getAllAdmins)
     .post(controller.createAdmin);
 
 
@@ -34,8 +34,8 @@ router.route('/reset-password/:token')
 //  =================================
 router.route('/:id')
     .get(controller.getAdminById)
-    .patch(isAuth, controller.updateAdmin)
-    .delete(isAuth, controller.deleteAdmin)
+    .patch(isAuthAdmin, controller.updateAdmin)
+    .delete(isAuthAdmin, controller.deleteAdmin)
 
 router.route('/:id/verify')
     .patch(controller.verifyAdmin)
