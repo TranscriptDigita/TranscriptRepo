@@ -4,7 +4,7 @@
 const express = require('express'),
     router = express.Router(),
     controller = require('../controllers/admin'),
-    { isAuthAdminAdmin } = require('../middleware/auth')
+    { isAuthAdmin } = require('../middleware/auth')
 
 // =================================
 // ==== retrieve all Alumnus =======
@@ -13,7 +13,7 @@ const express = require('express'),
 // ==== reset password =============
 // ================================= 
 router.route('/')
-    .get(isAuthAdminAdmin, controller.getAllAdmins)
+    .get(isAuthAdmin, controller.getAllAdmins)
     .post(controller.createAdmin);
 
 
