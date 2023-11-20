@@ -29,7 +29,7 @@ router.route('/login')
     // ======= staff login route========
     // =================================
 router.route('/change/password')
-    .post(isAuth, controller.loginStaff)
+    .post(isAuthInstitution, controller.loginStaff)
 
 
 module.exports = router
