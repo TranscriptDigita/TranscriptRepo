@@ -4,20 +4,20 @@
 const express = require('express'),
     router = express.Router(),
     controller = require('../controllers/staff'),
-    { isAuth } = require('../middleware/auth')
+    { isAuthInstitution } = require('../middleware/auth')
 
 // =================================
 // ==== Creating new Staff ==========
 // ==== Retrieving all Staff =======
 // ================================= 
 router.route('/')
-    .post(isAuth, controller.createNewStaff)
-    .get(isAuth, controller.getAllStaff)
+    .post(isAuthInstitution, controller.createNewStaff)
+    .get(isAuthInstitution, controller.getAllStaff)
     // ======================================
     // ==== Deactivating staff by Id ========
     // =====================================
 router.route('/:id')
-    .patch(isAuth, controller.deactivateStaff)
+    .patch(isAuthInstitution, controller.deactivateStaff)
 
 // New endpoints
 // =================================
