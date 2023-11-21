@@ -2,6 +2,7 @@
 // ======= libararies required =====
 // =================================
 const mongoose = require('mongoose'),
+    bcrypt = require('bcryptjs'),
     validator = require('validator')
 const { Schema } = mongoose;
 
