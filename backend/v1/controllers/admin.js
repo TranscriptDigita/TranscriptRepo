@@ -121,7 +121,7 @@ exports.createAdmin = async(req, res) => {
 exports.changePassword = async(req, res) => {
     try {
         const { currentPassword, newPassword, confirmNewPassword } = req.body;
-        const _id = req.user_id;
+        const _id = req.user;
 
         // find admin using token and expiry time
         const foundAdmin = await Admin.findOne({ _id });
