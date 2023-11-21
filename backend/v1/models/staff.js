@@ -34,9 +34,9 @@ staffSchema.statics.createStaff = async function(emailAddress, role, password, i
     }
 
     // use validator check if password is strong enough
-    if (!validator.isStrongPassword(password)) {
-        throw Error('password is not strong enough')
-    }
+    // if (!validator.isStrongPassword(password)) {
+    //     throw Error('password is not strong enough')
+    // }
 
     // check if email exists already in database
     const exists = await this.findOne({ emailAddress })
