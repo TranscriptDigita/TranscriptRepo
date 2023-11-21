@@ -18,11 +18,15 @@ router.route('/')
     // =====================================
 router.route('/:id')
     .patch(isAuthInstitution, controller.deactivateStaff)
-
-// New endpoints
-// =================================
-// ======= staff login route========
-// =================================
+    // ======================================
+    // ==== Activating staff by Id ========
+    // =====================================
+router.route('/activate/:id')
+    .patch(isAuthInstitution, controller.activateStaff)
+    // New endpoints
+    // =================================
+    // ======= staff login route========
+    // =================================
 router.route('/login')
     .post(controller.loginStaff)
     // =================================

@@ -74,6 +74,24 @@ staffSchema.statics.fetchAllStaff = async function(institution) {
 // ======= Function to deactivate staff ===============
 
 staffSchema.statics.deactivateStaffById = async function(id) {
+    // checking if the staff ID is passed as a parameter
+    if (!id) {
+        throw Error('Staff ID is required!')
+    }
+    // verify if id is valid
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw Error('not a valid id')
+    }
+    // check if email exists already in database
+    const staff = await this.findByIdAndUpdate(id, { isActive: false })
+
+    // returning all the available staff as json
+    return staff
+}
+
+// ======= Function to activate staff ===============
+
+staffSchema.statics.activateStaffById = async function(id) {
         // checking if the staff ID is passed as a parameter
         if (!id) {
             throw Error('Staff ID is required!')
@@ -83,7 +101,7 @@ staffSchema.statics.deactivateStaffById = async function(id) {
             throw Error('not a valid id')
         }
         // check if email exists already in database
-        const staff = await this.findByIdAndUpdate(id, { isActive: false })
+        const staff = await this.findByIdAndUpdate(id, { isActive: true })
 
         // returning all the available staff as json
         return staff

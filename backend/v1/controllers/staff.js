@@ -65,11 +65,25 @@ exports.getAllStaff = async(req, res) => {
 
 // Deactivating staff
 exports.deactivateStaff = async(req, res) => {
+    try {
+        // get staffId from user parameters
+        const { id } = req.params
+            // Deactivating staff
+        let deactivatedStaff = await Staff.deactivateStaffById(id)
+        return res.status(200).json({ message: 'Staff has been succefully deactivated', deactivatedStaff });
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
+    }
+}
+
+// Activating staff
+exports.activateStaff = async(req, res) => {
         try {
             // get staffId from user parameters
             const { id } = req.params
                 // Deactivating staff
-            let deactivatedStaff = await Staff.deactivateStaffById(id)
+            let activatedStaff = await Staff.activateStaffById(id)
             return res.status(200).json({ message: 'Staff has been succefully deactivated', deactivatedStaff });
         } catch (error) {
             // return error code and message 
