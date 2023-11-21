@@ -84,7 +84,7 @@ exports.activateStaff = async(req, res) => {
             const { id } = req.params
                 // Deactivating staff
             let activatedStaff = await Staff.activateStaffById(id)
-            return res.status(200).json({ message: 'Staff has been succefully deactivated', deactivatedStaff });
+            return res.status(200).json({ message: 'Staff has been succefully activated', deactivatedStaff });
         } catch (error) {
             // return error code and message 
             return res.status(400).json({ message: error.message })
