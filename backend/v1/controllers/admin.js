@@ -48,7 +48,7 @@ exports.getAllAdmins = async(req, res) => {
 
         // if not allAdmins throw error 
         if (!allAdmins) {
-            throw Error('resource could not be located !!')
+            throw Error('Resource could not be located !!')
         }
 
         // return status and data as json
@@ -75,7 +75,7 @@ exports.getAdminById = async(req, res) => {
 
         // if not found throw error
         if (!admin) {
-            throw Error(`resource could ot be located`)
+            throw Error(`Resource could ot be located`)
         }
 
         // return data and message as json
@@ -116,53 +116,15 @@ exports.createAdmin = async(req, res) => {
     }
 }
 
-// forgot password
-exports.forgotPassword = async(req, res) => {
+
+// change password
+exports.changePassword = async(req, res) => {
     try {
-
-        // get all info from parameters
-        const { emailAddress } = req.body;
-        const foundAdmin = await Admin.findOne({ emailAddress });
-
-        // check if email exists in database
-        if (!foundAdmin) {
-            throw Error('Email does not exist in our database')
-        }
-
-        // Generate a reset token
-        const resetToken = await generateRandomNumber()
-
-        // Set the reset token and expiration time in the foundAdmin document
-        foundAdmin.resetPasswordToken = resetToken;
-        foundAdmin.resetPasswordExpires = Date.now() + 3600000; // Token expires in 1 hour
-
-        // save resetToken and expiry date in database
-        await foundAdmin.save();
-
-        // send password reset email
-        await Admin.sendEmail(emailAddress, 'Reset password', `Password reset link: https://transcript360.onrender.com/admin/reset-password/${resetToken}`)
-
-        // debug here for errors
-        return res.status(200).json({ message: `verification email successfully sent`, admin: foundAdmin })
-
-    } catch (error) {
-        // return error code and message 
-        return res.status(400).json({ message: error.message })
-    }
-}
-
-
-// password reset
-exports.passwordReset = async(req, res) => {
-    try {
-        const { token } = req.params;
-        const { password } = req.body;
+        const { currentPassword, newPassword, confirmNewPassword } = req.body;
+        const _id = req.user_id;
 
         // find admin using token and expiry time
-        const foundAdmin = await Admin.findOne({
-            resetPasswordToken: token,
-            resetPasswordExpires: { $gt: Date.now() }
-        });
+        const foundAdmin = await Admin.findOne({ _id });
 
         // if admin not found throw error
         if (!foundAdmin) {
@@ -171,13 +133,21 @@ exports.passwordReset = async(req, res) => {
 
         // check password strength
         // using validator to check if password is strong
-        if (!validator.isStrongPassword(password)) {
+        if (!validator.isStrongPassword(newPassword)) {
             throw Error('password not strong enough')
         }
-        // hash password
+        if (confirmNewPassword != newPassword) {
+            throw Error('confirm password do not match!')
+        }
+        // check if current password entered matchs the one in the database
+        let isMatch = bcrypt.compare(currentPassword, foundAdmin.password)
+            // hash password
+        if (!isMatch) {
+            throw Error('Incorrect password entered!')
+        }
         // generating salt to hash password
         const salt = await bcrypt.genSalt(10)
-        const hash = await bcrypt.hash(password, salt)
+        const hash = await bcrypt.hash(newPassword, salt)
 
         // Update the foundAdmin's password
         foundAdmin.password = hash;
@@ -257,14 +227,7 @@ exports.loginAdmin = async(req, res) => {
 exports.updateAdmin = async(req, res) => {
     const { id } = req.params
     const {
-        fullName,
-        matricNo,
-        phoneNumber,
-        emailAddress,
-        paymentDetails,
-        yearOfGraduation,
-        monthOfGraduation,
-        department
+        emailAddress
     } = req.body
 
     try {
@@ -274,17 +237,10 @@ exports.updateAdmin = async(req, res) => {
         }
         // find admins in database the id and update
         let updatedDetails = await Admin.update(id, {
-            fullName,
-            matricNo,
-            phoneNumber,
-            emailAddress,
-            paymentDetails,
-            yearOfGraduation,
-            monthOfGraduation,
-            department
+            emailAddress
         });
         // return succesful status code, message and the updated user
-        return res.status(200).json({ message: "Admin updated!", Admin: updatedDetails })
+        return res.status(200).json({ message: "Admin user updated!", Admin: updatedDetails })
 
     } catch (error) {
         // return error code and message 

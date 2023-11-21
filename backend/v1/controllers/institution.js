@@ -3,6 +3,7 @@
 // =============================
 require('dotenv').config()
 const Institution = require('../models/institution'),
+    Logs = require('../models/logs'),
     // bankDetails = require('bankAccount'),
     mongoose = require('mongoose'),
     jwt = require('jsonwebtoken'),
@@ -64,7 +65,13 @@ exports.registerInstitution = async(req, res) => {
 
         // signup user using statics func
         const institution = await Institution.signup(name, emailAddress, location, password, verificationCode)
-
+            // getting the current time
+        let logTime = new Date();
+        let logger = await institution._id;
+        let logType = "signup"
+            // tracking the sign up time
+        const feedback = await Logs.logging(logger, logTime, logType);
+        console.log(feedback);
         // generate token
         const token = await createToken(institution._id)
 
@@ -95,6 +102,13 @@ exports.loginInstitution = async(req, res) => {
         }
         // create a token
         const token = createToken(institution._id)
+            // getting the current time
+        let logTime = new Date();
+        let logger = await institution._id;
+        let logType = "signin"
+            // tracking the sign up time
+        const feedback = await Logs.logging(logger, logTime, logType);
+        console.log(feedback);
 
         return res.status(200).json({ institution, token })
 

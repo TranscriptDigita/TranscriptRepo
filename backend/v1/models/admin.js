@@ -136,35 +136,14 @@ adminSchema.statics.sendEmail = async function(email, subject, message) {
         })
     }
     // update user/admin details
-adminSchema.statics.update = async function(
-    id, {
-        fullName,
-        matricNo,
-        phoneNumber,
-        emailAddress,
-        paymentDetails,
-        yearOfGraduation,
-        monthOfGraduation,
-        department
-    }
-) {
+adminSchema.statics.update = async function(id, { emailAddress }) {
 
     // using validator to validate email
     if (!validator.isEmail(emailAddress)) {
         throw Error('email is not valid')
     }
     // creating new admin in database
-    const admin = await this.findByIdAndUpdate({
-        id,
-        fullName,
-        matricNo,
-        phoneNumber,
-        emailAddress,
-        paymentDetails,
-        yearOfGraduation,
-        monthOfGraduation,
-        department
-    })
+    const admin = await this.findByIdAndUpdate(id, { emailAddress })
 
     // returning the updated user
     return admin

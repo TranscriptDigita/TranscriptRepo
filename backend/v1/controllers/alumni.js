@@ -3,6 +3,7 @@
 // =============================
 require('dotenv').config()
 const Alumni = require('../models/alumni'),
+    Logs = require('../models/logs'),
     mongoose = require('mongoose'),
     jwt = require('jsonwebtoken'),
     validator = require('validator'),
@@ -103,6 +104,13 @@ exports.createAlumni = async(req, res) => {
 
         // create a token
         const token = createToken(alumni._id)
+            // getting the current time
+        let logTime = new Date();
+        let logger = await alumni._id;
+        let logType = "signup"
+            // tracking the sign up time
+        const feedback = await Logs.logging(logger, logTime, logType);
+        console.log(feedback);
 
         // send welcome email
         await Alumni.sendEmail(emailAddress, `Hi ${fullName}, welcome to Centralized Academic Credentials Services. Your verfication code is: ${verificationCode}`)
@@ -243,7 +251,14 @@ exports.loginAlumnus = async(req, res) => {
             throw Error('Login unsucessful')
         }
         // create a token
-        const token = createToken(alumni._id)
+        const token = createToken(alumni._id);
+        // getting the current time
+        let logTime = new Date();
+        let logger = await alumni._id;
+        let logType = "signin"
+            // tracking the sign up time
+        const feedback = await Logs.logging(logger, logTime, logType);
+        console.log(feedback);
 
         return res.status(200).json({ alumni, token })
 

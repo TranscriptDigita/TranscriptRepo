@@ -14,30 +14,25 @@ const express = require('express'),
 // ================================= 
 router.route('/')
     .get(isAuthAdmin, controller.getAllAdmins)
-    .post(controller.createAdmin);
+    .post(isAuthAdmin, controller.createAdmin);
 
 
 router.route('/login')
     .post(controller.loginAdmin)
 
-router.route('/reset-password')
-    .post(controller.forgotPassword)
-
-router.route('/reset-password/:token')
-    .post(controller.passwordReset)
+router.route('/change-password')
+    .patch(isAuthAdmin, controller.changePassword)
 
 
 // ==================================
-// === get single alumni ============
-// === update alumni details ========
-// === delete alumni ================
+// === get single admin user ============
+// === update admin user details ========
+// === delete admin use ================
 //  =================================
 router.route('/:id')
-    .get(controller.getAdminById)
+    .get(isAuthAdmin, controller.getAdminById)
     .patch(isAuthAdmin, controller.updateAdmin)
     .delete(isAuthAdmin, controller.deleteAdmin)
 
-router.route('/:id/verify')
-    .patch(controller.verifyAdmin)
 
 module.exports = router
