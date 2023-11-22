@@ -95,7 +95,7 @@ exports.loginStaff = async(req, res) => {
         const { emailAddress, password } = req.body;
         try {
             console.log(emailAddress, password)
-                // login institution
+                // login staff
             const staff = await Staff.login(emailAddress, password);
 
             if (!staff) {

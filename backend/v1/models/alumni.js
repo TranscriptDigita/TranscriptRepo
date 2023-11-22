@@ -97,7 +97,7 @@ alumniSchema.statics.login = async function(emailAddress, password) {
         throw Error('sorry your account is disabled')
     }
 
-    // compare password with users password
+    // compare password with user's password
     const match = await bcrypt.compare(password, alumni.password)
 
     // throw an error if not match

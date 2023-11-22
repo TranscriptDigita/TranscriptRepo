@@ -126,11 +126,11 @@ staffSchema.statics.login = async function(emailAddress, password) {
     if (!staff.isActive) {
         throw Error('sorry your account is deactivated')
     }
+    // compare the user password
+    const isMatch = await bcrypt.compare(password, staff.password);
+    console.log(isMatch, password, staff.password);
 
-    const match = await bcrypt.compare(password, staff.password)
-    console.log(match, password, staff.password);
-
-    if (!match) {
+    if (!isMatch) {
         throw Error('Incorrect password')
     }
 
