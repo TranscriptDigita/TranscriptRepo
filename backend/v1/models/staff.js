@@ -123,7 +123,7 @@ staffSchema.statics.login = async function(emailAddress, password) {
     }
 
     // if account inactive throw error    
-    if (!staff.isActived) {
+    if (!staff.isActive) {
         throw Error('sorry your account is deactivated')
     }
 
