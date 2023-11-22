@@ -115,11 +115,11 @@ exports.changePassword = async(req, res) => {
     try {
 
         const { newPassword, confirmNewPassword } = req.body;
-        const id = req.user._id;
-        // find alumni using token and expiry time
+        const id = req.user;
+        // find staff using token and expiry time
         const foundStaff = await Staff.findOne({ _id: id });
 
-        // if alumni not found throw error
+        // if staff not found throw error
         if (!foundStaff) {
             throw Error("Incorrect staff id");
         }

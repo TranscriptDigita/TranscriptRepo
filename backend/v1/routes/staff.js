@@ -4,6 +4,7 @@
 const express = require('express'),
     router = express.Router(),
     controller = require('../controllers/staff'),
+    { isAuthStaff } = require('../middleware/auth'),
     { isAuthInstitution } = require('../middleware/auth')
 
 // =================================
@@ -32,8 +33,8 @@ router.route('/login')
     // =================================
     // ======= staff login route========
     // =================================
-router.route('/change/password')
-    .post(isAuthInstitution, controller.loginStaff)
+router.route('/change-password')
+    .patch(isAuthStaff, controller.changePassword)
 
 
 module.exports = router
