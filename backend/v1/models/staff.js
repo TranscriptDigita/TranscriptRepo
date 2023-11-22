@@ -128,6 +128,7 @@ staffSchema.statics.login = async function(emailAddress, password) {
     }
 
     const match = await bcrypt.compare(password, staff.password)
+    console.log(match);
 
     if (!match) {
         throw Error('Incorrect password')
