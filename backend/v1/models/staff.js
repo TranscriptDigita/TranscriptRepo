@@ -49,7 +49,7 @@ staffSchema.statics.createStaff = async function(emailAddress, role, password, i
     // generating salt to hash password
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)
-
+    console.log(password);
     // saving staff in database
     const newStaff = await this.create({ emailAddress: emailAddress, password: hash, role: role, institution: institution })
 

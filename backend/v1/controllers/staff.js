@@ -29,7 +29,7 @@ exports.createNewStaff = async(req, res) => {
 
             // getting the institution Id from the database
             let institution = req.user._id
-
+            console.log(password);
             // signup user using statics func
             const newStaff = await Staff.createStaff(emailAddress, password, role, institution)
                 // return newly created staff as json
