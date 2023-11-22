@@ -130,7 +130,7 @@ exports.changePassword = async(req, res) => {
             throw Error('password not strong enough')
         }
         if (newPassword != confirmNewPassword) {
-            throw Errpr("Confirm password do not match!")
+            throw Error("Confirm password do not match!")
         }
         // hash password
         // generating salt to hash password
