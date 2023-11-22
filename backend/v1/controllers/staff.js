@@ -94,12 +94,12 @@ exports.activateStaff = async(req, res) => {
 exports.loginStaff = async(req, res) => {
         const { emailAddress, password } = req.body;
         try {
-            console.log(emailAddress)
+            console.log(emailAddress, password)
                 // login institution
             const staff = await Staff.login(emailAddress, password);
 
             if (!staff) {
-                throw Error('Login unsucessful')
+                throw Error('Incorrect login credentials entered!')
             }
             // create a token
             const token = createToken(staff._id);
