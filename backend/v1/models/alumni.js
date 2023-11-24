@@ -40,7 +40,7 @@ const alumniSchema = new mongoose.Schema({
 alumniSchema.statics.signup = async function(institutionId, fullName, emailAddress, password, verfificationCode) {
 
     // check if all inputs are filled
-    if (!fullName || !emailAddress || !password || institutionId) {
+    if (!fullName || !emailAddress || !password || !institutionId) {
         throw Error('all fields are required')
     }
 
