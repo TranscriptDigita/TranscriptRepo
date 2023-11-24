@@ -34,5 +34,30 @@ router.route('/:id')
     .patch(isAuthAdmin, controller.updateAdmin)
     .delete(isAuthAdmin, controller.deleteAdmin)
 
+// New routes
+/* ======================================
+=========== fetch logs route===========*/
+router.route('/logs')
+    .get(isAuthAdmin, controller.getAllLogs)
+
+/* ======================================
+=========== fetch alumnus route=========*/
+router.route('/alumnus')
+    .get(isAuthAdmin, controller.getAllAlumnus)
+
+/* ======================================
+===filter alumnus by institution route ==*/
+router.route('/:institutionId/alumnus')
+    .get(isAuthAdmin, controller.filterAlumnusByInstitution)
+
+/* ======================================
+=========== delete alumni by id route=========*/
+router.route('/delete-alumin/:id')
+    .delete(isAuthAdmin, controller.deleteAlumni)
+
+/* ======================================
+=========== fetch alumnus route========= */
+router.route('/institions')
+    .get(isAuthAdmin, controller.getAllInstitutions)
 
 module.exports = router
