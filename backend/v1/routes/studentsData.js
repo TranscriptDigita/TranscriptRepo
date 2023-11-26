@@ -3,7 +3,7 @@ const express = require('express'),
     controller = require('../controllers/studentsData'),
     { isAuth } = require('../middleware/auth')
 
-// create and fecth transcript routes
+// upload student data and verify certificate routes
 router.route(`/`)
     .post(isAuth, controller.uploadData);
 router.route(`/`)

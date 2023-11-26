@@ -50,14 +50,14 @@ exports.uploadData = (excelUploads.single("uploadfile"), (req, res) => {
 exports.verifyStudent = async(req, res) => {
     // code will goes here
     try {
-        const { registratioNumber, institutionId } = req.body;
+        const { registrationNumber, institutionId } = req.body;
         // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(institutionId)) {
             throw Error('not a valid institutionId')
         }
 
         // find record using student regitration number and intitution Id in db
-        const findStudent = await Result.findOne({ registratioNumber, institutionId })
+        const findStudent = await Result.findOne({ registrationNumber, institutionId })
 
         // if not found throw error
         if (!findStudent) {
