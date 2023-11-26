@@ -93,14 +93,14 @@ exports.getAlumniById = async(req, res) => {
 exports.createAlumni = async(req, res) => {
 
     // destructuring request body
-    let { institutionId, fullName, emailAddress, password } = req.body
+    let { fullName, emailAddress, password } = req.body
 
     try {
         // generate verification code
         let verificationCode = await generateRandomNumber()
 
         // signup user using static function   
-        const alumni = await Alumni.signup(institutionId, fullName, emailAddress, password, verificationCode)
+        const alumni = await Alumni.signup(fullName, emailAddress, password, verificationCode)
 
         // create a token
         const token = createToken(alumni._id)
