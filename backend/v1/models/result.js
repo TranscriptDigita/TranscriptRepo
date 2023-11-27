@@ -3,6 +3,9 @@ const mongoose = require('mongoose')
 const resultSchema = new mongoose.Schema({
     studentName: { type: String, required: true },
     registrationNumber: { type: String, required: true },
+    addmission: { type: String, required: true },
+    yearOfAdmission: { type: Date },
+    yearOfGraduation: { type: Date },
     cgp: { type: String, required: true },
     grade: { type: String, required: true },
     institutionId: { type: String, required: true },

@@ -30,6 +30,8 @@ exports.uploadData = (excelUploads.single("uploadfile"), (req, res) => {
                 var singleRow = {
                     studentName: source[i]["student-name"],
                     registratioNumber: source[i]["registration-number"],
+                    yearOfAdmission: source[i]["year-of-admission"],
+                    yearOfGraduation: source[i]["year-of-graduation"],
                     cgp: source[i]["cgp"],
                     grade: source[i]["grade"],
                     institutionId: institutionId
