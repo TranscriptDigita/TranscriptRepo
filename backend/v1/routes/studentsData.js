@@ -1,13 +1,13 @@
 const express = require('express'),
     router = express.Router(),
     controller = require('../controllers/studentsData'),
-    { isAuth } = require('../middleware/auth')
+    { isAuthInstitution } = require('../middleware/auth')
 
 // upload student data and verify certificate routes
 router.route(`/`)
-    .post(isAuth, controller.uploadData);
-router.route(`/`)
-    .get(controller.verifyStudent)
+    .post(isAuthInstitution, controller.uploadData);
+router.route(`/verify`)
+    .post(controller.verifyStudent)
 
 // export router
 module.exports = router

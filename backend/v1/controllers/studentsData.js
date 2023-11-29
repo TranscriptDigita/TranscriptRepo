@@ -4,8 +4,6 @@ const multer = require('multer')
 const Result = require('../models/result')
 const csvtojson = require('csvtojson')
     // const async = require('async')
-
-
 var excelStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, '../public/excelUploads'); // file added to the public folder of the root directory
@@ -17,12 +15,13 @@ var excelStorage = multer.diskStorage({
 var excelUploads = multer({ storage: excelStorage });
 // upload excel file and import in mongodb
 exports.uploadData = (excelUploads.single("uploadfile"), (req, res) => {
+    console.log(req.file);
     importFile('../public' + '/excelUploads/' + req.file.filename);
 
     function importFile(filePath) {
         //  Read Excel File to Json Data
         var arrayToInsert = [];
-        const institutionId = req.user._id;
+        const institutionId = req.user;
         csvtojson().fromFile(filePath).then(source => {
             // Fetching all the data from each row
             for (var i = 0; i < source.length; i++) {
