@@ -14,7 +14,7 @@ const express = require('express'),
 // ================================= 
 router.route('/')
     .get(isAuthAdmin, controller.getAllAdmins)
-    .post(isAuthAdmin, controller.createAdmin);
+    .post(controller.createAdmin);
 
 
 router.route('/login')
