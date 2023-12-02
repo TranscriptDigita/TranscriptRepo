@@ -33,26 +33,7 @@ export const registerInstitution = createAsyncThunk(
   }
 );
 
-// export const verifyInstitutionEmail = createAsyncThunk(
-//   'institution/verifyEmail',
-//   async (verificationData, thunkAPI) => {
-//     try {
-//       return await institutionService.verifyInstitutionEmail(
-//         verificationData.id,
-//         verificationData.verificationCode
-//       );
-//     } catch (error) {
-//       const message =
-//         error.response?.data.message ||
-//         error.response?.data ||
-//         error.message ||
-//         error.error ||
-//         error.toString();
 
-//       return thunkAPI.rejectWithValue(message);
-//     }
-//   }
-// );
 
 
 

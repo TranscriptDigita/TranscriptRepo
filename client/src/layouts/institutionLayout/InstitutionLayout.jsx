@@ -12,25 +12,50 @@ import MobileNavBar from '../../components/navbar/MobileNavBar';
 import { Outlet } from 'react-router-dom'
 
 function InstitutionLayout() {
+
+
+     
+
+     // Function to extract institution ID from stored data
+     const getInstitutionId = () => {
+      const storedUserData = localStorage.getItem('institutionUser');
+      if (storedUserData) {
+          const userDataObject = JSON.parse(storedUserData);
+          return userDataObject?.institution?._id;
+        
+      }
+      return null;
+  };
+
+  const institutionId = getInstitutionId();
+
+   // Log the value of institutionId
+   console.log('Institution ID:', institutionId);
     
 
     const menuItems = [
         {
             title: 'Dashboard',
             icon: <HiOutlineRectangleGroup size={20}/>,
-            path: '/institution/0000/dashboard'
+            path: '/institution/${institutionId}/dashboard'
         },
     
         {
             title: 'Staff List',
             icon: <HiListBullet size={20}/>,
-            path: '/institution/0000/stafflist'
+            path: '/institution/${institutionId}/stafflist'
         },
+
+        {
+          title: 'Profile And Results',
+          icon: <HiOutlineCog6Tooth size={20}/>,
+          path: '/institution/${institutionId}/universityprofile'
+      },
     
         {
             title: 'Request',
             icon: <HiOutlineBell size={20}/>,
-              path: '/institution/id:/requestlist',
+              path: '/institution/${institutionId}/requestlist',
         },
     
         {
@@ -56,6 +81,17 @@ function InstitutionLayout() {
             window.removeEventListener('resize', handleResize);
             };
         }, []);
+
+
+
+        useEffect(() => {
+          // Retrieve and log the stored data when the component is mounted
+          const storedUserData = localStorage.getItem('institutionUser');
+          console.log('Stored Institution User Data:', storedUserData);
+      }, []); // Empty dependency array means this effect runs only once, similar to componentDidMount
+  
+
+    
 
         // Function to determine whether to show the Navbar based on window width
         const showNavbar = windowWidth >= 768; // Adjust the breakpoint as needed

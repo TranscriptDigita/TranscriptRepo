@@ -10,7 +10,7 @@ function RecentRequests() {
 
   useEffect(() => {
     // Define the API endpoint URL
-    const apiUrl = 'https://transcriptdigita-api.onrender.com/api/v1/transcript';
+    const apiUrl = 'https://dacs.onrender.com/api/v1/transcript';
 
     // Make an HTTP GET request to fetch transcripts
     Axios.get(apiUrl)

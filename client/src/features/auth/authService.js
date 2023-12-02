@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const API_URL = 'https://transcriptdigita-api.onrender.com/api/v1/alumnus/'
+// const API_URL = 'https://transcriptdigita-api.onrender.com/api/v1/alumnus/'
+ const API_URL = 'https://dacs.onrender.com/api/v1/alumnus/'
 
 // register service
 const register = async (userData) => {

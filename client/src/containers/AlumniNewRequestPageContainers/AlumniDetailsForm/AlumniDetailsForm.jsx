@@ -1,8 +1,76 @@
-import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import remitaImg from '../../../assets/remita.png';
+import { CountryDropdown } from '../../../components';
 
 function AlumniDetailsForm() {
+
+
+  const { data } = useParams(); 
+  const decodedData = decodeURIComponent(data);
+
+
+
+
+
+
+  useEffect(() => {
+    // Log the full URL to the console for debugging
+    console.log('Full URL:', window.location.href);
+  }, []);
+
+  //Construct the full decoded URL
+  const fullDecodedURL = window.location.origin + window.location.pathname.replace(data, decodedData) + window.location.search;
+
+
+ 
+  useEffect(() => {
+    // Retrieve the selected institution index from local storage
+    const selectedInstitutionIndex = localStorage.getItem('selectedInstitutionIndex');
+
+    if (selectedInstitutionIndex !== null) {
+      // Use the index to access the corresponding institution data
+      const institutions = JSON.parse(localStorage.getItem('institutionData'));
+      setSelectedInstitution(institutions[selectedInstitutionIndex]);
+    }
+  }, []);
+
+  const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState('');
+  const [selectTranscriptType, setSelectTranscriptType] = useState('');
+
+  const handleDeliveryMethodChange = (event) => {
+    setSelectedDeliveryMethod(event.target.value);
+  };
+  
+  const LocalStorageViewer = () => {
+    // const userData = JSON.parse(localStorage.getItem('user'));
+
+
+
+    const token = localStorage.getItem('token');
+    const userData = JSON.parse(localStorage.getItem('user'));
+
+console.log("This is the token from local storage:", token);
+console.log("This is the user data from local storage:", userData);
+
+    
+    // const token = localStorage.getItem('token');
+    // const userData = JSON.parse(localStorage.getItem('user'));
+    
+    // console.log("This is the token from local storage:", token);
+    // console.log("This is the user data from local storage:", userData);
+    
+
+    return (
+      <div className="local-storage-viewer">
+        <h2>Local Storage Data:</h2>
+        <pre>{JSON.stringify(userData, null, 2)}</pre>
+      </div>
+    );
+  };
+
+
+
   const [activeForm, setActiveForm] = useState(1);
 
   const currencies = [
@@ -35,15 +103,19 @@ function AlumniDetailsForm() {
   const recipientEmailRef = useRef(null);
   const recipientAddressRef = useRef(null);
   const phoneNumberRef = useRef(null);
+  const deliveryTypeRef = useRef(null);
+  const transcriptTypeRef = useRef(null);
+  const addressRef = useRef(null);
 
 
   //API SECTION
 
   const handleSubmit = async () => {
+    event.preventDefault();
     // Prepare the data for the API request
     const requestData = {
       degreeType: degreeRef.current.value,
-      institution: 'University of Abuja', // Assuming it's always the same
+      institution: decodedData, // Assuming it's always the same
       faculty: facultyRef.current.value,
       department: departmentRef.current.value,
       matricNumber: matricRef.current.value,
@@ -51,25 +123,33 @@ function AlumniDetailsForm() {
       program: programTypeRef.current.value,
     };
   
+    // Retrieve the token from local storage
+    const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
+  
     try {
       // Make the API request to create a transcript
-      const response = await fetch('https://transcriptdigita-api.onrender.com/api/v1/transcript', {
+      const response = await fetch('https://dacs.onrender.com/api/v1/transcript', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer YOUR_AUTH_TOKEN', // Replace with your actual authorization token
+          'Authorization': `Bearer ${token}`, // Use the retrieved token
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(requestData),
       });
   
-      // Log the request data and response
+      // Log the request data
       console.log('Request Data:', requestData);
-      console.log('API Response:', response);
+  
+      // Log the full API response
+      const responseData = await response.json();
+      console.log('API Response:', responseData);
   
       // Check if the API request was successful
       if (response.ok) {
         // Handle success, you may want to show a success message or navigate to another page
         console.log('Transcript created successfully');
+        // Now, you can change the active form
+      setActiveForm(2);
       } else {
         // Handle error, you may want to show an error message
         console.error('Failed to create transcript');
@@ -80,31 +160,29 @@ function AlumniDetailsForm() {
     }
   };
   
+
+
+
+
+
+
   
-  // const handleSubmit = () => {
-  //   // Log the values of the input fields
-  //   console.log('Faculty:', FacultyRef.current.value);
-  //   console.log('Program Type:', programTypeRef.current.value);
-  //   console.log('Matric/Reg Number:', matricRef.current.value);
-  //   console.log('Type Of Degree:', degreeRef.current.value);
-  //   console.log('Department:', departmentRef.current.value);
-  //   console.log('Graduation Year:', graduationYearRef.current.value);
-  //   console.log('Delivery Method:', deliveryMethodRef.current.value);
-  //   console.log('Recipient Email:', recipientEmailRef.current.value);
-  //   console.log('Recipient Address:', recipientAddressRef.current.value);
-  //   console.log('Phone Number:', phoneNumberRef.current.value);
-  // };
+
 
   return (
     <div className='p-5'>
       <div className='flex flex-col gap-y-4 bg-white p-5 my-auto rounded-lg'>
-        <h4 className='font-bold'>University Of Jos</h4>
+        <h4 className='font-bold'>{decodedData}</h4>
+        
+        
+        
+       
         <button
           className='md:w-4/12 mx-auto bg-gray-300'
           onClick={() => {}}
           style={{ color: 'black', marginLeft: '0' }}
         >
-          Request Transcript
+          Request Transcript From {decodedData}
         </button>
 
         <h4 className='font-bold text-center'>Fill the Form below</h4>
@@ -114,6 +192,8 @@ function AlumniDetailsForm() {
           address where you want the transcript to be sent. Any errors or discrepancies may lead to delays in processing
           your request.
         </p>
+
+        {/* <LocalStorageViewer/> */}
 
         <form className='flex flex-col'>
           {activeForm == 1 && (
@@ -195,7 +275,7 @@ function AlumniDetailsForm() {
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
                   />
                   <input
-                    type='date'
+                    type='text'
                     ref={graduationYearRef}
                     placeholder='Select Graduation year'
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
@@ -207,15 +287,97 @@ function AlumniDetailsForm() {
 
           {activeForm == 2 && (
             <div className='md:w-8/12 m-auto p-5'>
-              {window.innerWidth >= 768 ? (
-                <div className='md:w-8/12 m-auto grid md:grid-cols-2 grid-cols-1 md:gap-x-[50px] gap-y-[25px] p-5'>
-                  <h4 className='col-span-2 text-center font-bold'>Delivery Method</h4>
-                  <input type='text' placeholder='Mode of delivery' ref={deliveryMethodRef} className='custom-textfield border-2 border-black border-solid rounded-md p-2' />
-                  <input type='email' placeholder='Recipient email' ref={recipientEmailRef} className='custom-textfield border-2 border-black border-solid rounded-md p-2' />
-                  <input type='text' placeholder='Recipient address' ref={recipientAddressRef} className='custom-textfield border-2 border-black border-solid rounded-md p-2' />
-                  <input type='number' placeholder='Phone Number' ref={phoneNumberRef} className='custom-textfield border-2 border-black border-solid rounded-md p-2' />
-                  <input type='file' className='custom-textfield border-2 border-black border-solid rounded-md p-2' />
-                </div>
+            {window.innerWidth >= 768 ? (
+              <div className='md:w-8/12 m-auto grid md:grid-cols-2 grid-cols-1 md:gap-x-[50px] gap-y-[25px] p-5'>
+                <h4 className='col-span-2 text-center font-bold'>Delivery Method</h4>
+
+
+                <select
+                  value={selectTranscriptType}
+                  ref={transcriptTypeRef}
+                  className='custom-dropdown border-2 border-black border-solid rounded-md p-2'
+                >
+                  <option value='' disabled>Select Type of Transcript</option>
+                  <option value='email'>Official</option>
+                  <option value='homeDelivery'>Personal</option>
+                </select>
+
+
+                <select
+                  onChange={handleDeliveryMethodChange}
+                  value={selectedDeliveryMethod}
+                  ref={deliveryTypeRef}
+                  className='custom-dropdown border-2 border-black border-solid rounded-md p-2'
+                >
+                  <option value='' disabled>Select mode of delivery</option>
+                  <option value='email'>Email</option>
+                  <option value='homeDelivery'>Home Delivery</option>
+                  <option value='pickUp'>Pick up</option>
+                  {/* Add more options as needed */}
+                </select>
+      
+                {selectedDeliveryMethod === 'homeDelivery' && (
+                  <>
+                    <input
+                      type='email'
+                      placeholder='Recipient email'
+                      ref={recipientEmailRef}
+                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    />
+                    <input
+                      type='text'
+                      placeholder='Recipient address'
+                      ref={recipientAddressRef}
+                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    />
+                    <input
+                      type='number'
+                      placeholder='Phone Number'
+                      ref={phoneNumberRef}
+                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    />
+
+                    <input
+                      type='address'
+                      placeholder='Phone Number'
+                      ref={addressRef}
+                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    />
+
+
+                  <CountryDropdown/>
+                    
+                  </>
+                )}
+      
+                {selectedDeliveryMethod === 'email' && (
+                  <>
+                    <input
+                      type='email'
+                      placeholder='Recipient email'
+                      ref={recipientEmailRef}
+                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    />
+                  </>
+                )}
+      
+                {selectedDeliveryMethod === 'pickUp' && (
+                  <>
+                    <input
+                      type='email'
+                      placeholder='Recipient email'
+                      ref={recipientEmailRef}
+                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    />
+                    <input
+                      type='number'
+                      placeholder='Phone Number'
+                      ref={phoneNumberRef}
+                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    />
+                  </>
+                )}
+              </div>
               ) : (
                 <div className='md:w-8/12 m-auto p-5 flex flex-col items-center'>
                 <h4 className='text-center font-bold mb-4'>Delivery Method</h4>
@@ -265,13 +427,24 @@ function AlumniDetailsForm() {
 
           {/* Buttons */}
           {activeForm == 1 && (
+
+            <div>
             <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
             onClick={() => {
-              setActiveForm(2); // Navigate to the next step
+              // setActiveForm(2); // Navigate to the next step
               handleSubmit(); // Call handleSubmit
             }}>
               Continue
             </button>
+
+            <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
+            onClick={() => {
+              setActiveForm(2); // Navigate to the next step
+              // handleSubmit(); // Call handleSubmit
+            }}>
+              next
+            </button>
+            </div>
           )}
 
           {activeForm == 2 && (

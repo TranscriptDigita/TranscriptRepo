@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import {toast, ToastContainer} from 'react-toastify';
 import remitaImg from '../../assets/remita.png';
 import StaffListTable from '../../components/table/StaffListTable';
 import { RecentRequests, StaffList } from '../../containers';
@@ -8,48 +9,130 @@ function Dashboard() {
   const [activeForm, setActiveForm] = useState(1);
 
 
-  const [email, setEmail] = useState('');
+  const [emailAddress, setEmailAddress] = useState('');
   const [role, setRole] = useState(''); // Initialize with an empty string or a default role
   const [password, setPassword] = useState('');
+  const [institutionAccountNumber, setInstitutionAccountNumber] = useState('');
+  const [bankSortCode, setBankSortCode] = useState('');
+  const [bankName, setBankName] = useState('');
+  const [accountName, setAccountName] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+
 
   const apiEndpoint = 'https://dacs.onrender.com/api/v1/staff';
+  const apiEndpointAccount = 'https://dacs.onrender.com/api/v1/institution/account';
 
-  const handleCreateStaff = async () => {
+
+  const getBearerToken = () => {
+    const storedUserData = localStorage.getItem('institutionUser');
+    if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      const token = userDataObject?.token || '';
+      console.log('Bearer Token:', token); // Log the token
+      return token;
+    }
+    console.log('Bearer Token not found');
+    return '';
+  };
+  
+
+  const bearerToken = getBearerToken();
+  console.log(bearerToken);
+
+
+
+  // const isTokenExpired = (tokenExpirationDate) => {
+  //   return new Date(tokenExpirationDate) < new Date();
+  // };
+  
+  // const storedUserData = localStorage.getItem('institutionUser');
+  
+  // if (storedUserData) {
+  //   const userDataObject = JSON.parse(storedUserData);
+  //   const token = userDataObject?.token || '';
+  
+  //   if (isTokenExpired(userDataObject?.expirationDate)) {
+  //     console.log('Token expired');
+  //     // You may want to refresh or request a new token here
+  //   } else {
+  //     console.log('Token still active');
+  //     // The token is still valid, proceed with your API requests
+  //   }
+  
+  //   return ;
+  // }
+  
+ 
+
+  const handleCreateStaff = async (e) => {
+    e.preventDefault();
+  
     const data = {
-      emailAddress: email,
-      role: role,
+      emailAddress,
+      role,
+      password
     };
+  
+    console.log('Data to be sent to the API:', data);
   
     try {
       const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${yourBearerToken}`, // Replace with your actual Bearer token
+          'Authorization': `Bearer ${bearerToken}`,
         },
         body: JSON.stringify(data),
       });
   
-      if (response.status === 201) {
-        // Successful staff creation
-        // Log the data when the API call is successful
-        console.log('Data sent to server:', data);
+      if (response.ok) {
+        // Handle successful response
         console.log('Staff created successfully');
-        // You can handle the success scenario here, e.g., show a success message
+        toast.success('Staff successfully added');
       } else {
-        // Handle errors, e.g., show an error message
-        console.error('Error creating staff:', response.status, response.statusText);
+        // Handle unsuccessful response
+        console.error('Error:', response.status, response.statusText);
+        toast.error('Error creating staff');
       }
     } catch (error) {
-      console.error('Error creating staff:', error);
+      console.error('Error:', error);
     }
-    
-    // Set the active form to 3 regardless of the API call status
-    setActiveForm(3);
   };
-  
 
-  
+
+
+
+  const handleSetBankAccount = async (e) => {
+    e.preventDefault();
+    console.log("account token",bearerToken);
+    const data = {
+      bankName,
+      bankSortCode,
+      accountName,
+      accountNumber,
+    };
+
+    try {
+      const response = await fetch(apiEndpointAccount, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${bearerToken}`,
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        console.log('Bank account set up successfully');
+        toast.success('Bank account set up successfully');
+      } else {
+        console.error('Error:', response.status, response.statusText);
+        toast.error('Error setting up bank account');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
   
  
 
@@ -78,7 +161,72 @@ function Dashboard() {
             <div className='p-5'>
             {window.innerWidth >= 768 ? (
              <div className='flex flex-col gap-y-4'>
-             <h4 className='col-span-2 font-bold'>Create Staff List</h4>
+             <h4 className='col-span-2 font-bold'>Create Staff</h4>
+             <span className='font-semibold'>Email: </span>
+             <input
+               type='text'
+               placeholder=''
+               value={emailAddress}
+               onChange={e => setEmailAddress(e.target.value)}
+               className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+             />
+              <span className='font-semibold'>Password: </span>
+            <input
+               type='text'
+               placeholder=''
+               value={role}
+               onChange={e => setRole(e.target.value)}
+               className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+             />
+
+          
+             
+             <span className='font-semibold'>Role: </span> 
+             
+              <input
+                 type='text'
+                 placeholder=''
+                 value={password}
+                 onChange={e => setPassword(e.target.value)}
+                 className='custom-dropdown border-2 border-black border-solid rounded-md p-2 flex-1'
+               /> 
+               <div className='flex'>
+               <button
+                 className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
+                 onClick={handleCreateStaff}
+               >
+                 Create
+               </button>
+
+               <button
+                 className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
+                 onClick={() => {
+                  setActiveForm(3); // Navigate to the next step
+                 
+                }}
+               >
+                 Skip To Banking And Documents
+               </button>
+
+               
+               <button
+                 className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
+                 onClick={() => {
+                  setActiveForm(1); // Navigate to the next step
+                 
+                }}
+               >
+                 Go Back
+               </button>
+             </div>
+          
+       
+                <h4 className='col-span-2 font-bold'>Staff List</h4>
+               <StaffList/>
+              </div>
+              ) : (
+                <div className='flex flex-col gap-y-4'>
+             <h4 className='col-span-2 font-bold'>Create Staff</h4>
              <span className='font-semibold'>Email: </span>
              <input
                type='text'
@@ -87,16 +235,16 @@ function Dashboard() {
                onChange={e => setEmail(e.target.value)}
                className='custom-textfield border-2 border-black border-solid rounded-md p-2'
              />
-             <span className='font-semibold'>Role: </span>
-             <select
+
+<span className='font-semibold'>Role: </span>
+             <input
+               type='text'
+               placeholder=''
                value={role}
                onChange={e => setRole(e.target.value)}
-               className='custom-dropdown border-2 border-black border-solid rounded-md p-2 flex-1'
-             >
-               <option value='option1'>Option 1</option>
-               <option value='option2'>Option 2</option>
-               <option value='option3'>Option 3</option>
-             </select>
+               className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+             />
+           
              {/* <span className='font-semibold'>Password: </span> */}
              <div className='flex'>
                {/* <input
@@ -112,15 +260,33 @@ function Dashboard() {
                >
                  Create
                </button>
+
+               <button
+                 className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
+                 onClick={() => {
+                  setActiveForm(3); // Navigate to the next step
+                 
+                }}
+               >
+                 Skip To Banking And Documents
+               </button>
+
+               
+               <button
+                 className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
+                 onClick={() => {
+                  setActiveForm(1); // Navigate to the next step
+                 
+                }}
+               >
+                 Go Back
+               </button>
              </div>
           
        
                 <h4 className='col-span-2 font-bold'>Staff List</h4>
                <StaffList/>
               </div>
-              ) : (
-                <div className='md:w-8/12 m-auto p-5 flex flex-col items-center'>
-                 </div>
               )}
             </div>
           )}
@@ -131,15 +297,39 @@ function Dashboard() {
                 <h4 className='col-span-2 font-bold'>Account</h4>
                 <p className='font-light text-[14px]'>Please set price for documents obtainable from your institution</p>
                 <div className='flex flex-col md:flex-row'>
+
+
                 <div className='md:w-1/2 p-2'>
-                <label htmlFor='institutionAccountNumber' className='block font-semibold'>
-                Institutions Account Number:
+
+                <label htmlFor='institutionAccountName' className='block font-semibold'>
+                Institutions Account Name:
                 </label>
                 <input
                 type='text'
-                id='institutionAccountNumber'
+                value={accountName}
+                onChange={(e) => setAccountName(e.target.value)}
                 placeholder=''
-            
+                
+                className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                />
+                </div>
+
+                
+                  
+                <div className='md:w-1/2 p-2'>
+                
+                
+                
+                
+                <label htmlFor='institutionAccountNumber' className='block font-semibold'>
+                Institutions Account No:
+                </label>
+                <input
+                type='text'
+                value={accountNumber}
+                onChange={(e) => setAccountNumber(e.target.value)}
+                placeholder=''
+                
                 className='custom-textfield border-2 border-black border-solid rounded-md p-2'
                 />
 
@@ -147,15 +337,14 @@ function Dashboard() {
 
             </div>
 
-
-
             <div className='md:w-1/2 p-2'>
                 <label htmlFor='institutionAccountNumber' className='block font-semibold'>
                 Sort Code:
                 </label>
                 <input
                 type='text'
-                id='institutionAccountNumber'
+                value={bankSortCode}
+                onChange={(e) => setBankSortCode(e.target.value)}   
                 placeholder=''
             
                 className='custom-textfield border-2 border-black border-solid rounded-md p-2'
@@ -172,7 +361,8 @@ function Dashboard() {
                 </label>
                 <input
                 type='text'
-                id='bankName'
+                value={bankName}
+                onChange={(e) => setBankName(e.target.value)}
                 placeholder=''
             
                 className='custom-textfield border-2 border-black border-solid rounded-md p-2'
@@ -180,10 +370,7 @@ function Dashboard() {
 
             <button
                     className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
-                    onClick={() => {
-                      // Your onClick logic here
-                      setActiveForm(3);
-                    }}
+                    onClick={handleSetBankAccount}
                   >
                     Save
                   </button>
@@ -222,6 +409,17 @@ function Dashboard() {
                   >
                     Create
                   </button>
+
+
+                  <button
+                 className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
+                 onClick={() => {
+                  setActiveForm(1); // Navigate to the next step
+                 
+                }}
+               >
+                 Go Back
+               </button>
                 </div>
                 <h4 className='col-span-2 font-bold'>Staff List</h4>
                 <StaffList/>
@@ -239,13 +437,22 @@ function Dashboard() {
 
           {/* Buttons */}
           {activeForm == 1 && (
+            <div>
             <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
             onClick={() => {
               setActiveForm(2); // Navigate to the next step
              
             }}>
-              Create Staff List
+              Add New Staff
             </button>
+            <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
+            onClick={() => {
+              setActiveForm(3); // Navigate to the next step
+             
+            }}>
+              Banking And Document Pricing
+            </button>
+            </div>
           )}
 
          

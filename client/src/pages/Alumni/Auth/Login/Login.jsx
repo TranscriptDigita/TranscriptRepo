@@ -60,7 +60,6 @@ function Login() {
     e.preventDefault();
 
     const { emailAddress, password } = formData;
-
     const userData = {
       emailAddress,
       password,

@@ -17,7 +17,7 @@ function Logout() {
 
   return (
     <div className='flex flex-col flex-1'>
-       <button className="flex p-2 justify-center items-center gap-2 border-2 border-solid border-[#6B3FA0] rounded-md bg-white text-[#6B3FA0] hover:bg-[#6B3FA0] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#6B3FA0]" style={{ marginLeft: '10px', width: '100px' }} >
+       <button onClick={onLogout} className="flex p-2 justify-center items-center gap-2 border-2 border-solid border-[#6B3FA0] rounded-md bg-white text-[#6B3FA0] hover:bg-[#6B3FA0] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#6B3FA0]" style={{ marginLeft: '10px', width: '100px' }} >
         LogOut
         </button>
     </div>

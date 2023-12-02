@@ -31,7 +31,7 @@ function MobileNavBar() {
     <div className="grid grid-cols-1 shadow">
         <div className='p-3 md:p-5 flex justify-between items-center'>
         <div>
-        <span className='flex gap-x-2 font-semibold ml-10 mt-2'>Welcome!!!!!!!!  <h4 className='text-[black] font-semibold'>{user?.alumni?.fullName || "User"}</h4>  </span>
+        <span className='flex gap-x-2 font-semibold ml-10 mt-2'>Welcome!!!!!!!!  <h4 className='text-[black] font-semibold'>{user?.alumni?.fullName}</h4>  </span>
        
         {/** Uses a default User called user so i do not have to login each time i want to view page */}
         </div>

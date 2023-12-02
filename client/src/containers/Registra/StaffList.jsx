@@ -20,8 +20,25 @@ function StaffList() {
   const [staffData, setStaffData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+
+
+  const getBearerToken = () => {
+    const storedUserData = localStorage.getItem('institutionUser');
+    if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      const token = userDataObject?.token || '';
+      console.log('Bearer Token:', token); // Log the token
+      return token;
+    }
+    console.log('Bearer Token not found');
+    return '';
+  };
+  
+
 const apiEndpoint = 'https://dacs.onrender.com/api/v1/staff';
-const bearerToken = 'yourBearerToken'; // Replace with your actual Bearer token
+const bearerToken = getBearerToken();
+console.log("table token: ", bearerToken);
+
 
 // ...
 
@@ -43,7 +60,7 @@ useEffect(() => {
     .then((data) => {
       setStaffData(data);
       setIsLoading(false);
-      console.log('Success: Data fetched from the API');
+      console.log('Success: Data fetched from the API', data);
     })
     .catch((error) => {
       console.error('Error fetching data:', error);
@@ -55,9 +72,11 @@ useEffect(() => {
 
 
 
+
+
 const deactivateStaff = (staffId) => {
   // Replace 'yourBearerToken' with your actual Bearer token
-  const bearerToken = 'yourBearerToken';
+  // const bearerToken = 'yourBearerToken';
 
   // Send a PATCH request to deactivate a staff member
   fetch(`https://dacs.onrender.com/api/v1/staff/${staffId}`, {
@@ -89,45 +108,84 @@ const deactivateStaff = (staffId) => {
 };
 
 
-  return (
-    <div>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <StaffListTable
-          headers={headers}
-          items={staffData.map((staff) => ({
-            Email: staff.emailAddress,
-            Role: staff.role,
-            'Account Status': staff.isActive ? 'Active' : 'Inactive',
-            Deactivate: (
-              <ToggleButton
-                isActive={staff.isActive}
-                staffId={staff._id}
-                deactivateStaff={deactivateStaff}
-              />
-            ),
-          }))}
-        />
-      )}
-    </div>
-  );
+
+
+const activateStaff = (staffId) => {
+  fetch(`https://dacs.onrender.com/api/v1/staff/activate/${staffId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${bearerToken}`,
+    },
+    body: JSON.stringify({ isActive: true }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        const updatedStaffData = staffData.map((staff) => {
+          if (staff._id === staffId) {
+            return { ...staff, isActive: true };
+          }
+          return staff;
+        });
+        setStaffData(updatedStaffData);
+        console.log('Success: Staff activated');
+      } else {
+        console.error('Error activating staff:', response.status, response.statusText);
+      }
+    })
+    .catch((error) => {
+      console.error('Error activating staff:', error);
+    });
+};
+
+
+
+
+return (
+  <div>
+    {/* ... (existing code) */}
+    <StaffListTable
+      headers={headers}
+      items={staffData.map((staff) => ({
+        Email: staff.emailAddress,
+        Role: staff.role,
+        'Account Status': staff.isActive ? 'Active' : 'Inactive',
+        Deactivate: (
+          <ToggleButton
+            key={staff._id}
+            isActive={staff.isActive}
+            staffId={staff._id}
+            deactivateStaff={deactivateStaff}
+            activateStaff={activateStaff}
+          />
+        ),
+      }))}
+    />
+  </div>
+);
 }
 
-function ToggleButton({ isActive, staffId, deactivateStaff }) {
-  const handleDeactivate = () => {
-    // Call the deactivateStaff function to deactivate the staff member
-    deactivateStaff(staffId);
+function ToggleButton({ isActive, staffId, deactivateStaff, activateStaff }) {
+  const handleClick = () => {
+    if (isActive) {
+      // If staff is active, deactivate
+      deactivateStaff(staffId);
+    } else {
+      // If staff is inactive, activate
+      activateStaff(staffId);
+    }
   };
 
   return (
     <button
-      onClick={handleDeactivate}
+      type="button"
+      onClick={handleClick}
       className={`py-2 px-4 rounded ${isActive ? 'bg-red-500' : 'bg-green-500'} text-white`}
     >
-      Deactivate
+      {isActive ? 'Deactivate' : 'Activate'}
     </button>
   );
 }
+
 
 export default StaffList;

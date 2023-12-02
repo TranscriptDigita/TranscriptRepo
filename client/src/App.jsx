@@ -16,7 +16,7 @@ import { StyledEngineProvider } from '@mui/material'
 import { AlumniLayout, EvaluationLayout, InstitutionLayout, Main } from './layouts'
 
 // pages imports
-import { Login, InstitutionLogin, InstitutionSignup, InstitutionDashboard, ErrorPage, ForgotPassword, ChangePassword, AlumniDashboard, LandingPage, AlumniSignup, AlumniVerification, AlumniResetPassword, NewTranscriptRequestPage, TranscriptTrackingPage, LogoutPage, TranscriptDetailPage, RequestTrackAndDelivery, RegistraDashboard, EvaluationOfficerLogin, EvaluationOfficerDashboard, VerifyCertificate, InstitutionVerification } from './pages'
+import { Login, InstitutionLogin, InstitutionSignup, InstitutionDashboard, ErrorPage, ForgotPassword, ChangePassword, AlumniDashboard, LandingPage, AlumniSignup, AlumniVerification, AlumniResetPassword, NewTranscriptRequestPage, TranscriptTrackingPage, LogoutPage, TranscriptDetailPage, RequestTrackAndDelivery, RegistraDashboard, EvaluationOfficerLogin, EvaluationOfficerDashboard, VerifyCertificate, InstitutionVerification, UniversityProfile } from './pages'
 
 // components imports
 import { SelectLogin, TranscriptGridItem, TranscriptDataItem, Progress } from './components'
@@ -30,6 +30,7 @@ import RegistraLayout from './layouts/registraLayout/RegistraLayout'
 function App() {
 
   const { user } = useSelector((state) => state.auth)
+  const { institution } = useSelector((state) => state.auth)
 
   const router = createBrowserRouter([
     {
@@ -73,8 +74,15 @@ function App() {
 
 
         {
+          path: '/universityprofile',
+          element: <UniversityProfile/>,
+          errorElement: <ErrorPage/>
+        },
+
+
+        {
           path: '/institution/:id/verify',
-          element: user ? <InstitutionVerification/> : <Navigate to={`/institution/login`} />,
+          element: institution ? <InstitutionVerification/> : <Navigate to={`/institution/login`} />,
           errorElement: <ErrorPage/>
         },
 
@@ -154,11 +162,11 @@ function App() {
               errorElement: <ErrorPage/>
             },
 
-            // {
-            //   path: '/institution/id:/requestlist',
-            //   element: <RequestList/>,
-            //   errorElement: <ErrorPage/>
-            // }
+            {
+              path: '/institution/:id/universityprofile',
+              element: <UniversityProfile/>,
+              errorElement: <ErrorPage/>
+            }
           ]
         },
 
@@ -243,7 +251,7 @@ function App() {
         },
 
         {
-          path: '/alumni/:id/transcripts/newrequest',
+          path: '/alumni/:data/transcripts/newrequest',
            // replace with "user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
           element: <NewRequestPage/>,
           errorElement: <ErrorPage/>

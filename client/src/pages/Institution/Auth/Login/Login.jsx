@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
-    universityName: '',
+   
     emailAddress: '',
     password: '',
   });
@@ -31,45 +31,38 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(formData); // Log all form data
-
+  
     const { emailAddress, password } = formData;
     const userData = {
       emailAddress,
       password,
     };
-
+  
     try {
-      const response = await dispatch(loginInstitution(userData)); // Dispatch the loginInstitution action
-
-      // Handle success or error logic based on the state
-      if (isSuccess) {
-        // Add your logic for a successful login
-        console.log(formData); 
-        console.log('Login successful');
-      } else if (isError) {
-        // Handle API errors
-        console.error('API Error:', message);
+      const response = await dispatch(loginInstitution(userData));
+  
+      console.log('API Response:', response);
+  
+      if (response.type === 'institution/login/fulfilled') {
+        // Redirect to the institution's dashboard upon successful login
+        const institutionId = response.payload.institution._id; // Replace with the actual response structure
+        console.log('Redirecting to dashboard...');
+        navigate(`/institution/${institutionId}/dashboard`);
+      } else {
+        console.error('API Error:', response.payload.message);
       }
     } catch (error) {
-      // Handle network errors
       console.error('API Error:', error);
     }
   };
-
+  
+  
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <div className="flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0">
         {isLoading ? <Spinner /> : ``}
         <div className="flex flex-col gap-y-4">
-          <TextField
-            id="outlined-text-input"
-            label="University Name"
-            type="text"
-            name="universityName"
-            value={formData.universityName}
-            onChange={inputChange}
-          />
+         
           <TextField
             id="outlined-email-input"
             label="Email Address"
@@ -111,3 +104,4 @@ function Login() {
 }
 
 export default Login;
+ 

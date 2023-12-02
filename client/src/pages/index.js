@@ -20,3 +20,4 @@ export {default as EvaluationOfficerLogin } from './EvaluationOfficer/Auth/Login
 export {default as EvaluationOfficerDashboard} from './EvaluationOfficer/Dashboard/Dashboard'
 export {default as VerifyCertificate } from './VerifyCertificate/VerifyCertificate'
 export {default as InstitutionVerification } from './Institution/Auth/verification/Verfication'
+export {default as UniversityProfile } from './Institution/UniversirtProfile/UniversityProfile'
