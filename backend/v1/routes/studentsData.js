@@ -5,7 +5,7 @@ const express = require('express'),
 
 // upload student data and verify certificate routes
 router.route(`/`)
-    .post(isAuthInstitution, controller.uploadData);
+    .post(controller.uploadData);
 router.route(`/verify`)
     .post(controller.verifyStudent)
 

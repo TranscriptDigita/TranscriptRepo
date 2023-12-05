@@ -9,13 +9,16 @@ var excelStorage = multer.diskStorage({
         cb(null, '../public/excelUploads'); // file added to the public folder of the root directory
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname);
+        cb(null, Date.now() + file.originalname);
     }
 });
 var excelUploads = multer({ storage: excelStorage });
 // upload excel file and import in mongodb
 exports.uploadData = (excelUploads.single("uploadfile"), (req, res) => {
     console.log(req.file);
+    if (!req.file) {
+        return res.status(403).json({ message: "File is required!" })
+    }
     importFile('../public' + '/excelUploads/' + req.file.filename);
 
     function importFile(filePath) {
