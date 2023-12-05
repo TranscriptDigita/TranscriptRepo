@@ -6,15 +6,75 @@ const csvtojson = require('csvtojson')
     // const async = require('async')
 var excelStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '../public/excelUploads'); // file added to the public folder of the root directory
+        cb(null, './public/excelUploads'); // file added to the public folder of the root directory
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + file.originalname);
+        cb(null, file.originalname);
     }
 });
 var excelUploads = multer({ storage: excelStorage });
 // upload excel file and import in mongodb
-exports.uploadData = (excelUploads.single("uploadfile"), (req, res) => {
+exports.uploadData = function(req, res, next) {
+
+    var storage = multer.diskStorage({
+
+        destination: function(req, file, callback) {
+            callback(null, './public/excelUploads');
+        },
+        filename: function(req, file, callback) {
+            callback(null, file.originalname);
+        }
+
+    });
+
+    var upload = multer({ storage: storage }).single('uploadfile');
+
+    upload(req, res, function(error) {
+        // console.log(req.file);
+
+        if (error) {
+            console.log(error)
+            return res.end('Error Uploading File');
+        } else {
+            importFile(req.file.path);
+
+            function importFile(filePath) {
+                //  Read Excel File to Json Data
+                var arrayToInsert = [];
+                const institutionId = 765433 //req.user;
+                csvtojson().fromFile(filePath).then(async(response) => {
+                    // Fetching all the data from each row
+                    console.log(response)
+                    for (var i = 0; i < response.length; i++) {
+                        console.log(response[i].studentName);
+                        var singleRow = {
+                            studentName: response[i].studentName,
+                            registrationNumber: response[i].registrationNumber,
+                            yearOfAdmission: response[i].yearOfAdmission,
+                            yearOfGraduation: response[i].yearOfGraduation,
+                            cgp: response[i].cgp,
+                            grade: response[i].grade,
+                            institutionId: institutionId
+                        };
+                        arrayToInsert.push(singleRow);
+                    }
+                    console.log(arrayToInsert);
+                    //inserting into the table Result
+                    const fb = await Result.insertMany(arrayToInsert);
+                    if (fb) {
+                        console.log("File imported successfully.");
+                        res.status(200).json({ message: "File imported successfully." });
+                    }
+
+                });
+            }
+        }
+
+    });
+
+}
+
+exports.uploadDat = (excelUploads.single("studentsdata"), (req, res) => {
     console.log(req.file);
     if (!req.file) {
         return res.status(403).json({ message: "File is required!" })
@@ -25,17 +85,17 @@ exports.uploadData = (excelUploads.single("uploadfile"), (req, res) => {
         //  Read Excel File to Json Data
         var arrayToInsert = [];
         const institutionId = req.user;
-        csvtojson().fromFile(filePath).then(source => {
+        csvtojson().fromFile(filePath).then(response => {
             // Fetching all the data from each row
-            for (var i = 0; i < source.length; i++) {
-                console.log(source[i]["student-name"])
+            for (var i = 0; i < response.length; i++) {
+                console.log(response[i]["student-name"])
                 var singleRow = {
-                    studentName: source[i]["student-name"],
-                    registratioNumber: source[i]["registration-number"],
-                    yearOfAdmission: source[i]["year-of-admission"],
-                    yearOfGraduation: source[i]["year-of-graduation"],
-                    cgp: source[i]["cgp"],
-                    grade: source[i]["grade"],
+                    studentName: response[i]["student-name"],
+                    registratioNumber: response[i]["registration-number"],
+                    yearOfAdmission: response[i]["year-of-admission"],
+                    yearOfGraduation: response[i]["year-of-graduation"],
+                    cgp: response[i]["cgp"],
+                    grade: response[i]["grade"],
                     institutionId: institutionId
                 };
                 arrayToInsert.push(singleRow);
@@ -66,7 +126,7 @@ exports.verifyStudent = async(req, res) => {
         // if not found throw error
         if (!findStudent) {
             return res.status(404).json({ message: "Record not found!" })
-                // throw Error(`resource could ot be located`)
+                // throw Error(`reresponse could ot be located`)
         }
 
         // return data and message as json
