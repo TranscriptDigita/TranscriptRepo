@@ -64,6 +64,9 @@ exports.uploadData = function(req, res, next) {
                     if (fb) {
                         console.log("File imported successfully.");
                         res.status(200).json({ message: "File imported successfully." });
+                    } else {
+                        console.log("File Not imported.");
+                        res.status(409).json({ message: "File Not imported To DB." });
                     }
 
                 });
