@@ -21,7 +21,13 @@ const institutionSchema = new mongoose.Schema({
     staff: [{ type: Schema.Types.ObjectId, ref: 'Staff' }],
     verificationCode: { type: String },
     isActive: { type: Boolean, default: true },
-    isVerified: { type: Boolean, default: false }
+    isVerified: { type: Boolean, default: false },
+    accountNumber: { type: String },
+    accountName: { type: String },
+    bankName: { type: String },
+    bankSortCode: { type: String },
+    amountForElectronicalMode: { type: Number },
+    amountForPhysicalMode: { type: Number },
 
 }, { timestamps: true })
 
@@ -74,16 +80,24 @@ institutionSchema.statics.signup = async function(name, emailAddress, location, 
 }
 
 // sending email to staff
+// let transport = nodemailer.createTransport(smtpTransport({
+//     host: 'smtp.gmail.com',
+//     secure: true,
+//     port: 465,
+//     auth: {
+//         user: process.env.EMAIL_USERNAME,
+//         pass: process.env.EMAIL_PASSWORD
+//     }
+// }))
 institutionSchema.statics.sendEmail = async function(email, subject, message) {
-    let transport = nodemailer.createTransport(smtpTransport({
-        host: 'smtp.gmail.com',
-        secure: true,
-        port: 465,
+
+    let transport = nodemailer.createTransport({
+        service: 'gmail',
         auth: {
             user: process.env.EMAIL_USERNAME,
             pass: process.env.EMAIL_PASSWORD
         }
-    }))
+    })
 
     const info = await transport.sendMail({
         from: process.env.EMAIL_USERNAME,
@@ -91,7 +105,7 @@ institutionSchema.statics.sendEmail = async function(email, subject, message) {
         subject: subject,
         text: message
     }, (err, sent) => {
-        err ? console.log('error send email') : console.log('succesfully sent', sent)
+        err ? console.log('error send email', err) : console.log('succesfully sent', sent)
     })
 }
 

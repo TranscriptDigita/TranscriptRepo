@@ -9,21 +9,14 @@ const mongoose = require('mongoose'),
 
 
 // =================================
-// ==== creating Alumni schema =====
+// ==== creating Admin schema =====
 // =================================
-const alumniSchema = new mongoose.Schema({
-    fullName: { type: String },
-    matricNo: { type: String },
-    department: { type: String },
-    yearOfGraduation: { type: Date },
-    monthOfGraduation: { type: Number },
+const adminSchema = new mongoose.Schema({
     emailAddress: { type: String, required: true },
     password: { type: String },
-    transcripts: [],
-    paymentDetails: [],
-    verfificationCode: { type: String },
+    verfificationCode: { type: Number },
+    isVerified: { type: Boolean, default: true },
     isActive: { type: Boolean, default: true },
-    isVerified: { type: Boolean, default: false },
     isDisabled: { type: Boolean, default: false },
     isRestricted: { type: Boolean, default: false },
     resetPasswordToken: { type: Number },
@@ -36,13 +29,12 @@ const alumniSchema = new mongoose.Schema({
 // ==================================
 
 // signup user function
-alumniSchema.statics.signup = async function(fullName, emailAddress, password, verfificationCode) {
+adminSchema.statics.signup = async function(emailAddress, password, verfificationCode) {
 
     // check if all inputs are filled
-    if (!fullName || !emailAddress || !password) {
+    if (!emailAddress || !password) {
         throw Error('all fields are required')
     }
-
 
     // using validator to validate email
     if (!validator.isEmail(emailAddress)) {
@@ -66,51 +58,51 @@ alumniSchema.statics.signup = async function(fullName, emailAddress, password, v
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)
 
-    // creating new alumni in database
-    const alumni = await this.create({ fullName, emailAddress, password: hash, verfificationCode })
+    // creating new admin in database
+    const admin = await this.create({ emailAddress, password: hash, verfificationCode })
 
     // returning the saved user
-    return alumni
+    return admin
 }
 
 // login user
-alumniSchema.statics.login = async function(emailAddress, password) {
+adminSchema.statics.login = async function(emailAddress, password) {
     // validation
     if (!emailAddress || !password) {
         throw Error('All fields must be filled')
     }
 
     // find an email in database   
-    const alumni = await this.findOne({ emailAddress })
+    const admin = await this.findOne({ emailAddress })
 
     // not exist throw error   
-    if (!alumni) {
+    if (!admin) {
         throw Error('Incorrect email')
     }
 
     // if account inactive throw error    
-    if (!alumni.isVerified) {
+    if (!admin.isVerified) {
         throw Error('sorry your account is disabled')
     }
 
     // if account inactive throw error    
-    if (!alumni.isActive) {
+    if (!admin.isActive) {
         throw Error('sorry your account is disabled')
     }
 
-    // compare password with user's password
-    const match = await bcrypt.compare(password, alumni.password)
+    // compare password with users password
+    const match = await bcrypt.compare(password, admin.password)
 
     // throw an error if not match
     if (!match) {
         throw Error('Incorrect password')
     }
 
-    return alumni
+    return admin
 }
 
-// send Alumni and email function
-alumniSchema.statics.sendEmail = async function(email, subject, message) {
+// send Admin and email function
+adminSchema.statics.sendEmail = async function(email, subject, message) {
         // let transport = nodemailer.createTransport(smtpTransport({
         //     service: 'gmail',
         //     // host: process.env.EMAIL_HOST,
@@ -143,55 +135,34 @@ alumniSchema.statics.sendEmail = async function(email, subject, message) {
 
         })
     }
-    // update user/alumni details
-alumniSchema.statics.update = async function(
-    id, {
-        fullName,
-        matricNo,
-        phoneNumber,
-        emailAddress,
-        paymentDetails,
-        yearOfGraduation,
-        monthOfGraduation,
-        department
-    }
-) {
+    // update user/admin details
+adminSchema.statics.update = async function(id, { emailAddress }) {
 
     // using validator to validate email
     if (!validator.isEmail(emailAddress)) {
         throw Error('email is not valid')
     }
-    // creating new alumni in database
-    const alumni = await this.findByIdAndUpdate({
-        id,
-        fullName,
-        matricNo,
-        phoneNumber,
-        emailAddress,
-        paymentDetails,
-        yearOfGraduation,
-        monthOfGraduation,
-        department
-    })
+    // creating new admin in database
+    const admin = await this.findByIdAndUpdate(id, { emailAddress })
 
     // returning the updated user
-    return alumni
+    return admin
 }
 
 
 // get a single user
-alumniSchema.statics.getAlumniById = async function(id) {
-    // fetching the alumni details from the database
-    const alumni = await this.findOne({ _id: id })
+adminSchema.statics.getAdminById = async function(id) {
+    // fetching the admin details from the database
+    const admin = await this.findOne({ _id: id })
 
 }
 
 // ==================================
-// ==== modeling alumni with schema==
+// ==== modeling admin with schema==
 // ==================================
-const Alumni = mongoose.model('alumni', alumniSchema)
+const Admin = mongoose.model('admin', adminSchema)
 
 // ==================================
 // ======== exports =================
 // ==================================
-module.exports = Alumni
+module.exports = Admin
