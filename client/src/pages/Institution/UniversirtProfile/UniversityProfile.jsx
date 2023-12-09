@@ -35,45 +35,52 @@ function UniversityProfile() {
   console.log(bearerToken);
   
 
-  // Function to handle file upload and API call
-  const handleFileUpload = async () => {
-    event.preventDefault(); 
-  
-    if (selectedFile) {
-      try {
-        // Create a new FormData object to construct the multipart/form-data request
-        const formData = new FormData();
-        formData.append('uploadfile', selectedFile);
+ // Function to handle file upload and API call
+ // Function to handle file upload and API call
+ const handleFileUpload = async () => {
+  event.preventDefault();
 
+  if (selectedFile) {
+    try {
 
-        // Replace 'YOUR_API_ENDPOINT' with the actual API endpoint URL
-        const apiEndpoint = 'http://localhost:3000/api/v1/students-data/';
+      // Log the name of the file
+      console.log('File Name:', selectedFile);
+      // Create a new FormData object to construct the multipart/form-data request
+      const formData = new FormData();
+      formData.append('uploadfile', selectedFile);
 
-        // Use the fetch function to make a POST request to the API endpoint
-        const response = await fetch(apiEndpoint, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${bearerToken}`, // Include Bearer Token in the Authorization header
-          },
-          body: formData, // Include the FormData object containing the file in the request body
-        });
+      // Replace 'YOUR_API_ENDPOINT' with the actual API endpoint URL
+      const apiEndpoint = 'https://dacs.onrender.com/api/v1/students-data/';
 
-        // Check if the response status is ok (2xx status code)
-        if (response.ok) {
-          console.log('File uploaded successfully!');
-          // Add further logic as needed (e.g., display success message, navigate to another page)
-        } else {
-          console.error('File upload failed:', response.statusText);
-          // Handle error, display error message, etc.
-        }
-      } catch (error) {
-        console.error('An error occurred during file upload:', error);
-        // Handle unexpected errors
+      // Use the fetch function to make a POST request to the API endpoint
+      const response = await fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${bearerToken}`, // Include Bearer Token in the Authorization header
+        },
+        body: formData, // Include the FormData object containing the file in the request body
+      });
+
+      // Log the API response
+      console.log('API Response:', response);
+
+      // Check if the response status is ok (2xx status code)
+      if (response.ok) {
+        console.log('File uploaded successfully!');
+        // Add further logic as needed (e.g., display success message, navigate to another page)
+      } else {
+        console.error('File upload failed:', response.statusText);
+        // Handle error, display error message, etc.
       }
-    } else {
-      console.error('No file selected');
+    } catch (error) {
+      console.error('An error occurred during file upload:', error);
+      // Handle unexpected errors
     }
-  };
+  } else {
+    console.error('No file selected');
+  }
+};
+
 
   return (
     <div>
