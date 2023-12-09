@@ -20,7 +20,7 @@ function SelectLogin() {
 
             <h4 className='text-center font-bold'>Continue as</h4>
 
-            <div className='grid md:grid-cols-2 grid-cols-1 justify-between gap-y-4 md:gap-y-0 md:gap-x-16'>
+            <div className='grid md:grid-cols-2 grid-cols-1 justify-between gap-y-4 md:gap-y-10 md:gap-x-16'>
                 <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
                     <img src={university} alt="unipic" />
                     <h4>university</h4>

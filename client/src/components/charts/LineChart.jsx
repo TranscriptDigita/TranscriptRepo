@@ -42,7 +42,7 @@ function LineChart() {
                     data: [5, 10, 15, 4, 9, 20, 12, 15, 6, 6, 3, 10],
                     borderColor: '#6B3FA0',
                     pointBorderColor : 'transparent',
-                    backgroundColor: 'red' ,
+                    backgroundColor: 'red',
                     backgroundColor: '#6B3FA0',
                     tension: 0.3
                 },
@@ -67,7 +67,7 @@ function LineChart() {
     }, [])
 
   return (
-    <div className='flex md:h-[150px] w-full'>
+    <div className='flex md:h-[250px]'>
         <Line
             data={chartData}
             options={chartOptions}
