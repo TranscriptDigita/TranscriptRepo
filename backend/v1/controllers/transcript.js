@@ -185,7 +185,7 @@ exports.approveTranscript = async(req, res) => {
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 throw Error('not a valid id')
             }
-            const approved = await Transcripts.findByIdAndUpdate(id, { isApproved: true, approvedBy: req.user._id })
+            const approved = await Transcripts.findByIdAndUpdate(id, { isApproved: true, isDeclined: false, approvedBy: req.user._id })
 
             // If record found
             if (!approved) {
@@ -212,7 +212,7 @@ exports.querryTranscript = async(req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw Error('not a valid id')
         }
-        const querried = await Transcripts.findByIdAndUpdate(id, { isQuerried: true, querriedBy: req.user._id })
+        const querried = await Transcripts.findByIdAndUpdate(id, { isQuerried: true, isDeclined: false, isApproved: false, querriedBy: req.user._id })
 
         // If record found
         if (!querried) {
@@ -240,7 +240,7 @@ exports.declineTranscript = async(req, res) => {
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 throw Error('not a valid id')
             }
-            const declined = await Transcripts.findByIdAndUpdate(id, { isDeclined: true, declinedBy: req.user._id })
+            const declined = await Transcripts.findByIdAndUpdate(id, { isDeclined: true, isApproved: false, declinedBy: req.user._id })
 
             // If record found
             if (!declined) {
@@ -263,12 +263,12 @@ exports.deliveryMethod = async(req, res) => {
 
         // getting the data from input by destructuring request body
         const { transcriptId } = req.params;
-        const { modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail } = req.body;
+        const { typeOfTranscript, modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail } = req.body;
         // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
             throw Error('not a valid id')
         }
-        const transcriptUpdated = await Transcripts.findByIdAndUpdate(transcriptId, { modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail })
+        const transcriptUpdated = await Transcripts.findByIdAndUpdate(transcriptId, { typeOfTranscript, modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail })
 
         // If record found
         if (!transcriptUpdated) {
