@@ -12,7 +12,9 @@ const express = require('express'),
     institutionRoutes = require('./routes/institution'),
     transcriptRoutes = require('./routes/transcripts'),
     contactUsRoutes = require('./routes/contact'),
-    staffRoutes = require('./routes/staff')
+    staffRoutes = require('./routes/staff'),
+    adminRoutes = require('./routes/admin'),
+    studentsData = require('./routes/studentsData')
 
 // using cors 
 app.use(cors())
@@ -37,7 +39,7 @@ app.use((req, res, next) => {
 // ============== Routes ======================== 
 // ==============================================  
 app.get('/', (req, res) => {
-    res.send('Welcome to Transcript digita api, our team are working around the clock to ensure the ease n requesting, tracking and delivery of transcripts with Nigerian universities, enjoy the process')
+    res.send('Welcome to Transcript digita api, our team are working around the clock to ensure the ease of requesting, tracking and delivery of transcripts with Nigerian universities, enjoy the process')
 })
 
 app.use('/api/v1/alumnus', alumniRoutes)
@@ -48,7 +50,10 @@ app.use('/api/v1/contact-us', contactUsRoutes)
 
 // staff endpoint
 app.use('/api/v1/staff', staffRoutes)
-
+    // Students data endpoint
+app.use('/api/v1/students-data', studentsData);
+// admin endpoint
+app.use('/api/v1/admin', adminRoutes);
 // ===========================================
 // ============ serving app ==================
 // ===========================================

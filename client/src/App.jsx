@@ -13,20 +13,24 @@ import 'react-toastify/dist/ReactToastify.css'
 import { StyledEngineProvider } from '@mui/material'
 
 // layout imports
-import { AlumniLayout, InstitutionLayout, Main } from './layouts'
+import { AlumniLayout, EvaluationLayout, InstitutionLayout, Main } from './layouts'
 
 // pages imports
-import { Login, InstitutionLogin, InstitutionSignup, InstitutionDashboard, ErrorPage, ForgotPassword, ChangePassword, AlumniDashboard, LandingPage, AlumniSignup, AlumniVerification, AlumniResetPassword, NewTranscriptRequestPage, TranscriptTrackingPage, LogoutPage, TranscriptDetailPage, RequestTrackAndDelivery } from './pages'
+import { Login, InstitutionLogin, InstitutionSignup, InstitutionDashboard, ErrorPage, ForgotPassword, ChangePassword, AlumniDashboard, LandingPage, AlumniSignup, AlumniVerification, AlumniResetPassword, NewTranscriptRequestPage, TranscriptTrackingPage, LogoutPage, TranscriptDetailPage, RequestTrackAndDelivery, RegistraDashboard, EvaluationOfficerLogin, EvaluationOfficerDashboard, VerifyCertificate, InstitutionVerification, UniversityProfile } from './pages'
 
 // components imports
-import { SelectLogin } from './components'
+import { SelectLogin, TranscriptGridItem, TranscriptDataItem, Progress } from './components'
 
 // redux imports
 import { useSelector } from 'react-redux';
+import TranscriptDetail from './pages/Alumni/Transcripts/TranscriptDetail/TranscriptDetail'
+import NewRequestPage from './pages/Alumni/Transcripts/NewRequestPage/NewRequestPage'
+import RegistraLayout from './layouts/registraLayout/RegistraLayout'
 
 function App() {
 
   const { user } = useSelector((state) => state.auth)
+  const { institution } = useSelector((state) => state.auth)
 
   const router = createBrowserRouter([
     {
@@ -36,7 +40,7 @@ function App() {
       children: [
         {
           index: true,
-          element: <AlumniLayout/>,
+          element: <LandingPage/>,
         },
         {
           path: '/selectlogin',
@@ -68,6 +72,22 @@ function App() {
           errorElement: <ErrorPage/>
         },
 
+
+        {
+          path: '/universityprofile',
+          element: <UniversityProfile/>,
+          errorElement: <ErrorPage/>
+        },
+
+
+        {
+          path: '/institution/:id/verify',
+          element: institution ? <InstitutionVerification/> : <Navigate to={`/institution/login`} />,
+          errorElement: <ErrorPage/>
+        },
+
+
+
         {
           path: '/alumni/reset-password',
           element: <ForgotPassword />,
@@ -78,6 +98,38 @@ function App() {
           path: '/alumni/reset-password/:token',
           element: <AlumniResetPassword/>,
           errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/evaluationofficer/login',
+          element: <EvaluationOfficerLogin/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/verifycertificate',
+          element: <VerifyCertificate/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/evaluationofficer',
+          element: <EvaluationLayout/>,
+          errorElement: <ErrorPage/>,
+          children: [
+            {
+              path: '/evaluationofficer/:id/dashboard',
+              element: <EvaluationOfficerDashboard/>,
+              errorElement: <ErrorPage/>
+            },
+
+            // {
+            //   path: '/institution/id:/requestlist',
+            //   element: <RequestList/>,
+            //   errorElement: <ErrorPage/>
+            // }
+          ]
+         
         },
 
         {
@@ -103,6 +155,32 @@ function App() {
               errorElement: <ErrorPage/>
             },
 
+
+            {
+              path:'/institution/:id/stafflist',
+              element: <RegistraDashboard/>,
+              errorElement: <ErrorPage/>
+            },
+
+            {
+              path: '/institution/:id/universityprofile',
+              element: <UniversityProfile/>,
+              errorElement: <ErrorPage/>
+            }
+          ]
+        },
+
+        {
+          path: '/registra',
+          element: <RegistraLayout/>,
+          errorElement: <ErrorPage/>,
+          children:[
+            {
+              path: '/registra/:id/dashboard',
+              element: <RegistraDashboard/>,
+              errorElement: <ErrorPage/>
+            },
+
             // {
             //   path: '/institution/id:/requestlist',
             //   element: <RequestList/>,
@@ -110,46 +188,77 @@ function App() {
             // }
           ]
         },
+
+       
+
+       
       ]
     },
 
     {
       path: '/alumni',
-      element: user ? <AlumniLayout/> : <Navigate to={`/alumni/login`} /> ,
+      // replace with "user ? <AlumniLayout/> : <Navigate to={`/alumni/login`} />" to use user to load page
+      element: <AlumniLayout/>,
       errorElement: <ErrorPage/>,
       children: [
 
         {
           path: '/alumni/:id/dashboard',
-          element: user ? <AlumniDashboard/> : <Navigate to={`/alumni/login`} />,
+           // replace with "user ? <AlumniDashboard/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element:  <AlumniDashboard/>,
           errorElement: <ErrorPage/>
         },
 
         {
           path: '/alumni/:id/change-password',
-          element: user ? <ChangePassword /> : <Navigate to={`/alumni/login`} />,
+           // replace with "user ? <ChangePassword/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <ChangePassword />,
           errorElement: <ErrorPage/>
         },
         {
           path: '/alumni/:id/transcripts/',
-          element: user ? <TranscriptTrackingPage/> : <Navigate to={`/alumni/login`} />,
+           // replace with "user ? <TranscripteTrackingPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <TranscriptTrackingPage/>,
           errorElement: <ErrorPage/>
         },
 
         {
           path: '/alumni/:id/transcripts/:id',
-          element: user ? <TranscriptDetailPage/> : <Navigate to={`/alumni/login`} />,
+           // replace with "user ? <TranscriptDetailPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <TranscriptDetailPage/>,
           errorElement: <ErrorPage/>
         },
 
         {
           path: '/alumni/:id/transcripts/new',
-          element: user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />,
+           // replace with "user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <NewTranscriptRequestPage/>,
+          errorElement: <ErrorPage/>
+        },
+
+
+        {
+          path: '/alumni/:id/requesttrackanddelivery',
+           // replace with "user ? <RequestTrackAndDelivery/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <RequestTrackAndDelivery/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/alumni/:id/progress',
+          element: <Progress/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/alumni/:data/transcripts/newrequest',
+           // replace with "user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <NewRequestPage/>,
           errorElement: <ErrorPage/>
         },
       ]  
 
-    }
+    },
 
   ])
 

@@ -15,3 +15,9 @@ export { default as TranscriptTrackingPage } from './Alumni/Transcripts/Tracking
 export { default as TranscriptDetailPage } from './Alumni/Transcripts/TranscriptDetail/TranscriptDetail';
 export { default as LogoutPage } from './Logout/Logout';
 export { default as RequestTrackAndDelivery } from './Alumni/RTDSection/RequestTrackAndDelivery' 
+export {default as RegistraDashboard } from './Registra/Dashboard'
+export {default as EvaluationOfficerLogin } from './EvaluationOfficer/Auth/Login/Login'
+export {default as EvaluationOfficerDashboard} from './EvaluationOfficer/Dashboard/Dashboard'
+export {default as VerifyCertificate } from './VerifyCertificate/VerifyCertificate'
+export {default as InstitutionVerification } from './Institution/Auth/verification/Verfication'
+export {default as UniversityProfile } from './Institution/UniversirtProfile/UniversityProfile'

@@ -37,7 +37,7 @@ const genTrnxRefId = async() => {
 exports.getTranscriptById = async(req, res) => {
         try {
             const { transcriptId } = req.params;
-            if (!mongoose.Types.ObjectId.isValid(id)) {
+            if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
                 throw Error('Not a valid id')
             }
             let response = await Transcripts.findById(transcriptId)
@@ -60,10 +60,34 @@ exports.createNewRequest = async(req, res) => {
         const { degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program } = req.body
 
         // generate refrenceId
-        const referenceId = await genTrnxRefId();
+        // find last transcript reference id in the database
+        const lastId = await Transcripts.findOne().sort({ _id: -1 });
+        // initializing transcript refence id
+        var referenceId;
+        // if there is no transcript in the database yet
+        if (lastId == null) {
+            referenceId = `Trxt-001`
+        } else {
+            const lastRefId = lastId.referenceId;
+            // console.log({ "last": lastId });
+            // console.log({ "lastRefId": lastRefId });
+            const splitted = lastRefId.split('-');
+            const numPart = splitted[1];
+            // parse and increment the numPart
+            const parseNum = Number.parseInt(numPart) + 1;
+            if (parseNum >= 10) {
+                referenceId = splitted[0] + '-0' + parseNum;
+            } else {
+                referenceId = splitted[0] + '-00' + parseNum;
+            }
+        }
+
+        //here
+        // const referenceId = await genTrnxRefId();
+        // console.log("Here: " + referenceId);
         // getting userid from middleware
-        const createdBy = req.user._id
-            // creating new transcript request
+        const createdBy = req.user._id;
+        // creating new transcript request
         let newTranscript = await Transcripts.createNewTranscript(referenceId,
             degreeType,
             institution,
@@ -120,7 +144,7 @@ exports.trackTranscript = async(req, res) => {
         })
 
     } catch (error) {
-        return res.json(error.message)
+        return res.json("error" + error.message)
     }
 }
 
@@ -208,25 +232,53 @@ exports.querryTranscript = async(req, res) => {
 
 // function to decline transcript
 exports.declineTranscript = async(req, res) => {
+        try {
+
+            // getting the data from input by destructuring request body
+            const { id } = req.params
+                // verify if id is valid
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                throw Error('not a valid id')
+            }
+            const declined = await Transcripts.findByIdAndUpdate(id, { isDeclined: true, declinedBy: req.user._id })
+
+            // If record found
+            if (!declined) {
+                //    return status code with message
+                return res.status(501).json({ message: "Something went wrong!" })
+            }
+            // return succesful status code, message and the new creaed transcript
+            return res.status(200).json({
+                message: 'declined successfully.',
+                declined
+            })
+
+        } catch (error) {
+            return res.json(error.message)
+        }
+    }
+    // function for  transcript delivery method
+exports.deliveryMethod = async(req, res) => {
     try {
 
         // getting the data from input by destructuring request body
-        const { id } = req.params
-            // verify if id is valid
-        if (!mongoose.Types.ObjectId.isValid(id)) {
+        const { transcriptId } = req.params;
+        const { modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail } = req.body;
+        // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
             throw Error('not a valid id')
         }
-        const declined = await Transcripts.findByIdAndUpdate(id, { isDeclined: true, declinedBy: req.user._id })
+        const transcriptUpdated = await Transcripts.findByIdAndUpdate(transcriptId, { modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail })
 
         // If record found
-        if (!declined) {
+        if (!transcriptUpdated) {
             //    return status code with message
-            return res.status(501).json({ message: "Something went wrong!" })
+            return res.status(404).json({ message: "Incorrect transcript ID passed!" })
         }
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
-            message: 'declined successfully.',
-            declined
+            message: 'Delivery method updated successfully.',
+            transcriptUpdated
         })
 
     } catch (error) {

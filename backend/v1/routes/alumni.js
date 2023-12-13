@@ -34,9 +34,8 @@ router.route('/reset-password/:token')
 //  =================================
 router.route('/:id')
     .get(controller.getAlumniById)
-    .patch(controller.updateAlumni)
-    .delete(controller.deleteAlumni)
-
+    .patch(isAuth, controller.updateAlumni)
+    .delete(isAuth, controller.deleteAlumni)
 router.route('/:id/verify')
     .patch(controller.verifyAlumnus)
 

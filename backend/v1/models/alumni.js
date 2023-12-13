@@ -43,6 +43,7 @@ alumniSchema.statics.signup = async function(fullName, emailAddress, password, v
         throw Error('all fields are required')
     }
 
+
     // using validator to validate email
     if (!validator.isEmail(emailAddress)) {
         throw Error('email is not valid')
@@ -97,7 +98,7 @@ alumniSchema.statics.login = async function(emailAddress, password) {
         throw Error('sorry your account is disabled')
     }
 
-    // compare password with users password
+    // compare password with user's password
     const match = await bcrypt.compare(password, alumni.password)
 
     // throw an error if not match
@@ -110,15 +111,26 @@ alumniSchema.statics.login = async function(emailAddress, password) {
 
 // send Alumni and email function
 alumniSchema.statics.sendEmail = async function(email, subject, message) {
-        let transport = nodemailer.createTransport(smtpTransport({
-            host: 'smtp.gmail.com',
-            secure: true,
-            port: 465,
+        // let transport = nodemailer.createTransport(smtpTransport({
+        //     service: 'gmail',
+        //     // host: process.env.EMAIL_HOST,
+        //     // secure: true,
+        //     // port: 465,
+        //     auth: {
+        //         user: process.env.EMAIL_USERNAME,
+        //         pass: process.env.EMAIL_PASSWORD
+        //     }
+        // }))
+        let transport = nodemailer.createTransport({
+            service: 'gmail',
+            // host: process.env.EMAIL_HOST,
+            // secure: true,
+            // port: 465,
             auth: {
                 user: process.env.EMAIL_USERNAME,
                 pass: process.env.EMAIL_PASSWORD
             }
-        }))
+        })
 
         const info = await transport.sendMail({
             from: process.env.EMAIL_USERNAME,

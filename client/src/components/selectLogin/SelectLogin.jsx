@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom'
 
 function SelectLogin() {
 
-    const [hover, setHover] = useState(false)
+    const [hover, setHover] = useState(0)
   return (
     <div className='overflow-y-auto flex flex-1 justify-center justify-items-center'>
         <div className="p-5 rounded-lg w-full gap-y-8 flex flex-col">
@@ -50,6 +50,44 @@ function SelectLogin() {
                         </Button>
                     </Link>
                 </div>
+
+
+                <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
+                    <img src={alumni} alt="alumnipic" />
+                    <h4>Staff</h4>
+                    <Link to={`/alumni/login`}> 
+                        <Button
+                            variant='contained'
+                            className={`hover:bg-slate-200 hover:text-slate-500 lowercase ${hover ? `bg-slate-200 text-slate-500` : `text-white bg-[#6B3FA0]`}`}
+                            onMouseOver={()=>{setHover(true)}}
+                            onMouseOut={()=>{setHover(false)}}
+                        >
+                            continue
+                        </Button>
+                    </Link>
+                </div>
+
+
+
+
+
+                <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
+                    <img src={alumni} alt="alumnipic" />
+                    <h4>Postal Service</h4>
+                    <Link to={`/alumni/login`}> 
+                        <Button
+                            variant='contained'
+                            className={`hover:bg-slate-200 hover:text-slate-500 lowercase ${hover ? `bg-slate-200 text-slate-500` : `text-white bg-[#6B3FA0]`}`}
+                            onMouseOver={()=>{setHover(true)}}
+                            onMouseOut={()=>{setHover(false)}}
+                        >
+                            continue
+                        </Button>
+                    </Link>
+                </div>
+
+
+
             </div>
         </div>
     </div>
