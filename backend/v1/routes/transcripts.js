@@ -7,8 +7,10 @@ const express = require('express'),
 router.route(`/`)
     .get(controller.getAllTranscripts)
     .post(isAuth, controller.createNewRequest);
+
 router.route(`/:transcriptId`)
     .get(controller.getTranscriptById)
+    .patch(isAuth, controller.deliveryMethod);
 
 // track transcript route
 router.route(`/track`)
