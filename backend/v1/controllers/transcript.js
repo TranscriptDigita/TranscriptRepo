@@ -53,7 +53,7 @@ exports.getTranscriptByAlumniId = async(req, res) => {
         if (!mongoose.Types.ObjectId.isValid(alumniId)) {
             throw Error('Not a valid id.')
         }
-        let response = await Transcripts.find({ createdBy: mongoose.Types.ObjectId(alumniId) })
+        let response = await Transcripts.find({ createdBy: alumniId })
         return res.json(response)
     } catch (error) {
         res.json({ message: error.message })
