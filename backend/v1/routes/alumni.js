@@ -24,7 +24,8 @@ router.route('/reset-password')
     .post(controller.forgotPassword)
 
 router.route('/reset-password/:token')
-    .post(controller.passwordReset)
+    .post(controller.passwordReset);
+
 
 
 // ==================================
@@ -35,7 +36,10 @@ router.route('/reset-password/:token')
 router.route('/:id')
     .get(controller.getAlumniById)
     .patch(isAuth, controller.updateAlumni)
-    .delete(isAuth, controller.deleteAlumni)
+    .delete(isAuth, controller.deleteAlumni);
+
+router.route('/change-password/:alumniId')
+    .patch(isAuth, controller.changePassword);
 router.route('/:id/verify')
     .patch(controller.verifyAlumnus)
 

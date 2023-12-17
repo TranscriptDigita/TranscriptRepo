@@ -162,35 +162,73 @@ exports.forgotPassword = async(req, res) => {
 
 // password reset
 exports.passwordReset = async(req, res) => {
-    try {
-        const { token } = req.params;
-        const { password } = req.body;
+        try {
+            const { token } = req.params;
+            const { password } = req.body;
 
-        // find alumni using token and expiry time
-        const foundAlumni = await Alumni.findOne({
-            resetPasswordToken: token,
-            resetPasswordExpires: { $gt: Date.now() }
-        });
+            // find alumni using token and expiry time
+            const foundAlumni = await Alumni.findOne({
+                resetPasswordToken: token,
+                resetPasswordExpires: { $gt: Date.now() }
+            });
+
+            // if alumni not found throw error
+            if (!foundAlumni) {
+                throw Error("Password reset token is invalid or has expired");
+            }
+
+            // check password strength
+            // using validator to check if password is strong
+            if (!validator.isStrongPassword(password)) {
+                throw Error('password not strong enough')
+            }
+            // hash password
+            // generating salt to hash password
+            const salt = await bcrypt.genSalt(10)
+            const hash = await bcrypt.hash(password, salt)
+
+            // Update the foundAlumni's password
+            foundAlumni.password = hash;
+            foundAlumni.resetPasswordToken = '';
+            foundAlumni.resetPasswordExpires = '';
+
+            await foundAlumni.save();
+
+            return res.status(200).json({ message: "Password reset successful", alumni: foundAlumni });
+
+        } catch (error) {
+            // return error code and message 
+            return res.status(400).json({ message: error.message })
+        }
+    }
+    // change password
+exports.changePassword = async(req, res) => {
+    try {
+        const _Id = req.params.alumniId;
+        const { newPassword, confirmNewPassword } = req.body;
+
+        // find alumni using Id
+        const foundAlumni = await Alumni.findById(_id);
 
         // if alumni not found throw error
         if (!foundAlumni) {
-            throw Error("Password reset token is invalid or has expired");
+            throw Error("No record found with that alumni Id.");
+        }
+
+        // if alumni not found throw error
+        if (newPassword != confirmNewPassword) {
+            throw Error("Password passwords do not match!");
         }
 
         // check password strength
         // using validator to check if password is strong
-        if (!validator.isStrongPassword(password)) {
+        if (!validator.isStrongPassword(newPassword)) {
             throw Error('password not strong enough')
         }
         // hash password
         // generating salt to hash password
         const salt = await bcrypt.genSalt(10)
-        const hash = await bcrypt.hash(password, salt)
-
-        // Update the foundAlumni's password
-        foundAlumni.password = hash;
-        foundAlumni.resetPasswordToken = '';
-        foundAlumni.resetPasswordExpires = '';
+        const hash = await bcrypt.hash(newPassword, salt)
 
         await foundAlumni.save();
 
@@ -201,6 +239,7 @@ exports.passwordReset = async(req, res) => {
         return res.status(400).json({ message: error.message })
     }
 }
+
 
 // verify a recently registered user
 exports.verifyAlumnus = async(req, res) => {
