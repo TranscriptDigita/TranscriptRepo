@@ -14,7 +14,7 @@ router.route(`/:transcriptId`)
 
 // get transcript by alumni Id route
 router.route('/:alumniId')
-    .get(controller.getTranscriptByAlumniId);
+    .get(isAuth, controller.getTranscriptByAlumniId);
 
 // track transcript route
 router.route(`/track`)
