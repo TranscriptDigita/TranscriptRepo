@@ -273,13 +273,8 @@ exports.updateAlumni = async(req, res) => {
     const { id } = req.params
     const {
         fullName,
-        matricNo,
         phoneNumber,
-        emailAddress,
-        paymentDetails,
-        yearOfGraduation,
-        monthOfGraduation,
-        department
+        emailAddress
     } = req.body
 
     try {
@@ -290,13 +285,8 @@ exports.updateAlumni = async(req, res) => {
         // find alumnus in database the id and update
         let updatedDetails = await Alumni.update(id, {
             fullName,
-            matricNo,
             phoneNumber,
             emailAddress,
-            paymentDetails,
-            yearOfGraduation,
-            monthOfGraduation,
-            department
         });
         // return succesful status code, message and the updated user
         return res.status(200).json({ message: "Alumni updated!", Alumni: updatedDetails })

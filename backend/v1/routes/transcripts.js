@@ -12,6 +12,10 @@ router.route(`/:transcriptId`)
     .get(controller.getTranscriptById)
     .patch(isAuth, controller.deliveryMethod);
 
+// get transcript by alumni Id route
+router.route('/:alumniId')
+    .get(controller.getTranscriptByAlumniId);
+
 // track transcript route
 router.route(`/track`)
     .get(controller.trackTranscript)

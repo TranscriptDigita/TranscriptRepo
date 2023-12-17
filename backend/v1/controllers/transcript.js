@@ -46,7 +46,22 @@ exports.getTranscriptById = async(req, res) => {
             res.json({ message: error.message })
         }
     }
-    // Fetch all transcripts
+    // Fetch transcript by transcript id
+exports.getTranscriptByAlumniId = async(req, res) => {
+    try {
+        const { alumniId } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(alumniId)) {
+            throw Error('Not a valid id')
+        }
+        let response = await Transcripts.find({ createdBy: alumniId })
+        return res.json(response)
+    } catch (error) {
+        res.json({ message: error.message })
+    }
+}
+
+
+// Fetch all transcripts
 exports.getAllTranscripts = async(req, res) => {
     let response = await Transcripts.find({})
     return res.json(response)
