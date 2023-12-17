@@ -13,7 +13,7 @@ router.route(`/:transcriptId`)
     .patch(isAuth, controller.deliveryMethod);
 
 // get transcript by alumni Id route
-router.route('/:alumniId')
+router.route('/all/:alumniId')
     .get(isAuth, controller.getTranscriptByAlumniId);
 
 // track transcript route
