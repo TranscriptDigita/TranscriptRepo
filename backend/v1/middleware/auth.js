@@ -140,13 +140,13 @@ exports.isAuthAdmin = async(req, res, next) => {
         console.log({ id: _id })
             // searhing db and geting user using _id and assigning to req.user
         req.user = await Admin.findOne({ _id }).select('_id')
-
-        // if bot found throw error
+            // console.log({ ReqUser: req.user });
+            // if bot found throw error
         if (!req.user) {
             throw Error('token not accessible')
         }
 
-        // call th enext set of function
+        // call the next set of function
         next()
 
     } catch (error) {

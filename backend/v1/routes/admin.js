@@ -42,7 +42,7 @@ router.route('/logs')
 
 /* ======================================
 =========== fetch alumnus route=========*/
-router.route('/all_alumnus')
+router.route('/all/alumnus')
     .get(isAuthAdmin, controller.getAllAlumnus)
 
 /* ======================================
@@ -63,7 +63,7 @@ router.route('/institions')
 // =================================
 // ========Fet all staff ===========
 // ================================
-router.route('/staff')
-    .get(isAuthAdmin, controller.getAllStaff)
+router.route('/staff/list')
+    .get(isAuthAdmin, controller.fetchAllStaff)
 
 module.exports = router

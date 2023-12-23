@@ -386,9 +386,9 @@ exports.getAllInstitutions = async(req, res) => {
 }
 
 // function to get all staff
-exports.getAllStaff = async(req, res) => {
+exports.fetchAllStaff = async(req, res) => {
+
     try {
-        return "I am here";
         // find all admin in database
         let allStaff = await Staff.find({})
 

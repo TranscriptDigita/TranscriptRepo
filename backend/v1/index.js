@@ -49,7 +49,7 @@ app.use('/api/v1/transcript', transcriptRoutes)
 app.use('/api/v1/contact-us', contactUsRoutes)
 
 // staff endpoint
-app.use('/api/v1/staff', staffRoutes)
+app.use('/apiv1/staff', staffRoutes)
     // Students data endpoint
 app.use('/api/v1/students-data', studentsData);
 // admin endpoint
