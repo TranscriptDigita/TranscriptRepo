@@ -43,7 +43,7 @@ router.route('/logs')
 /* ======================================
 =========== fetch alumnus route=========*/
 router.route('/all_alumnus')
-    .get(isAuthAdmin, controller.getAllAlumnus)
+    .get(controller.getAllAlumnus)
 
 /* ======================================
 ===filter alumnus by institution route ==*/
