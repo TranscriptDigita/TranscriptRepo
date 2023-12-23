@@ -37,7 +37,7 @@ router.route('/:id')
 // New routes
 /* ======================================
 =========== fetch logs route===========*/
-router.route('/logs')
+router.route('/all/logs')
     .get(isAuthAdmin, controller.getAllLogs)
 
 /* ======================================
