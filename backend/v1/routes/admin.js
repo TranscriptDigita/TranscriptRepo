@@ -42,7 +42,7 @@ router.route('/logs')
 
 /* ======================================
 =========== fetch alumnus route=========*/
-router.route('/alumnus')
+router.route('/all_alumnus')
     .get(isAuthAdmin, controller.getAllAlumnus)
 
 /* ======================================

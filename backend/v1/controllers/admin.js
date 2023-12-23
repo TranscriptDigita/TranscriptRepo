@@ -297,25 +297,26 @@ exports.getAllLogs = async(req, res) => {
     }
     // function to get all alumnus
 exports.getAllAlumnus = async(req, res) => {
-        try {
+    try {
 
-            // find all admin in database
-            let allAlumnus = await Alumni.find({})
+        // find all admin in database
+        let allAlumnus = await Alumni.find({})
 
-            // if not allAdmins throw error 
-            if (!allAlumnus) {
-                throw Error('No Resources Found!')
-            }
-
-            // return status and data as json
-            return res.status(201).json(allAlumnus)
-
-        } catch (error) {
-            // return status and error as json
-            return res.status(403).json({ message: error.message })
+        // if not allAdmins throw error 
+        if (!allAlumnus) {
+            throw Error('No Resources Found!')
         }
+
+        // return status and data as json
+        return res.status(201).json(allAlumnus)
+
+    } catch (error) {
+        // return status and error as json
+        return res.status(403).json({ message: error.message })
     }
-    // function to getfilter alumnus
+}
+
+// function to getfilter alumnus
 exports.filterAlumnusByInstitution = async(req, res) => {
     const { institutionId } = req.params;
     try {
