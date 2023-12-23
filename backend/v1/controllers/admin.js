@@ -432,7 +432,11 @@ exports.fetchAllStaff = async(req, res) => {
 exports.getStaffByInstitution = async(req, res) => {
     try {
         const { institutionId } = req.params
-            // find all staff in database
+            // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(institutionId)) {
+            throw Error('not a valid id')
+        }
+        // find all staff in database
         let allStaff = await Staff.find({ institution: institutionId })
 
         // if not allAlumnus throw error 
