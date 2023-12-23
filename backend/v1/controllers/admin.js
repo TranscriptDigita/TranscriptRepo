@@ -6,6 +6,7 @@ const Admin = require('../models/admin'),
     Alumni = require('../models/alumni'),
     Logs = require('../models/logs'),
     Institution = require('../models/institution'),
+    Staff = require('../models/staff'),
     mongoose = require('mongoose'),
     jwt = require('jsonwebtoken'),
     validator = require('validator'),
@@ -363,7 +364,7 @@ exports.deleteAlumni = async(req, res) => {
             return res.status(400).json({ message: error.message })
         }
     }
-    //  functo to fetch all institutions
+    //  functoin to fetch all institutions
 exports.getAllInstitutions = async(req, res) => {
     try {
 
@@ -377,6 +378,27 @@ exports.getAllInstitutions = async(req, res) => {
 
         // return status and data as json
         return res.status(201).json(allInstitution)
+
+    } catch (error) {
+        // return status and error as json
+        return res.status(403).json({ message: error.message })
+    }
+}
+
+// function to get all staff
+exports.getAllStaff = async(req, res) => {
+    try {
+
+        // find all admin in database
+        let allStaff = await Staff.find({})
+
+        // if not allAdmins throw error 
+        if (!allStaff) {
+            throw Error('No Resources Found!')
+        }
+
+        // return status and data as json
+        return res.status(200).json(allStaff)
 
     } catch (error) {
         // return status and error as json

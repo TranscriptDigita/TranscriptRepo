@@ -60,4 +60,10 @@ router.route('/delete-alumin/:id')
 router.route('/institions')
     .get(isAuthAdmin, controller.getAllInstitutions)
 
+// =================================
+// ========Fet all staff ===========
+// ================================
+router.route('/staff')
+    .get(isAuthAdmin, controller.getAllStaff)
+
 module.exports = router
