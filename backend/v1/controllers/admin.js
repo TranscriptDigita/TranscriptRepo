@@ -429,5 +429,23 @@ exports.fetchAllStaff = async(req, res) => {
         return res.status(403).json({ message: error.message })
     }
 }
+exports.getStaffByInstitution = async(req, res) => {
+    try {
+        const institution = req.user._id
+            // find all staff in database
+        let allStaff = await Staff.fetchAllStaff(institution)
 
+        // if not allAlumnus throw error 
+        if (!allStaff) {
+            throw Error('resource could not be located !!')
+        }
+
+        // return status and data as json
+        return res.status(200).json(allStaff)
+
+    } catch (error) {
+        // return status and error as json
+        return res.status(403).json({ message: error.message })
+    }
+}
 module.exports = exports

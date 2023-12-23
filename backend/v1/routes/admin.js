@@ -66,9 +66,15 @@ router.route('/all/institions')
     .get(isAuthAdmin, controller.getAllInstitutions)
 
 // =================================
-// ========Fet all staff ===========
+// ========Fetch all staff ==========
 // ================================
 router.route('/staff/list')
     .get(isAuthAdmin, controller.fetchAllStaff)
+
+// =================================
+// ========Fetch all staff ==========
+// ================================
+router.route('/:institutionId/staff/list')
+    .get(isAuthAdmin, controller.getStaffByInstitution)
 
 module.exports = router
