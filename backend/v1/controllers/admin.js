@@ -431,9 +431,9 @@ exports.fetchAllStaff = async(req, res) => {
 }
 exports.getStaffByInstitution = async(req, res) => {
     try {
-        const institution = req.user._id
+        const { institutionId } = req.params
             // find all staff in database
-        let allStaff = await Staff.fetchAllStaff(institution)
+        let allStaff = await Staff.find({ institution: institutionId })
 
         // if not allAlumnus throw error 
         if (!allStaff) {
