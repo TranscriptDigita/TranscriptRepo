@@ -46,8 +46,13 @@ router.route('/all/alumnus')
     .get(isAuthAdmin, controller.getAllAlumnus)
 
 /* ======================================
-===filter alumnus by institution route ==*/
-router.route('/:institutionId/alumnus')
+=========== fetch alumnus route=========*/
+router.route('/all/transcripts')
+    .get(isAuthAdmin, controller.fetchAllTranscripts)
+
+/* ======================================
+===filter transcript by institution route ==*/
+router.route('/:institutionId/transcripts')
     .get(isAuthAdmin, controller.filterAlumnusByInstitution)
 
 /* ======================================

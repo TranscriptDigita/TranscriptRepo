@@ -7,6 +7,7 @@ const Admin = require('../models/admin'),
     Logs = require('../models/logs'),
     Institution = require('../models/institution'),
     Staff = require('../models/staff'),
+    Transcripts = require('../models/transcript'),
     mongoose = require('mongoose'),
     jwt = require('jsonwebtoken'),
     validator = require('validator'),
@@ -317,21 +318,44 @@ exports.getAllAlumnus = async(req, res) => {
     }
 }
 
-// function to getfilter alumnus
+// function to fetch all transcripts
+exports.fetchAllTranscripts = async(req, res) => {
+
+    try {
+
+        // find all admin in database
+        let allTranscripts = await Transcripts.find({})
+
+        // if not allAdmins throw error 
+        if (!allTranscripts) {
+            throw Error('No Resources Found!')
+        }
+
+        // return status and data as json
+        return res.status(201).json(allTranscripts)
+
+    } catch (error) {
+        // return status and error as json
+        return res.status(403).json({ message: error.message })
+    }
+}
+
+
+// function to getfilter transcript by institution
 exports.filterAlumnusByInstitution = async(req, res) => {
     const { institutionId } = req.params;
     try {
 
         // find all admin in database
-        let allAlumnus = await Alumni.find({ institutionId })
+        let allTranscripts = await Transcripts.find({ institutionId })
 
         // if not allAdmins throw error 
-        if (!allAlumnus) {
+        if (!allTranscripts) {
             throw Error('No Resources Found!')
         }
 
         // return status and data as json
-        return res.status(201).json(allAlumnus)
+        return res.status(201).json(allTranscripts)
 
     } catch (error) {
         // return status and error as json
