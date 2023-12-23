@@ -332,7 +332,7 @@ exports.fetchAllTranscripts = async(req, res) => {
         }
 
         // return status and data as json
-        return res.status(201).json(allTranscripts)
+        return res.status(200).json(allTranscripts)
 
     } catch (error) {
         // return status and error as json
@@ -343,11 +343,11 @@ exports.fetchAllTranscripts = async(req, res) => {
 
 // function to getfilter transcript by institution
 exports.filterAlumnusByInstitution = async(req, res) => {
-    const { institutionId } = req.params;
+    const { institution } = req.params;
     try {
 
         // find all admin in database
-        let allTranscripts = await Transcripts.find({ institutionId })
+        let allTranscripts = await Transcripts.find({ institution })
 
         // if not allAdmins throw error 
         if (!allTranscripts) {

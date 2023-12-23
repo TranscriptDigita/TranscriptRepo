@@ -52,7 +52,7 @@ router.route('/all/transcripts')
 
 /* ======================================
 ===filter transcript by institution route ==*/
-router.route('/:institutionId/transcripts')
+router.route('/:institution/transcripts')
     .get(isAuthAdmin, controller.filterAlumnusByInstitution)
 
 /* ======================================
