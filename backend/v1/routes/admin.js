@@ -52,12 +52,12 @@ router.route('/:institutionId/alumnus')
 
 /* ======================================
 =========== delete alumni by id route=========*/
-router.route('/delete-alumin/:id')
+router.route('/delete/alumin/:id')
     .delete(isAuthAdmin, controller.deleteAlumni)
 
 /* ======================================
 =========== fetch alumnus route========= */
-router.route('/institions')
+router.route('/all/institions')
     .get(isAuthAdmin, controller.getAllInstitutions)
 
 // =================================
