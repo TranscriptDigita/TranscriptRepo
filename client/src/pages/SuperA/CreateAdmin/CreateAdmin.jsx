@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Button, TextField } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { AdminList } from '../../../containers';
 
-
-
-function Login() {
+function CreateAdmin() {
   const [formData, setFormData] = useState({
     emailAddress: '',
     password: '',
@@ -19,50 +21,57 @@ function Login() {
     }));
   };
 
-  const handleSubmit = async () => {
+  const { admin } = useSelector((state) => state.institution);
+
+  const handleCreateAdmin = async () => {
     try {
+      // Get the Bearer token from local storage
+      const superAdminData = JSON.parse(localStorage.getItem('SuperAdmin'));
+      const token = superAdminData.admin.token;
+
+      // Log the values being sent to the API
+      console.log('Email:', formData.emailAddress);
+      console.log('Password:', formData.password);
+
       // Make the API request
-      const response = await fetch('https://dacs.onrender.com/api/v1/admin/login', {
+      const response = await fetch('https://dacs.onrender.com/api/v1/admin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
-  
+
       // Parse the response
       const data = await response.json();
-  
-      // Check if login was successful
+
+      // Check if admin creation was successful
       if (response.ok) {
-        // Store the API response in local storage
-        localStorage.setItem('AdminUser', JSON.stringify(data));
+        console.log('Admin created successfully:', data);
 
-         // Extract the id and token from the API response
-         const { _id: id } = data.admin;
-         const token = data.token;
+        // Show success message
+        toast.success('New admin user created successfully');
 
-         // Log the extracted values to the console
-         console.log('ID:', id);
-         console.log('Token:', token);
- 
-  
-          // Navigate to the '/admin' route with id and token
-          navigate(`/admin/${id}/${token}/dashboard`);
+       
       } else {
-        // Handle login failure, show error message, etc.
-        console.error('Login failed:', data.message);
+        // Log the error message
+        console.error('Admin creation failed:', data.message);
+
+        // Show error message
+        toast.error(`Error: ${data.message}`);
       }
     } catch (error) {
-      console.error('Error during login:', error);
+      console.error('Error during admin creation:', error);
+
+      // Show a generic error message
+      toast.error('An error occurred during admin creation');
     }
   };
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <div className="flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0">
-        {/* Your spinner component */}
-     
         <div className="flex flex-col gap-y-4">
           <TextField
             id="outlined-email-input"
@@ -85,14 +94,16 @@ function Login() {
         <Button
           variant="contained"
           className="bg-[#6B3FA0] hover:bg-[#6B3FA0] lowercase"
-          onClick={handleSubmit} // Call your handleSubmit function on button click
+          onClick={handleCreateAdmin}
         >
-          Sign in
+          Create
         </Button>
-        
+        <AdminList/>
       </div>
+      {/* ToastContainer for displaying pop-up messages */}
+      <ToastContainer />
     </div>
   );
 }
 
-export default Login;
+export default CreateAdmin;

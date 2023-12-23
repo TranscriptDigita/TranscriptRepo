@@ -149,6 +149,9 @@ console.log("This is the user data from local storage:", userData);
         // Handle success, you may want to show a success message or navigate to another page
         console.log('Transcript created successfully');
         // Now, you can change the active form
+
+       // Save the response data to local storage
+      localStorage.setItem('transcriptApiResponse', JSON.stringify(responseData));
       setActiveForm(2);
       } else {
         // Handle error, you may want to show an error message
@@ -159,8 +162,54 @@ console.log("This is the user data from local storage:", userData);
       console.error('An error occurred:', error);
     }
   };
-  
 
+  const transcriptApiResponse = JSON.parse(localStorage.getItem('transcriptApiResponse'));
+  const transcriptId = transcriptApiResponse?.Transcript?._id;
+
+  const handlePatchRequest = async (selectTranscriptType, event) => {
+    event.preventDefault();
+    console.log('Current transcriptId:', transcriptId);
+    if (!transcriptId) {
+      console.error('transcriptId is not available');
+      return;
+    }
+  
+    const requestDataa = {
+      typeOfTranscript: selectTranscriptType,
+      modeOfDelivery: selectedDeliveryMethod,
+      recipientCountry: 'Nigeria',
+      recipientAddress: recipientAddressRef.current?.value,
+      recipientPhoneNumber: phoneNumberRef.current?.value,
+      recipientEmail: recipientEmailRef.current?.value,
+    };
+  
+    const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
+  
+    try {
+      const response = await fetch(`https://dacs.onrender.com/api/v1/transcript/${transcriptId}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestDataa),
+      });
+  
+      console.log('Request Data:', requestDataa);
+  
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('API Response:', responseData);
+        // Handle success or navigate to another page
+      } else {
+        console.error('Failed to update transcript delivery details');
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+  };
+  
+  
 
 
 
@@ -172,7 +221,7 @@ console.log("This is the user data from local storage:", userData);
   return (
     <div className='p-5'>
       <div className='flex flex-col gap-y-4 bg-white p-5 my-auto rounded-lg'>
-        <h4 className='font-bold'>{decodedData}</h4>
+        <h4 className='font-bold'>{data}</h4>
         
         
         
@@ -180,9 +229,9 @@ console.log("This is the user data from local storage:", userData);
         <button
           className='md:w-4/12 mx-auto bg-gray-300'
           onClick={() => {}}
-          style={{ color: 'black', marginLeft: '0' }}
+          // style={{ color: 'black', marginLeft: '0' }}
         >
-          Request Transcript From {decodedData}
+          Request Transcript From {data}
         </button>
 
         <h4 className='font-bold text-center'>Fill the Form below</h4>
@@ -285,136 +334,94 @@ console.log("This is the user data from local storage:", userData);
             </div>
           )}
 
-          {activeForm == 2 && (
-            <div className='md:w-8/12 m-auto p-5'>
-            {window.innerWidth >= 768 ? (
-              <div className='md:w-8/12 m-auto grid md:grid-cols-2 grid-cols-1 md:gap-x-[50px] gap-y-[25px] p-5'>
-                <h4 className='col-span-2 text-center font-bold'>Delivery Method</h4>
+        
+{activeForm == 2 && (
+            <div className='md:w-8/12 m-auto grid md:grid-cols-2 grid-cols-1 md:gap-x-[50px] gap-y-[25px] p-5'>
+              <h4 className='col-span-2 text-center font-bold'>Delivery Method</h4>
+
+                            <select
+                onChange={selectTranscriptType}
+                
+                ref={transcriptTypeRef}
+                className='custom-dropdown border-2 border-black border-solid rounded-md p-2'
+              >
+                <option value='' disabled>Select Type of Transcript</option>
+                <option value='email'>Official</option>
+                <option value='homeDelivery'>Personal</option>
+              </select>
+
+              <select
+                onChange={handleDeliveryMethodChange}
+                value={selectedDeliveryMethod}
+                ref={deliveryTypeRef}
+                className='custom-dropdown border-2 border-black border-solid rounded-md p-2'
+              >
+                <option value='' disabled>Select mode of delivery</option>
+                <option value='email'>Email</option>
+                <option value='homeDelivery'>Home Delivery</option>
+                <option value='pickUp'>Pick up</option>
+                {/* Add more options as needed */}
+              </select>
 
 
-                <select
-                  value={selectTranscriptType}
-                  ref={transcriptTypeRef}
-                  className='custom-dropdown border-2 border-black border-solid rounded-md p-2'
-                >
-                  <option value='' disabled>Select Type of Transcript</option>
-                  <option value='email'>Official</option>
-                  <option value='homeDelivery'>Personal</option>
-                </select>
-
-
-                <select
-                  onChange={handleDeliveryMethodChange}
-                  value={selectedDeliveryMethod}
-                  ref={deliveryTypeRef}
-                  className='custom-dropdown border-2 border-black border-solid rounded-md p-2'
-                >
-                  <option value='' disabled>Select mode of delivery</option>
-                  <option value='email'>Email</option>
-                  <option value='homeDelivery'>Home Delivery</option>
-                  <option value='pickUp'>Pick up</option>
-                  {/* Add more options as needed */}
-                </select>
-      
-                {selectedDeliveryMethod === 'homeDelivery' && (
-                  <>
-                    <input
-                      type='email'
-                      placeholder='Recipient email'
-                      ref={recipientEmailRef}
-                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-                    />
-                    <input
-                      type='text'
-                      placeholder='Recipient address'
-                      ref={recipientAddressRef}
-                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-                    />
-                    <input
-                      type='number'
-                      placeholder='Phone Number'
-                      ref={phoneNumberRef}
-                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-                    />
-
-                    <input
-                      type='address'
-                      placeholder='Phone Number'
-                      ref={addressRef}
-                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-                    />
-
-
-                  <CountryDropdown/>
-                    
-                  </>
-                )}
-      
-                {selectedDeliveryMethod === 'email' && (
-                  <>
-                    <input
-                      type='email'
-                      placeholder='Recipient email'
-                      ref={recipientEmailRef}
-                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-                    />
-                  </>
-                )}
-      
-                {selectedDeliveryMethod === 'pickUp' && (
-                  <>
-                    <input
-                      type='email'
-                      placeholder='Recipient email'
-                      ref={recipientEmailRef}
-                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-                    />
-                    <input
-                      type='number'
-                      placeholder='Phone Number'
-                      ref={phoneNumberRef}
-                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-                    />
-                  </>
-                )}
-              </div>
-              ) : (
-                <div className='md:w-8/12 m-auto p-5 flex flex-col items-center'>
-                <h4 className='text-center font-bold mb-4'>Delivery Method</h4>
-                <input
-                  type='text'
-                  placeholder='Mode of delivery'
-                  ref={deliveryMethodRef}
-               
-                  className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-2 md:mt-5'
-                />
-                <input
-                  type='email'
-                  placeholder='Recipient email'
-                  ref={recipientEmailRef}
-                  className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-2 md:mt-5'
-                />
-                <input
-                  type='text'
-                  placeholder='Recipient address'
-                  ref={recipientAddressRef}
-                  className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-2 md:mt-5'
-                />
-                <input
-                  type='text'
-                  placeholder='Phone Number'
-                  ref={phoneNumberRef}
-                  className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-2 md:mt-5'
-                />
-                <input
-                  type='text'
-                  className='custom-textfield border-2 border-black border-solid rounded-md p-2 mt-2 md:mt-5'
-                />
-              </div>
               
+
+              {selectedDeliveryMethod === 'homeDelivery' && (
+                <>
+                  <input
+                    type='email'
+                    placeholder='Recipient email'
+                    ref={recipientEmailRef}
+                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                  />
+                  <input
+                    type='text'
+                    placeholder='Recipient address'
+                    ref={recipientAddressRef}
+                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                  />
+                  <input
+                    type='number'
+                    placeholder='Phone Number'
+                    ref={phoneNumberRef}
+                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                  />
+
+                 
+                  <CountryDropdown />
+                </>
+              )}
+
+              {selectedDeliveryMethod === 'email' && (
+                <>
+                  <input
+                    type='email'
+                    placeholder='Recipient email'
+                    ref={recipientEmailRef}
+                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                  />
+                </>
+              )}
+
+              {selectedDeliveryMethod === 'pickUp' && (
+                <>
+                  <input
+                    type='email'
+                    placeholder='Recipient email'
+                    ref={recipientEmailRef}
+                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                  />
+                  <input
+                    type='number'
+                    placeholder='Phone Number'
+                    ref={phoneNumberRef}
+                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                  />
+                </>
               )}
             </div>
           )}
+
 
           {activeForm == 3 && (
             <div className='grid grid-cols md:w-8/12 m-auto md:gap-x-[50px] gap-y-[25px]'>
@@ -462,12 +469,13 @@ console.log("This is the user data from local storage:", userData);
               }}>
                 Previous
               </button>
-              <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
-               onClick={() => {
-                setActiveForm(3); // Navigate to the next step
-                handleSubmit(); // Call handleSubmit
-              }}>
-                Complete
+              <button
+                className='md:w-4/12 mx-auto bg-purple-700 border-2 rounded-md p-2'
+                onClick={() => {
+                  handlePatchRequest(selectTranscriptType, event);
+                }}
+              >
+                Update Delivery Details
               </button>
             </div>
           )}

@@ -28,7 +28,6 @@ import {
   AdminLogin,
   ChangePasswordAdmin,
   AForgotPassword,
-  StudentList,
   InstitutionSignup,
   InstitutionDashboard,
   ErrorPage,
@@ -48,6 +47,15 @@ import {
   RegistraDashboard,
   EvaluationOfficerLogin,
   EvaluationOfficerDashboard,
+  UniversityProfile,
+  VerifyCertificate,
+  Settings,
+  TrackingPage,
+  SuperAdminLogin,
+  CreateAdmin,
+  AvailableInstitutions,
+  InstituionTables,
+  AdminSettings,
 } from "./pages";
 
 // components imports
@@ -86,6 +94,25 @@ function App() {
         },
 
         {
+          path: '/superadmin/login',
+          element: <SuperAdminLogin/>,
+          errorElement: <ErrorPage/>
+        },
+
+
+        {
+          path: '/superadmin/:id/:token/createadmin',
+          element: <CreateAdmin/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/admin/login',
+          element: <AdminLogin/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
           path: "/logout",
           element: <LogoutPage />,
           errorElement: <ErrorPage />,
@@ -115,6 +142,7 @@ function App() {
           element: <UniversityProfile/>,
           errorElement: <ErrorPage/>
         },
+
 
 
         {
@@ -261,7 +289,7 @@ function App() {
         },
 
         {
-          path: '/alumni/:id/transcripts/new',
+          path: '/alumni/:data/transcripts/newrequest',
            // replace with "user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
           element: <NewTranscriptRequestPage/>,
           errorElement: <ErrorPage/>
@@ -277,6 +305,18 @@ function App() {
           element: <Progress/>,
           errorElement: <ErrorPage/>
         },
+
+        {
+          path: '/alumni/:id/settings',
+          element: <Settings/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/alumni/:id/trackingpage',
+          element: <TrackingPage/>,
+          errorElement: <ErrorPage/>
+        },
         
       ]  
 
@@ -289,20 +329,34 @@ function App() {
       errorElement: <ErrorPage/>,
       children: [
         {
-          path: '/admin/:id/dashboard',
+          path: '/admin/:id/:token/dashboard',
           element: <AdminDashboard/>,
           errorElement: <ErrorPage/>
         },
-        {
-          path: '/admin/:id/student-list',
-          element: <StudentList/>,
-          errorElement: <ErrorPage/>
-        },
+      
         {
           path: '/admin/:id/change-password',
           element: <ChangePasswordAdmin/>,
           errorElement: <ErrorPage/>
         },
+        {
+          path: '/admin/:id/availableinstitutions',
+          element: <AvailableInstitutions/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/admin/:id/institutiontables',
+          element: <InstituionTables/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/admin/:id/:token/adminsettings',
+          element: <AdminSettings/>,
+          errorElement: <ErrorPage/>
+        },
+        
           ]
         },
 

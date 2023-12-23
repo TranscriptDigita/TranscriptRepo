@@ -1,6 +1,5 @@
 export { default as AlumniDashboard } from './Alumni/Dashboard/Dashboard'; 
 export { default as AdminDashboard } from './Admin/Dashboard/Dashboard'; 
-export { default as StudentList } from './Admin/Student/StudentList'; 
 export { default as ChangePasswordAdmin } from './Admin/Auth/changePassword/ChangePassword';
 export { default as AForgotPassword } from './Admin/Auth/forgotPassword/ForgotPassword';
 export { default as Login } from './Alumni/Auth/Login/Login';
@@ -26,3 +25,10 @@ export {default as EvaluationOfficerDashboard} from './EvaluationOfficer/Dashboa
 export {default as VerifyCertificate } from './VerifyCertificate/VerifyCertificate'
 export {default as InstitutionVerification } from './Institution/Auth/verification/Verfication'
 export {default as UniversityProfile } from './Institution/UniversirtProfile/UniversityProfile'
+export {default as Settings } from './Alumni/Settings/Settings' 
+export {default as TrackingPage } from './Alumni/Transcripts/TrackingPage/TrackingPage'
+export {default as SuperAdminLogin } from './SuperA/Auth/Login'
+export {default as CreateAdmin } from './SuperA/CreateAdmin/CreateAdmin'
+export {default as AvailableInstitutions } from './Admin/AvailableInstitutions/AvailableInstitutions'
+export {default as InstituionTables} from './Admin/AvailableInstitutions/InstitutionTables'
+export {default as AdminSettings } from './Admin/Settings/Settings'

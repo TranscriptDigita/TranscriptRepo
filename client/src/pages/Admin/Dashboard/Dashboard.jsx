@@ -4,8 +4,8 @@ import { HiOutlinePlusSmall, HiChevronRight } from "react-icons/hi2";
 
 // component imports
 import RequestData from "../../../components/AdminInfo/RequestData";
-import RecentRequests from "../../../components/AdminInfo/RecentRequest";
-import CompletedRequest from "../../../components/AdminInfo/CompletedRequest";
+import RecentRequests from "../../../components/AdminInfo/Activities";
+import CompletedRequest from "../../../components/AdminInfo/Stats";
 
 // mui imports
 import { Button } from "@mui/material";
@@ -15,29 +15,30 @@ import { Link } from "react-router-dom";
 
 // redux imports
 import { useSelector } from "react-redux";
-import { LineChart } from "../../../components";
+import { Activities, LineChart, Stats } from "../../../components";
 
 function Dashboard() {
   const { user } = useSelector((state) => state.auth);
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-col mb-10 md:flex-row items-start justify-between">
-        <div className="w-full h-60 md:w-2/3 bg-white p-4 mb-5 mr-5">
-        <LineChart />
+      
+        
+        <div className="w-full   p-4 mb-5 mr-5">
+        {/* <LineChart /> */} <RequestData />
         </div>
-        <div className="w-full h-60 md:w-1/3 bg-white mb-5 p-4">
-          <RequestData />
+
+
+        <div className="w-full   p-4 mb-5 mr-5">
+        {/* <LineChart /> */} <Activities/>
         </div>
-      </div>
-      <div className="flex  flex-col md:flex-row items-start justify-between">
-        <div className="w-full h-60 md:w-2/3 bg-white p-4 mb-5 mr-5">
-        <RecentRequests />
+
+        <div className="w-full   p-4 mb-5 mr-5">
+        {/* <LineChart /> */} <Stats/>
         </div>
-        <div className="w-full h-60 md:w-1/3 bg-white p-4">
-        <CompletedRequest />
-        </div>
-      </div>
+       
+      
+      
     </div>
   );
 }

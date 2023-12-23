@@ -55,7 +55,7 @@ function SelectLogin() {
                 <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
                     <img src={alumni} alt="alumnipic" />
                     <h4>Staff</h4>
-                    <Link to={`/alumni/login`}> 
+                    <Link to={`/evaluationofficer/login`}> 
                         <Button
                             variant='contained'
                             className={`hover:bg-slate-200 hover:text-slate-500 lowercase ${hover ? `bg-slate-200 text-slate-500` : `text-white bg-[#6B3FA0]`}`}
@@ -73,8 +73,8 @@ function SelectLogin() {
 
                 <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
                     <img src={alumni} alt="alumnipic" />
-                    <h4>Postal Service</h4>
-                    <Link to={`/alumni/login`}> 
+                    <h4>Super Admin</h4>
+                    <Link to={`/superadmin/login`}> 
                         <Button
                             variant='contained'
                             className={`hover:bg-slate-200 hover:text-slate-500 lowercase ${hover ? `bg-slate-200 text-slate-500` : `text-white bg-[#6B3FA0]`}`}
@@ -86,6 +86,21 @@ function SelectLogin() {
                     </Link>
                 </div>
 
+
+                <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
+                    <img src={alumni} alt="alumnipic" />
+                    <h4>Admin</h4>
+                    <Link to={`/admin/login`}> 
+                        <Button
+                            variant='contained'
+                            className={`hover:bg-slate-200 hover:text-slate-500 lowercase ${hover ? `bg-slate-200 text-slate-500` : `text-white bg-[#6B3FA0]`}`}
+                            onMouseOver={()=>{setHover(true)}}
+                            onMouseOut={()=>{setHover(false)}}
+                        >
+                            continue
+                        </Button>
+                    </Link>
+                </div>
 
 
             </div>

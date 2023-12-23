@@ -8,25 +8,81 @@ function RecentRequests() {
 
 
 
-  useEffect(() => {
-    // Define the API endpoint URL
-    const apiUrl = 'https://dacs.onrender.com/api/v1/transcript';
+     // State to hold the alumni data
+     const [alumniData, setAlumniData] = useState({});
 
-    // Make an HTTP GET request to fetch transcripts
-    Axios.get(apiUrl)
-      .then((response) => {
-        // Log the fetched data
-        console.log('Fetched data:', response.data);
-           // Log "Success" if there are no errors
-           console.log('Success');
-        // Update the state with the fetched data
-        setTranscripts(response.data);
-      })
-      .catch((error) => {
-        // Handle errors if any
-        console.error('Error fetching transcripts:', error);
-      });
-  }, []); // The empty dependency array ensures this effect runs once when the component mounts
+
+
+
+     useEffect(() => {
+         // Define the API endpoint URL
+         const apiUrl = 'https://dacs.onrender.com/api/v1/transcript';
+     
+         // Make an HTTP GET request to fetch transcripts
+         Axios.get(apiUrl)
+           .then((response) => {
+             // Log the fetched data
+             console.log('Fetched data:', response.data);
+     
+             // Update the state with the fetched data
+             setTranscripts(response.data);
+     
+             // Store the fetched data in local storage under the name "transcriptRequests"
+             localStorage.setItem('transcriptRequests', JSON.stringify(response.data));
+     
+             // Log "Success" if there are no errors
+             console.log('Success');
+     
+             // Process each transcript to get alumni information
+             response.data.forEach((transcript) => {
+               const alumniId = transcript.createdBy;
+     
+               // Make an API call to get alumni information
+               Axios.get(`https://dacs.onrender.com/api/v1/alumnus/${alumniId}`)
+                 .then((alumniResponse) => {
+                   // Extract fullName from alumni data
+                   const fullName = alumniResponse.data.data.fullName;
+     
+                   // Update the alumni data state
+                   setAlumniData((prevData) => ({
+                     ...prevData,
+                     [alumniId]: {
+                       fullName,
+                     },
+                   }));
+     
+                   // Log the fullName for each ID
+                   console.log(`FullName for ID ${alumniId}:`, fullName);
+                 })
+                 .catch((alumniError) => {
+                   console.error(`Error fetching alumni data for ID ${alumniId}:`, alumniError);
+                 });
+             });
+           })
+           .catch((error) => {
+             // Handle errors if any
+             console.error('Error fetching transcripts:', error);
+           });
+       }, []); // The empty dependency array ensures this effect runs once when the component mounts
+
+
+       const getStatus = (transcript) => {
+        if (transcript.isApproved) {
+          return 'Approved';
+        } else if (transcript.isDeclined) {
+          return 'Declined';
+        } else if (transcript.isVerified) {
+          return 'Verifying';
+        } else if (transcript.isQueried) {
+          return 'Querying';
+        } else {
+          return 'No action taken yet';
+        }
+      };
+
+
+ 
+ 
 
   const headers = [
     {
@@ -39,7 +95,7 @@ function RecentRequests() {
       title: 'Year Graduated'
     },
     {
-      title: 'Action'
+      title: 'Status'
     },
     {
       title: 'Request Number'
@@ -48,10 +104,10 @@ function RecentRequests() {
 
   // Map the transcripts data to match the table headers
   const formattedItems = transcripts.map((transcript) => ({
-    'Name': transcript.name,
+    'Name': alumniData[transcript.createdBy]?.fullName || 'No name In the Api Response',
     'Course': transcript.program,
     'Year Graduated': transcript.yearOfGraduation,
-    'Action': 'Process', // You can set this value as needed
+    'Status': getStatus(transcript),// You can set this value as needed
     'Request Number': transcript.referenceId,
   }));
 

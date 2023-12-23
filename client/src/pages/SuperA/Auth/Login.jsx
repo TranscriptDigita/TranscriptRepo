@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 
-
+import { Spinner } from '../../../components';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -36,19 +36,14 @@ function Login() {
       // Check if login was successful
       if (response.ok) {
         // Store the API response in local storage
-        localStorage.setItem('AdminUser', JSON.stringify(data));
-
-         // Extract the id and token from the API response
-         const { _id: id } = data.admin;
-         const token = data.token;
-
-         // Log the extracted values to the console
-         console.log('ID:', id);
-         console.log('Token:', token);
- 
+        localStorage.setItem('SuperAdmin', JSON.stringify(data));
   
-          // Navigate to the '/admin' route with id and token
-          navigate(`/admin/${id}/${token}/dashboard`);
+        // Access the admin._id and token from the API response
+        const adminId = data.admin?._id;
+        const token = data.token;
+  
+        // Navigate to the '/superadmin/:id/:token/createadmin' route
+        navigate(`/superadmin/${adminId}/${token}/createadmin`);
       } else {
         // Handle login failure, show error message, etc.
         console.error('Login failed:', data.message);
@@ -57,12 +52,12 @@ function Login() {
       console.error('Error during login:', error);
     }
   };
-
+  
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <div className="flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0">
         {/* Your spinner component */}
-     
+        <Spinner />
         <div className="flex flex-col gap-y-4">
           <TextField
             id="outlined-email-input"
@@ -89,7 +84,7 @@ function Login() {
         >
           Sign in
         </Button>
-        
+        <Link to={`/institution/signup`}></Link>
       </div>
     </div>
   );

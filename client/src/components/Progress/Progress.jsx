@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Information, ListInformation } from './../';
 import FullList from '../listInformation/FullList';
 import DeliveryList from '../listInformation/DeliveryList';
+import { Table, TranscriptGridItem } from '../../components';
 
 // Define page components for each step
 function Page1() {

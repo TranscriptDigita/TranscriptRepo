@@ -12,6 +12,50 @@ import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
 
 function AdminLayout() {
+
+
+
+   // Function to extract institution ID from stored data
+   const getAdminId = () => {
+    const storedUserData = localStorage.getItem('AdminUser');
+    if (storedUserData) {
+        const userDataObject = JSON.parse(storedUserData);
+        return userDataObject?.admin?._id;
+      
+    }
+    return null;
+};
+
+
+const getAdminToken = () => {
+  const storedUserData = localStorage.getItem('AdminUser');
+  if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      return userDataObject?.token;
+    
+  }
+  return null;
+};
+
+
+
+const adminId = getAdminId();
+
+   // Log the value of institutionId
+   console.log('Admin ID:', adminId);
+
+
+
+   const adminToken = getAdminToken();
+
+   // Log the value of institutionId
+   console.log('Admin Token:', adminToken);
+    
+
+
+
+
+
   // Retrieve user data from Redux state
   const { user } = useSelector((state) => state.auth);
 
@@ -23,26 +67,27 @@ function AdminLayout() {
     {
       title: 'Dashboard',
       icon: <HiOutlineRectangleGroup size={20} />,
-      path: `/admin/${user?.alumni?._id || defaultUser.alumni._id}/dashboard`,
+      path: `/admin/${adminId}/${adminToken}/dashboard`,
       isActive: true,
     },
      
     {
-      title: 'Student List',
+      title: 'Available Institutions',
       icon: <HiViewfinderCircle size={20} />,
-      path: `/admin/${user?.alumni?._id || defaultUser.alumni._id}/student-list`,
+      path: `/admin/${user?.alumni?._id || defaultUser.alumni._id}/availableinstitutions`,
+      
     },
 
     {
-      title: 'Request',
+      title: 'Tables',
       icon: <HiOutlineBell size={20} />,
-      path: "",
+      path: `/admin/${adminId}/institutiontables`,
     },
 
     {
       title: 'Settings',
       icon: <HiOutlineCog6Tooth size={20} />,
-      path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/change-password`,
+      path: `/admin/${adminId}/${adminToken}/adminsettings`,
     },
     
   ];

@@ -1,32 +1,68 @@
 import React from "react";
-
 import { Button } from "@mui/material";
-
-const infos = [
-  { id:1, title: "Total Transcript Request", number: 89 },
-  { id:2, title: "Total Transcript Verified", number: 67 },
-  { id:3, title: "Total Transcript Uploaded", number: 656 },
-  { id:4, title: "Total Transcript Queried", number: 908 },
-  { id:5, title: "Total Transcript Rejected", number: 2 },
-];
 
 const RequestData = () => {
   return (
-    <div className="flex flex-col">
-      <span className="">Document Request Data</span>
-      {infos.map((info) => (
-        <div key={info.id} className="flex flex-col mt-1">
-          <div className="flex flex-row items-center justify-between">
-            <p className="text-start text-sm mr-3">{info.title}</p>
-            <Button
-              className="justify-center items-center border border-solid border-[#333] rounded-md bg-white text-[#464040] text-sm  "
-             
-            >
-              {info.number}
-            </Button>
+    <div className="flex justify-between gap-4">
+      {/* first section */}
+      <div className="bg-white flex gap-2.5 p-5 rounded-md items-start flex-1">
+        <img
+          loading="lazy"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/158c7d727e2cc1e1ebbe91a078e692d25aeccca386244dfd91adeda259793ddb?"
+          className="aspect-square object-contain object-center w-[45px] overflow-hidden shrink-0 max-w-full"
+        />
+        <div className="items-stretch self-stretch flex grow basis-[0%] flex-col">
+          <div className="text-neutral-800 text-xs font-light">
+            Total institutions
           </div>
+          <div className="text-neutral-800 text-2xl font-semibold">2,456</div>
         </div>
-      ))}
+      </div>
+
+      {/* second section */}
+      <div className="bg-white flex gap-2.5 p-5 rounded-md items-start flex-1">
+        <img
+          loading="lazy"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/158c7d727e2cc1e1ebbe91a078e692d25aeccca386244dfd91adeda259793ddb?"
+          className="aspect-square object-contain object-center w-[45px] overflow-hidden shrink-0 max-w-full"
+        />
+        <div className="items-stretch self-stretch flex grow basis-[0%] flex-col">
+          <div className="text-neutral-800 text-xs font-light">
+            Total institutions
+          </div>
+          <div className="text-neutral-800 text-2xl font-semibold">2,456</div>
+        </div>
+      </div>
+
+      {/* third section */}
+      <div className="bg-white flex gap-2.5 p-5 rounded-md items-start flex-1">
+        <img
+          loading="lazy"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/158c7d727e2cc1e1ebbe91a078e692d25aeccca386244dfd91adeda259793ddb?"
+          className="aspect-square object-contain object-center w-[45px] overflow-hidden shrink-0 max-w-full"
+        />
+        <div className="items-stretch self-stretch flex grow basis-[0%] flex-col">
+          <div className="text-neutral-800 text-xs font-light">
+            Total institutions
+          </div>
+          <div className="text-neutral-800 text-2xl font-semibold">2,456</div>
+        </div>
+      </div>
+
+      {/* fourth section */}
+      <div className="bg-white flex gap-2.5 p-5 rounded-md items-start flex-1">
+        <img
+          loading="lazy"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/91bd581170fca768d356a9a3b913efe046b94c214009e65019d5a9eb286ebd83?"
+          className="aspect-square object-contain object-center w-[45px] overflow-hidden shrink-0 max-w-full"
+        />
+        <div className="items-stretch self-stretch flex grow basis-[0%] flex-col pr-4">
+          <div className="text-neutral-800 text-xs font-light whitespace-nowrap">
+            Total Transcript requested
+          </div>
+          <div className="text-neutral-800 text-2xl font-semibold">1,326</div>
+        </div>
+      </div>
     </div>
   );
 };

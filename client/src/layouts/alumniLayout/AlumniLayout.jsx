@@ -30,7 +30,7 @@ function AlumniLayout() {
     {
       title: 'Tracking',
       icon: <HiViewfinderCircle size={20} />,
-      path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/progress`,
+      path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/trackingpage`,
     },
 
     {
@@ -42,7 +42,7 @@ function AlumniLayout() {
     {
       title: 'Settings',
       icon: <HiOutlineCog6Tooth size={20} />,
-      path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/change-password`,
+      path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/settings`,
     },
     
   ];

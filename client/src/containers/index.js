@@ -11,4 +11,10 @@ export {default as TranscriptGrid} from './InstitutionDasboardContainers/transcr
 export {default as TranscriptData} from './InstitutionDasboardContainers/transcriptData/TranscriptData';
 export {default as AlumniDetailsForm} from './AlumniNewRequestPageContainers/AlumniDetailsForm/AlumniDetailsForm';
 export {default as StaffList} from './Registra/StaffList';
-export {default as EvaluationGrid} from './EvaluationOfficer/evaluationGrid/EvaluationGrid'
+export {default as EvaluationGrid} from './EvaluationOfficer/evaluationGrid/EvaluationGrid';
+export {default as NewRequest} from './EvaluationOfficer/evaluationGrid/NewRequest'; 
+export {default as AdminStaffList } from './Admin/StaffListA'
+export { default as AdminList } from './Admin/AdminList'
+export {default as AdminChangePassword } from './Admin/ChangePassword'
+export {default as StudentList } from './Admin/StudentList'
+export { default as Logs } from './Admin/Logs'
