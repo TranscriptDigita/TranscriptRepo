@@ -6,12 +6,12 @@ import { Link, useNavigate  } from 'react-router-dom'
 
 import { Button } from '@mui/material'
 
-function  TranscriptGridAdmin({ data, icon, selectedInstitutionName }) {
+function  TranscriptGridAdmin({ data, icon, selectedInstitutionName, id }) {
  
   const navigate = useNavigate();
 
   const handleLinkClick = () => {
-    navigate(`/alumni/${data}/transcripts/newrequest`, { state: { data } });
+    navigate(`/alumni/${data}/${id}/transcripts/newrequest`, { state: { data, id } });
     console.log("Value of data:", data);
   };
 
@@ -20,7 +20,7 @@ function  TranscriptGridAdmin({ data, icon, selectedInstitutionName }) {
   // };
   return (
     <Link to={{
-      pathname: `/alumni/${data}/transcripts/newrequest`,
+      pathname: `/admin/${data}/${id}/institutiontablesschools`,
       
     }}
     onClick={handleLinkClick}> {/** Added Link To the Table Items To Open The Request Track And Delivery Page */}
@@ -28,6 +28,7 @@ function  TranscriptGridAdmin({ data, icon, selectedInstitutionName }) {
         
         <Button className={``}>
           <h4 className='md:text-[14px]'>{data}</h4>
+          <h1 className="hidden">{id}</h1>
         </Button>
         
         <div>

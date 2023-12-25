@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { HiChevronRight } from 'react-icons/hi';
-import { Table, TranscriptGridItemAdmin } from '../../../components';
+import { Table, TableA, TranscriptGridItemAdmin } from '../../../components';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'; // Import Link from react-router-dom
 
@@ -16,7 +16,7 @@ function AvailableInstitutions() {
         const response = await fetch('https://dacs.onrender.com/api/v1/institution/');
         const data = await response.json();
         setInstitutions(data);
-        console.log(data);
+        console.log("this is data", data);
          // Store data in local storage
          localStorage.setItem('institutionData', JSON.stringify(data));
       } catch (error) {
@@ -27,10 +27,6 @@ function AvailableInstitutions() {
     fetchData();
   }, []);
 
-  const handleSelectInstitution = (institution) => {
-    // Use navigate to navigate to AlumniDetailsForm and pass the selected institution as a parameter
-    navigate(`/alumni/:id/transcripts/newrequest?institution=${encodeURIComponent(JSON.stringify(institution))}`);
-  };
 
 
   return (
@@ -42,13 +38,15 @@ function AvailableInstitutions() {
       </div>
 
       <div className="flex flex-col gap-y-5">
-        <Table headers={[{ title: 'Available Institutions' }]} item={institutions.map((institution) => (
+        <TableA headers={[{ title: 'Available Institutions' }]} item={institutions.map((institution) => (
           <TranscriptGridItemAdmin
           key={institution._id}
+          id={institution._id}
           data={institution.name}
           icon={<HiChevronRight />}
           // onSelect={() => handleSelectInstitution(institution)}  // Pass the institution.name
         />
+        
         ))} />
       </div>
     </div>

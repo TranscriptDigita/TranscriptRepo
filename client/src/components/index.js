@@ -18,3 +18,4 @@ export {default as CountryDropdown } from './dropDown/CountryDropdown';
 export {default as NewRequestTable } from './table/NewRequestTable';
 export {default as TranscriptGridItemAdmin } from './transcriptGridItem/TranscriptGridItemAdmin'
 export {default as StaffListTableA} from './table/StaffListTableA'
+export { default as TableA } from './table/TableA'

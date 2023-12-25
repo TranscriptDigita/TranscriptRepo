@@ -56,6 +56,7 @@ import {
   AvailableInstitutions,
   InstituionTables,
   AdminSettings,
+  InstitutionTablesA,
 } from "./pages";
 
 // components imports
@@ -350,6 +351,14 @@ function App() {
           element: <InstituionTables/>,
           errorElement: <ErrorPage/>
         },
+
+
+        {
+          path: '/admin/:data/:id/institutiontablesschools',
+          element: <InstitutionTablesA/>,
+          errorElement: <ErrorPage/>
+        },
+
 
         {
           path: '/admin/:id/:token/adminsettings',
