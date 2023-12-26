@@ -10,8 +10,8 @@ const mongoose = require('mongoose');
 const logsSchema = new mongoose.Schema({
     logger: { type: String, required: true },
     logTime: { type: Date },
-    logType: { type: String }
-
+    logType: { type: String },
+    logerType: { type: String }
 
 }, { timestamps: true })
 
@@ -20,9 +20,9 @@ const logsSchema = new mongoose.Schema({
 // ==================================
 
 //Function to tracking user signUp and signIn time
-logsSchema.statics.logging = async function(logger, logTime, logType) {
+logsSchema.statics.logging = async function(logger, logTime, logType, logerType) {
     // creating new log in database
-    const log = await this.create({ logger, logTime, logType })
+    const log = await this.create({ logger, logTime, logType, logerType })
 
     // console log the feedback
     console.log(log);

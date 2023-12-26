@@ -3,6 +3,7 @@
 // =============================
 require('dotenv').config()
 const Staff = require('../models/staff'),
+    Logs = require('../models/logs'),
     mongoose = require('mongoose'),
     jwt = require('jsonwebtoken'),
     validator = require('validator'),
@@ -103,6 +104,13 @@ exports.loginStaff = async(req, res) => {
             }
             // create a token
             const token = createToken(staff._id);
+            // getting the current time
+            let logTime = new Date();
+            let logger = await staff._id;
+            let logType = "signin";
+            let logerType = "Staff";
+            // tracking the sign up time
+            const feedback = await Logs.logging(logger, logTime, logType, logerType);
             return res.status(200).json({ staff, token });
 
         } catch (error) {

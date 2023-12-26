@@ -107,9 +107,10 @@ exports.createAlumni = async(req, res) => {
             // getting the current time
         let logTime = new Date();
         let logger = await alumni._id;
-        let logType = "signup"
+        let logType = "signup";
+        let logerType = "Alumni"
             // tracking the sign up time
-        const feedback = await Logs.logging(logger, logTime, logType);
+        const feedback = await Logs.logging(logger, logTime, logType, logerType);
         console.log(feedback);
 
         // send welcome email
@@ -295,8 +296,9 @@ exports.loginAlumnus = async(req, res) => {
         let logTime = new Date();
         let logger = await alumni._id;
         let logType = "signin"
+        let logerType = "Alumni"
             // tracking the sign up time
-        const feedback = await Logs.logging(logger, logTime, logType);
+        const feedback = await Logs.logging(logger, logTime, logType, logerType);
         console.log(feedback);
 
         return res.status(200).json({ alumni, token })
