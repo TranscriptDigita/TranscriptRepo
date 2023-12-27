@@ -106,7 +106,7 @@ exports.loginStaff = async(req, res) => {
             const token = createToken(staff._id);
             // getting the current time
             let logTime = new Date();
-            let logger = await staff._id;
+            let logger = emailAddress;
             let logType = "signin";
             let logerType = "Staff";
             // tracking the sign up time

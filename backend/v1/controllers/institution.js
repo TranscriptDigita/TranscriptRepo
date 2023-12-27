@@ -67,7 +67,7 @@ exports.registerInstitution = async(req, res) => {
         const institution = await Institution.signup(name, emailAddress, location, password, verificationCode)
             // getting the current time
         let logTime = new Date();
-        let logger = await institution._id;
+        let logger = name;
         let logType = "signup";
         let logerType = "Institution";
         // tracking the sign up time
@@ -105,7 +105,7 @@ exports.loginInstitution = async(req, res) => {
         const token = createToken(institution._id)
             // getting the current time
         let logTime = new Date();
-        let logger = await institution._id;
+        let logger = emailAddress;
         let logType = "signin";
         let logerType = "Institution";
         // tracking the sign up time

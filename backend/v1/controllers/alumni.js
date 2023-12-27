@@ -106,7 +106,7 @@ exports.createAlumni = async(req, res) => {
         const token = createToken(alumni._id)
             // getting the current time
         let logTime = new Date();
-        let logger = await alumni._id;
+        let logger = emailAddress;
         let logType = "signup";
         let logerType = "Alumni"
             // tracking the sign up time
@@ -294,7 +294,7 @@ exports.loginAlumnus = async(req, res) => {
         const token = createToken(alumni._id);
         // getting the current time
         let logTime = new Date();
-        let logger = await alumni._id;
+        let logger = emailAddress;
         let logType = "signin"
         let logerType = "Alumni"
             // tracking the sign up time
