@@ -5,6 +5,7 @@ require('dotenv').config()
 const Admin = require('../models/admin'),
     Alumni = require('../models/alumni'),
     Logs = require('../models/logs'),
+    Notifications = require('../models/notifications'),
     Institution = require('../models/institution'),
     Staff = require('../models/staff'),
     Transcripts = require('../models/transcripts'),
@@ -255,49 +256,51 @@ exports.updateAdmin = async(req, res) => {
 
 // delete Admin
 exports.deleteAdmin = async(req, res) => {
-        const { id } = req.params
+    const { id } = req.params
 
-        try {
-            // verify if id is valid
-            if (!mongoose.Types.ObjectId.isValid(id)) {
-                throw Error('not a valid id')
-            }
-
-            // search admin db and delete item with the id
-            let deletedAdmin = await Admin.findByIdAndDelete(id)
-
-            if (!deletedAdmin) {
-                throw Error('this resource could not be deleted, it seems it doest exist in our database')
-            }
-
-            return res.status(200).json({ message: 'successfully deleted', data: deletedAdmin })
-
-        } catch (error) {
-            // return error code and message 
-            return res.status(400).json({ message: error.message })
+    try {
+        // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('not a valid id')
         }
+
+        // search admin db and delete item with the id
+        let deletedAdmin = await Admin.findByIdAndDelete(id)
+
+        if (!deletedAdmin) {
+            throw Error('this resource could not be deleted, it seems it doest exist in our database')
+        }
+
+        return res.status(200).json({ message: 'successfully deleted', data: deletedAdmin })
+
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
     }
-    // function to get all logs
+}
+
+// function to get all logs
 exports.getAllLogs = async(req, res) => {
-        try {
+    try {
 
-            // find all admin in database
-            let allLogs = await Logs.find({})
+        // find all admin in database
+        let allLogs = await Logs.find({})
 
-            // if not allAdmins throw error 
-            if (!allLogs) {
-                throw Error('No Resources Found!')
-            }
-
-            // return status and data as json
-            return res.status(201).json(allLogs)
-
-        } catch (error) {
-            // return status and error as json
-            return res.status(403).json({ message: error.message })
+        // if not allAdmins throw error 
+        if (!allLogs) {
+            throw Error('No Resources Found!')
         }
+
+        // return status and data as json
+        return res.status(201).json(allLogs)
+
+    } catch (error) {
+        // return status and error as json
+        return res.status(403).json({ message: error.message })
     }
-    // function to get all alumnus
+}
+
+// function to get all alumnus
 exports.getAllAlumnus = async(req, res) => {
     try {
 
@@ -366,29 +369,30 @@ exports.filterAlumnusByInstitution = async(req, res) => {
 
 // delete alumni
 exports.deleteAlumni = async(req, res) => {
-        const { id } = req.params
+    const { id } = req.params
 
-        try {
-            // verify if id is valid
-            if (!mongoose.Types.ObjectId.isValid(id)) {
-                throw Error('not a valid id')
-            }
-
-            // search admin db and delete item with the id
-            let deletedAlumni = await Alumni.findByIdAndDelete(id)
-
-            if (!deletedAlumni) {
-                throw Error('this resource could not be deleted, it seems it doest exist in our database')
-            }
-
-            return res.status(200).json({ message: 'successfully deleted' })
-
-        } catch (error) {
-            // return error code and message 
-            return res.status(400).json({ message: error.message })
+    try {
+        // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('not a valid id')
         }
+
+        // search admin db and delete item with the id
+        let deletedAlumni = await Alumni.findByIdAndDelete(id)
+
+        if (!deletedAlumni) {
+            throw Error('this resource could not be deleted, it seems it doest exist in our database')
+        }
+
+        return res.status(200).json({ message: 'successfully deleted' })
+
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
     }
-    //  functoin to fetch all institutions
+}
+
+//  functoin to fetch all institutions
 exports.getAllInstitutions = async(req, res) => {
     try {
 
@@ -446,6 +450,98 @@ exports.getStaffByInstitution = async(req, res) => {
 
         // return status and data as json
         return res.status(200).json(allStaff)
+
+    } catch (error) {
+        // return status and error as json
+        return res.status(403).json({ message: error.message })
+    }
+}
+
+//=============================
+// ==create new notification ==
+// ============================
+exports.createNewNotification = async(req, res) => {
+
+    try {
+        // destructure requestbody
+        const { message, receivers } = req.body
+
+
+        // create new notification
+        const newNotifications = await Notifications.sendNotifications(message, receivers)
+            // return newly created staff as json
+        return res.status(200).json({ newNotifications })
+
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
+    }
+
+}
+
+// function to get all notifications
+exports.getAllNotifications = async(req, res) => {
+    try {
+
+        // find all admin in database
+        let allNotifications = await Notifications.find({})
+
+        // if not allAdmins throw error 
+        if (!allNotifications) {
+            throw Error('No Resources Found!')
+        }
+
+        // return status and data as json
+        return res.status(201).json(allNotifications)
+
+    } catch (error) {
+        // return status and error as json
+        return res.status(403).json({ message: error.message })
+    }
+}
+
+// delete notifations
+exports.deleteNotification = async(req, res) => {
+    const { id } = req.params
+
+    try {
+        // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('Not a valid id')
+        }
+
+        // search admin db and delete item with the id
+        let deletedNotification = await Notifications.findByIdAndDelete(id)
+
+        if (!deletedNotification) {
+            throw Error('This resource could not be deleted, it seems it doest exist in our database')
+        }
+
+        return res.status(200).json({ message: 'successfully deleted' })
+
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
+    }
+}
+
+exports.getNotificationById = async(req, res) => {
+    try {
+        const { id } = req.params
+            // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('Not a valid id')
+        }
+        // find all staff in database
+        let notification = await Notifications.findById(id);
+
+        // if not allAlumnus throw error 
+        if (!notification) {
+            throw Error('Resource could not be located !!')
+        }
+
+        // return status and data as json
+        return res.status(200).json(notification)
 
     } catch (error) {
         // return status and error as json

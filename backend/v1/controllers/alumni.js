@@ -108,8 +108,8 @@ exports.createAlumni = async(req, res) => {
         let logTime = new Date();
         let logger = emailAddress;
         let logType = "signup";
-        let logerType = "Alumni"
-            // tracking the sign up time
+        let logerType = "Alumni";
+        // tracking the sign up time
         const feedback = await Logs.logging(logger, logTime, logType, logerType);
         console.log(feedback);
 

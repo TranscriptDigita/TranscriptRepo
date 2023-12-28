@@ -77,4 +77,23 @@ router.route('/staff/list')
 router.route('/:institutionId/staff/list')
     .get(isAuthAdmin, controller.getStaffByInstitution)
 
+// =================================
+// ========Create and Fetch Notifications Endpoints ==========
+// ================================
+router.route('/notifications')
+    .post(isAuthAdmin, controller.createNewNotification)
+    .get(isAuthAdmin, controller.getAllNotifications)
+
+// =================================
+// ========Fetch Notification By Id ======
+// ================================
+router.route('/notifications/:id')
+    .get(isAuthAdmin, controller.getNotificationById)
+
+// =================================
+// ========Delete Notification By Id ======
+// ================================
+router.route('/notifications/:id')
+    .delete(isAuthAdmin, controller.getNotificationById)
+
 module.exports = router
