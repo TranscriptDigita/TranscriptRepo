@@ -90,5 +90,6 @@ router.route('/notifications')
 router.route('/notifications/:id')
     .get(isAuthAdmin, controller.getNotificationById)
     .delete(isAuthAdmin, controller.deleteNotification)
+    .patch(isAuthAdmin, controller.UpdateNotification)
 
 module.exports = router

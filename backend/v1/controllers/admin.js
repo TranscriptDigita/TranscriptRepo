@@ -548,4 +548,36 @@ exports.getNotificationById = async(req, res) => {
         return res.status(403).json({ message: error.message })
     }
 }
+
+// Update Notification
+exports.UpdateNotification = async(req, res) => {
+    try {
+        const { message, receivers } = req.body;
+        const { id } = req.params;
+        // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('Not a valid id')
+        }
+        // find admin using token and expiry time
+        const foundNotification = await Notifications.findOne({ _id: id });
+
+        // if admin not found throw error
+        if (!foundNotification) {
+            throw Error("No resource found with this Id");
+        }
+
+
+        // Update the foundNotification
+        foundNotification.message = message;
+        foundNotification.receivers = receivers;
+
+        await foundNotification.save();
+
+        return res.status(200).json({ message: "Resorce has been updated.", notification: foundNotification });
+
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
+    }
+}
 module.exports = exports
