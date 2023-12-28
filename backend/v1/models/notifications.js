@@ -17,8 +17,8 @@ const notificationsSchema = new mongoose.Schema({
 // ==== static functions for Auth ===
 // ==================================
 
-//Function to tracking user signUp and signIn time
-logsSchema.statics.sendNotifications = async function(message, receivers) {
+//Function to create notification
+notificationsSchema.statics.sendNotifications = async function(message, receivers) {
     // creating new log in database
     const log = await this.create({ message, receivers })
 
