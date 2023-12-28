@@ -82,11 +82,15 @@ router.route('/:institutionId/staff/list')
 // ================================
 router.route('/notifications')
     .post(isAuthAdmin, controller.createNewNotification)
-    .get(isAuthAdmin, controller.getAllNotifications)
 
-// =================================
-// ========Fetch and Delete Notification By Id ======
-// ================================
+// ====================================
+// =========Fetch All Notifactions======
+// =====================================
+router.route('/notifications/all')
+    .get(isAuthAdmin, controller.getAllNotifications)
+    // =================================
+    // ========Fetch and Delete Notification By Id ======
+    // ================================
 router.route('/notifications/:id')
     .get(isAuthAdmin, controller.getNotificationById)
     .delete(isAuthAdmin, controller.deleteNotification)
