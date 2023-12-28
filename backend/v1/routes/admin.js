@@ -85,15 +85,10 @@ router.route('/notifications')
     .get(isAuthAdmin, controller.getAllNotifications)
 
 // =================================
-// ========Fetch Notification By Id ======
+// ========Fetch and Delete Notification By Id ======
 // ================================
 router.route('/notifications/:id')
     .get(isAuthAdmin, controller.getNotificationById)
-
-// =================================
-// ========Delete Notification By Id ======
-// ================================
-router.route('/notifications/:id')
-    .delete(isAuthAdmin, controller.getNotificationById)
+    .delete(isAuthAdmin, controller.deleteNotification)
 
 module.exports = router
