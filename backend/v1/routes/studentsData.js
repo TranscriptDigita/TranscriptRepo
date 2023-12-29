@@ -10,7 +10,7 @@ router.route(`/`)
 router.route(`/verify`)
     .post(controller.verifyStudent)
 
-router.route(`/result`)
+router.route(`/results`)
     .get(isAuthAdmin, controller.studentsResult)
     // export router
 module.exports = router
