@@ -580,4 +580,32 @@ exports.UpdateNotification = async(req, res) => {
         return res.status(400).json({ message: error.message })
     }
 }
+
+// function to get institution by Id
+exports.getInstitutionById = async(req, res) => {
+    const { id } = req.params
+
+    try {
+        // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('not a valid id')
+        }
+
+        // find admin using db using id
+        let inst = await Institution.findById(id)
+
+        // if not found throw error
+        if (!inst) {
+            throw Error(`Resource could ot be located`)
+        }
+
+        // return data and message as json
+        res.status(200).json({ message: 'successful', data: inst })
+
+    } catch (error) {
+        // return status and error as json
+        return res.status(403).json({ message: error.message })
+    }
+}
+
 module.exports = exports
