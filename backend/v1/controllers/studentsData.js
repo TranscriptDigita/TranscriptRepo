@@ -124,7 +124,7 @@ exports.verifyStudent = async(req, res) => {
         }
 
         // find record using student regitration number and intitution Id in db
-        const findStudent = await Result.findOne({ registrationNumber, institutionId })
+        const findStudent = await Result.find({ registrationNumber, institutionId })
 
         // if not found throw error
         if (!findStudent) {
@@ -134,6 +134,29 @@ exports.verifyStudent = async(req, res) => {
 
         // return data and message as json
         res.status(200).json({ message: 'successful', data: findStudent })
+
+    } catch (error) {
+        // return status and error as json
+        return res.status(403).json({ message: error.message })
+    }
+
+}
+
+// Fetch all students data
+exports.studentsResult = async(req, res) => {
+    // code will goes here
+    try {
+        // find record using student regitration number and intitution Id in db
+        const findStudents = await Result.find({})
+
+        // if not found throw error
+        if (!findStudents) {
+            return res.status(404).json({ message: "Record not found!" })
+                // throw Error(`reresponse could ot be located`)
+        }
+
+        // return data and message as json
+        res.status(200).json({ message: 'successful', data: findStudents })
 
     } catch (error) {
         // return status and error as json

@@ -2,7 +2,7 @@ const express = require('express'),
     router = express.Router(),
     multer = require('multer'),
     controller = require('../controllers/studentsData'),
-    { isAuthInstitution } = require('../middleware/auth')
+    { isAuthInstitution, isAuthAdmin } = require('../middleware/auth')
 
 // upload student data and verify certificate routes
 router.route(`/`)
@@ -10,5 +10,7 @@ router.route(`/`)
 router.route(`/verify`)
     .post(controller.verifyStudent)
 
-// export router
+router.route(`/result`)
+    .get(isAuthAdmin, controller.studentsResult)
+    // export router
 module.exports = router
