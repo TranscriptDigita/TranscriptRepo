@@ -481,26 +481,45 @@ exports.createNewNotification = async(req, res) => {
 
 // function to get all notifications
 exports.getAllNotifications = async(req, res) => {
-    try {
+        try {
 
-        // find all admin in database
-        let allNotifications = await Notifications.find({})
+            // find all admin in database
+            let allNotifications = await Notifications.find({})
 
-        // if not allAdmins throw error 
-        if (!allNotifications) {
-            throw Error('No Resources Found!')
+            // if not allAdmins throw error 
+            if (!allNotifications) {
+                throw Error('No Resources Found!')
+            }
+
+            // return status and data as json
+            return res.status(201).json(allNotifications)
+
+        } catch (error) {
+            // return status and error as json
+            return res.status(403).json({ message: error.message })
         }
-
-        // return status and data as json
-        return res.status(201).json(allNotifications)
-
-    } catch (error) {
-        // return status and error as json
-        return res.status(403).json({ message: error.message })
     }
-}
+    // function to get user notifications
+exports.getAllUserNotifications = async(req, res) => {
+        try {
+            const { user } = req.params;
+            // find all admin in database
+            let allNotifications = await Notifications.find({ receivers: user })
 
-// delete notifations
+            // if not allAdmins throw error 
+            if (!allNotifications) {
+                throw Error('No Resources Found!')
+            }
+
+            // return status and data as json
+            return res.status(201).json(allNotifications)
+
+        } catch (error) {
+            // return status and error as json
+            return res.status(403).json({ message: error.message })
+        }
+    }
+    // delete notifations
 exports.deleteNotification = async(req, res) => {
     const { id } = req.params
 

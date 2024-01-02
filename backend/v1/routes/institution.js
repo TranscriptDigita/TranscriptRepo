@@ -4,6 +4,7 @@
 const express = require('express'),
     router = express.Router(),
     controller = require('../controllers/institution'),
+    adminController = require('../controllers/admin'),
     accountController = require('../controllers/bankAccount'),
     resultController = require('../controllers/studentsData'),
     { isAuthInstitution } = require('../middleware/auth')
@@ -27,5 +28,8 @@ router.route('/account')
 router.route('/students-records')
     .post(isAuthInstitution, resultController.uploadData)
 
+// route to get notifications
+router.route('/notifications')
+    .get(isAuthInstitution, adminController.getAllUserNotifications)
 
 module.exports = router

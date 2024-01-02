@@ -78,13 +78,14 @@ router.route('/:institutionId/staff/list')
     .get(isAuthAdmin, controller.getStaffByInstitution)
 
 // =================================
-// ========Fetch institution by Id ==========
+// ========Fetch institution by Id ===
 // ================================
 router.route('/institution/:id')
     .get(isAuthAdmin, controller.getInstitutionById)
-    // =================================
-    // ========Create and Fetch Notifications Endpoints ==========
-    // ================================
+
+// =================================
+// =Create and Fetch Notifications Endpoints =
+// ================================
 router.route('/notifications')
     .post(isAuthAdmin, controller.createNewNotification)
 
