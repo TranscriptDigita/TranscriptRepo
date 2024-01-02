@@ -4,7 +4,7 @@
 const express = require('express'),
     router = express.Router(),
     controller = require('../controllers/alumni'),
-    accountController = require('../controllers/bankAccount'),
+    adminController = require('../controllers/admin'),
     { isAuth } = require('../middleware/auth')
 
 // =================================
@@ -45,7 +45,7 @@ router.route('/:id/verify')
     .patch(controller.verifyAlumnus)
 
 // route to get notifications
-router.route('/notifications')
+router.route('/notifications/:receiver')
     .get(isAuth, adminController.getAllUserNotifications)
 
 module.exports = router

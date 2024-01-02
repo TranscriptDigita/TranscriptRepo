@@ -502,7 +502,7 @@ exports.getAllNotifications = async(req, res) => {
     // function to get user notifications
 exports.getAllUserNotifications = async(req, res) => {
         try {
-            const { user } = req.params;
+            const { receiver } = req.params;
             // find all admin in database
             let allNotifications = await Notifications.find({ receivers: user })
 

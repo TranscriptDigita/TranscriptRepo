@@ -29,7 +29,7 @@ router.route('/students-records')
     .post(isAuthInstitution, resultController.uploadData)
 
 // route to get notifications
-router.route('/notifications')
+router.route('/notifications/:receiver')
     .get(isAuthInstitution, adminController.getAllUserNotifications)
 
 module.exports = router
