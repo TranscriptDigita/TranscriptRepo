@@ -504,7 +504,7 @@ exports.getAllUserNotifications = async(req, res) => {
         try {
             const { receiver } = req.params;
             // find all admin in database
-            let allNotifications = await Notifications.find({ receivers: user })
+            let allNotifications = await Notifications.find({ receivers: receiver })
 
             // if not allAdmins throw error 
             if (!allNotifications) {
