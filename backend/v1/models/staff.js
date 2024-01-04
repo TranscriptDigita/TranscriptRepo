@@ -24,7 +24,7 @@ const staffSchema = new mongoose.Schema({
 // ======= statics functions ===================
 // ================ Function to create new staff =============================
 
-staffSchema.statics.createStaff = async function(emailAddress, role, password, institution) {
+staffSchema.statics.createStaff = async function(emailAddress, password, role, institution) {
     // check if all inputs are filled
     if (!emailAddress || !password || !role || !institution) {
         throw Error('All fields are required !')
