@@ -3,6 +3,7 @@
 // =============================
 require('dotenv').config()
 const Staff = require('../models/staff'),
+    Institution = require('../models/institution'),
     Logs = require('../models/logs'),
     mongoose = require('mongoose'),
     jwt = require('jsonwebtoken'),
@@ -153,6 +154,38 @@ exports.changePassword = async(req, res) => {
 
         return res.status(200).json({ message: "Password successfully changed", staff: foundStaff });
 
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
+    }
+}
+
+// Truesury Staff set transcript processing amount
+exports.setAmount = async(req, res) => {
+    try {
+        // get staffId from user parameters
+        const { institutionId } = req.params
+        const { typeOfTranscript, amount } = req.body;
+        // find staff using token and expiry time
+        const foundInstitution = await Institution.findOne({ _id: institutionId });
+
+        // if staff not found throw error
+        if (!foundInstitution) {
+            throw Error("Incorrect institution id");
+        }
+        // Set amount amountForPhysicalMode
+        if (!typeOfTranscript || !amount) {
+            throw Error("All fields are required!");
+        }
+        if (typeOfTranscript == "Official" || typeOfTranscript === "Officail") {
+            foundInstitution.amountForPhysicalMode = amount;
+            await foundInstitution.save();
+            return res.status(200).json({ message: 'Transcript processing amont set successfully.', data: { typeOfTranscript, amount } });
+        } else if (typeOfTranscript == "Personal" || typeOfTranscript === "Personal") {
+            foundInstitution.amountForElectronicalMode = amount;
+            await foundInstitution.save();
+            return res.status(200).json({ message: 'Transcript processing amont set successfully.', data: { typeOfTranscript, amount } });
+        }
     } catch (error) {
         // return error code and message 
         return res.status(400).json({ message: error.message })
