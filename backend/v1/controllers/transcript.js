@@ -198,7 +198,7 @@ exports.approveTranscript = async(req, res) => {
             const { id } = req.params
                 // verify if id is valid
             if (!mongoose.Types.ObjectId.isValid(id)) {
-                throw Error('not a valid id')
+                throw Error('not a valid id');
             }
             const approved = await Transcripts.findByIdAndUpdate(id, { isApproved: true, isDeclined: false, approvedBy: req.user._id })
 

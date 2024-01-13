@@ -124,17 +124,15 @@ exports.verifyStudent = async(req, res) => {
         }
 
         // find record using student regitration number and intitution Id in db
-        const findStudent = await Result.find({ registrationNumber, institutionId })
+        const findStudent = await Result.find({ registrationNumber: registrationNumber, institutionId: institutionId })
 
         // if not found throw error
         if (!findStudent) {
             return res.status(404).json({ message: "Record not found!" })
                 // throw Error(`reresponse could ot be located`)
         }
-
         // return data and message as json
         res.status(200).json({ message: 'successful', data: findStudent })
-
     } catch (error) {
         // return status and error as json
         return res.status(403).json({ message: error.message })
