@@ -12,5 +12,8 @@ router.route(`/verify`)
 
 router.route(`/results`)
     .get(isAuthAdmin, controller.studentsResult)
+
+router.route(`/students/results`)
+    .get(isAuthInstitution, controller.studentsResult)
     // export router
 module.exports = router
