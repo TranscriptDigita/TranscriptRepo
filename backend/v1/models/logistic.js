@@ -170,7 +170,7 @@ logisticSchema.statics.getLogisticById = async function(id) {
 // ==================================
 // ==== modeling admin with schema==
 // ==================================
-const Logistic = mongoose.model('admin', logisticSchema)
+const Logistic = mongoose.model('logistic', logisticSchema)
 
 // ==================================
 // ======== exports =================

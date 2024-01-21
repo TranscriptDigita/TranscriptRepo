@@ -14,7 +14,8 @@ const express = require('express'),
     contactUsRoutes = require('./routes/contact'),
     staffRoutes = require('./routes/staff'),
     adminRoutes = require('./routes/admin'),
-    studentsData = require('./routes/studentsData')
+    studentsData = require('./routes/studentsData'),
+    logisticRoutes = require('./routes/logistic')
 
 // using cors 
 app.use(cors())
@@ -54,6 +55,9 @@ app.use('/api/v1/staff', staffRoutes)
 app.use('/api/v1/students-data', studentsData);
 // admin endpoint
 app.use('/api/v1/admin', adminRoutes);
+// Courier service routes
+app.use('/api/v1/courier-service', logisticRoutes);
+
 // ===========================================
 // ============ serving app ==================
 // ===========================================
