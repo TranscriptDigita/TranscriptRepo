@@ -37,7 +37,7 @@ const logisticSchema = new mongoose.Schema({
 // ==== static functions for Auth ===
 // ==================================
 
-// signup user function
+// signup courier service function
 logisticSchema.statics.signup = async function(businessName, emailAddress, password, verfificationCode) {
 
     // check if all inputs are filled
@@ -74,7 +74,7 @@ logisticSchema.statics.signup = async function(businessName, emailAddress, passw
     return logistic
 }
 
-// login user
+// login courier service
 logisticSchema.statics.login = async function(emailAddress, password) {
     // validation
     if (!emailAddress || !password) {

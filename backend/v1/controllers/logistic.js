@@ -288,7 +288,7 @@ exports.loginLogistic = async(req, res) => {
         // login alumni
         const logistic = await Logistic.login(emailAddress, password)
 
-        if (!alumni) {
+        if (!logistic) {
             throw Error('Login unsucessful')
         }
         // create a token
@@ -297,7 +297,7 @@ exports.loginLogistic = async(req, res) => {
         let logTime = new Date();
         let logger = emailAddress;
         let logType = "signin"
-        let logerType = "Logistic"
+        let logerType = "Courier Service"
             // tracking the sign up time
         const feedback = await Logs.logging(logger, logTime, logType, logerType);
         console.log(feedback);
