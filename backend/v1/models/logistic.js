@@ -68,7 +68,7 @@ logisticSchema.statics.signup = async function(businessName, emailAddress, passw
     const hash = await bcrypt.hash(password, salt)
 
     // creating new admin in database
-    const logistic = await this.create({ emailAddress, password: hash, verfificationCode })
+    const logistic = await this.create({ businessName, emailAddress, password: hash, verfificationCode })
 
     // returning the saved user
     return logistic
