@@ -173,6 +173,6 @@ logisticSchema.statics.getLogisticById = async function(id) {
 const Logistic = mongoose.model('logistic', logisticSchema)
 
 // ==================================
-// ======== exports =================
+// ======== exports ================= 
 // ==================================
 module.exports = Logistic
