@@ -246,8 +246,8 @@ exports.changePassword = async(req, res) => {
 // verify a recently registered courier
 exports.verifyLogistic = async(req, res) => {
     // get logisticId and verificationCode from user parameters
-
-    const { verificationCode, id } = req.body
+    const { id } = req.params;
+    const { verificationCode } = req.body
 
     try {
         // verify if id is valid
@@ -255,7 +255,7 @@ exports.verifyLogistic = async(req, res) => {
             throw Error('not a valid id')
         }
 
-        // find alumnus in database
+        // find logistic in database
         const foundLogistic = await Logistic.findById(id)
 
         // if user not found in database throw error
@@ -271,7 +271,7 @@ exports.verifyLogistic = async(req, res) => {
         // compare params code with found users verification code
         if (verificationCode === foundLogistic.verfificationCode) {
             let verifiedLogistic = await Logistic.findByIdAndUpdate(id, { isVerified: true }, { new: true, useFindAndModify: false })
-            return res.status(200).json({ message: 'successfully updated', logistic: verifiedLogistic })
+            return res.status(200).json({ message: 'successfully verified and updated', logistic: verifiedLogistic })
         }
 
     } catch (error) {
