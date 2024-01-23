@@ -252,7 +252,7 @@ exports.verifyLogistic = async(req, res) => {
     try {
         // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw Error('not a valid id')
+            throw Error('Not a valid id')
         }
 
         // find logistic in database
@@ -280,12 +280,12 @@ exports.verifyLogistic = async(req, res) => {
     }
 }
 
-// login Alumni
+// login courier service
 exports.loginLogistic = async(req, res) => {
     const { emailAddress, password } = req.body
 
     try {
-        // login alumni
+        // login courier service
         const logistic = await Logistic.login(emailAddress, password)
 
         if (!logistic) {

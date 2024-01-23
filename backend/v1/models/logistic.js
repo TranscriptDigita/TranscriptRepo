@@ -24,6 +24,9 @@ const logisticSchema = new mongoose.Schema({
     directorIdNumber: { type: String },
     docmnt: { type: String },
     verfificationCode: { type: Number },
+    weDoInternationalDelivery: { type: Boolean, default: false },
+    localDeliveryPrice: { type: String },
+    internationalDeliveryPrice: { type: String },
     isVerified: { type: Boolean, default: true },
     isActive: { type: Boolean, default: true },
     isDisabled: { type: Boolean, default: false },
@@ -145,15 +148,31 @@ logisticSchema.statics.sendEmail = async function(email, subject, message) {
     })
 }
 
-// update user/admin details
-logisticSchema.statics.update = async function(id, { emailAddress }) {
+// update logistic details
+logisticSchema.statics.update = async function(id, {
+    headOfficeAddress,
+    contactPhoneNumber,
+    businessRegistrationNumber,
+    directorName,
+    directorContactNumber,
+    directorIdType,
+    directorIdNumber
+}) {
 
     // using validator to validate email
     if (!validator.isEmail(emailAddress)) {
         throw Error('email is not valid')
     }
     // creating new admin in database
-    const logistic = await this.findByIdAndUpdate(id, { emailAddress })
+    const logistic = await this.findByIdAndUpdate(id, {
+        headOfficeAddress,
+        contactPhoneNumber,
+        businessRegistrationNumber,
+        directorName,
+        directorContactNumber,
+        directorIdType,
+        directorIdNumber
+    })
 
     // returning the updated user
     return logistic
