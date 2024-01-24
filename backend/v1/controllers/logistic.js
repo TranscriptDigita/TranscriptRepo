@@ -37,7 +37,7 @@ const generateRandomNumber = () => {
 }
 
 // =====================================
-// ===== Alumni controller functions ===
+// ===== Courier controller functions ===
 // =====================================
 
 // function to get all Logistics
@@ -271,7 +271,7 @@ exports.verifyLogistic = async(req, res) => {
         // compare params code with found users verification code
         if (verificationCode === foundLogistic.verfificationCode) {
             let verifiedLogistic = await Logistic.findByIdAndUpdate(id, { isVerified: true }, { new: true, useFindAndModify: false })
-            return res.status(200).json({ message: 'successfully verified and updated', logistic: verifiedLogistic })
+            return res.status(200).json({ message: 'Successfully verified and updated', logistic: verifiedLogistic })
         }
 
     } catch (error) {

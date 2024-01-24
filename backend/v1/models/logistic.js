@@ -27,7 +27,7 @@ const logisticSchema = new mongoose.Schema({
     weDoInternationalDelivery: { type: Boolean, default: false },
     localDeliveryPrice: { type: String },
     internationalDeliveryPrice: { type: String },
-    isVerified: { type: Boolean, default: true },
+    isVerified: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
     isDisabled: { type: Boolean, default: false },
     isRestricted: { type: Boolean, default: false },
@@ -94,7 +94,7 @@ logisticSchema.statics.login = async function(emailAddress, password) {
 
     // if account inactive throw error    
     if (!logistic.isVerified) {
-        throw Error('sorry your account is disabled')
+        throw Error('Sorry your account is disabled')
     }
 
     // if account inactive throw error    
@@ -160,10 +160,10 @@ logisticSchema.statics.update = async function(id, {
 }) {
 
     // using validator to validate email
-    if (!validator.isEmail(emailAddress)) {
-        throw Error('email is not valid')
-    }
-    // creating new admin in database
+    // if (!validator.isEmail(emailAddress)) {
+    //     throw Error('email is not valid')
+    // }
+    // creating new courier in database
     const logistic = await this.findByIdAndUpdate(id, {
         headOfficeAddress,
         contactPhoneNumber,
@@ -172,7 +172,7 @@ logisticSchema.statics.update = async function(id, {
         directorContactNumber,
         directorIdType,
         directorIdNumber
-    })
+    }, { new: true, useFindAndModify: false })
 
     // returning the updated user
     return logistic

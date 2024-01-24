@@ -1,5 +1,6 @@
 // imports
 const Transcripts = require('../models/transcripts'),
+    Logistic = require('../models/logistic'),
     mongoose = require('mongoose')
 
 // Function to generate transcript reference id
@@ -35,18 +36,19 @@ const genTrnxRefId = async() => {
 
 // Fetch transcript by transcript id
 exports.getTranscriptById = async(req, res) => {
-        try {
-            const { transcriptId } = req.params;
-            if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
-                throw Error('Not a valid id')
-            }
-            let response = await Transcripts.findById(transcriptId)
-            return res.json(response)
-        } catch (error) {
-            res.json({ message: error.message })
+    try {
+        const { transcriptId } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
+            throw Error('Not a valid id')
         }
+        let response = await Transcripts.findById(transcriptId)
+        return res.json(response)
+    } catch (error) {
+        res.json({ message: error.message })
     }
-    // Fetch transcript by transcript id
+}
+
+// Fetch transcript by transcript id
 exports.getTranscriptByAlumniId = async(req, res) => {
     try {
         const { alumniId } = req.params;
@@ -72,11 +74,16 @@ exports.createNewRequest = async(req, res) => {
     try {
 
         // getting the data from input by destructuring request body
-        const { degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program } = req.body
-
+        const { degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program, preferCourier } = req.body
+        if (!preferCourier) {
+            throw Error('Prefer courier service is required!')
+        }
         // generate refrenceId
         // find last transcript reference id in the database
         const lastId = await Transcripts.findOne().sort({ _id: -1 });
+        let courierResponse = await Logistic.findOne({ businessName: preferCourier });
+        let courierContactPhoneNumber = courierResponse.contactPhoneNumber;
+        let courierHeadOfficeAddress = courierResponse.headOfficeAddress;
         // initializing transcript refence id
         var referenceId;
         // if there is no transcript in the database yet
@@ -111,7 +118,10 @@ exports.createNewRequest = async(req, res) => {
             matricNumber,
             yearOfGraduation,
             program,
-            createdBy
+            createdBy,
+            preferCourier,
+            courierContactPhoneNumber,
+            courierHeadOfficeAddress
         );
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({ message: "Transcripted Successfully created!", Transcript: newTranscript })
