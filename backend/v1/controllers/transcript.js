@@ -74,16 +74,11 @@ exports.createNewRequest = async(req, res) => {
     try {
 
         // getting the data from input by destructuring request body
-        const { degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program, preferCourier } = req.body
-        if (!preferCourier) {
-            throw Error('Prefer courier service is required!')
-        }
-        // generate refrenceId
-        // find last transcript reference id in the database
+        const { degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program } = req.body
+            // generate refrenceId
+            // find last transcript reference id in the database
         const lastId = await Transcripts.findOne().sort({ _id: -1 });
-        let courierResponse = await Logistic.findOne({ businessName: preferCourier });
-        let courierContactPhoneNumber = courierResponse.contactPhoneNumber;
-        let courierHeadOfficeAddress = courierResponse.headOfficeAddress;
+
         // initializing transcript refence id
         var referenceId;
         // if there is no transcript in the database yet
@@ -118,10 +113,7 @@ exports.createNewRequest = async(req, res) => {
             matricNumber,
             yearOfGraduation,
             program,
-            createdBy,
-            preferCourier,
-            courierContactPhoneNumber,
-            courierHeadOfficeAddress
+            createdBy
         );
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({ message: "Transcripted Successfully created!", Transcript: newTranscript })
@@ -183,7 +175,7 @@ exports.verifyTranscript = async(req, res) => {
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 throw Error('not a valid id')
             }
-            const verified = await Transcripts.findByIdAndUpdate(id, { isVerified: true, verfiedBy: req.user._id })
+            const verified = await Transcripts.findByIdAndUpdate(id, { isVerified: true, verfiedBy: req.user._id }, { new: true, useFindAndModify: false })
 
             // If record found
             if (!verified) {
@@ -210,7 +202,7 @@ exports.approveTranscript = async(req, res) => {
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 throw Error('not a valid id');
             }
-            const approved = await Transcripts.findByIdAndUpdate(id, { isApproved: true, isDeclined: false, approvedBy: req.user._id })
+            const approved = await Transcripts.findByIdAndUpdate(id, { isApproved: true, isDeclined: false, approvedBy: req.user._id }, { new: true, useFindAndModify: false })
 
             // If record found
             if (!approved) {
@@ -237,7 +229,7 @@ exports.querryTranscript = async(req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw Error('not a valid id')
         }
-        const querried = await Transcripts.findByIdAndUpdate(id, { isQuerried: true, isDeclined: false, isApproved: false, querriedBy: req.user._id })
+        const querried = await Transcripts.findByIdAndUpdate(id, { isQuerried: true, isDeclined: false, isApproved: false, querriedBy: req.user._id }, { new: true, useFindAndModify: false })
 
         // If record found
         if (!querried) {
@@ -265,7 +257,7 @@ exports.declineTranscript = async(req, res) => {
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 throw Error('not a valid id')
             }
-            const declined = await Transcripts.findByIdAndUpdate(id, { isDeclined: true, isApproved: false, declinedBy: req.user._id })
+            const declined = await Transcripts.findByIdAndUpdate(id, { isDeclined: true, isApproved: false, declinedBy: req.user._id }, { new: true, useFindAndModify: false })
 
             // If record found
             if (!declined) {
@@ -288,12 +280,20 @@ exports.deliveryMethod = async(req, res) => {
 
         // getting the data from input by destructuring request body
         const { transcriptId } = req.params;
-        const { typeOfTranscript, modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail } = req.body;
+        const { typeOfTranscript, modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail, preferCourier } = req.body;
         // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
-            throw Error('not a valid id')
+            throw Error('Not a valid id')
         }
-        const transcriptUpdated = await Transcripts.findByIdAndUpdate(transcriptId, { typeOfTranscript, modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail })
+        if (!preferCourier) {
+            throw Error('Prefer courier service is required!')
+        }
+        // get courier details
+        let courierResponse = await Logistic.findOne({ businessName: preferCourier });
+        let courierContactPhoneNumber = courierResponse.contactPhoneNumber;
+        let courierHeadOfficeAddress = courierResponse.headOfficeAddress;
+
+        const transcriptUpdated = await Transcripts.findByIdAndUpdate(transcriptId, { typeOfTranscript, modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail, preferCourier, courierContactPhoneNumber, courierHeadOfficeAddress }, { new: true, useFindAndModify: false })
 
         // If record found
         if (!transcriptUpdated) {

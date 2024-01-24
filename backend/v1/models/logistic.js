@@ -189,7 +189,7 @@ logisticSchema.statics.deliveryOptions = async function(id, {
         weDoInternationalDelivery,
         localDeliveryPrice,
         internationalDeliveryPrice
-    })
+    }, { new: true, useFindAndModify: false })
 
     // returning the updated user
     return logistic

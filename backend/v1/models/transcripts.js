@@ -41,7 +41,7 @@ const transcriptSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 // Create new transcript
-transcriptSchema.statics.createNewTranscript = async function(referenceId, degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program, createdBy, preferCourier, courierContactPhoneNumber, courierHeadOfficeAddress) {
+transcriptSchema.statics.createNewTranscript = async function(referenceId, degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program, createdBy) {
 
     // check if all required data are filled
     if (!referenceId || !degreeType || !institution || !faculty || !department || !matricNumber || !yearOfGraduation || !program || !createdBy || !preferCourier) {
@@ -49,7 +49,7 @@ transcriptSchema.statics.createNewTranscript = async function(referenceId, degre
     }
 
     // creating new transcript in database
-    const newTranscript = await this.create({ referenceId, degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program, createdBy, preferCourier, courierContactPhoneNumber, courierHeadOfficeAddress })
+    const newTranscript = await this.create({ referenceId, degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program, createdBy })
 
     // returning the new created transcript
     return newTranscript
