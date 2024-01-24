@@ -45,7 +45,7 @@ router.route('/:id/verify')
     .patch(controller.verifyLogistic)
 
 // route to ge t notifications
-// router.route('/notifications/:receiver')
-//     .get(isAuth, adminController.getAllUserNotifications)
+router.route('/set-price/:id')
+    .patch(isAuthCourier, controller.delOptions)
 
 module.exports = router

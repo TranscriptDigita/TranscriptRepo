@@ -168,7 +168,7 @@ exports.passwordReset = async(req, res) => {
         const { password } = req.body;
 
         // find alumni using token and expiry time
-        const foundLogistic = await Alumni.findOne({
+        const foundLogistic = await Logistic.findOne({
             resetPasswordToken: token,
             resetPasswordExpires: { $gt: Date.now() }
         });
@@ -203,38 +203,38 @@ exports.passwordReset = async(req, res) => {
     }
 }
 
-// change password
+// change courier service password
 exports.changePassword = async(req, res) => {
     try {
-        const _Id = req.params.logisticId;
+        const _id = req.params.logisticId;
         const { newPassword, confirmNewPassword } = req.body;
 
-        // find alumni using Id
-        const foundLogistic = await Alumni.findById(_id);
+        // find courier service using Id
+        const foundLogistic = await Logistic.findById(_id);
 
-        // if alumni not found throw error
+        // if courier service not found throw error
         if (!foundLogistic) {
-            throw Error("No record found with that alumni Id.");
+            throw Error("No record found with that courier service Id.");
         }
 
         // if alumni not found throw error
         if (newPassword != confirmNewPassword) {
-            throw Error("Password passwords do not match!");
+            throw Error("Passwords do not match!");
         }
 
         // check password strength
         // using validator to check if password is strong
         if (!validator.isStrongPassword(newPassword)) {
-            throw Error('password not strong enough')
+            throw Error('Password not strong enough')
         }
         // hash password
         // generating salt to hash password
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(newPassword, salt)
-
+        foundLogistic.password = hash;
         await foundLogistic.save();
 
-        return res.status(200).json({ message: "Password reset successful", alumni: foundLogistic });
+        return res.status(200).json({ message: "Password reset successful", courier: foundLogistic });
 
     } catch (error) {
         // return error code and message 
@@ -347,7 +347,35 @@ exports.updateLogistic = async(req, res) => {
     }
 }
 
-// delete logistic
+// courier service delivery options
+exports.delOptions = async(req, res) => {
+        const { id } = req.params
+        const {
+            weDoInternationalDelivery,
+            localDeliveryPrice,
+            internationalDeliveryPrice
+        } = req.body
+
+        try {
+            // verify if id is of mongoose type
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                throw Error('Not a valid id')
+            }
+            // find alumnus in database the id and update
+            let updateData = await Logistic.deliveryOptions(id, {
+                weDoInternationalDelivery,
+                localDeliveryPrice,
+                internationalDeliveryPrice
+            });
+            // return succesful status code, message and the updated user
+            return res.status(200).json({ message: "Successfully submitted", updateData })
+
+        } catch (error) {
+            // return error code and message 
+            return res.status(400).json({ message: error.message })
+        }
+    }
+    // delete logistic
 exports.deleteLogistic = async(req, res) => {
     const { id } = req.params
 

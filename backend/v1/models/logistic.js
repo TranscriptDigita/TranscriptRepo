@@ -148,7 +148,7 @@ logisticSchema.statics.sendEmail = async function(email, subject, message) {
     })
 }
 
-// update logistic details
+// update logistic KYC details
 logisticSchema.statics.update = async function(id, {
     headOfficeAddress,
     contactPhoneNumber,
@@ -178,6 +178,22 @@ logisticSchema.statics.update = async function(id, {
     return logistic
 }
 
+// update logistic delivery option details
+logisticSchema.statics.deliveryOptions = async function(id, {
+    weDoInternationalDelivery,
+    localDeliveryPrice,
+    internationalDeliveryPrice
+}) {
+    // creating new admin in database
+    const logistic = await this.findByIdAndUpdate(id, {
+        weDoInternationalDelivery,
+        localDeliveryPrice,
+        internationalDeliveryPrice
+    })
+
+    // returning the updated user
+    return logistic
+}
 
 // get a single courier user
 logisticSchema.statics.getLogisticById = async function(id) {
