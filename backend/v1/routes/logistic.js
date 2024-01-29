@@ -48,4 +48,8 @@ router.route('/:id/verify')
 router.route('/set-price/:id')
     .patch(isAuthCourier, controller.delOptions)
 
+// ruote to fetch all logistics that do internal delivery
+router.route('/inerternal-service')
+    .get(isAuthCourier, controller.getAllIntOfferLogistics)
+
 module.exports = router

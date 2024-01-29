@@ -400,4 +400,25 @@ exports.deleteLogistic = async(req, res) => {
     }
 }
 
+// function to get all Logistics by local price
+exports.getAllIntOfferLogistics = async(req, res) => {
+    try {
+
+        // find all alumni in database
+        let allLogistic = await Logistic.find({ weDoInternationalDelivery: true })
+
+        // if not allAlumnus throw error 
+        if (!allLogistic) {
+            throw Error('resource could not be located !!')
+        }
+
+        // return status and data as json
+        return res.status(201).json(allLogistic)
+
+    } catch (error) {
+        // return status and error as json
+        return res.status(403).json({ message: error.message })
+    }
+}
+
 module.exports = exports
