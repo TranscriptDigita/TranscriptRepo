@@ -167,59 +167,61 @@ exports.trackTranscript = async(req, res) => {
 
 // function to change transcript verification status
 exports.verifyTranscript = async(req, res) => {
-        try {
+    try {
 
-            // getting the data from input by destructuring request body
-            const { id } = req.params
-                // verify if id is valid
-            if (!mongoose.Types.ObjectId.isValid(id)) {
-                throw Error('not a valid id')
-            }
-            const verified = await Transcripts.findByIdAndUpdate(id, { isVerified: true, verfiedBy: req.user._id }, { new: true, useFindAndModify: false })
-
-            // If record found
-            if (!verified) {
-                //    return status code with message
-                return res.status(501).json({ message: "Something went wrong!" })
-            }
-            // return succesful status code, message and the new creaed transcript
-            return res.status(200).json({
-                message: 'verified successfully.',
-                verified
-            })
-
-        } catch (error) {
-            return res.json(error.message)
+        // getting the data from input by destructuring request body
+        const { id } = req.params
+            // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('not a valid id')
         }
+        const verified = await Transcripts.findByIdAndUpdate(id, { isVerified: true, verfiedBy: req.user._id }, { new: true, useFindAndModify: false })
+
+        // If record found
+        if (!verified) {
+            //    return status code with message
+            return res.status(501).json({ message: "Something went wrong!" })
+        }
+        // return succesful status code, message and the new creaed transcript
+        return res.status(200).json({
+            message: 'verified successfully.',
+            verified
+        })
+
+    } catch (error) {
+        return res.json(error.message)
     }
-    // function to approve transcript
+}
+
+// function to approve transcript
 exports.approveTranscript = async(req, res) => {
-        try {
+    try {
 
-            // getting the data from input by destructuring request body
-            const { id } = req.params
-                // verify if id is valid
-            if (!mongoose.Types.ObjectId.isValid(id)) {
-                throw Error('not a valid id');
-            }
-            const approved = await Transcripts.findByIdAndUpdate(id, { isApproved: true, isDeclined: false, approvedBy: req.user._id }, { new: true, useFindAndModify: false })
-
-            // If record found
-            if (!approved) {
-                //    return status code with message
-                return res.status(501).json({ message: "Something went wrong!" })
-            }
-            // return succesful status code, message and the new creaed transcript
-            return res.status(200).json({
-                message: 'approved successfully.',
-                approved
-            })
-
-        } catch (error) {
-            return res.json(error.message)
+        // getting the data from input by destructuring request body
+        const { id } = req.params
+            // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('not a valid id');
         }
+        const approved = await Transcripts.findByIdAndUpdate(id, { isApproved: true, isDeclined: false, approvedBy: req.user._id }, { new: true, useFindAndModify: false })
+
+        // If record found
+        if (!approved) {
+            //    return status code with message
+            return res.status(501).json({ message: "Something went wrong!" })
+        }
+        // return succesful status code, message and the new creaed transcript
+        return res.status(200).json({
+            message: 'approved successfully.',
+            approved
+        })
+
+    } catch (error) {
+        return res.json(error.message)
     }
-    // function to change transcript querry status
+}
+
+// function to change transcript querry status
 exports.querryTranscript = async(req, res) => {
     try {
 
@@ -249,32 +251,33 @@ exports.querryTranscript = async(req, res) => {
 
 // function to decline transcript
 exports.declineTranscript = async(req, res) => {
-        try {
+    try {
 
-            // getting the data from input by destructuring request body
-            const { id } = req.params
-                // verify if id is valid
-            if (!mongoose.Types.ObjectId.isValid(id)) {
-                throw Error('not a valid id')
-            }
-            const declined = await Transcripts.findByIdAndUpdate(id, { isDeclined: true, isApproved: false, declinedBy: req.user._id }, { new: true, useFindAndModify: false })
-
-            // If record found
-            if (!declined) {
-                //    return status code with message
-                return res.status(501).json({ message: "Something went wrong!" })
-            }
-            // return succesful status code, message and the new creaed transcript
-            return res.status(200).json({
-                message: 'declined successfully.',
-                declined
-            })
-
-        } catch (error) {
-            return res.json(error.message)
+        // getting the data from input by destructuring request body
+        const { id } = req.params
+            // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('not a valid id')
         }
+        const declined = await Transcripts.findByIdAndUpdate(id, { isDeclined: true, isApproved: false, declinedBy: req.user._id }, { new: true, useFindAndModify: false })
+
+        // If record found
+        if (!declined) {
+            //    return status code with message
+            return res.status(501).json({ message: "Something went wrong!" })
+        }
+        // return succesful status code, message and the new creaed transcript
+        return res.status(200).json({
+            message: 'declined successfully.',
+            declined
+        })
+
+    } catch (error) {
+        return res.json(error.message)
     }
-    // function for  transcript delivery method
+}
+
+// function for  transcript delivery method
 exports.deliveryMethod = async(req, res) => {
     try {
 
