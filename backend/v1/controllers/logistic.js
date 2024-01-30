@@ -2,6 +2,7 @@
 // ==== libraries required =====
 // =============================
 require('dotenv').config()
+const multer = require('multer')
 const Logistic = require('../models/logistic'),
     Logs = require('../models/logs'),
     mongoose = require('mongoose'),
@@ -12,7 +13,15 @@ const Logistic = require('../models/logistic'),
 
 const htmlContent = fs.readFileSync('./views/welcomeEmail.html', 'utf-8')
 
-
+var idcardStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './public/idcards'); // file added to the public folder of the root directory
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+});
+var excelUploads = multer({ storage: idcardStorage });
 // =============================
 // === funtion to create token==
 // ============================= 
@@ -421,4 +430,28 @@ exports.getAllIntOfferLogistics = async(req, res) => {
     }
 }
 
+// upload logistic director id card
+exports.upladIdCard = async(req, res) => {
+    var upload = multer({ storage: storage }).single('iddocument');
+    var storage = multer.diskStorage({
+
+        destination: function(req, file, callback) {
+            callback(null, './public/idcards');
+        },
+        filename: function(req, file, callback) {
+            callback(null, file.originalname);
+        }
+
+    });
+
+    var upload = multer({ storage: storage }).single('uploadfile');
+
+    upload(req, res, function(error) {
+        // console.log(req.file);
+        if (error) {
+            console.log(error)
+            return res.end('Error Uploading ID card');
+        }
+    })
+}
 module.exports = exports
