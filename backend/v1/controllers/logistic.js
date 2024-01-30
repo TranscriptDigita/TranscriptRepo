@@ -426,7 +426,7 @@ exports.getAllIntOfferLogistics = async(req, res) => {
 
     } catch (error) {
         // return status and error as json
-        return res.status(403).json({ message: error.message })
+        return res.status(403).json({ message: error })
     }
 }
 
