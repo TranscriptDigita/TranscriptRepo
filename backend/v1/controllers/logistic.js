@@ -257,10 +257,10 @@ exports.verifyLogistic = async(req, res) => {
     // get logisticId and verificationCode from user parameters
     const { id } = req.params;
     const { verificationCode } = req.body
-    if (!id || !verificationCode) {
-        throw Error('User ID and verification are required!')
-    }
     try {
+        if (!id || !verificationCode) {
+            throw Error('User ID and verification are required!')
+        }
         // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw Error('Not a valid id')
