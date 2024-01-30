@@ -267,27 +267,21 @@ exports.verifyLogistic = async(req, res) => {
         }
 
         // find logistic in database
-        const foundLogistic = await Logistic.findById(id)
+        const foundLogistic = await Logistic.findOne({
+            _id: id,
+            verfificationCode: verificationCode
+        });
 
         // if user not found in database throw error
         if (!foundLogistic) {
             throw Error('This user doesnt exist in our database')
         }
 
-        // not match throw error
-        if (verificationCode != foundLogistic.verfificationCode) {
-            throw Error('Incorrect verfication code')
-        }
-
         // compare params code with found users verification code
-        if (verificationCode === foundLogistic.verfificationCode) {
-            await Logistic.findByIdAndUpdate(id, { isVerified: true }, (err, docs) => {
-                if (err) {
-                    throw Error(err);
-                }
-                return res.status(200).json({ message: 'Successfully verified and updated', logistic: docs })
-            })
-        }
+
+        foundLogistic.isVerified = true;
+        await foundLogistic.save();
+        return res.status(200).json({ message: 'Successfully verified and updated', foundLogistic })
 
     } catch (error) {
         // return error code and message 
