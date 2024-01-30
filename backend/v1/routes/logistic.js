@@ -50,6 +50,6 @@ router.route('/set-price/:id')
 
 // ruote to fetch all logistics that do internal delivery
 router.route('/inter-services')
-    .fetch(isAuthCourier, controller.getAllIntOfferLogistics)
+    .get(isAuthCourier, controller.getAllIntOfferLogistics)
 
 module.exports = router
