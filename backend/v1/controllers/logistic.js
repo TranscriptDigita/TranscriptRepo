@@ -281,8 +281,12 @@ exports.verifyLogistic = async(req, res) => {
 
         // compare params code with found users verification code
         if (verificationCode === foundLogistic.verfificationCode) {
-            let verifiedLogistic = await Logistic.findByIdAndUpdate(id, { isVerified: true }, { new: true, useFindAndModify: false })
-            return res.status(200).json({ message: 'Successfully verified and updated', logistic: verifiedLogistic })
+            await Logistic.findByIdAndUpdate(id, { isVerified: true }, (err, docs) => {
+                if (err) {
+                    throw Error(err);
+                }
+                return res.status(200).json({ message: 'Successfully verified and updated', logistic: docs })
+            })
         }
 
     } catch (error) {
