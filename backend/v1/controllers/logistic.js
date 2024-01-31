@@ -274,7 +274,7 @@ exports.verifyLogistic = async(req, res) => {
 
         // if user not found in database throw error
         if (!foundLogistic) {
-            throw Error('This user doesnt exist in our database')
+            throw Error('Incorrect data passed!')
         }
 
         // compare params code with found users verification code
