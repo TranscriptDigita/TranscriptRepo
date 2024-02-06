@@ -1,6 +1,9 @@
 // imports
 const Transcripts = require('../models/transcripts'),
     Logistic = require('../models/logistic'),
+    Alumni = require('../models/alumni'),
+    Institution = require('../models/institution'),
+    sendSMS = require('./twilio'),
     mongoose = require('mongoose')
 
 // Function to generate transcript reference id
@@ -72,7 +75,6 @@ exports.getAllTranscripts = async(req, res) => {
 // create new transcript request
 exports.createNewRequest = async(req, res) => {
     try {
-
         // getting the data from input by destructuring request body
         const { degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program } = req.body
             // generate refrenceId
@@ -115,6 +117,11 @@ exports.createNewRequest = async(req, res) => {
             program,
             createdBy
         );
+        const inst = await Institution.findOne({ name: institution });
+        let instPhone = inst.phoneNumber;
+        // send message to notify institution of the newly create transcript request
+        let txt = "The " + institution + " Registrar, this is to notify you that there a new transcript processing request on the ARS system.";
+        await sendSMS.sms(txt, instPhone);
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({ message: "Transcripted Successfully created!", Transcript: newTranscript })
 
@@ -201,15 +208,20 @@ exports.approveTranscript = async(req, res) => {
         const { id } = req.params
             // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw Error('not a valid id');
+            throw Error('Not a valid id');
         }
         const approved = await Transcripts.findByIdAndUpdate(id, { isApproved: true, isDeclined: false, approvedBy: req.user._id }, { new: true, useFindAndModify: false })
-
-        // If record found
+            // If record not found
         if (!approved) {
             //    return status code with message
             return res.status(501).json({ message: "Something went wrong!" })
         }
+        let ID = approved.createdBy;
+        const aUser = await Alumni.findById(ID);
+        let alumniPhoneNumber = aUser.phoneNumber;
+        // send message to the alumni that his/her transcript have been approved
+        let txt = "Hello Alumni, this is to notify you that your transcript has been processed and ready for pick up.";
+        await sendSMS.sms(txt, alumniPhoneNumber);
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
             message: 'approved successfully.',
@@ -266,6 +278,12 @@ exports.declineTranscript = async(req, res) => {
             //    return status code with message
             return res.status(501).json({ message: "Something went wrong!" })
         }
+        let ID = declined.createdBy;
+        const aUser = await Alumni.findById(ID);
+        let alumniPhoneNumber = aUser.phoneNumber;
+        // send message to the alumni that his/her transcript have been approved
+        let txt = "Hello Alumni, your transcript process was declined kindly login to your ARS account see the reason.";
+        await sendSMS.sms(txt, alumniPhoneNumber);
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
             message: 'declined successfully.',

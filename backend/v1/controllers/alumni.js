@@ -8,7 +8,8 @@ const Alumni = require('../models/alumni'),
     jwt = require('jsonwebtoken'),
     validator = require('validator'),
     bcrypt = require('bcryptjs'),
-    fs = require('fs')
+    fs = require('fs'),
+    sendSMS = require('./twilio')
 
 const htmlContent = fs.readFileSync('./views/welcomeEmail.html', 'utf-8')
 
@@ -317,8 +318,9 @@ exports.updateAlumni = async(req, res) => {
         phoneNumber,
         emailAddress
     } = req.body
-
+    let txt = 'Hello ' + fullName + ' congratulation your account with ARS has been updated.';
     try {
+
         // verify if id is of mongoose type
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw Error('not a valid id')
@@ -329,6 +331,8 @@ exports.updateAlumni = async(req, res) => {
             phoneNumber,
             emailAddress,
         });
+        // send congratulatory message to the alumni phone number
+        await sendSMS.sms(txt, phoneNumber);
         // return succesful status code, message and the updated user
         return res.status(200).json({ message: "Alumni updated!", Alumni: updatedDetails })
 

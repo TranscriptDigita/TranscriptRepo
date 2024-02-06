@@ -22,6 +22,7 @@ const institutionSchema = new mongoose.Schema({
     verificationCode: { type: String },
     isActive: { type: Boolean, default: true },
     isVerified: { type: Boolean, default: false },
+    phoneNumber: { type: String },
     accountNumber: { type: String },
     accountName: { type: String },
     bankName: { type: String },

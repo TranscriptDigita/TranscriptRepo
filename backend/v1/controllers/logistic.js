@@ -9,7 +9,8 @@ const Logistic = require('../models/logistic'),
     jwt = require('jsonwebtoken'),
     validator = require('validator'),
     bcrypt = require('bcryptjs'),
-    fs = require('fs')
+    fs = require('fs'),
+    sendSMS = require('./twilio')
 
 const htmlContent = fs.readFileSync('./views/welcomeEmail.html', 'utf-8')
 
@@ -276,7 +277,7 @@ exports.verifyLogistic = async(req, res) => {
         if (!foundLogistic) {
             throw Error('Incorrect data passed!')
         }
-
+        // console.log(foundLogistic)
         // compare params code with found users verification code
 
         foundLogistic.isVerified = true;
@@ -347,6 +348,9 @@ exports.updateLogistic = async(req, res) => {
             directorIdType,
             directorIdNumber
         });
+        // send congratulation message to the user
+        let txt = 'Hello ' + directorName + ', congratulation your details has been submitted for KYC verification. You will be notify upon approval.';
+        await sendSMS.sms(txt, directorContactNumber);
         // return succesful status code, message and the updated user
         return res.status(200).json({ message: `Details submitted, kindly upload the director's ${directorIdType} to complete your KYC process.`, data: updatedDetails })
 
