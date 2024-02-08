@@ -6,6 +6,8 @@ function VerifyCertificate() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedSchool, setSelectedSchool] = useState('option1'); // Default selected value
   const [studentRegNumber, setStudentRegNumber] = useState('');
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [popupContent, setPopupContent] = useState({});
 
   useEffect(() => {
     // Fetch institution data from the API
@@ -38,6 +40,15 @@ function VerifyCertificate() {
     setStudentRegNumber(event.target.value);
   };
 
+  const openPopup = (content) => {
+    setPopupContent(content);
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
+
   const handleSubmit = async () => {
     // Check if the selected school and student registration number are valid
     if (selectedSchool === 'option1' || !studentRegNumber) {
@@ -45,34 +56,32 @@ function VerifyCertificate() {
       console.log('Please select a school and enter a student registration number');
       return;
     }
-  
+
     // Use the selectedSchool directly as the institutionId
     const institutionId = selectedSchool;
-  
+
     // Log the institutionId and studentRegNumber before making the API call
     console.log('Institution ID:', institutionId);
     console.log('Student Registration Number:', studentRegNumber);
-  
+
     // Construct the request body
     const requestBody = {
       registrationNumber: studentRegNumber,
       institutionId: institutionId,
     };
-  
+
     // Log the data sent to the API
     console.log('Data Sent to API:', requestBody);
 
+    // Log the headers before making the API call
+    console.log('Request Headers:', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
 
-      // Log the headers before making the API call
-  console.log('Request Headers:', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  });
-
-  
     try {
       const response = await fetch('https://dacs.onrender.com/api/v1/students-data/verify', {
         method: 'POST',
@@ -81,14 +90,19 @@ function VerifyCertificate() {
         },
         body: JSON.stringify(requestBody),
       });
-  
+
       // Log the entire API response, whether success or error
       console.log('API Response:', response);
-  
+
       if (response.ok) {
         const data = await response.json();
         // Handle the response data as needed for successful cases
         console.log('Success: Certificate verified', data);
+        openPopup({
+          isValid: true,
+          matricNumber: studentRegNumber,
+          institution: institutionData.find((inst) => inst._id === selectedSchool)?.name,
+        });
       } else {
         throw new Error('Failed to verify certificate');
       }
@@ -99,21 +113,20 @@ function VerifyCertificate() {
       } else {
         console.error('Error verifying certificate:', error);
       }
+      openPopup({
+        isValid: false,
+        matricNumber: studentRegNumber,
+        institution: institutionData.find((inst) => inst._id === selectedSchool)?.name,
+      });
     }
   };
-  
-  
-  
-  
-  
-  
-  
-  
+
   return (
     <div className='w-full flex flex-col justify-center items-center'>
       <div className='flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0'>
         <div className='flex flex-col gap-y-4'>
-          <p>Verify Certificate</p>
+        <p style={{ fontWeight: 'bold', color: '#6B3FA0', fontSize: '2rem' }}>Verify Certificate</p>
+
           <select
             className='custom-dropdown border-2 border-black border-solid rounded-md p-2 flex-1'
             value={selectedSchool}
@@ -145,6 +158,18 @@ function VerifyCertificate() {
           Verify
         </Button>
       </div>
+
+      {/* Pop-up window for displaying the verification result */}
+      {isPopupOpen && (
+        <div className='popup mt-20 bg-gray-300' style={{borderRadius:"20px", padding:"20px"}}>
+          {popupContent.isValid ? (
+            <p>{`The certificate with matric no: ${popupContent.matricNumber} from this institution: ${popupContent.institution} is valid`}</p>
+          ) : (
+            <p>{`The certificate with matric no: ${popupContent.matricNumber} from this institution: ${popupContent.institution} is not valid`}</p>
+          )}
+          <Button onClick={closePopup} className='bg-gray-200'>Close</Button>
+        </div>
+      )}
     </div>
   );
 }

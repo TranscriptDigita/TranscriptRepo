@@ -11,16 +11,28 @@ function Newnavbar() {
 
   console.log('User Data:', user);
 
+  const getAlumniName = () => {
+    const storedUserData = localStorage.getItem('user');
+    if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      return userDataObject?.alumni?.fullName;
+    }
+    return null;
+  };
+
+  const name = getAlumniName();
+
+  console.log('name is', name)
+
   return (
-    <div className="grid grid-cols-1 shadow">
+    <div className="grid grid-cols-1 shadow" style={{marginTop: "-95px", paddingRight:"20px"}}>
       <div className="p-3 md:p-5 flex justify-between items-center">
         <div>
-          <span className="flex gap-x-2 font-semibold">Welcome !!!!!!!!</span>
-          <h4 className="text-[black] font-semibold">{user?.data?.fullName}</h4>
+          <h4 className="text-[black] font-semibold">Welcome Back {name}</h4>
           {/** Uses a default User called user so I do not have to log in each time I want to view the page */}
         </div>
         <div className="p-3 md:p-5 flex justify-between items-center">
-          <div class="w-10 h-10 bg-gray-500 rounded-full"></div>
+          
           {/* <button
             className="flex p-2 justify-center items-center gap-2 border-2 border-solid border-[#6B3FA0] rounded-md bg-white text-[#6B3FA0] hover:bg-[#6B3FA0] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#6B3FA0]"
             style={{ marginLeft: '10px', width: '100px' }}

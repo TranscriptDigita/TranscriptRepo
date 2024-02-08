@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Sidebar } from '../../components';
-import {
-  HiOutlineRectangleGroup,
-  HiViewfinderCircle,
-  HiOutlineBell,
-  HiOutlineCog6Tooth,
-} from 'react-icons/hi2';
+import { HiOutlineRectangleGroup, HiViewfinderCircle, HiOutlineBell, HiOutlineCog6Tooth } from 'react-icons/hi2';
 import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
 
@@ -26,29 +21,72 @@ function AlumniLayout() {
       path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/dashboard`,
       isActive: true,
     },
-     
     {
       title: 'Tracking',
       icon: <HiViewfinderCircle size={20} />,
       path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/trackingpage`,
     },
-
     {
       title: 'Notification',
       icon: <HiOutlineBell size={20} />,
-      path: "",
+      path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/alumninotification`,
     },
-
     {
       title: 'Settings',
       icon: <HiOutlineCog6Tooth size={20} />,
       path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/settings`,
     },
-    
   ];
 
   // State to track the window width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // State to manage notification count
+  const [notificationCount, setNotificationCount] = useState(0); // Initialize with 0
+
+  const storedUserData = localStorage.getItem('User');
+console.log("Stored User Data:", storedUserData);
+
+
+  const getAlumniToken = () => {
+    const storedUserData = localStorage.getItem('user');
+    if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      return userDataObject?.token;
+    }
+    return null;
+  };
+  
+
+  const alumniToken = getAlumniToken();
+
+  console.log("Al Token:", alumniToken);
+  // Fetch notifications and update the notificationCount
+  const fetchNotifications = async () => {
+    try {
+      const response = await fetch(`https://dacs.onrender.com/api/v1/alumnus/notifications/alumni`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${alumniToken}`,
+        },
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        setNotificationCount(data.length); // Assuming the response is an array of notifications
+      } else {
+        console.error('Failed to fetch notifications');
+      }
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+  
+
+  // Fetch notifications on component mount
+  useEffect(() => {
+    fetchNotifications();
+  }, []); // Fetch notifications when the component mounts
 
   // Update window width when the window is resized
   useEffect(() => {
@@ -71,15 +109,26 @@ function AlumniLayout() {
         <div className="col-span-1">
           <Sidebar menuItems={menuItems} />
         </div>
-  
+
         <div className="md:col-span-4 flex-1 flex flex-col">
+          {/* Newnavbar with notification count */}
+          <Link to={`/alumni/${user?.alumni?._id || defaultUser.alumni._id}/alumninotification`}>
+            <div className="flex items-center justify-end p-4">
+              <div className="relative">
+                <HiOutlineBell size={40} />
+                {notificationCount > 0 && (
+                  <div className="absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
+                    {notificationCount}
+                  </div>
+                )}
+              </div>
+            </div>
+          </Link>
+
           {/* Conditional rendering of the Navbar component */}
-          {showNavbar ? (
-            <Newnavbar />
-          ) : (
-            <MobileNavBar /> // Render MobileNavBar when the screen is smaller
-          )}
-  
+          {showNavbar ? <Newnavbar /> : <MobileNavBar />} 
+          {/* Render MobileNavBar when the screen is smaller */}
+
           <div className="flex-1 p-4 bg-slate-100 overflow-y-auto">
             {/* Use 'overflow-y-auto' to enable vertical scrolling */}
             <Outlet />
@@ -88,7 +137,6 @@ function AlumniLayout() {
       </div>
     </div>
   );
-  
 }
 
 export default AlumniLayout;

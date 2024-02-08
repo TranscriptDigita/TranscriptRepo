@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu"; // Import the Menu icon from Material-UI
 import "./Sidebar.css"; // Import a CSS file for styling
 
-function Sidebar({ menuItems }) {
+function Sidebar({ menuItems, name }) {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [titleText, setTitleText] = useState(true);
 
@@ -40,7 +40,7 @@ function Sidebar({ menuItems }) {
         </button>
         <div className="flex flex-col">
         {titleText ? (
-            <h4 className="p-5 text-black font-bold">TranscriptDigita</h4>
+            <h4 className="p-5 text-black font-bold">{name}</h4>
           ) : (
             ""
           )}

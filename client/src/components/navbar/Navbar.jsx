@@ -1,60 +1,240 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout, reset } from '../../features/auth/authSlice';
+import { Link, useNavigate } from 'react-router-dom';
 
-import {useSelector, useDispatch} from 'react-redux'
-
-import {logout, reset} from '../../features/auth/authSlice'
-
-// rrd imports
-import { Link } from 'react-router-dom'
-
-// material-ui  imports
+// material-ui imports
 import { Button } from '@mui/material';
 
 // icons imports
-import { HiChevronDown, HiBars3, HiXMark } from 'react-icons/hi2'
+import { HiChevronDown, HiBars3, HiXMark } from 'react-icons/hi2';
 import MobileMenu from '../mobileMenu/MobileMenu';
 
 function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    const [isOpen, setIsOpen] = useState(false);
+  
 
-    const toggleNavbar = () => {
-        setIsOpen(!isOpen);
-    };
+  const toggleNavbar = () => {
+    setIsOpen(!isOpen);
+  };
 
-    const {user} = useSelector((state) => state.auth)
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const storedInstitutionUser = JSON.parse(localStorage.getItem('institutionUser'));
+  const storedStaff = JSON.parse(localStorage.getItem('staff'));
+  const storedAdminUser = JSON.parse(localStorage.getItem('AdminUser'));
+  
+  
+
+  const getInstitutionId = () => {
+    if (storedInstitutionUser) {
+      return storedInstitutionUser?.institution?._id;
+    }
+    return null;
+  };
+
+  const getInstitutionName = () => {
+    if (storedInstitutionUser) {
+      return storedInstitutionUser?.institution?.name;
+    }
+    return null;
+  };
+
+  const institutionName = getInstitutionName();
+
+
+  
+
+  const getStaffId = () => {
+    if (storedStaff) {
+      return storedStaff?._id;
+    }
+    return null;
+  };
+
+  const getStaffName = () => {
+    if (storedStaff) {
+      return storedStaff?.name;
+    }
+    return null;
+  };
+
+  const staffName = getStaffName();
+
+
+  const getToken = () => {
+    const storedStaffToken = localStorage.getItem('stafftoken');
+    return storedStaffToken || null;
+  };
+
+  const getAdminId = () => {
+    if (storedAdminUser) {
+      return storedAdminUser?.admin?._id;
+    }
+    return null;
+  };
+
+  
+  const getAdminName = () => {
+    if (storedAdminUser) {
+      return storedAdminUser?.admin?.name;
+    }
+    return null;
+  };
+
+  const adminName = getAdminName();
+
+  const getAdminToken = () => {
+    if (storedAdminUser) {
+      return storedAdminUser?.token;
+    }
+    return null;
+  };
+
+  const onLogout = () => {
+    // Clear user data from local storage
+    localStorage.removeItem('user');
+    localStorage.removeItem('institutionUser');
+    localStorage.removeItem('staff');
+    localStorage.removeItem('stafftoken');
+    localStorage.removeItem('AdminUser');
+
+    // Dispatch logout and reset actions
+    dispatch(logout());
+    dispatch(reset());
+
+    // Navigate to the home page
+    navigate('/');
+  };
 
   return (
-   <div className="grid grid-cols-1 shadow">
-        <div className='p-3 md:p-5 flex justify-between items-center'>
-            {user && user.alumni.isVerified == true
-            
-            ? (
+    <div className="grid grid-cols-1 shadow">
+      <div className="p-3 md:p-5 flex justify-between items-center">
+        {/* Check for user */}
+        {storedUser && storedUser.alumni.isVerified === true ? (
+          // Render content for logged-in user
+          <>
+            <div className="hidden md:flex md:items-center justify-between gap-x-4 w-full">
+              <span className="flex gap-x-2">
+                Welcome <br />
+                <h4 className="text-[#6B3FA0] font-semibold">
+                  {storedUser.alumni.fullName}
+                </h4>
+              </span>
+              <div className="flex gap-x-4">
+                {/* Render links based on user role */}
+                <Link to={`/alumni/${storedUser.alumni._id}/dashboard`} className="bg-[#6B3FA0] px-2 p-1 text-white rounded-full">
+                  <small>Dashboard</small>
+                </Link>
+                <button
+                  onClick={onLogout}
+                  className="border-[#6B3FA0] text-[#6B3FA0] hover:border-[#6B3FA0] hover:text-[#6B3FA0] hover:bg-[#6B3FA0] hover:bg-opacity-10"
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+          </>
+        ) : (
+          // Check for institution user
+          storedInstitutionUser ? (
+            // Render content for institution user
+            <>
+              <div className="hidden md:flex md:items-center justify-between gap-x-4 w-full">
+                {/* Render links based on institution user role */}
+                <span className="flex gap-x-2">
+                Welcome <br />
+                <h4 className="text-[#6B3FA0] font-semibold">
+                  {institutionName}
+                </h4>
+              </span>
+              <div className="flex gap-x-4">
+                <Link to={`/institution/${getInstitutionId()}/dashboard`} className="bg-[#6B3FA0] px-2 p-1 text-white rounded-full">
+                  <small>Dashboard</small>
+                </Link>
+                <button
+                  onClick={onLogout}
+                  className="border-[#6B3FA0] text-[#6B3FA0] hover:border-[#6B3FA0] hover:text-[#6B3FA0] hover:bg-[#6B3FA0] hover:bg-opacity-10"
+                >
+                  Logout
+                </button>
+                </div>
+              </div>
+            </>
+          ) : (
+            // Check for staff user
+            storedStaff ? (
+              // Render content for staff user
+              <>
+                <div className="hidden md:flex md:items-center justify-between gap-x-4 w-full">
+                  {/* Render links based on staff user role */}
+                  <span className="flex gap-x-2">
+                Welcome <br />
+                <h4 className="text-[#6B3FA0] font-semibold">
+                  {staffName}
+                </h4>
+              </span>
+              <div className="flex gap-x-4">
+                  {storedStaff.role === 'Evaluation Officer' ? (
+                   
+                   <Link to={`/evaluationofficer/${getStaffId()}/dashboard`} className="bg-[#6B3FA0] px-2 p-1 text-white rounded-full">
+                      <small>Dashboard</small>
+                    </Link>
+                  ) : storedStaff.role === 'Auditor' ? (
+                    <Link to={`/auditor/${getInstitutionId()}/${getToken()}/auditordashboard`} className="bg-[#6B3FA0] px-2 p-1 text-white rounded-full">
+                      <small>Dashboard</small>
+                    </Link>
+                  ) : (
+                    // Handle other staff roles here
+                    null
+                  )}
+                  <button
+                    onClick={onLogout}
+                    className="border-[#6B3FA0] text-[#6B3FA0] hover:border-[#6B3FA0] hover:text-[#6B3FA0] hover:bg-[#6B3FA0] hover:bg-opacity-10"
+                  >
+                    Logout
+                  </button>
+                </div>
+                </div>
+              </>
+            ) : (
+              // Check for admin user
+              storedAdminUser ? (
+                // Render content for admin user
                 <>
-                    <div className='hidden md:flex md:items-center justify-between gap-x-4 w-full'>
-                        <span className='flex gap-x-2'>Welcome <br/><h4 className='text-[#6B3FA0] font-semibold'>{user.alumni.fullName}</h4></span>
-                        <div className="flex gap-x-4">
-                            <Link to={`/alumni/${user.alumni._id}/dashboard`} className='bg-[#6B3FA0] px-2 p-1 text-white rounded-full'>
-                                <small>Dashboard</small>
-                            </Link>
-                            <Link to={`/logout`}
-                                // onClick={onLogout}
-                                className='border-[#6B3FA0] text-[#6B3FA0] hover:border-[#6B3FA0] hover:text-[#6B3FA0] hover:bg-[#6B3FA0] hover:bg-opacity-10'
-                            >Logout
-                            </Link>
-                        </div>
-                    </div>
+                  <div className="hidden md:flex md:items-center justify-between gap-x-4 w-full">
+                    {/* Render links based on admin user role */}
+                    <span className="flex gap-x-2">
+                Welcome <br />
+                <h4 className="text-[#6B3FA0] font-semibold">
+                  {adminName}
+                </h4>
+              </span>
+              <div className="flex gap-x-4">
+                    <Link to={`/admin/${getAdminId()}/${getAdminToken()}/dashboard`} className="bg-[#6B3FA0] px-2 p-1 text-white rounded-full">
+                      <small>Dashboard</small>
+                    </Link>
+                    <button
+                      onClick={onLogout}
+                      className="border-[#6B3FA0] text-[#6B3FA0] hover:border-[#6B3FA0] hover:text-[#6B3FA0] hover:bg-[#6B3FA0] hover:bg-opacity-10"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                  </div>
                 </>
-            )
-            
-            
-            :
-                (<> 
-                    <div>
-                        <Link to={`/`} className='font-bold text-white'>TranscriptDigita</Link>
-                    </div>
-                    <div className='md:text-[14px] justify-evenly flex-1 hidden md:flex'>
-                        <Link to={`/`} className='flex'>
+              ) : (
+                // Render content for not-logged-in user
+                <>
+                  <div>
+                    <Link to={`/`} className="font-bold text-white">
+                      TranscriptDigita
+                    </Link>
+                  </div>
+                  <div className="md:text-[14px] justify-evenly flex-1 hidden md:flex">
+                  <Link to={`/`} className='flex'>
                             <p>Home</p>
                         </Link>
 
@@ -71,49 +251,34 @@ function Navbar() {
                             <Link>Contact</Link>
                             <HiChevronDown/>
                         </div>
-                    </div>
-
-                    <div>
-                        <Link to={`/selectlogin`}>
-                            <Button 
-                                variant="contained"
-                                className='md:block hidden bg-[#6B3FA0] hover:bg-[#6B3FA0]'
-                            >
-                            Sign in
-                            </Button>
-                        </Link>
-                    </div>
+                    
+                  </div>
+                  <div>
+                    <Link to={`/selectlogin`}>
+                      <Button
+                        variant="contained"
+                        className="md:block hidden bg-[#6B3FA0] hover:bg-[#6B3FA0]"
+                      >
+                        Sign in
+                      </Button>
+                    </Link>
+                  </div>
                 </>
-                )
-            }
-            {isOpen ?
-
-              (<HiXMark
-                size={40}
-                className='block md:hidden' 
-                onClick={toggleNavbar}
-              />  )
-
-              :
-
-              (<HiBars3 
-                size={40}
-                className='block md:hidden' 
-                onClick={toggleNavbar}
-              />)
-
-            }
-            
-        </div>
-        {isOpen ?
-
-            <MobileMenu/>
-        :
-
-            ``
-        }
-   </div>
-  )
+              )
+            )
+          )
+        )}
+        {/* Render mobile menu icon */}
+        {isOpen ? (
+          <HiXMark size={40} className="block md:hidden" onClick={toggleNavbar} />
+        ) : (
+          <HiBars3 size={40} className="block md:hidden" onClick={toggleNavbar} />
+        )}
+      </div>
+      {/* Render mobile menu */}
+      {isOpen ? <MobileMenu /> : ``}
+    </div>
+  );
 }
 
-export default Navbar
+export default Navbar;

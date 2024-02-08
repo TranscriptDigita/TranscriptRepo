@@ -83,7 +83,7 @@ function NewRequest() {
 
       const handleVerify = async (transcriptId) => {
         try {
-          const tokenData = localStorage.getItem('token');
+          const tokenData = localStorage.getItem('stafftoken');
       
           if (!tokenData) {
             console.error('No token found');
@@ -132,7 +132,7 @@ function NewRequest() {
 
       const handleApprove = async (transcriptId) => {
         try {
-          const tokenData = localStorage.getItem('token');
+          const tokenData = localStorage.getItem('stafftoken');
       
           if (!tokenData) {
             console.error('No token found');
@@ -179,7 +179,7 @@ function NewRequest() {
 
       const handleDecline = async (transcriptId) => {
         try {
-          const tokenData = localStorage.getItem('token');
+          const tokenData = localStorage.getItem('stafftoken');
       
           if (!tokenData) {
             console.error('No token found');
@@ -225,52 +225,7 @@ function NewRequest() {
       
 
 
-      const handleQuery = async (transcriptId) => {
-        try {
-          const tokenData = localStorage.getItem('token');
-      
-          if (!tokenData) {
-            console.error('No token found');
-            return;
-          }
-      
-          const token = tokenData.trim();
-      
-          if (!token) {
-            console.error('Invalid token format');
-            console.log('Token data:', tokenData);
-            return;
-          }
-      
-          const queryUrl = `https://dacs.onrender.com/api/v1/transcript/query/${transcriptId}`;
-      
-          const headers = {
-            Authorization: `Bearer ${token}`,
-          };
-      
-          // Log the request data
-          console.log('Querying transcript with the following data:', {
-            url: queryUrl,
-            headers,
-          });
-      
-          // Make the query request
-          const queryResponse = await Axios.patch(queryUrl, null, { headers });
-      
-          // Log the query response
-          console.log('Query response:', queryResponse.data);
-      
-          // Reload the transcripts after querying
-          const reloadResponse = await Axios.get('https://dacs.onrender.com/api/v1/transcript');
-          setTranscripts(reloadResponse.data);
-      
-          // Log the reload response
-          console.log('Transcripts reloaded:', reloadResponse.data);
-        } catch (error) {
-          console.error('Error querying transcript:', error);
-        }
-      };
-      
+    
     
                 
   const headers = [
@@ -320,10 +275,10 @@ function NewRequest() {
               break;
           }
         }}>
-          <option value="submit"> </option>
+          <option value="submit"> Select </option>
           <option value="approve">Approve</option>
           <option value="decline">Decline</option>
-          <option value="query">Query</option>
+          
           <option value="verify">Verify</option>
         </select>
       ),

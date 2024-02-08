@@ -171,25 +171,31 @@ function Dashboard() {
                className='custom-textfield border-2 border-black border-solid rounded-md p-2'
              />
               <span className='font-semibold'>Password: </span>
-            <input
-               type='text'
-               placeholder=''
-               value={role}
-               onChange={e => setRole(e.target.value)}
-               className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-             />
-
-          
-             
-             <span className='font-semibold'>Role: </span> 
-             
               <input
                  type='text'
                  placeholder=''
                  value={password}
                  onChange={e => setPassword(e.target.value)}
                  className='custom-dropdown border-2 border-black border-solid rounded-md p-2 flex-1'
-               /> 
+               />
+           
+           
+           
+           
+          
+             
+             <span className='font-semibold'>Role: </span> 
+             
+             <select
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          className="custom-dropdown border-2 border-black border-solid rounded-md p-2"
+        >
+          <option value="">Select Role</option>
+          <option value="Evaluation Officer">Transcript Evaluation Officer</option>
+          <option value="Auditor">Bursary and Cashier</option>
+        </select>
+
                <div className='flex'>
                <button
                  className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
@@ -384,22 +390,21 @@ function Dashboard() {
                  
                     className='custom-dropdown border-2 border-black border-solid rounded-md p-2 flex-1'
                   >
-                    <option value='option1'>Option 1</option>
-                    <option value='option2'>Option 2</option>
-                    <option value='option3'>Option 3</option>
+                    <option value='option1'>Select Document Type</option>
+                    <option value='Transcript(Official Copy)'>Transcript(Official Copy)</option>
+                    <option value='Transcript(Students Copy)'>Transcript(Students Copy)</option>
+                    <option value='Certificate'>Certificate</option>
+                    <option value='Statement Of Result'>Statement Of Result</option>
                     {/* Add more options as needed */}
                   </select>
                   <span className='font-semibold'>Amount: </span>
+                 
                 <div className='flex'>
-                <select
-                   
+                <input
+                    type='text' 
+                    placeholder='Set Price'
                     className='custom-dropdown border-2 border-black border-solid rounded-md p-2 flex-1'
-                  >
-                    <option value='option1'>Option 1</option>
-                    <option value='option2'>Option 2</option>
-                    <option value='option3'>Option 3</option>
-                    {/* Add more options as needed */}
-                  </select>
+                />
                   <button
                     className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
                     onClick={() => {

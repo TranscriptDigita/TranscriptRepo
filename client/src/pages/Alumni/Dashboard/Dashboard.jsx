@@ -27,10 +27,7 @@ function Dashboard() {
     fetchData();
   }, []);
 
-  const handleSelectInstitution = (institution) => {
-    // Use navigate to navigate to AlumniDetailsForm and pass the selected institution as a parameter
-    navigate(`/alumni/:id/transcripts/newrequest?institution=${encodeURIComponent(JSON.stringify(institution))}`);
-  };
+ 
 
 
   return (

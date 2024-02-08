@@ -1,56 +1,48 @@
 import React, { useState, useEffect } from 'react';
 
-function ListInformation({ title }) {
+function ListInformation({ title, degreetype,  department, matricno, modeOfDelivery, createdAt }) {
   const [trackingData, setTrackingData] = useState(null);
 
-  useEffect(() => {
-    // Make the GET request to the API
-    fetch('https://dacs.onrender.com/api/v1/transcript/track', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Log a success message and set the trackingData
-        console.log('Success: API connection is successful');
-        setTrackingData(data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }, []);
+  
   
 
   return (
     <div className='flex flex-col gap-y-4 md:p-5'>
       <h4 className='text-black font-inter font-bold text-16'>{title}</h4>
       <div className='flex flex-col gap-y-2'>
-        {/* Render the tracking data here */}
-        {trackingData && (
-          <React.Fragment>
-            <span className='flex flex-col gap-y-2 md:flex-row md:gap-x-4'>
-              <p className='text-black font-inter font-bold text-14'>Name :</p>
-              <p className='text-black font-inter font-bold text-14'>{trackingData.recipientName}</p>
-            </span>
-
-            <span className='flex flex-col gap-y-2 md:flex-row md:gap-x-2'>
-              <p className='text-black font-inter font-bold text-14'>Reg no :</p>
-              <p className='text-black font-inter font-bold text-14'>{trackingData.deliveryAddress}</p>
-            </span>
-
-            <span className='flex flex-col gap-y-2 md:flex-row md:gap-x-2'>
-              <p className='text-black font-inter font-bold text-14'>Department :</p>
-              <p className='text-black font-inter font-bold text-14'>{trackingData.deliveryContact}</p>
-            </span>
-          </React.Fragment>
-        )}
+       
+      <span className='flex flex-col gap-y-2 md:flex-row md:gap-x-4'>
+                <p className='text-black font-inter font-bold text-14'>Degree Type :</p>
+                <p className='text-black font-inter font-bold text-14'>{degreetype}</p>
+              </span>
+  
+              <span className='flex flex-col gap-y-2 md:flex-row md:gap-x-2'>
+                <p className='text-black font-inter font-bold text-14'>Faculty :</p>
+                <p className='text-black font-inter font-bold text-14'>{modeOfDelivery}</p>
+              </span>
+  
+              <span className='flex flex-col gap-y-2 md:flex-row md:gap-x-2'>
+                <p className='text-black font-inter font-bold text-14'>Department :</p>
+                <p className='text-black font-inter font-bold text-14'>{department}</p>
+              </span>
+  
+              <span className='flex flex-col gap-y-2 md:flex-row md:gap-x-2'>
+                <p className='text-black font-inter font-bold text-14'>Reg no :</p>
+                <p className='text-black font-inter font-bold text-14'>{matricno}</p>
+              </span>
+  
+              
+  
+              <span className='flex flex-col gap-y-2 md:flex-row md:gap-x-2'>
+                <p className='text-black font-inter font-bold text-14'>Mode Of Delivery :</p>
+                <p className='text-black font-inter font-bold text-14'>{modeOfDelivery}</p>
+              </span>
+  
+              <span className='flex flex-col gap-y-2 md:flex-row md:gap-x-2'>
+                <p className='text-black font-inter font-bold text-14'>Date Applied :</p>
+                <p className='text-black font-inter font-bold text-14'>{createdAt}</p>
+              </span>
+        
       </div>
     </div>
   );

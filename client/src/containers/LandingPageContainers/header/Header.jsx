@@ -19,23 +19,23 @@ function Header() {
       title: 'Your Transcripts, Simplified Access, Request, Delivered',
       description:
         'Accelerate your educational journey with our simplified transcript retrieval platform. Gain easy access to your transcripts, effortlessly request official records, and pave the way to your success.',
-      buttonText: 'Get Started',
-      linkTo: '/selectlogin',
+      buttonText: 'Verify Certificate',
+      linkTo: '/verifycertificate',
       image: headerImg,
     },
     {
       title: 'Central Academic Credentials Portal (CACP)',
       description:
         ' Central Transcript Issuance and Verification System, Database Storage for digitized academic credentials Get your transcript processed and verified within 24hrs',
-      buttonText: 'Get Started',
-      linkTo: '/selectlogin',
+      buttonText: 'Verify Certificate',
+      linkTo: '/verifycertificate',
       image: headerImg,
     },
     {
       title: 'Central Certificate and Statement of Results Issuance and Verification',
       description:
         'Get your statement of result processed and issued within 48hrs..',
-      buttonText: 'Get Started',
+      buttonText: 'Verify Certificate',
       linkTo: '/selectlogin',
       image: headerImg,
     },
@@ -43,8 +43,8 @@ function Header() {
       title: 'The End-to-End Academic Credential Management',
       description:
         'Request, Generate, Digitalize, Send, Receive, Evaluate, Verify, Store and share academic credentials',
-      buttonText: 'Get Started',
-      linkTo: '/selectlogin',
+      buttonText: 'Verify Certificate',
+      linkTo: '/verifycertificate',
       image: headerImg,
     },
   ];

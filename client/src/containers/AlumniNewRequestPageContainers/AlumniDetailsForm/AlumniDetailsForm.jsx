@@ -11,6 +11,32 @@ function AlumniDetailsForm() {
 
 
 
+  const [courierServiceProviders, setCourierServiceProviders] = useState([]);
+  const [selectedCourier, setSelectedCourier] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState(null);
+
+  const handleCountryChange = (selectedOption) => {
+    console.log('Selected Country on this Pjgjhgage:', selectedOption.label);
+    setSelectedCountry(selectedOption);  // Update the selectedCountry state
+  };  
+
+  useEffect(() => {
+    // Fetch all registered courier service providers
+    const fetchCourierServiceProviders = async () => {
+      try {
+        const response = await fetch('https://dacs.onrender.com/api/v1/courier-service/');
+        const data = await response.json();
+        setCourierServiceProviders(data);
+      } catch (error) {
+        console.error('Error fetching courier service providers:', error);
+      }
+    };
+
+    fetchCourierServiceProviders();
+  }, []);
+
+
+
 
 
 
@@ -73,24 +99,7 @@ console.log("This is the user data from local storage:", userData);
 
   const [activeForm, setActiveForm] = useState(1);
 
-  const currencies = [
-    {
-      value: ' ',
-      label: ' ',
-    },
-    {
-      value: 'full time',
-      label: 'f',
-    },
-    {
-      value: 'part time',
-      label: 'p',
-    },
-    {
-      value: 'remedials',
-      label: 'r',
-    },
-  ];
+ 
 
   // Refs for capturing input values
   const facultyRef = useRef(null);
@@ -106,6 +115,7 @@ console.log("This is the user data from local storage:", userData);
   const deliveryTypeRef = useRef(null);
   const transcriptTypeRef = useRef(null);
   const addressRef = useRef(null);
+  const countryRef = useRef(null);
 
 
   //API SECTION
@@ -115,7 +125,7 @@ console.log("This is the user data from local storage:", userData);
     // Prepare the data for the API request
     const requestData = {
       degreeType: degreeRef.current.value,
-      institution: decodedData, // Assuming it's always the same
+      institution: decodedData, 
       faculty: facultyRef.current.value,
       department: departmentRef.current.value,
       matricNumber: matricRef.current.value,
@@ -165,6 +175,11 @@ console.log("This is the user data from local storage:", userData);
 
   const transcriptApiResponse = JSON.parse(localStorage.getItem('transcriptApiResponse'));
   const transcriptId = transcriptApiResponse?.Transcript?._id;
+ 
+
+  // Access the selected country from the CountryDropdown component's state
+  // const selectedCountryValue = selectedCountry?.value;
+
 
   const handlePatchRequest = async (selectTranscriptType, event) => {
     event.preventDefault();
@@ -177,13 +192,15 @@ console.log("This is the user data from local storage:", userData);
     const requestDataa = {
       typeOfTranscript: selectTranscriptType,
       modeOfDelivery: selectedDeliveryMethod,
-      recipientCountry: 'Nigeria',
+      recipientCountry: selectedCountry,
       recipientAddress: recipientAddressRef.current?.value,
       recipientPhoneNumber: phoneNumberRef.current?.value,
       recipientEmail: recipientEmailRef.current?.value,
+    
     };
   
     const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
+   
   
     try {
       const response = await fetch(`https://dacs.onrender.com/api/v1/transcript/${transcriptId}`, {
@@ -335,7 +352,7 @@ console.log("This is the user data from local storage:", userData);
           )}
 
         
-{activeForm == 2 && (
+           {activeForm == 2 && (
             <div className='md:w-8/12 m-auto grid md:grid-cols-2 grid-cols-1 md:gap-x-[50px] gap-y-[25px] p-5'>
               <h4 className='col-span-2 text-center font-bold'>Delivery Method</h4>
 
@@ -345,9 +362,11 @@ console.log("This is the user data from local storage:", userData);
                 ref={transcriptTypeRef}
                 className='custom-dropdown border-2 border-black border-solid rounded-md p-2'
               >
-                <option value='' disabled>Select Type of Transcript</option>
-                <option value='email'>Official</option>
-                <option value='homeDelivery'>Personal</option>
+                <option value='' >Select Type of Document</option>
+                <option value='email'>Official Transcript</option>
+                <option value='student copy'>Student Copy Transcript</option>
+                <option value='certificate'>Certificate</option>
+                <option value='statement of result'>Statement Of Result</option>
               </select>
 
               <select
@@ -358,7 +377,7 @@ console.log("This is the user data from local storage:", userData);
               >
                 <option value='' disabled>Select mode of delivery</option>
                 <option value='email'>Email</option>
-                <option value='homeDelivery'>Home Delivery</option>
+                <option value='homeDelivery'>Courier</option>
                 <option value='pickUp'>Pick up</option>
                 {/* Add more options as needed */}
               </select>
@@ -368,27 +387,67 @@ console.log("This is the user data from local storage:", userData);
 
               {selectedDeliveryMethod === 'homeDelivery' && (
                 <>
-                  <input
+                 
+
+                 <CountryDropdown onCountryChange={handleCountryChange} />
+
+             
+
+                   <input
                     type='email'
                     placeholder='Recipient email'
                     ref={recipientEmailRef}
-                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    className='custom-textfield border-2 h-10 mt-5 border-black border-solid rounded-md p-2'
                   />
-                  <input
+                  
+                  {/* <input
                     type='text'
                     placeholder='Recipient address'
                     ref={recipientAddressRef}
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-                  />
+                  /> */}
                   <input
-                    type='number'
+                    // type='number'
                     placeholder='Phone Number'
                     ref={phoneNumberRef}
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
                   />
 
-                 
-                  <CountryDropdown />
+                 <input
+                    // type='number'
+                    placeholder='Full Address'
+                    ref={recipientAddressRef}
+                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                  />
+
+
+
+<select
+  className='custom-textfield border-2 border-black border-solid rounded-md p-2 h-10'
+  value={selectedCourier}
+  onChange={(e) => setSelectedCourier(e.target.value)}
+>
+  <option value='' disabled>Select Courier Service To Use</option>
+  {courierServiceProviders.map((courier) => (
+    <option
+      key={courier._id}
+      value={courier.businessName}
+      disabled={
+        (selectedCountry?.value === 'Nigeria' && courier.localDeliveryPrice === undefined) ||
+        (selectedCountry?.value !== 'Nigeria' && courier.internationalDeliveryPrice === undefined)
+      }
+      style={{ color: (selectedCountry?.value === 'Nigeria' && courier.localDeliveryPrice === undefined) || (selectedCountry?.value !== 'Nigeria' && courier.internationalDeliveryPrice === undefined) ? 'gray' : 'black' }}
+    >
+      {courier.businessName} {selectedCountry?.value === 'Nigeria' ? `₦ ${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `₦: ${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}
+    </option>
+  ))}
+</select>
+
+
+
+
+
+    
                 </>
               )}
 
@@ -432,6 +491,19 @@ console.log("This is the user data from local storage:", userData);
             </div>
           )}
 
+          {activeForm == 4 && (
+            <div className='grid grid-cols md:w-8/12 m-auto md:gap-x-[50px] gap-y-[25px]'>
+              <h4 className='text-center'>Upload The Neccessary Documents</h4>
+              <input
+              type='file'
+              placeholder='Phone Number'
+              ref={phoneNumberRef}
+              className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+              multiple
+            />
+            </div>
+          )}
+
           {/* Buttons */}
           {activeForm == 1 && (
 
@@ -456,18 +528,20 @@ console.log("This is the user data from local storage:", userData);
 
           {activeForm == 2 && (
             <div className='grid grid-cols-2 '>
-
-
-
-
-
-
               <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
                onClick={() => {
                 setActiveForm(1); // Navigate to the previous step
-                handleSubmit(); // Call handleSubmit
+                // handleSubmit(); // Call handleSubmit
               }}>
                 Previous
+              </button>
+
+              <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
+               onClick={() => {
+                setActiveForm(3); // Navigate to the previous step
+                // handleSubmit(); // Call handleSubmit
+              }}>
+                Nexxxxx
               </button>
               <button
                 className='md:w-4/12 mx-auto bg-purple-700 border-2 rounded-md p-2'
@@ -475,18 +549,43 @@ console.log("This is the user data from local storage:", userData);
                   handlePatchRequest(selectTranscriptType, event);
                 }}
               >
-                Update Delivery Details
+                Add Delivery Details
               </button>
             </div>
           )}
 
           {activeForm == 3 && (
-            <Link to={`/alumni/:id/requesttrackanddelivery`}>
+            <div>
               {/* Added Link To the Table Items To Open The Request Track And Delivery Page */}
               <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2 lowercase uppercase '>
                 Proceed
               </button>
-            </Link>
+              
+              <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
+               onClick={() => {
+                setActiveForm(4); // Navigate to the previous step
+                // handleSubmit(); // Call handleSubmit
+              }}>
+                Nexxxxx
+              </button>
+            </div>
+          )}
+
+        {activeForm == 4 && (
+            <div>
+              {/* Added Link To the Table Items To Open The Request Track And Delivery Page */}
+              <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2 lowercase uppercase '>
+                Proceed
+              </button>
+              
+              <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
+               onClick={() => {
+                setActiveForm(3); // Navigate to the previous step
+                // handleSubmit(); // Call handleSubmit
+              }}>
+                Prev
+              </button>
+            </div>
           )}
         </form>
       </div>

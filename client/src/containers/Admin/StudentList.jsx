@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import StaffListTable from '../../components/table/StaffListTable';
-import { StaffListTableA } from '../../components';
+import { StaffListTableA, StaffListTableI } from '../../components';
+import { toast, ToastContainer } from 'react-toastify';
 
 function StudentList() {
   const headers = [
@@ -12,6 +13,9 @@ function StudentList() {
     },
     {
       title: 'Status',
+    },
+    {
+      title: 'Action',
     },
   
    
@@ -110,20 +114,58 @@ useEffect(() => {
 
 
 
+const handleDelete = (alumniId) => {
+  const isConfirmed = window.confirm('Are you sure you want to delete this alumni?');
 
+  if (!isConfirmed) {
+    return;
+  }
 
+  const deleteEndpoint = `https://dacs.onrender.com/api/v1/admin/delete/alumin/${alumniId}`;
 
+  fetch(deleteEndpoint, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${bearerToken}`,
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        // Update the state to reflect the deletion
+        setAlumniData(alumniData.filter(alumni => alumni._id !== alumniId));
+        console.log('Success: Alumni deleted from the API');
+
+        // Display a success message
+        window.alert('Alumni deleted successfully!');
+      } else {
+        throw new Error('Failed to delete alumni');
+      }
+    })
+    .catch((error) => {
+      console.error('Error deleting alumni:', error);
+    });
+};
+
+// ...
 
 
 return (
   <div>
     {/* ... (existing code) */}
-    <StaffListTableA
+    <StaffListTableI
       headers={headers}
       items={alumniData.map((alumni) => ({
         Name: alumni.fullName,
         Email: alumni.emailAddress,
         'Status': alumni.isActive ? 'Active' : 'Inactive',
+        'Action': (
+          <button
+            onClick={() => handleDelete(alumni._id)}
+            style={{ color: 'red' }}
+          >
+            Delete
+          </button>
+        ),
       }))}
     />
   </div>

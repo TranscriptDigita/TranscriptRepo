@@ -7,6 +7,7 @@ import React, { useState } from 'react'
 // assets imports
 import university from '../../assets/university.png'
 import alumni from '../../assets/alumni.png'
+import staff from '../../assets/staff.jpg'
 
 // rrd imports
 import { Link } from 'react-router-dom'
@@ -53,7 +54,7 @@ function SelectLogin() {
 
 
                 <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
-                    <img src={alumni} alt="alumnipic" />
+                    <img src={university} alt="alumnipic" />
                     <h4>Staff</h4>
                     <Link to={`/evaluationofficer/login`}> 
                         <Button
@@ -88,9 +89,24 @@ function SelectLogin() {
 
 
                 <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
-                    <img src={alumni} alt="alumnipic" />
+                    <img src={university} alt="alumnipic" />
                     <h4>Admin</h4>
                     <Link to={`/admin/login`}> 
+                        <Button
+                            variant='contained'
+                            className={`hover:bg-slate-200 hover:text-slate-500 lowercase ${hover ? `bg-slate-200 text-slate-500` : `text-white bg-[#6B3FA0]`}`}
+                            onMouseOver={()=>{setHover(true)}}
+                            onMouseOut={()=>{setHover(false)}}
+                        >
+                            continue
+                        </Button>
+                    </Link>
+                </div>
+
+                <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
+                    <img src={alumni} alt="alumnipic" />
+                    <h4>Courier</h4>
+                    <Link to={`/courier/login`}> 
                         <Button
                             variant='contained'
                             className={`hover:bg-slate-200 hover:text-slate-500 lowercase ${hover ? `bg-slate-200 text-slate-500` : `text-white bg-[#6B3FA0]`}`}

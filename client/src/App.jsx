@@ -19,6 +19,8 @@ import {
   AdminLayout,
   InstitutionLayout,
   Main,
+  AuditorLayout,
+  CourierLayout,
 } from "./layouts";
 
 // pages imports
@@ -57,6 +59,16 @@ import {
   InstituionTables,
   AdminSettings,
   InstitutionTablesA,
+  InstitutionNotification,
+  AlumniNotification,
+  Prices,
+  AuditorDashboard,
+  ChooseCourier,
+  CourierLogin,
+  CourierSignup,
+  CourierDashboard,
+  KYC,
+  CourierPrices,
 } from "./pages";
 
 // components imports
@@ -72,6 +84,7 @@ import { useSelector } from "react-redux";
 import TranscriptDetail from "./pages/Alumni/Transcripts/TranscriptDetail/TranscriptDetail";
 import NewRequestPage from "./pages/Alumni/Transcripts/NewRequestPage/NewRequestPage";
 import RegistraLayout from "./layouts/registraLayout/RegistraLayout";
+import { BookCourier } from "./containers";
 
 function App() {
 
@@ -137,6 +150,18 @@ function App() {
           errorElement: <ErrorPage/>
         },
 
+        {
+          path: '/courier/login',
+          element: <CourierLogin/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/courier/signup',
+          element: <CourierSignup/>,
+          errorElement: <ErrorPage/>
+        },
+
 
         {
           path: '/universityprofile',
@@ -189,6 +214,19 @@ function App() {
               errorElement: <ErrorPage />,
             },
 
+            {
+              path: "/evaluationofficer/:id/choosecourier",
+              element: <ChooseCourier />,
+              errorElement: <ErrorPage />,
+            },
+
+            {
+              path: '/evaluationofficer/:data/choosecourier/bookcourier',
+               // replace with "user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
+              element: <BookCourier/>,
+              errorElement: <ErrorPage/>
+            },
+
             // {
             //   path: '/institution/id:/requestlist',
             //   element: <RequestList/>,
@@ -196,6 +234,64 @@ function App() {
             // }
           ],
         },
+
+        {
+          path: "/auditor",
+          element: <AuditorLayout />,
+          errorElement: <ErrorPage />,
+          children: [
+            {
+              path: "/auditor/:id/:token/prices",
+              element: <Prices />,
+              errorElement: <ErrorPage />,
+            },
+
+            {
+              path: "/auditor/:id/:token/auditordashboard",
+              element: <AuditorDashboard />,
+              errorElement: <ErrorPage />,
+            },
+
+            // {
+            //   path: '/institution/id:/requestlist',
+            //   element: <RequestList/>,
+            //   errorElement: <ErrorPage/>
+            // }
+          ],
+        },
+
+        {
+          path: "/courier",
+          element: <CourierLayout />,
+          errorElement: <ErrorPage />,
+          children: [
+            {
+              path: "/courier/:id/:token/dashboard",
+              element: <CourierDashboard />,
+              errorElement: <ErrorPage />,
+            },
+
+            {
+              path: "/courier/:id/:token/kyc",
+              element: <KYC/>,
+              errorElement: <ErrorPage />,
+            },
+
+
+            {
+              path: "/courier/:id/:token/courierprices",
+              element: <CourierPrices/>,
+              errorElement: <ErrorPage />,
+            },
+
+            // {
+            //   path: '/institution/id:/requestlist',
+            //   element: <RequestList/>,
+            //   errorElement: <ErrorPage/>
+            // }
+          ],
+        },
+
 
         {
           path: "/institution/signup",
@@ -231,6 +327,11 @@ function App() {
               path: '/institution/:id/universityprofile',
               element: <UniversityProfile/>,
               errorElement: <ErrorPage/>
+            },
+            {
+            path: '/institution/:id/institutionnotification',
+            element: <InstitutionNotification/>,
+            errorElement: <ErrorPage/>
             }
           ]
         },
@@ -302,8 +403,15 @@ function App() {
           errorElement: <ErrorPage/>
         },
         {
-          path: '/alumni/:id/progress',
+          path: '/alumni/:data/:id/progress',
           element: <Progress/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/alumni/:data/progess',
+           // replace with "user ? <RequestTrackAndDelivery/> : <Navigate to={`/alumni/login`} />" to use user to load page
+          element: <TranscriptDetail/>,
           errorElement: <ErrorPage/>
         },
 
@@ -316,6 +424,12 @@ function App() {
         {
           path: '/alumni/:id/trackingpage',
           element: <TrackingPage/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/alumni/:id/alumninotification',
+          element: <AlumniNotification/>,
           errorElement: <ErrorPage/>
         },
         

@@ -10,6 +10,7 @@ function Logout() {
     const dispatch = useDispatch()
 
     const onLogout = () => {
+      localStorage.clear();
         dispatch(logout())
         dispatch(reset())
         navigate('/')

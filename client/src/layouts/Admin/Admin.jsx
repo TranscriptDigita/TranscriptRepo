@@ -10,6 +10,7 @@ import {
 } from 'react-icons/hi2';
 import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
+import AdminNavbar from '../../components/navbar/AdminNavbar';
 
 function AdminLayout() {
 
@@ -74,7 +75,7 @@ const adminId = getAdminId();
     {
       title: 'Available Institutions',
       icon: <HiViewfinderCircle size={20} />,
-      path: `/admin/${user?.alumni?._id || defaultUser.alumni._id}/availableinstitutions`,
+      path: `/admin/${adminId}/availableinstitutions`,
       
     },
 
@@ -111,19 +112,21 @@ const adminId = getAdminId();
 
   return (
     <div className="flex-1 grid grid-cols-1 w-full">
-      {/* Sidebar */}
+      {/* Sidebar */} 
       <div className="md:grid md:grid-cols-5 w-full">
-        <div className=" flex flex-col col-span-1">
+        <div className="col-span-1">
           <Sidebar menuItems={menuItems} />
         </div>
-  
+        
         <div className="md:col-span-4 flex-1 flex flex-col">
           {/* Conditional rendering of the Navbar component */}
+          <div>
           {showNavbar ? (
-            <Newnavbar />
+            <AdminNavbar />
           ) : (
             <MobileNavBar /> // Render MobileNavBar when the screen is smaller
           )}
+          </div>
   
           <div className="flex-1 p-4 bg-slate-100 overflow-y-auto">
             {/* Use 'overflow-y-auto' to enable vertical scrolling */}

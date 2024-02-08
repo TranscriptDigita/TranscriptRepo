@@ -148,7 +148,7 @@ return (
       headers={headers}
       items={staffData.map((staff) => ({
         Email: staff.emailAddress,
-        Role: staff.role,
+        Role: staff.role === 'Auditor' ? 'Bursary and Cashier' : (staff.role === 'Evaluation Officer' ? 'Transcript Evaluation Officer' : staff.role),
         'Account Status': staff.isActive ? 'Active' : 'Inactive',
         Deactivate: (
           <ToggleButton

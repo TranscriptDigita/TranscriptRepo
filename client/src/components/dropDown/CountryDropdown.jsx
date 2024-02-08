@@ -196,11 +196,15 @@ const countries = [
   // Add more countries as needed
 ];
 
-const CountryDropdown = () => {
+const CountryDropdown = ({ onCountryChange }) => {
   const [selectedCountry, setSelectedCountry] = useState(null);
 
   const handleCountryChange = (selectedOption) => {
     setSelectedCountry(selectedOption);
+     // Call the callback function passed from the parent component
+  if (onCountryChange) {
+    onCountryChange(selectedOption);
+  }
   };
 
   return (
@@ -213,9 +217,9 @@ const CountryDropdown = () => {
         placeholder="Select a country"
         className='custom-dropdown border-2 border-black border-solid rounded-md p-2'
       />
-      {selectedCountry && (
+      {/* {selectedCountry && (
         <p>You selected: {selectedCountry.label} (Value: {selectedCountry.value})</p>
-      )}
+      )} */}
     </div>
   );
 };

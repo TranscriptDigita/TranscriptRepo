@@ -1,16 +1,92 @@
-import React from "react";
-import "tailwindcss/tailwind.css"; // Import Tailwind CSS styles
+
+import React, { useState, useEffect } from 'react';
+
 
 const Activities = () => {
+
+
+
+  const [barChartData, setBarChartData] = useState([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const bearerToken = getAdminToken();
+        const response = await fetch('https://dacs.onrender.com/api/v1/admin/all/logs', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${bearerToken}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
+        const data = await response.json();
+        const processedData = processLogData(data);
+        setBarChartData(processedData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const processLogData = (data) => {
+    // Extract months from logTime and count occurrences
+    const monthCounts = {};
+    data.forEach((log) => {
+      const month = new Date(log.logTime).getMonth();
+      monthCounts[month] = (monthCounts[month] || 0) + 1;
+    });
+
+    // Create an array with counts for each month
+    const result = Array.from({ length: 12 }, (_, monthIndex) => monthCounts[monthIndex] || 0);
+
+    return result;
+  };
+  // Find the maximum value in the data for normalization
+  const maxValue = Math.max(...barChartData);
+
+
+
+  const getAdminToken = () => {
+    const storedUserData = localStorage.getItem('AdminUser');
+    if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      return userDataObject?.token;
+    }
+    return null;
+  };
+
+  const getAdminId = () => {
+    const storedUserData = localStorage.getItem('AdminUser');
+    if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      return userDataObject?.admin?._id;
+    }
+    return null;
+  };
+
+  const adminId = getAdminId();
+  console.log('Admin IDLMT:', adminId);
+
+  const bearerToken = getAdminToken();
+  console.log('table tokenT: ', bearerToken);
+
+
+
   // Sample data for the bar chart
-  const barChartData = [100, 80, 120, 150, 90, 110, 130, 160, 140, 100, 120, 180];
-  const numbers = [1, 2, 3, 4, 5];
+  // const barChartData = [100, 80, 120, 150, 90, 110, 130, 160, 140, 100, 120, 180];
+  // const numbers = [1, 2, 3, 4, 5];
   const months = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];
 
   // Find the maximum value in the data for normalization
-  const maxValue = Math.max(...barChartData);
+  // const maxValue = Math.max(...barChartData);
 
   return (
     <div className="shadow-sm bg-white flex min-h-[341px] flex-col rounded-md" >

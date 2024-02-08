@@ -1,10 +1,77 @@
-import React from "react";
-import "tailwindcss/tailwind.css"; // Import Tailwind CSS styles
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Stats = () => {
+
+
+  const [barChartData, setBarChartData] = useState([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("https://dacs.onrender.com/api/v1/admin/all/logs", {
+          headers: {
+            'Authorization': `Bearer ${bearerToken}`, // Replace <token> with your actual token
+          },
+        });
+
+        const signupLogs = response.data.filter((log) => log.logType === "signup");
+        
+        // Group the data by month
+        const groupedData = {};
+        signupLogs.forEach((log) => {
+          const month = new Date(log.logTime).getMonth();
+          if (!groupedData[month]) {
+            groupedData[month] = 1;
+          } else {
+            groupedData[month]++;
+          }
+        });
+
+        // Create an array with counts for each month
+        const countsByMonth = Array.from({ length: 12 }, (_, month) => groupedData[month] || 0);
+
+        setBarChartData(countsByMonth);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+
+  const getAdminToken = () => {
+    const storedUserData = localStorage.getItem('AdminUser');
+    if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      return userDataObject?.token;
+    }
+    return null;
+  };
+
+  const getAdminId = () => {
+    const storedUserData = localStorage.getItem('AdminUser');
+    if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      return userDataObject?.admin?._id;
+    }
+    return null;
+  };
+
+  const adminId = getAdminId();
+  console.log('Admin IDLMT:', adminId);
+
+  const bearerToken = getAdminToken();
+  console.log('table tokenT: ', bearerToken);
+
+
+
+
   // Sample data for the bar chart
-  const barChartData = [100, 80, 120, 150, 90, 110, 130, 160, 140, 100, 120, 180];
-  const numbers = [1, 2, 3, 4, 5];
+  // const barChartData = [100, 80, 120, 150, 90, 110, 130, 160, 140, 100, 120, 180];
+  // const numbers = [1, 2, 3, 4, 5];
   const months = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];

@@ -19,3 +19,7 @@ export {default as NewRequestTable } from './table/NewRequestTable';
 export {default as TranscriptGridItemAdmin } from './transcriptGridItem/TranscriptGridItemAdmin'
 export {default as StaffListTableA} from './table/StaffListTableA'
 export { default as TableA } from './table/TableA'
+export {default as StaffListTableI } from './table/StaffListTableI'
+export {default as TranscriptGridItemProgress} from './transcriptGridItem/TranscriptGridItemProgress'
+export {default as StaffNavBarB} from './navbar/StaffNavBarB'
+export {default as CourierGridItems } from './transcriptGridItem/CourierGridItems'

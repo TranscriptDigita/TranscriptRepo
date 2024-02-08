@@ -1,142 +1,212 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Information, ListInformation } from './../';
 import FullList from '../listInformation/FullList';
 import DeliveryList from '../listInformation/DeliveryList';
 import { Table, TranscriptGridItem } from '../../components';
+import { useParams } from 'react-router-dom';
+
+// Define a new page component for the initial status
+function Page0({ schoolName, studentName, status }) {
+  return (
+    <div className='flex flex-col flex-1 bg-white p-5 rounded-md gap-y-4'>
+      <Information
+        title={`Initial Status`}
+        schoolName={schoolName}
+        studentName={studentName}
+        status={status}
+      />
+    </div>
+  );
+}
 
 // Define page components for each step
-function Page1() {
+function Page1({ transcriptData, schoolName, studentName, status }) {
   return (
     <div className='flex flex-col flex-1 bg-white p-5 rounded-md gap-y-4'>
       <Information
         title={`Transcript Request Accepted`}
-        message={`Dear Federal University Minna Administration,
-        We are pleased to inform you that the transcript request for [Student Name] has been successfully accepted. Our team acknowledges the importance of this request and is dedicated to processing it promptly.
-        Please note that the processing time may take up to two weeks due to the high volume of requests we receive. We appreciate your patience during this period as we ensure the accuracy and quality of the transcripts we provide.`}
+        schoolName={schoolName}
+        studentName={studentName}
+        status={status}
       />
       <div className='grid grid-cols-2 gap-x-5'>
-        <ListInformation title={`Student Information`} />
+        <ListInformation
+          title={`Student Information`}
+          createdAt={transcriptData ? transcriptData.createdAt : ''}
+          degreetype={transcriptData ? transcriptData.degreeType : ''}
+          department={transcriptData ? transcriptData.department : ''}
+          matricno={transcriptData ? transcriptData.matricNumber : ''}
+          modeOfDelivery={transcriptData ? transcriptData.modeOfDelivery : ''}
+        />
       </div>
     </div>
   ); // Content for the first step
 }
 
-function Page2() {
+function Page2({ transcriptData, schoolName, studentName, status }) {
   return (
     <div className='flex flex-col flex-1 bg-white p-5 rounded-md gap-y-4'>
       <Information
         title={`Processing Transcript`}
-        message={`Dear Federal university Minna Administration,
-        We are pleased to inform you that the transcript request for 
-        [Student Name] has been successfully accepted. Our team 
-        acknowledges the importance of this request and is dedicated to processing it promptly.
-        Please note that the processing time may take up to two 
-        weeks due to the high volume of requests we receive. 
-        We appreciate your patience during this period as we ensure 
-        the accuracy and quality of the transcripts we provide..`}
+        schoolName={schoolName}
+        studentName={studentName}
+        status={status}
       />
       <div className='grid grid-cols-2 gap-x-5'>
-        <ListInformation title={`Student Information`} />
+        <ListInformation
+          title={`Student Information`}
+          createdAt={transcriptData ? transcriptData.createdAt : ''}
+          degreetype={transcriptData ? transcriptData.degreeType : ''}
+          department={transcriptData ? transcriptData.department : ''}
+          matricno={transcriptData ? transcriptData.matricNumber : ''}
+          modeOfDelivery={transcriptData ? transcriptData.modeOfDelivery : ''}
+        />
       </div>
     </div>
   ); // Content for the second step
 }
 
-function Page3() {
+function Page3({ transcriptData, schoolName, studentName, status }) {
   return (
     <div className='flex flex-col flex-1 bg-white p-5 rounded-md gap-y-4'>
       <Information
         title={`Request Attended`}
-        message={`Dear Federal university Minna Administration,
-        We are pleased to inform you that the transcript request for [Student Name] 
-        has been successfully accepted. Our team acknowledges the 
-        importance of this request and is dedicated to processing it promptly.
-        Please note that the processing time may take up to two weeks due to the 
-        high volume of requests we receive. We appreciate your patience during 
-        this period as we ensure the accuracy and quality of the transcripts we provide.`}
+        schoolName={schoolName}
+        studentName={studentName}
+        status={status}
       />
       <div className='grid grid-cols-2 gap-x-5'>
-        <ListInformation title={`Student Information`} />
+        <ListInformation
+          title={`Student Information`}
+          createdAt={transcriptData ? transcriptData.createdAt : ''}
+          degreetype={transcriptData ? transcriptData.degreeType : ''}
+          department={transcriptData ? transcriptData.department : ''}
+          matricno={transcriptData ? transcriptData.matricNumber : ''}
+          modeOfDelivery={transcriptData ? transcriptData.modeOfDelivery : ''}
+        />
       </div>
     </div>
   ); // Content for the third step
 }
 
-function Page4() {
+function Page4({ transcriptData, schoolName, studentName, status }) {
   return (
     <div className='flex flex-col flex-1 bg-white p-5 rounded-md gap-y-4'>
+      <Information
+        title={`Being Delivered`}
+        schoolName={schoolName}
+        studentName={studentName}
+        status={status}
+      />
       <div className='grid grid-cols-2 gap-x-5'>
-        <FullList title={`Student Information`} />
-      </div>
-      <div className='grid grid-cols-2 gap-x-5'>
-        <DeliveryList title={`DeliveryDetails`} />
+        <ListInformation
+          title={`Student Information`}
+          createdAt={transcriptData ? transcriptData.createdAt : ''}
+          degreetype={transcriptData ? transcriptData.degreeType : ''}
+          department={transcriptData ? transcriptData.department : ''}
+          matricno={transcriptData ? transcriptData.matricNumber : ''}
+          modeOfDelivery={transcriptData ? transcriptData.modeOfDelivery : ''}
+        />
       </div>
     </div>
   ); // Content for the fourth step
 }
 
-function Progress({ verified = true }) {
+// Define a new page component for declined status
+function Page5({ schoolName, studentName, status }) {
+  return (
+    <div className='flex flex-col flex-1 bg-white p-5 rounded-md gap-y-4'>
+      <Information
+        title={`Request Declined`}
+        schoolName={schoolName}
+        studentName={studentName}
+        status={status}
+      />
+    </div>
+  );
+}
+
+function Progress() {
   // State to keep track of the active step
-  const [activeStep, setActiveStep] = useState(verified ? 1 : 0);
+  const [activeStep, setActiveStep] = useState(0);
+  const [transcript, setTranscript] = useState(null);
+  const { id, data } = useParams();
+
+  // Function to extract institution ID from stored data
+  const getUserName = () => {
+    const storedUserData = localStorage.getItem('user');
+    if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      return userDataObject?.alumni?.fullName;
+    }
+    return null;
+  };
+
+  const name = getUserName();
+
+  // Log the value of institutionId
+  console.log('Student Name is:', name);
+  console.log('School name is:', data);
 
   // Array to define steps with labels and associated components
   const steps = [
-    { label: 'Verified', component: <Page1 /> }, // First step with its label and associated component
-    { label: 'Processing', component: <Page2 /> }, // Second step with its label and associated component
-    { label: 'Accepted', component: <Page3 /> }, // Third step with its label and associated component
-    { label: 'Delivered', component: <Page4 /> }, // Fourth step with its label and associated component
+    { label: 'Initial', component: <Page0 schoolName={data} studentName={name} status="is approved and pending verification" /> }, // Initial step with its label and associated component
+    { label: 'Verified', component: <Page1 transcriptData={transcript} schoolName={data} studentName={name} status="has been successfully submitted" /> }, // First step with its label and associated component
+    { label: 'Processing', component: <Page2 transcriptData={transcript} schoolName={data} studentName={name} status="is being processed" /> }, // Second step with its label and associated component
+    { label: 'Accepted', component: <Page3 transcriptData={transcript} schoolName={data} studentName={name} status="has been accepted and is being attended to" /> }, // Third step with its label and associated component
+    { label: 'Delivered', component: <Page4 transcriptData={transcript} schoolName={data} studentName={name} status="has been successfully delivered" /> }, // Fourth step with its label and associated component
+    { label: 'Declined', component: <Page5 schoolName={data} studentName={name} status="has been declined" /> }, // Fifth step with its label and associated component
   ];
 
-  // Function to handle step button click
-  const handleStepClick = (step) => {
-    // Check if verification is true before changing the active step
-    if (verified) {
-      setActiveStep(step);
+  // Effect to fetch transcript data
+  useEffect(() => {
+    const fetchTranscript = async () => {
+      try {
+        const response = await fetch(`https://dacs.onrender.com/api/v1/transcript/${id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setTranscript(data);
+          console.log('Transcript Data:', data);
+        } else {
+          console.error('Failed to fetch transcript');
+        }
+      } catch (error) {
+        console.error('Error fetching transcript', error);
+      }
+    };
+
+    fetchTranscript();
+  }, [id]);
+
+  // Determine the active step based on the API response
+  useEffect(() => {
+    if (transcript) {
+      if (transcript.isDeclined) {
+        setActiveStep(5);
+      } else if (transcript.isDelivered) {
+        setActiveStep(4);
+      } else if (transcript.isApproved) {
+        setActiveStep(3);
+      } else if (transcript.isQuerried) {
+        setActiveStep(2);
+      } else if (transcript.isVerified) {
+        setActiveStep(1);
+      } else {
+        setActiveStep(0);
+      }
     }
-  };
+  }, [transcript]);
 
   return (
     <div>
-      {/* Render progress steps */}
-      <div className='flex items-center'>
-        {/* Map over each step and render step buttons */}
-        {steps.map((step, index) => (
-          <React.Fragment key={index}>
-            {/* Button for each step */}
-            <div className=''>
-              <button
-                className={`flex justify-center p-2 h-10 w-10 rounded-full ml-2 mr-2 mt-5 ${
-                  activeStep >= index + 1 ? 'bg-green-300' : 'bg-gray-300'
-                }`}
-                onClick={() => handleStepClick(index + 1)}
-                disabled={!verified} // Disable the button if not verified
-              >
-                {/* Display checkmark or step number based on active step */}
-                {activeStep >= index + 1 ? (
-                  <span>&#10003;</span> // Checkmark
-                ) : (
-                  <span>{index + 1}</span> // Step number
-                )}
-              </button>
-              <div>
-                <p
-                  className={`inline-block w-full ${
-                    activeStep >= index + 1 ? 'text-green-600' : 'text-gray-600'
-                  }`}
-                >
-                  {step.label}
-                </p>
-              </div>
-            </div>
-            {/* Display step label (hidden on small screens) */}
-            {index < steps.length - 1 && (
-              <div className='w-full h-1 bg-gray-300' /> // Separator line
-            )}
-          </React.Fragment>
-        ))}
-      </div>
       {/* Render the component for the active step */}
-      <div>{steps[activeStep - 1].component}</div>
+      <div>{steps[activeStep].component}</div>
+      {/* Display transcript data if available */}
+      {/* {transcript && (
+        <div>
+          <p>Transcript Data: {JSON.stringify(transcript)}</p>
+        </div>
+      )} */}
     </div>
   );
 }

@@ -5,11 +5,29 @@ import Axios from 'axios';
 import StaffNavBar from '../../../../components/navbar/StaffNavBar';
 
 function Login() {
+
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate(); // Use useNavigate instead of useHistory
+
+  const getToken = () => {
+    const storedUserData = localStorage.getItem('stafftoken');
+    if (storedUserData) {
+        try {
+            const userDataObject = storedUserData;
+            return userDataObject;
+        } catch (error) {
+            console.error('Error parsing stored user data:', error);
+            return null;
+        }
+    }
+    return null;
+};
+
+const staffToken = getToken();
 
 
   const handleLogin = async () => {
@@ -18,24 +36,23 @@ function Login() {
         emailAddress: email,
         password: password,
       });
-
-
-      // TODO: Handle successful login, e.g., redirect to another page
-      console.log('Login successful:', response.data);
-
-
-      console.log('Login successful:', response.data);
-
-      // Extract staff ID from the response
-      const staffId = response.data.staff._id;
-
+  
+      // Extract role and staff/institution ID from the response
+      const { role, _id: staffId, institution: institutionId } = response.data.staff;
+  
       // Store the response in localStorage
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('stafftoken', response.data.token);
       localStorage.setItem('staff', JSON.stringify(response.data.staff));
-
-
-      // Navigate to the dashboard page with the staff ID
-      navigate(`/evaluationofficer/${staffId}/dashboard`);
+  
+      // Navigate based on the role
+      if (role === 'Evaluation Officer') {
+        navigate(`/evaluationofficer/${staffId}/dashboard`);
+      } else if (role === 'Auditor') {
+        navigate(`/auditor/${institutionId}/${staffToken}/auditordashboard`);
+      } else {
+        // Handle other roles as needed
+        console.error('Unknown role:', role);
+      }
     } catch (error) {
       // Handle login error here
       console.error('Login error:', error);
@@ -43,6 +60,7 @@ function Login() {
       setOpen(true);
     }
   };
+  
 
   const handleClose = () => {
     setOpen(false);
