@@ -37,9 +37,9 @@ const institutionSchema = new mongoose.Schema({
 // ======= statics functions ===================
 // =============================================
 
-institutionSchema.statics.signup = async function(name, emailAddress, location, password, verificationCode) {
+institutionSchema.statics.signup = async function(name, emailAddress, location, password, phoneNumber, verificationCode) {
     // check if all inputs are filled
-    if (!name || !emailAddress || !location || !password) {
+    if (!name || !emailAddress || !location || !password || !phoneNumber) {
         throw Error('All fields are required !')
     }
 
@@ -66,7 +66,7 @@ institutionSchema.statics.signup = async function(name, emailAddress, location, 
 
     // throw error if name already exists
     if (nameExists) {
-        throw Error('name already exists in our database')
+        throw Error('Name already exists in our database')
     }
 
     // generating salt to hash password
@@ -74,7 +74,7 @@ institutionSchema.statics.signup = async function(name, emailAddress, location, 
     const hash = await bcrypt.hash(password, salt)
 
     // saving instition in database
-    const institution = await this.create({ name, emailAddress, location, password: hash, verificationCode })
+    const institution = await this.create({ name, emailAddress, location, password: hash, phoneNumber, verificationCode })
 
     // returning saved institution as json
     return institution

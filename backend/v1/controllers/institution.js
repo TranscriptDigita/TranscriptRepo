@@ -58,13 +58,13 @@ exports.registerInstitution = async(req, res) => {
 
     try {
         // destructure requestbody
-        const { name, emailAddress, location, password } = req.body
+        const { name, emailAddress, location, password, phoneNumber } = req.body
 
         // generate verification code
         const verificationCode = await generateRandomNumber()
 
         // signup user using statics func
-        const institution = await Institution.signup(name, emailAddress, location, password, verificationCode)
+        const institution = await Institution.signup(name, emailAddress, location, password, phoneNumber, verificationCode)
             // getting the current time
         let logTime = new Date();
         let logger = name;
