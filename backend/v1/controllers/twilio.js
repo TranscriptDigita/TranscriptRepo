@@ -11,7 +11,7 @@ const client = require('twilio')(accountSid, authToken);
 //     .then(message => console.log(message.sid))
 
 
-const sms = function messaging(txt, to) {
+const sendSMS = function messaging(txt, to) {
     client.messages
         .create({
             body: txt,
@@ -22,4 +22,4 @@ const sms = function messaging(txt, to) {
         .catch(erroe => console.log(error));
 }
 
-module.exports = sms;
+module.exports = sendSMS;
