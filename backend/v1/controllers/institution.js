@@ -5,6 +5,7 @@ require('dotenv').config()
 const Institution = require('../models/institution'),
     Logs = require('../models/logs'),
     // bankDetails = require('bankAccount'),
+    sendSMS = require('./twilio'),
     mongoose = require('mongoose'),
     jwt = require('jsonwebtoken'),
     validator = require('validator')
@@ -73,6 +74,8 @@ exports.registerInstitution = async(req, res) => {
         // tracking the sign up time
         const feedback = await Logs.logging(logger, logTime, logType, logerType);
         console.log(feedback);
+        const txt = `Hi ${name}, welcome to Centralized Academic Credentials Services. Your verfication code is: ${verificationCode}`
+        await sendSMS.sms(txt, phoneNumber);
         // generate token
         const token = await createToken(institution._id)
 
