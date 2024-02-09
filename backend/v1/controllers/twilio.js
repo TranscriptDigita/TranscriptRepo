@@ -19,7 +19,7 @@ const sendSMS = function messaging(txt, to) {
             to: to
         })
         .then(message => console.log(message.sid))
-        .catch(erroe => console.log(error));
+        .catch(error => console.log(error));
 }
 
 module.exports = sendSMS;
