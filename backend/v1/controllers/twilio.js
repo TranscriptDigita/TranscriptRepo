@@ -18,7 +18,8 @@ const sms = function messaging(txt, to) {
             from: '+17622499952',
             to: to
         })
-        .then(message => console.log(message.sid));
+        .then(message => console.log(message.sid))
+        .catch(erroe => console.log(error));
 }
 
 module.exports = sms;
