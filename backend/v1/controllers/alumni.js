@@ -332,7 +332,7 @@ exports.updateAlumni = async(req, res) => {
             emailAddress,
         });
         // send congratulatory message to the alumni phone number
-        await sendSMS.sms(txt, phoneNumber);
+        await sendSMS(txt, phoneNumber);
         // return succesful status code, message and the updated user
         return res.status(200).json({ message: "Alumni updated!", Alumni: updatedDetails })
 

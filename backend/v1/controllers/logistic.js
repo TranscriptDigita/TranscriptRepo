@@ -350,7 +350,7 @@ exports.updateLogistic = async(req, res) => {
         });
         // send congratulation message to the user
         let txt = 'Hello ' + directorName + ', congratulation your details has been submitted for KYC verification. You will be notify upon approval.';
-        await sendSMS.sms(txt, directorContactNumber);
+        await sendSMS(txt, directorContactNumber);
         // return succesful status code, message and the updated user
         return res.status(200).json({ message: `Details submitted, kindly upload the director's ${directorIdType} to complete your KYC process.`, data: updatedDetails })
 

@@ -121,7 +121,7 @@ exports.createNewRequest = async(req, res) => {
         let instPhone = inst.phoneNumber;
         // send message to notify institution of the newly create transcript request
         let txt = "The " + institution + " Registrar, this is to notify you that there a new transcript processing request on the ARS system.";
-        await sendSMS.sms(txt, instPhone);
+        await sendSMS(txt, instPhone);
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({ message: "Transcripted Successfully created!", Transcript: newTranscript })
 
@@ -221,7 +221,7 @@ exports.approveTranscript = async(req, res) => {
         let alumniPhoneNumber = aUser.phoneNumber;
         // send message to the alumni that his/her transcript have been approved
         let txt = "Hello Alumni, this is to notify you that your transcript has been processed and ready for pick up.";
-        await sendSMS.sms(txt, alumniPhoneNumber);
+        await sendSMS(txt, alumniPhoneNumber);
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
             message: 'approved successfully.',
@@ -283,7 +283,7 @@ exports.declineTranscript = async(req, res) => {
         let alumniPhoneNumber = aUser.phoneNumber;
         // send message to the alumni that his/her transcript have been approved
         let txt = "Hello Alumni, your transcript process was declined kindly login to your ARS account see the reason.";
-        await sendSMS.sms(txt, alumniPhoneNumber);
+        await sendSMS(txt, alumniPhoneNumber);
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
             message: 'declined successfully.',
