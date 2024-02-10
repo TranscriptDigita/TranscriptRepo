@@ -15,7 +15,8 @@ const express = require('express'),
     staffRoutes = require('./routes/staff'),
     adminRoutes = require('./routes/admin'),
     studentsData = require('./routes/studentsData'),
-    logisticRoutes = require('./routes/logistic')
+    logisticRoutes = require('./routes/logistic'),
+    webhookRoutes = require('./routes/webhook')
 
 // using cors 
 app.use(cors())
@@ -57,6 +58,8 @@ app.use('/api/v1/students-data', studentsData);
 app.use('/api/v1/admin', adminRoutes);
 // Courier service routes
 app.use('/api/v1/courier-service', logisticRoutes);
+// webhook route
+app.use('/api/v1/webhook', webhookRoutes)
 
 // ===========================================
 // ============ serving app ==================
