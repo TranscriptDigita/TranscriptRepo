@@ -205,7 +205,7 @@ exports.getAllInstitutionDocumentPrices = async(req, res) => {
         if (!institutionDocs) {
             throw Error('Resource could not be located !!')
         }
-        let certPrice = institutionDocs.amountForCertificate;
+        let certPrice = 4000 //institutionDocs.amountForCertificate;
         let officialPrice = institutionDocs.amountForPhysicalMode;
         let personalPice = institutionDocs.amountForElectronicalMode;
         let resultPrice = institutionDocs.amountForStatementOfResult
