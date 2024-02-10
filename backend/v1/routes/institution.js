@@ -28,6 +28,9 @@ router.route('/account')
 router.route('/students-records')
     .post(isAuthInstitution, resultController.uploadData)
 
+router.route('/:institutionId/documents-price')
+    .get(controller.getAllInstitutionDocumentPrices)
+
 // route to get notifications
 router.route('/notifications/:receiver')
     .get(isAuthInstitution, adminController.getAllUserNotifications)

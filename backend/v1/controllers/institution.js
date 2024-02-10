@@ -163,32 +163,59 @@ exports.verifyInstitution = async(req, res) => {
 
 // set up bank account details
 exports.setupBankAccountDetails = async(req, res) => {
+        try {
+            const { bankName, bankSortCode, accountName, accountNumber } = req.body;
+            const id = req.user._id
+            if (!bankName || !bankSortCode || !accountName || !accountNumber) {
+                return res.status(403).json({ message: "All fields are required!" });
+            }
+            // verify if id is valid
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(409).json({ message: "Not a valid id!" })
+                    // throw Error('Not a valid id')
+            }
+            // find alumnus in database
+            const foundInstitution = await Institution.findById(id)
+
+            // if user not found in database throw error
+            if (!foundInstitution) {
+                return res.status(404).json({ message: "Incorrect id passed!" });
+                // throw Error('This user doesnt exist in our database')
+            }
+            let bankDetails = await Institution.findByIdAndUpdate(id, { accountNumber, accountName, bankName, bankSortCode })
+            return res.status(200).json({ message: 'Account details successfully setup.', institution: bankDetails })
+
+
+        } catch (error) {
+            // return error code and message 
+            return res.status(500).json({ message: error.message })
+        }
+    }
+    // function to get all Alumnus
+exports.getAllInstitutionDocumentPrices = async(req, res) => {
     try {
-        const { bankName, bankSortCode, accountName, accountNumber } = req.body;
-        const id = req.user._id
-        if (!bankName || !bankSortCode || !accountName || !accountNumber) {
-            return res.status(403).json({ message: "All fields are required!" });
+        const _id = req.params.institutionId
+        if (!mongoose.Types.ObjectId.isValid(_id)) {
+            throw Error('Not a valid id')
         }
-        // verify if id is valid
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(409).json({ message: "Not a valid id!" })
-                // throw Error('Not a valid id')
-        }
-        // find alumnus in database
-        const foundInstitution = await Institution.findById(id)
+        // find all alumni in database
+        let institutionDocs = await Institution.find({ _id: _id })
 
-        // if user not found in database throw error
-        if (!foundInstitution) {
-            return res.status(404).json({ message: "Incorrect id passed!" });
-            // throw Error('This user doesnt exist in our database')
+        // if not allAlumnus throw error 
+        if (!institutionDocs) {
+            throw Error('Resource could not be located !!')
         }
-        let bankDetails = await Institution.findByIdAndUpdate(id, { accountNumber, accountName, bankName, bankSortCode })
-        return res.status(200).json({ message: 'Account details successfully setup.', institution: bankDetails })
-
+        let certPrice = institutionDocs.amountForCertificate;
+        let officialPrice = institutionDocs.amountForPhysicalMode;
+        let personalPice = institutionDocs.amountForElectronicalMode;
+        let resultPrice = institutionDocs.amountForStatementOfResult
+        let data = [{ document: "Certificate", amount: certPrice }, { document: "Official Transcript", amount: officialPrice }, { document: "Personal Transcrpt", amount: personalPice }, { document: "Statement of Result", amount: resultPrice }]
+            // return status and data as json
+        return res.status(200).json(data)
 
     } catch (error) {
-        // return error code and message 
-        return res.status(500).json({ message: error.message })
+        // return status and error as json
+        return res.status(403).json({ message: error.message })
     }
 }
 
