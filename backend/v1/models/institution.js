@@ -29,6 +29,8 @@ const institutionSchema = new mongoose.Schema({
     bankSortCode: { type: String },
     amountForElectronicalMode: { type: Number },
     amountForPhysicalMode: { type: Number },
+    amountForCertificate: { type: Number },
+    amountForStatementOfResult: { type: Number },
 
 }, { timestamps: true })
 
