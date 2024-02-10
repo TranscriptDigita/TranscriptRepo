@@ -160,19 +160,13 @@ alumniSchema.statics.update = async function(
 
     // using validator to validate email
     if (!validator.isEmail(emailAddress)) {
-        throw Error('email is not valid')
+        throw Error('Email is not valid')
     }
     // creating new alumni in database
-    const alumni = await this.findByIdAndUpdate({
-        id,
+    const alumni = await this.findByIdAndUpdate(id, {
         fullName,
-        matricNo,
         phoneNumber,
         emailAddress,
-        paymentDetails,
-        yearOfGraduation,
-        monthOfGraduation,
-        department
     })
 
     // returning the updated user

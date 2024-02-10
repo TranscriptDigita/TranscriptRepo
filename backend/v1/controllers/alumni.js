@@ -318,12 +318,12 @@ exports.updateAlumni = async(req, res) => {
         phoneNumber,
         emailAddress
     } = req.body
-    let txt = 'Hello ' + fullName + ' congratulation your account with ARS has been updated.';
+    let txt = 'Hello ' + fullName + ', congratulation your account with ARS has been updated.';
     try {
 
         // verify if id is of mongoose type
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw Error('not a valid id')
+            throw Error('Not a valid id')
         }
         // find alumnus in database the id and update
         let updatedDetails = await Alumni.update(id, {
