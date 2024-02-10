@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const transcriptSchema = new mongoose.Schema({
 
     referenceId: { type: String, required: true, unique: true },
+    typeOfDocument: { type: String },
     degreeType: { type: String, required: true },
     institution: { type: String, required: true },
     faculty: { type: String, required: true },
@@ -41,15 +42,15 @@ const transcriptSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 // Create new transcript
-transcriptSchema.statics.createNewTranscript = async function(referenceId, degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program, createdBy) {
+transcriptSchema.statics.createNewTranscript = async function(referenceId, typeOfDocument, degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program, createdBy) {
 
     // check if all required data are filled
-    if (!referenceId || !degreeType || !institution || !faculty || !department || !matricNumber || !yearOfGraduation || !program || !createdBy || !preferCourier) {
+    if (!referenceId || !typeOfDocument || !degreeType || !institution || !faculty || !department || !matricNumber || !yearOfGraduation || !program || !createdBy || !preferCourier) {
         throw Error('All fields are required')
     }
 
     // creating new transcript in database
-    const newTranscript = await this.create({ referenceId, degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program, createdBy })
+    const newTranscript = await this.create({ referenceId, typeOfDocument, degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program, createdBy })
 
     // returning the new created transcript
     return newTranscript
