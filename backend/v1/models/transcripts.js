@@ -45,7 +45,7 @@ const transcriptSchema = new mongoose.Schema({
 transcriptSchema.statics.createNewTranscript = async function(referenceId, typeOfDocument, degreeType, institution, faculty, department, matricNumber, yearOfGraduation, program, createdBy) {
 
     // check if all required data are filled
-    if (!referenceId || !typeOfDocument || !degreeType || !institution || !faculty || !department || !matricNumber || !yearOfGraduation || !program || !createdBy || !preferCourier) {
+    if (!referenceId || !typeOfDocument || !degreeType || !institution || !faculty || !department || !matricNumber || !yearOfGraduation || !program || !createdBy) {
         throw Error('All fields are required')
     }
 
