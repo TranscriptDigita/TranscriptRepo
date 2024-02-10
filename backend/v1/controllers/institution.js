@@ -205,10 +205,10 @@ exports.getAllInstitutionDocumentPrices = async(req, res) => {
         if (!institutionDocs) {
             throw Error('Resource could not be located !!')
         }
-        let certPrice = 4000 //institutionDocs.amountForCertificate;
-        let officialPrice = institutionDocs.amountForPhysicalMode;
-        let personalPice = institutionDocs.amountForElectronicalMode;
-        let resultPrice = institutionDocs.amountForStatementOfResult
+        let certPrice = institutionDocs.amountForCertificate || 0;
+        let officialPrice = institutionDocs.amountForPhysicalMode || 0;
+        let personalPice = institutionDocs.amountForElectronicalMode || 0;
+        let resultPrice = institutionDocs.amountForStatementOfResult || 0;
         let data = [{ document: "Certificate", amount: certPrice }, { document: "Official Transcript", amount: officialPrice }, { document: "Personal Transcrpt", amount: personalPice }, { document: "Statement of Result", amount: resultPrice }]
             // return status and data as json
         return res.status(200).json(data)
