@@ -174,25 +174,25 @@ exports.setAmount = async(req, res) => {
             throw Error("Incorrect institution id");
         }
         // Set amount amountForPhysicalMode
-        if (!typeOfTranscript || !amount) {
+        if (!typeOfDocument || !amount) {
             throw Error("All fields are required!");
         }
         if (typeOfDocument == "Official Transcript" || typeOfDocument === "Officail Transcript") {
             foundInstitution.amountForPhysicalMode = amount;
             await foundInstitution.save();
-            return res.status(200).json({ message: 'Official Transcript processing amont set successfully.', data: { typeOfTranscript, amount } });
+            return res.status(200).json({ message: 'Official Transcript processing amont set successfully.', data: { typeOfDocument, amount } });
         } else if (typeOfDocument == "Personal Transcript" || typeOfDocument === "Personal Transcript") {
             foundInstitution.amountForElectronicalMode = amount;
             await foundInstitution.save();
-            return res.status(200).json({ message: 'Personal Transcript processing amont set successfully.', data: { typeOfTranscript, amount } });
+            return res.status(200).json({ message: 'Personal Transcript processing amont set successfully.', data: { typeOfDocument, amount } });
         } else if (typeOfDocument == "Certificate" || typeOfDocument === "Certificate") {
             foundInstitution.amountForCertificate = amount;
             await foundInstitution.save();
-            return res.status(200).json({ message: 'Certificte processing amont set successfully.', data: { typeOfTranscript, amount } });
+            return res.status(200).json({ message: 'Certificte processing amont set successfully.', data: { typeOfDocument, amount } });
         } else if (typeOfDocument == "Statement of Result" || typeOfDocument === "Statement of Result") {
             foundInstitution.amountForStatementOfResult = amount;
             await foundInstitution.save();
-            return res.status(200).json({ message: 'Statement of Result processing amont set successfully.', data: { typeOfTranscript, amount } });
+            return res.status(200).json({ message: 'Statement of Result processing amont set successfully.', data: { typeOfDocument, amount } });
         }
     } catch (error) {
         // return error code and message 
