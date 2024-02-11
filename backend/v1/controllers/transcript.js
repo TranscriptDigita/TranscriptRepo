@@ -119,10 +119,10 @@ exports.createNewRequest = async(req, res) => {
             program,
             createdBy
         );
-        const inst = await Institution.findOne({ name: institution });
+        const inst = await Institution.findOne({ name: institutionName });
         let instPhone = inst.phoneNumber;
         // send message to notify institution of the newly create transcript request
-        let txt = "The " + institution + " Registrar, this is to notify you that there a new transcript processing request on the ARS system.";
+        let txt = "The " + institutionName + " Registrar, this is to notify you that there a new transcript processing request on the ARS system.";
         await sendSMS(txt, instPhone);
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({ message: "Transcripted Successfully created!", Transcript: newTranscript })
