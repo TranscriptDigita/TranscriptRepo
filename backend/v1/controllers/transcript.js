@@ -76,7 +76,7 @@ exports.getAllTranscripts = async(req, res) => {
 exports.createNewRequest = async(req, res) => {
     try {
         // getting the data from input by destructuring request body
-        const { typeOfDocument, degreeType, institution, institutionName, faculty, department, matricNumber, yearOfGraduation, program } = req.body
+        const { typeOfDocument, degreeType, institutionId, institutionName, faculty, department, matricNumber, yearOfGraduation, program } = req.body
             // generate refrenceId
             // find last transcript reference id in the database
         const lastId = await Transcripts.findOne().sort({ _id: -1 });
@@ -110,7 +110,7 @@ exports.createNewRequest = async(req, res) => {
         let newTranscript = await Transcripts.createNewTranscript(referenceId,
             typeOfDocument,
             degreeType,
-            institution,
+            institutionId,
             institutionName,
             faculty,
             department,
