@@ -206,14 +206,12 @@ exports.getAllInstitutionDocumentPrices = async(req, res) => {
             throw Error('Resource could not be located !!')
         }
         var certPrice, officialPrice, personalPice, resultPrice;
-        const cerP = await institutionDocs.amountForCertificate;
-        console.log(institutionDocs[0].name);
-        console.log(institutionDocs[0].amountForCertificate);
+        const cerP = await institutionDocs[0].amountForCertificate;
         if (cerP != null) {
-            certPrice = institutionDocs.amountForCertificate;
-            officialPrice = institutionDocs.amountForPhysicalMode;
-            personalPice = institutionDocs.amountForElectronicalMode;
-            resultPrice = institutionDocs.amountForStatementOfResult;
+            certPrice = institutionDocs[0].amountForCertificate;
+            officialPrice = institutionDocs[0].amountForPhysicalMode;
+            personalPice = institutionDocs[0].amountForElectronicalMode;
+            resultPrice = institutionDocs[0].amountForStatementOfResult;
             // return status and data as json
         } else {
             throw Error('Documents Amounts are yet to be setup by the institution.')
