@@ -27,10 +27,10 @@ const institutionSchema = new mongoose.Schema({
     accountName: { type: String },
     bankName: { type: String },
     bankSortCode: { type: String },
-    amountForElectronicalMode: { type: Number },
-    amountForPhysicalMode: { type: Number },
-    amountForCertificate: { type: Number },
-    amountForStatementOfResult: { type: Number },
+    amountForElectronicalMode: { type: Number, default: 20000 },
+    amountForPhysicalMode: { type: Number, default: 20000 },
+    amountForCertificate: { type: Number, default: 20000 },
+    amountForStatementOfResult: { type: Number, default: 20000 },
 
 }, { timestamps: true })
 
