@@ -207,6 +207,7 @@ exports.getAllInstitutionDocumentPrices = async(req, res) => {
         }
         var certPrice, officialPrice, personalPice, resultPrice;
         const cerP = await institutionDocs.amountForCertificate;
+        console.log(cerP);
         if (cerP != null) {
             certPrice = institutionDocs.amountForCertificate;
             officialPrice = institutionDocs.amountForPhysicalMode;
