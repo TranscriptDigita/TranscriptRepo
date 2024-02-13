@@ -32,7 +32,7 @@ const webhook = async(req, res) => {
             bank: bank,
         }
         try {
-            const findTranscript = await Transcripts.findByIdAndUpdate(reference, { isPaid: true, paymentStatus: paymentStatus, amountPaid: amount }, { new: true, useFindAndModify: false })
+            const findTranscript = await Transcripts.findByIdAndUpdate(reference, { isPaid: true, paymentStatus: paymentStatus, amountPaid: amount })
                 // If record found
             if (!findTranscript) {
                 throw Error("Something went wrong!");
