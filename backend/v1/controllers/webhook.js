@@ -1,16 +1,48 @@
+// imports
+const Transcripts = require('../models/transcripts'),
+    Alumni = require('../models/alumni');
 const crypto = require('crypto');
 const secret = process.env.SECRET_KEY;
 // webhook controller
-const webhook = (req, res) => {
+const webhook = async(req, res) => {
     //validate event
     const event = req.body;
-    console.log(event);
-    const hash = crypto.createHmac('sha512', secret).update(JSON.stringify(req.body)).digest('hex');
-    if (hash == req.headers['x-paystack-signature']) {
-        // Retrieve the request's body
-        const event = req.body;
-        console.log(event);
-        // Do something with event  
+    if (event.data.status == "success") {
+        const reference = event.data.reference,
+            paymentStatus = event.data.status,
+            amount = event.data.amount / 100,
+            paid_at = event.data.paid_at,
+            created_at = event.data.created_at,
+            channel = event.data.channel,
+            currency = event.data.currency,
+            payeeAcctName = event.authorization.account_name,
+            card_type = event.authorization.$pushcard_type,
+            bank = event.authorization.bank,
+            alumniEmail = event.customer.email
+        let paymentData = {
+            reference: reference,
+            paymentStatus: paymentStatus,
+            amount: amount,
+            createdAt: created_at,
+            paidAt: paid_at,
+            paymentChennel: channel,
+            currency: currency,
+            paymentAccountName: payeeAcctName,
+            cardType: card_type,
+            bank: bank,
+        }
+        try {
+            const findTranscript = await Transcripts.findByIdAndUpdate(reference, { isPaid: true, paymentStatus: paymentStatus, amountPaid: amount }, { new: true, useFindAndModify: false })
+                // If record found
+            if (!findTranscript) {
+                throw Error("Something went wrong!");
+            }
+            await Alumni.updateOne({ emailAddress: alumniEmail }, { $push: { paymentDetails: paymentData } })
+                // Alumni.paymentDetails
+
+        } catch (error) {
+            console.log(error.message)
+        }
     }
     res.sendStatus(200);
 }

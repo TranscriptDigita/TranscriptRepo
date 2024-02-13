@@ -28,6 +28,7 @@ const transcriptSchema = new mongoose.Schema({
     isVerified: { type: Boolean, default: false },
     isPaid: { type: Boolean },
     paymentStatus: { type: String },
+    amountPaid: { type: Number },
     isApproved: { type: Boolean, default: false },
     isQuerried: { type: Boolean, default: false },
     isDeclined: { type: Boolean, default: false },
