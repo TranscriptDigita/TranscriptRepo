@@ -15,10 +15,10 @@ const webhook = async(req, res) => {
             created_at = event.data.created_at,
             channel = event.data.channel,
             currency = event.data.currency,
-            payeeAcctName = event.authorization.account_name,
-            card_type = event.authorization.$pushcard_type,
-            bank = event.authorization.bank,
-            alumniEmail = event.customer.email
+            payeeAcctName = event.data.authorization.account_name,
+            card_type = event.data.authorization.card_type,
+            bank = event.data.authorization.bank,
+            alumniEmail = event.data.customer.email
         let paymentData = {
             reference: reference,
             paymentStatus: paymentStatus,
