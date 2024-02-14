@@ -1,6 +1,7 @@
 const express = require('express'),
     router = express.Router(),
     controller = require('../controllers/transcript'),
+    paymentController = require('../controllers/payments'),
     { isAuth, isAuthStaff } = require('../middleware/auth')
 
 // create and fecth transcript routes
@@ -35,5 +36,10 @@ router.route(`/query/:id`)
 // set up transcript delivery method
 router.route(`/delivery-method/:transcriptId`)
     .patch(isAuth, controller.deliveryMethod)
-    // export router
+
+//get transcript payment deta
+router.route('/payment-data/:referenceId')
+    .get(paymentController.getPaymentData);
+// export router
+
 module.exports = router

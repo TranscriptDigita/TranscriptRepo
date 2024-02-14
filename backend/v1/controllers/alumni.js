@@ -164,46 +164,48 @@ exports.forgotPassword = async(req, res) => {
 
 // password reset
 exports.passwordReset = async(req, res) => {
-        try {
-            const { token } = req.params;
-            const { password } = req.body;
+    try {
+        const { token } = req.params;
+        const { password } = req.body;
 
-            // find alumni using token and expiry time
-            const foundAlumni = await Alumni.findOne({
-                resetPasswordToken: token,
-                resetPasswordExpires: { $gt: Date.now() }
-            });
+        // find alumni using token and expiry time
+        const foundAlumni = await Alumni.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpires: { $gt: Date.now() }
+        });
 
-            // if alumni not found throw error
-            if (!foundAlumni) {
-                throw Error("Password reset token is invalid or has expired");
-            }
-
-            // check password strength
-            // using validator to check if password is strong
-            if (!validator.isStrongPassword(password)) {
-                throw Error('password not strong enough')
-            }
-            // hash password
-            // generating salt to hash password
-            const salt = await bcrypt.genSalt(10)
-            const hash = await bcrypt.hash(password, salt)
-
-            // Update the foundAlumni's password
-            foundAlumni.password = hash;
-            foundAlumni.resetPasswordToken = '';
-            foundAlumni.resetPasswordExpires = '';
-
-            await foundAlumni.save();
-
-            return res.status(200).json({ message: "Password reset successful", alumni: foundAlumni });
-
-        } catch (error) {
-            // return error code and message 
-            return res.status(400).json({ message: error.message })
+        // if alumni not found throw error
+        if (!foundAlumni) {
+            throw Error("Password reset token is invalid or has expired");
         }
+
+        // check password strength
+        // using validator to check if password is strong
+        if (!validator.isStrongPassword(password)) {
+            throw Error('password not strong enough')
+        }
+        // hash password
+        // generating salt to hash password
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, salt)
+
+        // Update the foundAlumni's password
+        foundAlumni.password = hash;
+        foundAlumni.resetPasswordToken = '';
+        foundAlumni.resetPasswordExpires = '';
+
+        await foundAlumni.save();
+
+        return res.status(200).json({ message: "Password reset successful", alumni: foundAlumni });
+
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
     }
-    // change password
+}
+
+
+// change password
 exports.changePassword = async(req, res) => {
     try {
         const _Id = req.params.alumniId;
@@ -360,6 +362,43 @@ exports.deleteAlumni = async(req, res) => {
         }
 
         return res.status(200).json({ message: 'successfully deleted', data: deletedAlumni })
+
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
+    }
+}
+
+
+// fetch transcript payment details
+exports.getTranscriptPaymentDetails = async(req, res) => {
+
+    try {
+        const reference = req.params.transcriptId;
+        // get all info from parameters
+        const { emailAddress } = req.body;
+        const foundAlumni = await Alumni.findOne({ _id: reference });
+
+        // check if email exists in database
+        if (!foundAlumni) {
+            throw Error('Email does not exist in our database')
+        }
+
+        // Generate a reset token
+        const resetToken = await generateRandomNumber()
+
+        // Set the reset token and expiration time in the foundAlumni document
+        foundAlumni.resetPasswordToken = resetToken;
+        foundAlumni.resetPasswordExpires = Date.now() + 3600000; // Token expires in 1 hour
+
+        // save resetToken and expiry date in database
+        await foundAlumni.save();
+
+        // send password reset email
+        await Alumni.sendEmail(emailAddress, 'Reset password', `Password reset link: https://transcript360.onrender.com/alumni/reset-password/${resetToken}`)
+
+        // debug here for errors
+        return res.status(200).json({ message: `verification email successfully sent`, alumni: foundAlumni })
 
     } catch (error) {
         // return error code and message 

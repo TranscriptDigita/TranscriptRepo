@@ -191,7 +191,7 @@ exports.setupBankAccountDetails = async(req, res) => {
             return res.status(500).json({ message: error.message })
         }
     }
-    // function to get all Alumnus
+    // function to get all docs prices
 exports.getAllInstitutionDocumentPrices = async(req, res) => {
     try {
         const _id = req.params.institutionId
