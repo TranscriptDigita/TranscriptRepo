@@ -15,7 +15,7 @@ const paymentsSchema = new mongoose.Schema({
     reference: { type: String, required: true },
     paymentStatus: { type: String, required: true },
     amount: { type: Number, required: true },
-    paidAt: { type: String, required: true },
+    paidAt: { type: String },
     paymentChennel: { type: String, required: true },
     currency: { type: String, required: true },
     paymentAccountName: { type: String, required: true },
