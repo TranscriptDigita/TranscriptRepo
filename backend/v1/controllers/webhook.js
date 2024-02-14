@@ -1,7 +1,8 @@
 // imports
 const Transcripts = require('../models/transcripts'),
     Payments = require('../models/payments'),
-    Alumni = require('../models/alumni');
+    Alumni = require('../models/alumni'),
+    Institution = require('../models/institution');
 const crypto = require('crypto');
 const secret = process.env.SECRET_KEY;
 // webhook controller
@@ -31,14 +32,37 @@ const webhook = async(req, res) => {
             bank: bank,
         }
         try {
-            const findTranscript = await Transcripts.findByIdAndUpdate(reference, { isPaid: true, paymentStatus: paymentStatus, amountPaid: amount })
+            const findTranscript = await Transcripts.findOne({ _id: reference })
                 // If record found
             if (!findTranscript) {
                 throw Error("Something went wrong!");
             }
+            var inAmount;
+            let institutionId = findTranscript.institutionId;
+            let docType = findTranscript.typeOfDocument;
+
+            const findInstitution = await Institution.findOne({ _id: institutionId });
+            // If record found
+            if (!findInstitution) {
+                throw Error("Resource not found!");
+            }
+            if (docType == "Certificate") {
+                inAmount = findInstitution.amountForCertificate;
+            } else if (docType == "Official Transcript") {
+                inAmount = findInstitution.amountForPhysicalMode;
+            } else if (docType == "Personal Transcript") {
+                inAmount = findInstitution.amountForElectronicalMode;
+            } else if (docType == "Statement of Result") {
+                inAmount = findInstitution.amountForStatementOfResult;
+            }
+            // save the record in database
+            findTranscript.isPaid = true;
+            findTranscript.paymentStatus = paymentStatus;
+            findTranscript.amountPaid = amount;
+            await findTranscript.save();
             await Alumni.updateOne({ emailAddress: alumniEmail }, { $push: { paymentDetails: paymentData } })
                 // create payment Details
-            const payD = await Payments.createPayment(reference, paymentStatus, amount, paid_at, channel, currency, payeeAcctName, bank, );
+            const payD = await Payments.createPayment(reference, paymentStatus, inAmount, paid_at, channel, currency, payeeAcctName, bank, );
             console.log(payD);
         } catch (error) {
             console.log(error.message)
