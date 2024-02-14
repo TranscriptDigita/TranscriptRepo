@@ -17,7 +17,6 @@ const webhook = async(req, res) => {
             channel = event.data.channel,
             currency = event.data.currency,
             payeeAcctName = event.data.authorization.account_name,
-            card_type = event.data.authorization.card_type,
             bank = event.data.authorization.bank,
             alumniEmail = event.data.customer.email
         let paymentData = {
@@ -29,7 +28,6 @@ const webhook = async(req, res) => {
             paymentChennel: channel,
             currency: currency,
             paymentAccountName: payeeAcctName,
-            cardType: card_type,
             bank: bank,
         }
         try {
@@ -40,8 +38,8 @@ const webhook = async(req, res) => {
             }
             await Alumni.updateOne({ emailAddress: alumniEmail }, { $push: { paymentDetails: paymentData } })
                 // create payment Details
-            await Payments.createPayment(reference, paymentStatus, amount, paid_at, channel, currency, payeeAcctName, bank, );
-
+            const patD = await Payments.createPayment(reference, paymentStatus, amount, paid_at, channel, currency, payeeAcctName, bank, );
+            console.log(payD);
         } catch (error) {
             console.log(error.message)
         }
