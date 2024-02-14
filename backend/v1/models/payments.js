@@ -15,7 +15,7 @@ const paymentsSchema = new mongoose.Schema({
     reference: { type: String, required: true },
     paymentStatus: { type: String, required: true },
     amount: { type: Number, required: true },
-    paidAt: { type: String },
+    paidAt: { type: String, required: true },
     paymentChennel: { type: String, required: true },
     currency: { type: String, required: true },
     paymentAccountName: { type: String, required: true },
@@ -28,15 +28,15 @@ const paymentsSchema = new mongoose.Schema({
 // ==================================
 
 // create payements function
-paymentsSchema.statics.createPayment = async function(reference, paymentStatus, amount, payAt, paymentChennel, currency, paymentAccountName, bank) {
+paymentsSchema.statics.createPayment = async function(reference, paymentStatus, amount, paidAt, paymentChennel, currency, paymentAccountName, bank) {
 
     // check if all inputs are filled
-    if (!reference || !paymentStatus || !amount || !payAt || !paymentChennel || !currency || !paymentAccountName || !bank) {
+    if (!reference || !paymentStatus || !amount || !paidAt || !paymentChennel || !currency || !paymentAccountName || !bank) {
         throw Error('all fields are required')
     }
 
     // creating new payment details in database
-    const payData = await this.create({ reference, paymentStatus, amount, payAt, paymentChennel, currency, paymentAccountName, bank })
+    const payData = await this.create({ reference, paymentStatus, amount, paidAt, paymentChennel, currency, paymentAccountName, bank })
 
     // returning the saved data
     console.log(payData)
