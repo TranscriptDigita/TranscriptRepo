@@ -1,6 +1,6 @@
 // imports
 const Transcripts = require('../models/transcripts'),
-    PaymentsDetails = require('../model/payments'),
+    Payments = require('../models/payments'),
     Alumni = require('../models/alumni');
 const crypto = require('crypto');
 const secret = process.env.SECRET_KEY;
@@ -40,7 +40,7 @@ const webhook = async(req, res) => {
             }
             await Alumni.updateOne({ emailAddress: alumniEmail }, { $push: { paymentDetails: paymentData } })
                 // create payment Details
-            await PaymentsDetails.createPayment(reference, paymentStatus, amount, paid_at, channel, currency, payeeAcctName, bank, );
+            await Payments.createPayment(reference, paymentStatus, amount, paid_at, channel, currency, payeeAcctName, bank, );
 
         } catch (error) {
             console.log(error.message)

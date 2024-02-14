@@ -64,9 +64,9 @@ paymentsSchema.statics.getByReferenceNumber = async function(referenceId) {
 // ==================================
 // ==== modeling alumni with schema==
 // ==================================
-const PaymentsDetails = mongoose.model('alumni', paymentsSchema)
+const Payments = mongoose.model('payments', paymentsSchema)
 
 // ==================================
 // ======== exports =================
 // ==================================
-module.exports = PaymentsDetails;
+module.exports = Payments;
