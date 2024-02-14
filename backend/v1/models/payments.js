@@ -46,7 +46,7 @@ paymentsSchema.statics.createPayment = async function(reference, paymentStatus, 
 paymentsSchema.statics.getByReferenceNumber = async function(referenceId) {
     // validation
     if (!referenceId) {
-        throw Error('Reference Id isrequired!')
+        throw Error('Reference Id is required!')
     }
 
     // find an referenceId in database   
