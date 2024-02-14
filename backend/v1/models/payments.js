@@ -54,7 +54,7 @@ paymentsSchema.statics.getByReferenceNumber = async function(referenceId) {
 
     // not exist throw error   
     if (!d) {
-        throw Error('Incorrect reference number')
+        throw Error('No resource found with this referenceId')
     }
 
     return d;
