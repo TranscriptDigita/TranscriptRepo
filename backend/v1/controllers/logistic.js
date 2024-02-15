@@ -53,9 +53,9 @@ const generateRandomNumber = () => {
 // function to get all Logistics
 exports.getAllLogistic = async(req, res) => {
     try {
-
+        let t = true;
         // find all alumni in database
-        let allLogistic = await Logistic.find({})
+        let allLogistic = await Logistic.find({ kycIsSubmitted: t })
 
         // if not allAlumnus throw error 
         if (!allLogistic) {
@@ -338,6 +338,7 @@ exports.updateLogistic = async(req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw Error('Not a valid id')
         }
+        const kycIsSubmitted = true;
         // find alumnus in database the id and update
         let updatedDetails = await Logistic.update(id, {
             headOfficeAddress,
@@ -346,7 +347,8 @@ exports.updateLogistic = async(req, res) => {
             directorName,
             directorContactNumber,
             directorIdType,
-            directorIdNumber
+            directorIdNumber,
+            kycIsSubmitted
         });
         // send congratulation message to the user
         let txt = 'Hello ' + directorName + ', congratulation your details has been submitted for KYC verification. You will be notify upon approval.';
@@ -418,11 +420,11 @@ exports.getAllIntOfferLogistics = async(req, res) => {
     try {
         let t = true;
         // find all alumni in database
-        let allLogistic = await Logistic.find({ weDoInternationalDelivery: t })
+        let allLogistic = await Logistic.find({ weDoInternationalDelivery: t, kycIsSubmitted: t })
 
         // if not allAlumnus throw error 
         if (!allLogistic) {
-            throw Error('resource could not be located !!')
+            throw Error('No verified record available!!')
         }
 
         // return status and data as json

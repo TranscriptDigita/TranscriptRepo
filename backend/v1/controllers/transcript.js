@@ -311,7 +311,7 @@ exports.deliveryMethod = async(req, res) => {
         if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
             throw Error('Not a valid id')
         }
-        if (!preferCourier) {
+        if (modeOfDelivery != "Email" && !preferCourier) {
             throw Error('Prefer courier service is required!')
         }
         // get courier details

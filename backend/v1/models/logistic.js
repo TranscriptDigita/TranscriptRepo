@@ -28,6 +28,7 @@ const logisticSchema = new mongoose.Schema({
     localDeliveryPrice: { type: String },
     internationalDeliveryPrice: { type: String },
     isVerified: { type: Boolean, default: false },
+    kycIsSubmitted: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
     isDisabled: { type: Boolean, default: false },
     isRestricted: { type: Boolean, default: false },
@@ -156,7 +157,8 @@ logisticSchema.statics.update = async function(id, {
     directorName,
     directorContactNumber,
     directorIdType,
-    directorIdNumber
+    directorIdNumber,
+    kycIsSubmitted
 }) {
 
     // using validator to validate email
@@ -171,7 +173,8 @@ logisticSchema.statics.update = async function(id, {
         directorName,
         directorContactNumber,
         directorIdType,
-        directorIdNumber
+        directorIdNumber,
+        kycIsSubmitted
     }, { new: true, useFindAndModify: false })
 
     // returning the updated user

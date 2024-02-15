@@ -32,9 +32,7 @@ const transcriptSchema = new mongoose.Schema({
     isApproved: { type: Boolean, default: false },
     isQuerried: { type: Boolean, default: false },
     isDeclined: { type: Boolean, default: false },
-
     createdBy: { type: mongoose.Schema.Types.ObjectId, required: true },
-
     verfiedBy: { type: mongoose.Schema.Types.ObjectId },
     approvedBy: { type: mongoose.Schema.Types.ObjectId },
     querriedBy: { type: mongoose.Schema.Types.ObjectId },
