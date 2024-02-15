@@ -65,8 +65,9 @@ const webhook = async(req, res) => {
             await Alumni.updateOne({ emailAddress: alumniEmail }, { $push: { paymentDetails: paymentData } })
             const alum = await Alumni.findOne({ emailAddress: alumniEmail });
             let alumniName = alum.fullName;
+            let institutionName = findInstitution.name;
             // create payment Details
-            const payD = await Payments.createPayment(institutionId, alumniName, reference, paymentStatus, inAmount, paid_at, channel, currency, payeeAcctName, bank, );
+            const payD = await Payments.createPayment(institutionName, alumniName, reference, paymentStatus, inAmount, paid_at, channel, currency, payeeAcctName, bank, );
             console.log(payD);
 
         }
