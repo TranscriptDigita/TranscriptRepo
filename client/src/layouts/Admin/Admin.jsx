@@ -11,6 +11,7 @@ import {
 import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
 import AdminNavbar from '../../components/navbar/AdminNavbar';
+import Logout from '../../pages/Logout/Logout';
 
 function AdminLayout() {
 
@@ -90,6 +91,11 @@ const adminId = getAdminId();
       icon: <HiOutlineCog6Tooth size={20} />,
       path: `/admin/${adminId}/${adminToken}/adminsettings`,
     },
+    {
+      title: ' ',
+      icon: <Logout/>,
+      path: ``,
+    },
     
   ];
 
@@ -120,13 +126,13 @@ const adminId = getAdminId();
         
         <div className="md:col-span-4 flex-1 flex flex-col">
           {/* Conditional rendering of the Navbar component */}
-          <div>
+          {/* <div>
           {showNavbar ? (
             <AdminNavbar />
           ) : (
             <MobileNavBar /> // Render MobileNavBar when the screen is smaller
           )}
-          </div>
+          </div> */}
   
           <div className="flex-1 p-4 bg-slate-100 overflow-y-auto">
             {/* Use 'overflow-y-auto' to enable vertical scrolling */}

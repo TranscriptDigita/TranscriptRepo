@@ -39,7 +39,7 @@ function StaffNavBarB() {
           >
             LogOut
           </button> */}
-          <Logout />
+          {/* <Logout /> */}
         </div>
       </div>
     </div>

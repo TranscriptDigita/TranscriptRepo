@@ -2,12 +2,23 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios'; // Import Axios for making HTTP requests
 import RecentTranscriptTable from '../../../components/table/RecentTranscriptTable';
 import { NewRequestTable } from '../../../components';
+import { Link } from 'react-router-dom';
 
 function NewRequest() {
-  const [transcripts, setTranscripts] = useState([]); // State variable to store transcript data
+  const [documents, setDocuments] = useState([]); // State variable to store transcript data
     // State to hold the alumni data
     const [alumniData, setAlumniData] = useState({});
 
+
+    const getStaffInstitutionId = () => {
+      const storedUserData = localStorage.getItem('staff');
+      if (storedUserData) {
+          const userDataObject = JSON.parse(storedUserData);
+          return userDataObject?.institution;
+      }
+      return null;
+  };
+  const institutionId = getStaffInstitutionId();
 
 
 
@@ -22,7 +33,7 @@ function NewRequest() {
             console.log('Fetched data:', response.data);
     
             // Update the state with the fetched data
-            setTranscripts(response.data);
+            setDocuments(response.data);
     
             // Store the fetched data in local storage under the name "transcriptRequests"
             localStorage.setItem('transcriptRequests', JSON.stringify(response.data));
@@ -118,7 +129,7 @@ function NewRequest() {
       
           // Reload the transcripts after verification
           const reloadResponse = await Axios.get('https://dacs.onrender.com/api/v1/transcript');
-          setTranscripts(reloadResponse.data);
+          setDocuments(reloadResponse.data);
       
           // Log the reload response
           console.log('Transcripts reloaded:', reloadResponse.data);
@@ -167,7 +178,7 @@ function NewRequest() {
       
           // Reload the transcripts after approval
           const reloadResponse = await Axios.get('https://dacs.onrender.com/api/v1/transcript');
-          setTranscripts(reloadResponse.data);
+          setDocuments(reloadResponse.data);
       
           // Log the reload response
           console.log('Transcripts reloaded:', reloadResponse.data);
@@ -214,7 +225,7 @@ function NewRequest() {
       
           // Reload the transcripts after declining
           const reloadResponse = await Axios.get('https://dacs.onrender.com/api/v1/transcript');
-          setTranscripts(reloadResponse.data);
+          setDocuments(reloadResponse.data);
       
           // Log the reload response
           console.log('Transcripts reloaded:', reloadResponse.data);
@@ -247,10 +258,18 @@ function NewRequest() {
     {
       title: 'Action'
     },
+    {
+      title: 'Receipt'
+    },
   ];
+// Filter transcripts based on institutionId
+const filteredTranscripts = documents.filter(transcript => transcript.institutionId === institutionId);
 
-  // Map the transcripts data to match the table headers
-  const formattedItems = transcripts.map((transcript) => ({
+// Reverse the filtered transcripts array
+const reversedFilteredTranscripts = filteredTranscripts.reverse();
+
+// Map the reversed filtered transcripts data to match the table headers
+const formattedItems = reversedFilteredTranscripts.map((transcript) => ({
     'Name': alumniData[transcript.createdBy]?.fullName || 'No name In the Api Response',
     'Course': transcript.program,
     'Year Graduated': transcript.yearOfGraduation,
@@ -282,6 +301,13 @@ function NewRequest() {
           <option value="verify">Verify</option>
         </select>
       ),
+      'Receipt': (
+        <button
+          onClick={() => window.open(`/receipt/${transcript._id}`, '_blank', 'width=600,height=400')}
+        >
+          View Receipt
+        </button>
+      ),
    
   }));
 
@@ -289,7 +315,7 @@ function NewRequest() {
 
   return (
     <div>
-      {transcripts.length === 0 ? (
+      {documents.length === 0 ? (
         // Display a loading message or spinner when data is being fetched
         <p>Loading...</p>
       ) : (

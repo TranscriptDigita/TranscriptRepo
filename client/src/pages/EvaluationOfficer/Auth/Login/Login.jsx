@@ -31,11 +31,13 @@ const staffToken = getToken();
 
 
   const handleLogin = async () => {
+    console.log('sent')
     try {
       const response = await Axios.post('https://dacs.onrender.com/api/v1/staff/login', {
         emailAddress: email,
         password: password,
       });
+      console.log('sent')
   
       // Extract role and staff/institution ID from the response
       const { role, _id: staffId, institution: institutionId } = response.data.staff;

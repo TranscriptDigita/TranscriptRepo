@@ -39,10 +39,11 @@ function Dashboard() {
       </div>
 
       <div className="flex flex-col gap-y-5">
-        <Table headers={[{ title: 'Available schools' }]} item={institutions.map((institution) => (
+        <Table headers={[{ title: 'Available schools (Select School To Apply For Credentials)' }]} item={institutions.map((institution) => (
           <TranscriptGridItem
           key={institution._id}
           data={institution.name}
+          id={institution._id}
           icon={<HiChevronRight />}
           // onSelect={() => handleSelectInstitution(institution)}  // Pass the institution.name
         />

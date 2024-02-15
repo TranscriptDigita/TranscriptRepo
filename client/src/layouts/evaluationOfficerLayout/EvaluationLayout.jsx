@@ -11,6 +11,7 @@ import {
 import { MdOutlineDeliveryDining } from "react-icons/md";
 import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
+import Logout from '../../pages/Logout/Logout';
 
 function EvaluationLayout() {
        // Function to extract staff ID from stored data
@@ -36,23 +37,23 @@ function EvaluationLayout() {
       isActive: true,
     },
      
-    {
-      title: 'Select Courier',
-      icon: <MdOutlineDeliveryDining size={20} />,
-      path: `/evaluationofficer/${staffId}/choosecourier`,
-    },
+    // {
+    //   title: 'Select Courier',
+    //   icon: <MdOutlineDeliveryDining size={20} />,
+    //   path: `/evaluationofficer/${staffId}/choosecourier`,
+    // },
 
-    {
-      title: 'Request',
-      icon: <HiOutlineBell size={20} />,
-      path: "",
-    },
+    // {
+    //   title: 'Request',
+    //   icon: <HiOutlineBell size={20} />,
+    //   path: "",
+    // },
 
  
 
       {
-        title: 'Settings',
-        icon: <HiOutlineCog6Tooth size={20} />,
+        title: ' ',
+        icon: <Logout/>,
         path: ``,
       },
     
@@ -85,13 +86,7 @@ function EvaluationLayout() {
         
         <div className="md:col-span-4 flex-1 flex flex-col">
           {/* Conditional rendering of the Navbar component */}
-          <div>
-          {showNavbar ? (
-            <StaffNavBarB />
-          ) : (
-            <MobileNavBar /> // Render MobileNavBar when the screen is smaller
-          )}
-          </div>
+         
   
           <div className="flex-1 p-4 bg-slate-100 overflow-y-auto">
             {/* Use 'overflow-y-auto' to enable vertical scrolling */}

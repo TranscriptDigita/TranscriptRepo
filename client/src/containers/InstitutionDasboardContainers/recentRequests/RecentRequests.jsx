@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'; // Import Axios for making HTTP requests
 import RecentTranscriptTable from '../../../components/table/RecentTranscriptTable';
+import { Link } from 'react-router-dom';
+
 
 function RecentRequests() {
   const [transcripts, setTranscripts] = useState([]); // State variable to store transcript data
 
+  const getInstitutionName = () => {
+    const storedUserData = localStorage.getItem('institutionUser');
+    if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      return userDataObject?.institution?.name;
+    }
+    return null;
+  };
 
+  const institutionName = getInstitutionName();
+
+  console.log('the name is', institutionName  )
 
 
      // State to hold the alumni data
@@ -99,17 +112,31 @@ function RecentRequests() {
     },
     {
       title: 'Request Number'
+    },
+    {
+      title: 'Receipt'
     }
   ];
 
   // Map the transcripts data to match the table headers
-  const formattedItems = transcripts.map((transcript) => ({
+  const formattedItems = transcripts
+  .filter(transcript => transcript.institutionName === institutionName)
+  .reverse()
+  .map((transcript) => ({
     'Name': alumniData[transcript.createdBy]?.fullName || 'No name In the Api Response',
     'Course': transcript.program,
     'Year Graduated': transcript.yearOfGraduation,
-    'Status': getStatus(transcript),// You can set this value as needed
+    'Status': getStatus(transcript),
     'Request Number': transcript.referenceId,
+    'Receipt': (
+      <button
+        onClick={() => window.open(`/receipt/${transcript._id}`, '_blank', 'width=600,height=400')}
+      >
+        View Receipt
+      </button>
+    ),
   }));
+
 
   console.log(formattedItems);
 

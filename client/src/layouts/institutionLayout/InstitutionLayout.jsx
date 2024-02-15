@@ -8,6 +8,7 @@ import MobileNavBar from '../../components/navbar/MobileNavBar';
 
 // rrd outlets
 import { Outlet, Link } from 'react-router-dom';
+import Logout from '../../pages/Logout/Logout';
 
 function InstitutionLayout() {
   // Function to extract institution ID from stored data
@@ -116,6 +117,11 @@ function InstitutionLayout() {
       icon: <HiOutlineCog6Tooth size={20} />,
       path: `/institution/${institutionId}/universityprofile`,
     },
+    {
+      title: ' ',
+      icon: <Logout/>,
+      path: ``,
+    },
   ];
 
   return (
@@ -123,14 +129,16 @@ function InstitutionLayout() {
       {/* Sidebar */}
       <div className="md:grid md:grid-cols-5 w-full">
         <div className="col-span-1">
-          <Sidebar menuItems={menuItems} name={institutionName} />
+          <Sidebar menuItems={menuItems}  />
         </div>
 
         <div className="md:col-span-4 flex-1 flex flex-col">
           {/* Newnavbar with notification count */}
           <Link to={`/institution/${institutionId}/institutionnotification`}>
             <div className="flex items-center justify-end p-4">
+            {institutionName}
               <div className="relative">
+              
                 <HiOutlineBell size={40}  />
                 {notificationCount > 0 && (
                   <div className="absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
@@ -142,7 +150,7 @@ function InstitutionLayout() {
           </Link>
 
           {/* Conditional rendering of the Navbar component */}
-          {showNavbar ? <Newnavbar /> : <MobileNavBar />}
+                  
           {/* Render MobileNavBar when the screen is smaller */}
 
           <div className="flex-1 p-4 bg-slate-100 overflow-y-auto">

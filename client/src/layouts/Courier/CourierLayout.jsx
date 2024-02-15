@@ -8,6 +8,7 @@ import MobileNavBar from '../../components/navbar/MobileNavBar';
 
 // rrd outlets
 import { Outlet, Link } from 'react-router-dom';
+import Logout from '../../pages/Logout/Logout';
 
 function CourierLayout() {
   // Function to extract institution ID from stored data
@@ -96,11 +97,11 @@ function CourierLayout() {
 
   // Update the menuItems to include notification count
   const menuItems = [
-    {
-      title: 'Dashboard',
-      icon: <HiOutlineRectangleGroup size={20} />,
-      path: `/courier/${courierId}/${courierToken}/dashboard`,
-    },
+    // {
+    //   title: 'Dashboard',
+    //   icon: <HiOutlineRectangleGroup size={20} />,
+    //   path: `/courier/${courierId}/${courierToken}/dashboard`,
+    // },
    
     {
       title: 'Notification',
@@ -118,6 +119,11 @@ function CourierLayout() {
       icon: <HiOutlineCog6Tooth size={20} />,
       path: `/courier/${courierId}/${courierToken}/courierprices`,
     },
+    {
+      title: ' ',
+      icon: <Logout/>,
+      path: ``,
+    },
   ];
 
   return (
@@ -130,7 +136,7 @@ function CourierLayout() {
 
         <div className="md:col-span-4 flex-1 flex flex-col">
           {/* Newnavbar with notification count */}
-          <Link to={`/institution/${courierId}/institutionnotification`}>
+          <Link to={``}>
             <div className="flex items-center justify-end p-4">
               <div className="relative">
                 <HiOutlineBell size={40}  />
@@ -144,7 +150,7 @@ function CourierLayout() {
           </Link>
 
           {/* Conditional rendering of the Navbar component */}
-          {showNavbar ? <Newnavbar /> : <MobileNavBar />}
+          {/* {showNavbar ? <Newnavbar /> : <MobileNavBar />} */}
           {/* Render MobileNavBar when the screen is smaller */}
 
           <div className="flex-1 p-4 bg-slate-100 overflow-y-auto">

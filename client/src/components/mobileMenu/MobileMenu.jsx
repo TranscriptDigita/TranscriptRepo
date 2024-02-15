@@ -1,39 +1,25 @@
 import React from 'react';
 import './mobileMenu.css'
 
-import {HiOutlineBellAlert, HiOutlineBuildingOffice2} from 'react-icons/hi2'
+import {HiOutlineBellAlert, HiOutlineBuildingOffice2, HiOutlineUser} from 'react-icons/hi2'
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 function MobileMenu() {
 
     const menuItems = [
-        {
-            title: 'Home',
-            path: '',
-            isActive: false,
-            icon: <HiOutlineBuildingOffice2 size={30}/>
-        },
+        // {
+        //     title: 'Home',
+        //     path: '',
+        //     isActive: false,
+        //     icon: <HiOutlineBuildingOffice2 size={30}/>
+        // },
 
         {
-            title: 'Home',
-            path: '',
+            title: 'Login/SignUp',
+            path: '/selectlogin',
             isActive: false,
-            icon: <HiOutlineBuildingOffice2 size={30}/>
-        },
-
-        {
-            title: 'Home',
-            path: '',
-            isActive: true,
-            icon: <HiOutlineBuildingOffice2 size={30}/>
-        },
-
-        {
-            title: 'Home',
-            path: '',
-            isActive: false,
-            icon: <HiOutlineBuildingOffice2 size={30}/>
+            icon: <HiOutlineUser size={30}/>
         },
     ]
 

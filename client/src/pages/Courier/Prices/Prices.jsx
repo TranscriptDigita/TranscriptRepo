@@ -1,138 +1,104 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import Axios from 'axios';
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, Modal } from '@mui/material';
 
-const SetDeliveryPrice = () => {
-  const [formData, setFormData] = useState({
-    weDoInternationalDelivery: '',
-    localDeliveryPrice: '',
-    internationalDeliveryPrice: '',
-  });
+function SetDeliveryPrice() {
+    const { id, token } = useParams();
+    const [formData, setFormData] = useState({
+        weDoInternationalDelivery: '',
+        localDeliveryPrice: '',
+        internationalDeliveryPrice: ''
+    });
 
-  const [priceUpdates, setPriceUpdates] = useState([]);
-  const { id, token } = useParams();
-  useEffect(() => {
-    // Fetch price updates when the component mounts
-    fetchPriceUpdates();
-  }, []);
+    const [showModal, setShowModal] = useState(false);
+    const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => setShowModal(true);
 
-  const inputChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
-  const fetchPriceUpdates = async () => {
-    try {
-      // Fetch price updates from the server
-      const response = await axios.get('https://your-api-base-url/price-updates', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    const handleSubmit = async () => {
+        try {
+            const response = await Axios.patch(`https://dacs.onrender.com/api/v1/courier-service/set-price/${id}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            console.log('Response:', response.data);
+             // Show the success modal
+      handleShowModal();
+            // Handle success
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle error
+        }
+    };
 
-      // Update the state with fetched data
-      setPriceUpdates(response.data);
-    } catch (error) {
-      console.error('API Error:', error);
-    }
-  };
+    return (
+        <div className="mx-auto max-w-lg p-4">
+            <Typography variant="h5" gutterBottom>
+                Set Delivery Price
+            </Typography>
+            <FormControl fullWidth variant="outlined" margin="normal">
+                <InputLabel>Do you do international delivery? (Yes/No)</InputLabel>
+                <Select
+                    label="Do you do international delivery? (Yes/No)"
+                    name="weDoInternationalDelivery"
+                    value={formData.weDoInternationalDelivery}
+                    onChange={handleChange}
+                >
+                    <MenuItem value="true">Yes</MenuItem>
+                    <MenuItem value="false">No</MenuItem>
+                </Select>
+            </FormControl>
+            <TextField
+                fullWidth
+                label="Local Delivery Price (in naira)"
+                name="localDeliveryPrice"
+                value={formData.localDeliveryPrice}
+                onChange={handleChange}
+                variant="outlined"
+                margin="normal"
+            />
+            <TextField
+                fullWidth
+                label="International Delivery Price (in naira)"
+                name="internationalDeliveryPrice"
+                value={formData.internationalDeliveryPrice}
+                onChange={handleChange}
+                variant="outlined"
+                margin="normal"
+            />
+            <Button onClick={handleSubmit} variant="contained" style={{ backgroundColor: 'blue', color: 'white' }}>
+    Submit
+</Button>
 
-  const handlePatchDeliveryPrice = async () => {
-    try {
-      // Make the PATCH request to update delivery price
-      await axios.patch(`https://dacs.onrender.com/api/v1/courier-service/set-price/${id}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
 
-      // Fetch updated price updates after successful PATCH
-      fetchPriceUpdates();
-    } catch (error) {
-      console.error('API Error:', error);
-    }
-  };
 
-  return (
-    <div className='p-5'>
-      <div className='mb-4'>
-        <TextField
-          id='outlined-select-weDoInternationalDelivery'
-          select
-          label='International Delivery'
-          name='weDoInternationalDelivery'
-          value={formData.weDoInternationalDelivery}
-          onChange={inputChange}
-          variant='outlined'
-          fullWidth
-        >
-          <option value='true'>Yes</option>
-          <option value='false'>No</option>
-        </TextField>
-      </div>
-      <div className='mb-4'>
-        <TextField
-          id='outlined-number-localDeliveryPrice'
-          label='Local Delivery Price (in naira)'
-          type='number'
-          name='localDeliveryPrice'
-          value={formData.localDeliveryPrice}
-          onChange={inputChange}
-          variant='outlined'
-          fullWidth
-        />
-      </div>
-      <div className='mb-4'>
-        <TextField
-          id='outlined-number-internationalDeliveryPrice'
-          label='International Delivery Price (in naira)'
-          type='number'
-          name='internationalDeliveryPrice'
-          value={formData.internationalDeliveryPrice}
-          onChange={inputChange}
-          variant='outlined'
-          fullWidth
-        />
-      </div>
-      <div className='mb-4'>
-        <Button
-          variant='contained'
-          className='bg-[#6B3FA0] hover:bg-[#6B3FA0] lowercase'
-          onClick={handlePatchDeliveryPrice}
-        >
-          Set Delivery Price
-        </Button>
-      </div>
-      <div>
-        <h2 className='text-lg font-bold mb-2'>Price Updates</h2>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Timestamp</TableCell>
-                <TableCell>International Delivery</TableCell>
-                <TableCell>Local Delivery Price</TableCell>
-                <TableCell>International Delivery Price</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {priceUpdates.map((update) => (
-                <TableRow key={update.timestamp}>
-                  <TableCell>{update.timestamp}</TableCell>
-                  <TableCell>{update.weDoInternationalDelivery}</TableCell>
-                  <TableCell>{update.localDeliveryPrice}</TableCell>
-                  <TableCell>{update.internationalDeliveryPrice}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    </div>
-  );
-};
+                {/* Success Modal */}
+                <Modal open={showModal} onClose={handleCloseModal}>
+        <div className="bg-white p-4 rounded shadow-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <h3 className="text-xl font-semibold mb-2">Price Update</h3>
+          <p>Prices Updated Successfully</p>
+          <Button variant="contained" color="primary" style={{ backgroundColor: 'blue', color: 'white' }} onClick={handleCloseModal} fullWidth className="mt-4">
+            Close
+          </Button>
+        </div>
+      </Modal>
+
+
+
+
+        </div>
+
+
+
+
+
+    );
+}
 
 export default SetDeliveryPrice;

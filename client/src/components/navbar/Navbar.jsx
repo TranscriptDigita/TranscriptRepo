@@ -95,11 +95,7 @@ function Navbar() {
 
   const onLogout = () => {
     // Clear user data from local storage
-    localStorage.removeItem('user');
-    localStorage.removeItem('institutionUser');
-    localStorage.removeItem('staff');
-    localStorage.removeItem('stafftoken');
-    localStorage.removeItem('AdminUser');
+    localStorage.clear();
 
     // Dispatch logout and reset actions
     dispatch(logout());

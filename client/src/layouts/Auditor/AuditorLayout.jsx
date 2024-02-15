@@ -11,6 +11,7 @@ import {
 } from 'react-icons/hi2';
 import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
+import Logout from '../../pages/Logout/Logout';
 
 function AuditorLayout() {
 
@@ -93,8 +94,8 @@ console.log("Staff iiA", institutionId);
  
 
       {
-        title: 'Settings',
-        icon: <HiOutlineCog6Tooth size={20} />,
+        title: ' ',
+        icon: <Logout/>,
         path: ``,
       },
     
@@ -127,13 +128,13 @@ console.log("Staff iiA", institutionId);
         
         <div className="md:col-span-4 flex-1 flex flex-col">
           {/* Conditional rendering of the Navbar component */}
-          <div>
+          {/* <div>
           {showNavbar ? (
             <StaffNavBarB />
           ) : (
             <MobileNavBar /> // Render MobileNavBar when the screen is smaller
           )}
-          </div>
+          </div> */}
   
           <div className="flex-1 p-4 bg-slate-100 overflow-y-auto">
             {/* Use 'overflow-y-auto' to enable vertical scrolling */}

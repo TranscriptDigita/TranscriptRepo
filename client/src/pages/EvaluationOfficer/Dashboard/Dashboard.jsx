@@ -2,40 +2,30 @@
 import React from 'react'
 
 // components imports
-import { Sidebar } from '../../../components'
+import { Sidebar, StaffNavBar, StaffNavBarB } from '../../../components'
 
 // containers imports
 import { ChartSection, EvaluationGrid, NewRequest, RecentRequests, TranscriptData, TranscriptGrid } from '../../../containers'
 
 function Dashboard() {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-3 gap-x-4'>
-        <div className='md:col-span-2 flex flex-col gap-y-4'>
+   
+        <div className='md:col-span-2 flex flex-col gap-y-4 mt-10'>
+            <StaffNavBarB/>
             {/* charts section */}
             {/* <div className="flex flex-col bg-white rounded-md md:h-1/2">
                 <ChartSection/>
             </div> */}
 
             {/* recent request sction */}
-            <div className='flex flex-col h-[100%] rounded-md p-5 overflow-y-scroll bg-white'>
-                <h4 className='md:text-[18px] font-bold'>New Requests</h4>
+        
+                <h4 className='md:text-[18px] font-bold'>Document Requests (You Can Approve, Decline, And Verify A Document Request Under Actions)</h4>
                 {/* <RecentRequests/> */}
                 <NewRequest/>
-            </div>
+           
         </div>
 
-        <div className='flex flex-col gap-y-4'>
-            <div className='grid grid-cols-1 border rounded-md bg-white p-5'>
-            <TranscriptGrid title={`Completed Requests`} />
-             
-            </div>
-
-            {/* completed request section */}
-            <div className='grid grid-cols-1 p-5 rounded-md bg-white h-1/2'>
-            <EvaluationGrid title={'Pending Request'}/>
-            </div>
-        </div>
-    </div>  
+       
   )
 }
 

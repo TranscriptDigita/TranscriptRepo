@@ -199,6 +199,12 @@ function Progress() {
 
   return (
     <div>
+       
+      <button
+        onClick={() => window.open(`/receipt/${id}`, '_blank', 'width=600,height=400')}
+      >
+        View Receipt
+      </button>
       {/* Render the component for the active step */}
       <div>{steps[activeStep].component}</div>
       {/* Display transcript data if available */}

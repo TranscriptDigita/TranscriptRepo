@@ -63,6 +63,7 @@ function Signup() {
     location: '',
     password: '',
     confirmedPassword: '',
+    phoneNumber: '',
   });
 
   const inputChange = (e) => {
@@ -75,12 +76,13 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { name, emailAddress, location, password } = formData;
+    const { name, emailAddress, location, password, phoneNumber } = formData;
     const institutionData = {
       name,
       emailAddress,
       location,
       password,
+      phoneNumber,
     };
 
     try {
@@ -126,6 +128,14 @@ function Signup() {
                 type='text'
                 name='location'
                 value={formData.location}
+                onChange={inputChange}
+              />
+              <TextField
+                id='outlined-text-input'
+                label='Phone Number'
+                type='text'
+                name='phoneNumber'
+                value={formData.phoneNumber}
                 onChange={inputChange}
               />
               <TextField

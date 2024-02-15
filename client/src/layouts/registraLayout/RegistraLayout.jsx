@@ -10,6 +10,7 @@ import {
 } from 'react-icons/hi2';
 import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
+import Logout from '../../pages/Logout/Logout';
 
 function RegistraLayout() {
   // Retrieve user data from Redux state
@@ -56,6 +57,12 @@ function RegistraLayout() {
         icon: <HiOutlineCog6Tooth size={20} />,
         path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/change-password`,
       },
+
+      {
+        title: '',
+        icon: <Logout/>,
+        path: ``,
+      },
     
   ];
 
@@ -86,11 +93,11 @@ function RegistraLayout() {
   
         <div className="md:col-span-4 flex-1 flex flex-col">
           {/* Conditional rendering of the Navbar component */}
-          {showNavbar ? (
+          {/* {showNavbar ? (
             <Newnavbar />
           ) : (
             <MobileNavBar /> // Render MobileNavBar when the screen is smaller
-          )}
+          )} */}
   
           <div className="flex-1 p-4 bg-slate-100 overflow-y-auto">
             {/* Use 'overflow-y-auto' to enable vertical scrolling */}

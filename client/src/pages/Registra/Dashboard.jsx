@@ -159,7 +159,7 @@ function Dashboard() {
 
           {activeForm == 2 && (
             <div className='p-5'>
-            {window.innerWidth >= 768 ? (
+            
              <div className='flex flex-col gap-y-4'>
              <h4 className='col-span-2 font-bold'>Create Staff</h4>
              <span className='font-semibold'>Email: </span>
@@ -230,75 +230,12 @@ function Dashboard() {
                 <h4 className='col-span-2 font-bold'>Staff List</h4>
                <StaffList/>
               </div>
-              ) : (
-                <div className='flex flex-col gap-y-4'>
-             <h4 className='col-span-2 font-bold'>Create Staff</h4>
-             <span className='font-semibold'>Email: </span>
-             <input
-               type='text'
-               placeholder=''
-               value={email}
-               onChange={e => setEmail(e.target.value)}
-               className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-             />
-
-<span className='font-semibold'>Role: </span>
-             <input
-               type='text'
-               placeholder=''
-               value={role}
-               onChange={e => setRole(e.target.value)}
-               className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-             />
-           
-             {/* <span className='font-semibold'>Password: </span> */}
-             <div className='flex'>
-               {/* <input
-                 type='text'
-                 placeholder=''
-                 value={password}
-                 onChange={e => setPassword(e.target.value)}
-                 className='custom-dropdown border-2 border-black border-solid rounded-md p-2 flex-1'
-               /> */}
-               <button
-                 className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
-                 onClick={handleCreateStaff}
-               >
-                 Create
-               </button>
-
-               <button
-                 className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
-                 onClick={() => {
-                  setActiveForm(3); // Navigate to the next step
-                 
-                }}
-               >
-                 Skip To Banking And Documents
-               </button>
-
-               
-               <button
-                 className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
-                 onClick={() => {
-                  setActiveForm(1); // Navigate to the next step
-                 
-                }}
-               >
-                 Go Back
-               </button>
-             </div>
-          
-       
-                <h4 className='col-span-2 font-bold'>Staff List</h4>
-               <StaffList/>
-              </div>
-              )}
+              
             </div>
           )}
             {activeForm == 3 && (
             <div className='p-5'>
-            {window.innerWidth >= 768 ? (
+            
               <div className='flex flex-col gap-y-4'>
                 <h4 className='col-span-2 font-bold'>Account</h4>
                 <p className='font-light text-[14px]'>Please set price for documents obtainable from your institution</p>
@@ -374,42 +311,26 @@ function Dashboard() {
                 className='custom-textfield border-2 border-black border-solid rounded-md p-2'
                 />
 
-            <button
+            {/* <button
                     className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
                     onClick={handleSetBankAccount}
                   >
                     Save
-                  </button>
+                  </button> */}
 
 
                 </div>
                 </div>
 
-                                <span className='font-semibold'>Type of Document: </span>
-                <select
-                 
-                    className='custom-dropdown border-2 border-black border-solid rounded-md p-2 flex-1'
-                  >
-                    <option value='option1'>Select Document Type</option>
-                    <option value='Transcript(Official Copy)'>Transcript(Official Copy)</option>
-                    <option value='Transcript(Students Copy)'>Transcript(Students Copy)</option>
-                    <option value='Certificate'>Certificate</option>
-                    <option value='Statement Of Result'>Statement Of Result</option>
-                    {/* Add more options as needed */}
-                  </select>
-                  <span className='font-semibold'>Amount: </span>
+                
                  
                 <div className='flex'>
-                <input
-                    type='text' 
-                    placeholder='Set Price'
-                    className='custom-dropdown border-2 border-black border-solid rounded-md p-2 flex-1'
-                />
+               
                   <button
                     className='md:w-4/12 bg-purple-700 border-2 rounded-md p-2'
                     onClick={() => {
                       // Your onClick logic here
-                      setActiveForm(3);
+                      onClick={handleSetBankAccount}
                     }}
                   >
                     Create
@@ -429,10 +350,7 @@ function Dashboard() {
                 <h4 className='col-span-2 font-bold'>Staff List</h4>
                 <StaffList/>
               </div>
-              ) : (
-                <div className='md:w-8/12 m-auto p-5 flex flex-col items-center'>
-                   </div>
-              )}
+             
             </div>
           )}
 

@@ -4,13 +4,28 @@ import { TranscriptDataItem } from '../../../components';
 function TranscriptData({ title }) {
   const [transcriptData, setTranscriptData] = useState([]);
 
+  const getInstitutionName = () => {
+    const storedUserData = localStorage.getItem('institutionUser');
+    if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      return userDataObject?.institution?.name;
+    }
+    return null;
+  };
+
+  const institutionName = getInstitutionName();
+
   useEffect(() => {
     // Fetch data from the API
     fetch('https://dacs.onrender.com/api/v1/transcript')
       .then(response => response.json())
-      .then(data => setTranscriptData(data))
+      .then(data => {
+        // Filter transcripts based on institutionName
+        const filteredData = data.filter(item => item.institution === institutionName);
+        setTranscriptData(filteredData);
+      })
       .catch(error => console.error('Error fetching data:', error));
-  }, []);
+  }, [institutionName]);
 
   const getTotalTranscripts = () => transcriptData.length;
 

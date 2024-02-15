@@ -8,6 +8,7 @@ function Login() {
     emailAddress: '',
     password: '',
   });
+  
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = async () => {
@@ -23,7 +24,7 @@ function Login() {
       localStorage.setItem('courier', JSON.stringify(response.data));
   
       // Handle successful login
-      window.location.href = `/courier/${response.data.logistic._id}/${response.data.token}/dashboard`;
+      window.location.href = `/courier/${response.data.logistic._id}/${response.data.token}/courierprices`;
   
     } catch (error) {
       console.error('Login API Error:', error.response ? error.response.data : error.message);

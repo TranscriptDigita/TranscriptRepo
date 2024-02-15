@@ -17,7 +17,8 @@ function Dashboard() {
             </div>
 
             {/* recent request sction */}
-            <div className='flex flex-col h-[289px] rounded-md my-auto p-5 overflow-y-scroll bg-white'>
+            {/* <div className='flex flex-col h-[289px] rounded-md my-auto p-5 overflow-y-scroll bg-white'> */}
+            <div className='flex flex-col  rounded-md my-auto p-5 overflow-y-scroll bg-white'>
                 <h4 className='md:text-[18px] font-bold'>Recent Requests</h4>
                 <RecentRequests/>
             </div>
@@ -28,10 +29,10 @@ function Dashboard() {
                 <TranscriptData title={`Transcript Data`} />
             </div>
 
-            {/* completed request section */}
+            {/* completed request section
             <div className='grid grid-cols-1 p-5 rounded-md bg-white h-1/2'>
                 <TranscriptGrid title={`Completed Requests`} />
-            </div>
+            </div> */}
         </div>
     </div>  
   )

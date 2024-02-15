@@ -77,6 +77,7 @@ import {
   TranscriptGridItem,
   TranscriptDataItem,
   Progress,
+  Receipt,
 } from "./components";
 
 // redux imports
@@ -202,6 +203,14 @@ function App() {
           element: <VerifyCertificate/>,
           errorElement: <ErrorPage/>
         },
+
+        {
+          path: '/receipt/:id',
+          element: <Receipt/>,
+          errorElement: <ErrorPage/>
+        },
+
+
 
         {
           path: "/evaluationofficer",
@@ -391,7 +400,7 @@ function App() {
         },
 
         {
-          path: '/alumni/:data/transcripts/newrequest',
+          path: '/alumni/:data/:id/transcripts/newrequest',
            // replace with "user ? <NewTranscriptRequestPage/> : <Navigate to={`/alumni/login`} />" to use user to load page
           element: <NewTranscriptRequestPage/>,
           errorElement: <ErrorPage/>
@@ -416,7 +425,7 @@ function App() {
         },
 
         {
-          path: '/alumni/:id/settings',
+          path: '/alumni/:id/:token/settings',
           element: <Settings/>,
           errorElement: <ErrorPage/>
         },

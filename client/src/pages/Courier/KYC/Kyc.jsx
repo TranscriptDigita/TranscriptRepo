@@ -79,10 +79,10 @@ const KYCForm = () => {
   
   // const isKycSubmitted = Object.values(formData).every((value) => value !== '');
 
-  const isEditable = !Object.keys(formData).every((field) => getFieldFromLocalStorage(field) === null);
+  // const isEditable = !Object.keys(formData).every((field) => getFieldFromLocalStorage(field) === null);
 
 
-  const isKycSubmitted = !Object.keys(formData).every((field) => getFieldFromLocalStorage(field) === null);
+  // const isKycSubmitted = !Object.keys(formData).every((field) => getFieldFromLocalStorage(field) === null);
 
 
 
@@ -103,7 +103,7 @@ const KYCForm = () => {
           name="headOfficeAddress"
           value={formData.headOfficeAddress}
           onChange={handleChange}
-          disabled={isEditable}
+          
         />
 
         <TextField
@@ -114,7 +114,7 @@ const KYCForm = () => {
           name="contactPhoneNumber"
           value={formData.contactPhoneNumber}
           onChange={handleChange}
-          disabled={isEditable}
+          
         />
 
         <TextField
@@ -125,7 +125,7 @@ const KYCForm = () => {
           name="businessRegistrationNumber"
           value={formData.businessRegistrationNumber}
           onChange={handleChange}
-          disabled={isEditable}
+         
         />
 
         <TextField
@@ -136,7 +136,7 @@ const KYCForm = () => {
           name="directorName"
           value={formData.directorName}
           onChange={handleChange}
-          disabled={isEditable}
+          
         />
 
         <TextField
@@ -147,7 +147,7 @@ const KYCForm = () => {
           name="directorContactNumber"
           value={formData.directorContactNumber}
           onChange={handleChange}
-          disabled={isEditable}
+          
         />
 
         <FormControl variant="outlined" fullWidth style={{ marginBottom: '1rem' }}>
@@ -157,10 +157,12 @@ const KYCForm = () => {
             name="directorIdType"
             value={formData.directorIdType}
             onChange={handleChange}
-            disabled={isEditable}
+            
           >
-            <MenuItem value="ID Card">ID Card</MenuItem>
+            <MenuItem value="National ID Card">National ID Card</MenuItem>
             <MenuItem value="Passport">Passport</MenuItem>
+            <MenuItem value="Drivers License">Drivers License</MenuItem>
+            <MenuItem value="Voters Card">Voters Card</MenuItem>
           </Select>
         </FormControl>
 
@@ -172,7 +174,7 @@ const KYCForm = () => {
           name="directorIdNumber"
           value={formData.directorIdNumber}
           onChange={handleChange}
-          disabled={isEditable}
+          
         />
 
         <Button
@@ -181,9 +183,10 @@ const KYCForm = () => {
           type="submit"
           fullWidth
           style={{ marginTop: '1rem' }}
-          disabled={isKycSubmitted}
+        
         >
-          {isKycSubmitted ? 'Submit' : 'KYC Submitted'}
+          {/* {isKycSubmitted ? 'Submit' : 'KYC Submitted'} */}
+          Submit/Edit KYC
         </Button>
       </form>
 

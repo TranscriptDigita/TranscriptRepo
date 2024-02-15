@@ -5,16 +5,47 @@ import { Sidebar } from '../../components';
 import { HiOutlineRectangleGroup, HiViewfinderCircle, HiOutlineBell, HiOutlineCog6Tooth } from 'react-icons/hi2';
 import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
+import Logout from '../../pages/Logout/Logout';
 
 function AlumniLayout() {
   // Retrieve user data from Redux state
   const { user } = useSelector((state) => state.auth);
+
+  const getUserFullName = () => {
+    const storedUserData = localStorage.getItem('user');
+    if (storedUserData) {
+        const userDataObject = JSON.parse(storedUserData);
+        return userDataObject?.alumni?.fullName;
+      
+    }
+    return null;
+  };
+  
+  
+  
+  const userFullName = getUserFullName();
+  console.log("User Email:", userFullName);
+
+
+  const getUserToken = () => {
+    const storedUserData = localStorage.getItem('user');
+    if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      return userDataObject?.token;
+    }
+    return null;
+  };
+
+  const userToken = getUserToken();
+
+  console.log("User Token:", userToken);
 
   // Default user data in case user is not specified
   const defaultUser = { alumni: { _id: 'defaultUserId' } };
 
   // Define menu items, using defaultUser if user is not specified
   const menuItems = [
+    
     {
       title: 'Dashboard',
       icon: <HiOutlineRectangleGroup size={20} />,
@@ -34,7 +65,13 @@ function AlumniLayout() {
     {
       title: 'Settings',
       icon: <HiOutlineCog6Tooth size={20} />,
-      path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/settings`,
+      path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/${userToken}/settings`,
+    },
+
+    {
+      title: ' ',
+      icon: <Logout/>,
+      path: ` `,
     },
   ];
 
@@ -104,8 +141,11 @@ console.log("Stored User Data:", storedUserData);
 
   return (
     <div className="flex-1 grid grid-cols-1 w-full">
+      
+      
       {/* Sidebar */}
       <div className="md:grid md:grid-cols-5 w-full">
+        
         <div className="col-span-1">
           <Sidebar menuItems={menuItems} />
         </div>
@@ -114,19 +154,23 @@ console.log("Stored User Data:", storedUserData);
           {/* Newnavbar with notification count */}
           <Link to={`/alumni/${user?.alumni?._id || defaultUser.alumni._id}/alumninotification`}>
             <div className="flex items-center justify-end p-4">
+            {userFullName}
               <div className="relative">
+                
                 <HiOutlineBell size={40} />
                 {notificationCount > 0 && (
                   <div className="absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
                     {notificationCount}
                   </div>
-                )}
-              </div>
+                )} 
+              </div> 
             </div>
           </Link>
+         
 
           {/* Conditional rendering of the Navbar component */}
-          {showNavbar ? <Newnavbar /> : <MobileNavBar />} 
+          {/* {showNavbar ? <Newnavbar /> : <Newnavbar />}  */}
+          
           {/* Render MobileNavBar when the screen is smaller */}
 
           <div className="flex-1 p-4 bg-slate-100 overflow-y-auto">

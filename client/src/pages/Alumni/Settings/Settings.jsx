@@ -8,16 +8,19 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Settings() {
-    const { id } = useParams();
+    const { id, token } = useParams();
     const [formData, setFormData] = useState({
       emailAddress: '',
       fullname: '',
       verificationCode: '',  // Remove the default verification code
       newPassword: '',
       confirmPassword: '',
+      phoneNumber: '',
     });
   
     const [showPasswordFields, setShowPasswordFields] = useState(false);
+    const [showUpdateRecordsFields, setShowUpdateRecordsFields] = useState(false);
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { isLoading } = useSelector((state) => state.institution);
@@ -53,6 +56,51 @@ function Settings() {
         [e.target.name]: e.target.value,
       }));
     };
+
+
+
+
+
+    const handleUpdateRecord = async () => {
+      try {
+        const response = await fetch(`https://dacs.onrender.com/api/v1/alumnus/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            _id: id, // Include the _id field
+            fullName: formData.fullName,
+            phoneNumber: formData.phoneNumber,
+            emailAddress: formData.emailAddress,
+            // Include other fields as needed
+          })
+        });
+    
+        // Check if the request was successful (status code 2xx)
+        if (response.ok) {
+          // Reload the page if the update was successful
+          window.location.reload();
+        } else {
+          // Handle other non-successful responses
+          console.error('Failed to update alumni record:', response.statusText);
+          // toast.error('Failed to update alumni record. Please try again later.');
+        }
+      } catch (error) {
+        console.error('Error updating alumni record:', error);
+        toast.error('Error updating alumni record. Please try again later.');
+      }
+    };
+    
+    
+    
+    
+
+
+
+
+
   
     const handlePasswordChange = async () => {
       try {
@@ -179,6 +227,44 @@ function Settings() {
                 />
               </>
             )}
+
+
+
+              {showUpdateRecordsFields && (
+              <>
+                <TextField
+                  id="full-name"
+                  type="text"
+                  name="fullName"
+                  label="Full Name"
+                  value={formData.fullName}
+                  onChange={inputChange}
+                 
+                />
+               
+  
+                <TextField
+                  id="phone-number"
+                  type="text"
+                  name="phoneNumber"
+                  label="Phone Number"
+                  value={formData.phoneNumber}
+                  onChange={inputChange}
+                />
+  
+                <TextField
+                  id="email-address"
+                  type="text"
+                  name="emailAddress"
+                  label="Email Address"
+                  value={formData.emailAddress}
+                  onChange={inputChange}
+                />
+              </>
+            )}
+
+
+
           </div>
   
           <Button
@@ -192,15 +278,19 @@ function Settings() {
             {showPasswordFields ? 'Change Password' : 'Send Reset Password Email'}
           </Button>
   
-          <Link to={`/institution/signup`}>
+          
             <Button
               variant="text"
               className="bg-[#CCCCCC] text-slate-900 hover:bg-[#CCCCCC]"
               style={{ width: '100%' }}
+              onClick={() => {
+                setShowUpdateRecordsFields(!showUpdateRecordsFields);
+                handleUpdateRecord();
+              }}
             >
-              <span style={{ textAlign: 'center', color: 'white' }}>Update Record</span>
+              <span style={{ textAlign: 'center', color: 'white' }}> {showUpdateRecordsFields ? 'Submit' : 'Update Record'}</span>
             </Button>
-          </Link>
+        
         </div>
          {/* Toast container for showing success messages */}
     <ToastContainer />

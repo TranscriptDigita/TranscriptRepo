@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Transactions, NewRequestA } from '../../../containers';
 
 function Dashboard() {
-  const [activeSection, setActiveSection] = useState('transactions');
+  const [activeSection, setActiveSection] = useState('requests');
 
   const handleButtonClick = (section) => {
     setActiveSection(section);

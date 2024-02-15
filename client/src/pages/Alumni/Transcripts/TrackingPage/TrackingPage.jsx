@@ -51,7 +51,8 @@ function TrackingPage() {
         <Table headers={[{ title: 'Available transcripts' }]} item={transcripts.map((transcript) => (
           <TranscriptGridItemProgress
             key={transcript._id}
-            data={transcript.institution}
+            data={transcript.institutionName}
+            dataa={transcript.typeOfDocument}
             id={transcript._id}  // Display institution name
             icon={<HiChevronRight />}
             // You can customize the content based on your requirements

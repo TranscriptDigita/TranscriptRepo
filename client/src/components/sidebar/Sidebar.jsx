@@ -3,6 +3,7 @@ import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu"; // Import the Menu icon from Material-UI
 import "./Sidebar.css"; // Import a CSS file for styling
+import Logout from "../../pages/Logout/Logout";
 
 function Sidebar({ menuItems, name }) {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -28,6 +29,7 @@ function Sidebar({ menuItems, name }) {
       className={`sidebar-container ${isSidebarOpen ? "open" : ""}`}
       style={{ width: isSidebarOpen ? "" : "0px" }}
     >
+      
       <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         {/* Use the Menu icon instead of the divs */}
         <button

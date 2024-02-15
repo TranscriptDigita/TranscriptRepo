@@ -6,7 +6,7 @@ import { Link, useNavigate  } from 'react-router-dom'
 
 import { Button } from '@mui/material'
 
-function  TranscriptGridItemProgress({ data, icon, selectedInstitutionName, id }) {
+function  TranscriptGridItemProgress({ data, icon, selectedInstitutionName, id, dataa }) {
  
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ function  TranscriptGridItemProgress({ data, icon, selectedInstitutionName, id }
     <div className='flex w-full items-center rounded-lg justify-between md:p-4 p-2 bg-[#6B3FA0] cursor-pointer bg-opacity-5 hover:border hover:border-[#6B3FA0]'>
         
         <Button className={``}>
-          <h4 className='md:text-[14px]'>{data}</h4>
+          <h4 className='md:text-[14px]'>{data} ({dataa})</h4>
           <h4 className='md:text-[14px] invisible'>{id}</h4>
 
         </Button>

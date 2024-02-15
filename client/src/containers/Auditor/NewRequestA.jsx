@@ -3,8 +3,21 @@ import Axios from 'axios'; // Import Axios for making HTTP requests
 import RecentTranscriptTable from '../../components/table/RecentTranscriptTable';
 import { NewRequestTable } from '../../components';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function NewRequestA() {
+
+
+  const getStaffInstitutionId = () => {
+    const storedUserData = localStorage.getItem('staff');
+    if (storedUserData) {
+        const userDataObject = JSON.parse(storedUserData);
+        return userDataObject?.institution;
+    }
+    return null;
+};
+const institutionId = getStaffInstitutionId();
+
   const [transcripts, setTranscripts] = useState([]); // State variable to store transcript data
     // State to hold the alumni data
     const [alumniData, setAlumniData] = useState({});
@@ -135,31 +148,47 @@ function NewRequestA() {
     {
       title: 'Action'
     },
+    {
+      title: 'Receipt'
+    },
   ];
 
-  // Map the transcripts data to match the table headers
-  const formattedItems = transcripts.map((transcript) => ({
-    'Name': alumniData[transcript.createdBy]?.fullName || 'No name In the Api Response',
-    'Course': transcript.program,
-    'Year Graduated': transcript.yearOfGraduation,
-    'Status': transcript.isQuerried === true ? 'Queried' : 'Not Queried', // Directly use isQueried property,
-    'Request Number': transcript.referenceId,
-    'Action': (
-        <select onChange={(e) => {
-          switch (e.target.value) {
-            case 'query':
-              handleQuery(transcript._id);
-              break;
-            default:
-              break;
-          }
-        }}>
-          <option value="submit"> select</option>
-          <option value="query">Query</option>
-        </select>
-      ),
-   
-  }));
+ // Filter transcripts based on institutionId
+const filteredTranscripts = transcripts.filter(transcript => transcript.institutionId === institutionId);
+
+// Reverse the filtered transcripts array
+const reversedFilteredTranscripts = filteredTranscripts.reverse();
+
+// Map the reversed filtered transcripts data to match the table headers
+const formattedItems = reversedFilteredTranscripts.map((transcript) => ({
+  'Name': alumniData[transcript.createdBy]?.fullName || 'No name In the Api Response',
+  'Course': transcript.program,
+  'Year Graduated': transcript.yearOfGraduation,
+  'Status': transcript.isQuerried === true ? 'Queried' : 'Not Queried', // Directly use isQueried property,
+  'Request Number': transcript.referenceId,
+  'Action': (
+      <select onChange={(e) => {
+        switch (e.target.value) {
+          case 'query':
+            handleQuery(transcript._id);
+            break;
+          default:
+            break;
+        }
+      }}>
+        <option value="submit"> select</option>
+        <option value="query">Query</option>
+      </select>
+    ),
+
+    'Receipt': (
+      <button
+        onClick={() => window.open(`/receipt/${transcript._id}`, '_blank', 'width=600,height=400')}
+      >
+        View Receipt
+      </button>
+    ),
+}));
 
 //   console.log(formattedItems);
 

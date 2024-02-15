@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function UniversityProfile() {
@@ -67,9 +68,11 @@ function UniversityProfile() {
       // Check if the response status is ok (2xx status code)
       if (response.ok) {
         console.log('File uploaded successfully!');
+        toast.success('File uploaded successfully!');
         // Add further logic as needed (e.g., display success message, navigate to another page)
       } else {
         console.error('File upload failed:', response.statusText);
+        toast.error('File upload Failed');
         // Handle error, display error message, etc.
       }
     } catch (error) {
@@ -288,7 +291,7 @@ function UniversityProfile() {
                 className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
                 onClick={handleFileUpload}
               >
-                Submit11
+                Submit
               </button>
 
                  
@@ -313,6 +316,7 @@ function UniversityProfile() {
           )}
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 }
