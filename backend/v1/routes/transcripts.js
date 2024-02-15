@@ -40,6 +40,12 @@ router.route(`/delivery-method/:transcriptId`)
 //get transcript payment deta
 router.route('/payment-data/:referenceId')
     .get(paymentController.getPaymentData);
+
+//get transcript payments by institution
+router.route('/institution/payments/:institutionId')
+    .get(paymentController.getPaymentData);
+
+
 // export router
 
 module.exports = router

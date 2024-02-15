@@ -12,6 +12,8 @@ const mongoose = require('mongoose'),
 // ==== creating Alumni schema =====
 // =================================
 const paymentsSchema = new mongoose.Schema({
+    institutionId: { type: String, required: true },
+    alumniName: { type: String, required: true },
     reference: { type: String, required: true },
     paymentStatus: { type: String, required: true },
     amount: { type: Number, required: true },
@@ -28,21 +30,21 @@ const paymentsSchema = new mongoose.Schema({
 // ==================================
 
 // create payements function
-paymentsSchema.statics.createPayment = async function(reference, paymentStatus, amount, paidAt, paymentChennel, currency, paymentAccountName, bank) {
+paymentsSchema.statics.createPayment = async function(institutionId, alumniName, reference, paymentStatus, amount, paidAt, paymentChennel, currency, paymentAccountName, bank) {
 
     // check if all inputs are filled
-    if (!reference || !paymentStatus || !amount || !paidAt || !paymentChennel || !currency || !paymentAccountName || !bank) {
+    if (!institutionId || !alumniName || !reference || !paymentStatus || !amount || !paidAt || !paymentChennel || !currency || !paymentAccountName || !bank) {
         throw Error('all fields are required')
     }
 
     // creating new payment details in database
-    const payData = await this.create({ reference, paymentStatus, amount, paidAt, paymentChennel, currency, paymentAccountName, bank })
+    const payData = await this.create({ institutionId, alumniName, reference, paymentStatus, amount, paidAt, paymentChennel, currency, paymentAccountName, bank })
 
     // returning the saved data
     console.log(payData)
 }
 
-// login user
+// Fetch payment by Id
 paymentsSchema.statics.getByReferenceNumber = async function(referenceId) {
     // validation
     if (!referenceId) {
@@ -55,6 +57,24 @@ paymentsSchema.statics.getByReferenceNumber = async function(referenceId) {
     // not exist throw error   
     if (!d) {
         throw Error('No resource found with this referenceId')
+    }
+
+    return d;
+}
+
+// Fetch all payments by institutionId
+paymentsSchema.statics.getAllPaymentsByInstitutionId = async function(referenceId) {
+    // validation
+    if (!institutionId) {
+        throw Error('Reference Id is required!')
+    }
+
+    // find an referenceId in database   
+    const d = await this.find({ institutionId: institutionId })
+
+    // not exist throw error   
+    if (!d) {
+        throw Error('No payment record found!')
     }
 
     return d;

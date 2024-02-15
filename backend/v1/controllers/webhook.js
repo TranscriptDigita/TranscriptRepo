@@ -7,31 +7,32 @@ const crypto = require('crypto');
 const secret = process.env.SECRET_KEY;
 // webhook controller
 const webhook = async(req, res) => {
-    //validate event
-    const event = req.body;
-    if (event.data.status == "success") {
-        const reference = event.data.reference,
-            paymentStatus = event.data.status,
-            amount = event.data.amount / 100,
-            paid_at = event.data.paid_at,
-            created_at = event.data.created_at,
-            channel = event.data.channel,
-            currency = event.data.currency,
-            payeeAcctName = event.data.authorization.account_name,
-            bank = event.data.authorization.bank,
-            alumniEmail = event.data.customer.email
-        let paymentData = {
-            reference: reference,
-            paymentStatus: paymentStatus,
-            amount: amount,
-            createdAt: created_at,
-            paidAt: paid_at,
-            paymentChennel: channel,
-            currency: currency,
-            paymentAccountName: payeeAcctName,
-            bank: bank,
-        }
-        try {
+    try {
+        //validate event
+        const event = req.body;
+        if (event.data.status == "success") {
+            const reference = event.data.reference,
+                paymentStatus = event.data.status,
+                amount = event.data.amount / 100,
+                paid_at = event.data.paid_at,
+                created_at = event.data.created_at,
+                channel = event.data.channel,
+                currency = event.data.currency,
+                payeeAcctName = event.data.authorization.account_name,
+                bank = event.data.authorization.bank,
+                alumniEmail = event.data.customer.email
+            let paymentData = {
+                reference: reference,
+                paymentStatus: paymentStatus,
+                amount: amount,
+                createdAt: created_at,
+                paidAt: paid_at,
+                paymentChennel: channel,
+                currency: currency,
+                paymentAccountName: payeeAcctName,
+                bank: bank,
+            }
+
             const findTranscript = await Transcripts.findOne({ _id: reference })
                 // If record found
             if (!findTranscript) {
@@ -61,14 +62,17 @@ const webhook = async(req, res) => {
             findTranscript.amountPaid = amount;
             await findTranscript.save();
             await Alumni.updateOne({ emailAddress: alumniEmail }, { $push: { paymentDetails: paymentData } })
-                // create payment Details
-            const payD = await Payments.createPayment(reference, paymentStatus, inAmount, paid_at, channel, currency, payeeAcctName, bank, );
+            const alum = await Alumni.findOne({ emailAddress: alumniEmail });
+            let alumniName = alum.fullName;
+            // create payment Details
+            const payD = await Payments.createPayment(institutionId, alumniName, reference, paymentStatus, inAmount, paid_at, channel, currency, payeeAcctName, bank, );
             console.log(payD);
-        } catch (error) {
-            console.log(error.message)
+
         }
+        res.sendStatus(200);
+    } catch (error) {
+        console.log(error.message)
     }
-    res.sendStatus(200);
 }
 
 // export webhook controller
