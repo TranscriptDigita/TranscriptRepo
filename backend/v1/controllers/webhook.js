@@ -10,7 +10,7 @@ const webhook = async(req, res) => {
     try {
         //validate event
         const event = req.body;
-        console, log(event);
+        console.log(event);
         if (event.data.status == "success") {
             const reference = event.data.reference,
                 paymentStatus = event.data.status,
