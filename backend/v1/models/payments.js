@@ -13,6 +13,7 @@ const mongoose = require('mongoose'),
 // =================================
 const paymentsSchema = new mongoose.Schema({
     institutionId: { type: String, required: true },
+    institutionName: { type: String, required: true },
     alumniName: { type: String, required: true },
     reference: { type: String, required: true },
     paymentStatus: { type: String, required: true },
@@ -30,15 +31,15 @@ const paymentsSchema = new mongoose.Schema({
 // ==================================
 
 // create payements function
-paymentsSchema.statics.createPayment = async function(institutionId, alumniName, reference, paymentStatus, amount, paidAt, paymentChennel, currency, paymentAccountName, bank) {
+paymentsSchema.statics.createPayment = async function(institutionId, institutionName, alumniName, reference, paymentStatus, amount, paidAt, paymentChennel, currency, paymentAccountName, bank) {
 
     // check if all inputs are filled
-    if (!institutionId || !alumniName || !reference || !paymentStatus || !amount || !paidAt || !paymentChennel || !currency || !paymentAccountName || !bank) {
+    if (!institutionId || !institutionName || !alumniName || !reference || !paymentStatus || !amount || !paidAt || !paymentChennel || !currency || !paymentAccountName || !bank) {
         throw Error('all fields are required')
     }
 
     // creating new payment details in database
-    const payData = await this.create({ institutionId, alumniName, reference, paymentStatus, amount, paidAt, paymentChennel, currency, paymentAccountName, bank })
+    const payData = await this.create({ institutionId, institutionName, alumniName, reference, paymentStatus, amount, paidAt, paymentChennel, currency, paymentAccountName, bank })
 
     // returning the saved data
     console.log(payData)
@@ -63,14 +64,14 @@ paymentsSchema.statics.getByReferenceNumber = async function(referenceId) {
 }
 
 // Fetch all payments by institutionId
-paymentsSchema.statics.getAllPaymentsByInstitutionId = async function(institutionName) {
+paymentsSchema.statics.getAllPaymentsByInstitutionId = async function(institutionId) {
     // validation
-    if (!institutionName) {
+    if (!institutionId) {
         throw Error('Reference Id is required!')
     }
 
     // find an referenceId in database   
-    const d = await this.find({ institutionId: institutionName })
+    const d = await this.find({ institutionId: institutionId })
 
     // not exist throw error   
     if (!d) {

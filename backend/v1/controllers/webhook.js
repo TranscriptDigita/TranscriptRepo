@@ -92,7 +92,7 @@ const webhook = async(req, res) => {
             let alumniName = alum.fullName;
             let institutionName = findInstitution.name;
             // create payment Details
-            const payD = await Payments.createPayment(institutionName, alumniName, reference, paymentStatus, inAmount, paid_at, channel, currency, payeeAcctName, bank, );
+            const payD = await Payments.createPayment(institutionId, institutionName, alumniName, reference, paymentStatus, inAmount, paid_at, channel, currency, payeeAcctName, bank, );
             console.log(payD);
 
         }

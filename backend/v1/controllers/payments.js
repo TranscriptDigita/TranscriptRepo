@@ -3,13 +3,13 @@ const Payments = require('../models/payments');
 
 const getPaymentData = async(req, res) => {
     try {
-        const { referenceId, institutionName } = req.params
+        const { referenceId, institutionId } = req.params
         if (referenceId) {
             const payData = await Payments.getByReferenceNumber(referenceId);
             return res.json(payData);
-        } else if (institutionName) {
+        } else if (institutionId) {
             // 
-            const payData = await Payments.getAllPaymentsByInstitutionId(institutionName);
+            const payData = await Payments.getAllPaymentsByInstitutionId(institutionId);
             return res.json(payData);
         }
     } catch (error) {
