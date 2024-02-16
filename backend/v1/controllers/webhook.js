@@ -12,16 +12,30 @@ const webhook = async(req, res) => {
         const event = req.body;
         console.log(event);
         if (event.data.status == "success") {
-            const reference = event.data.reference,
-                paymentStatus = event.data.status,
-                amount = event.data.amount / 100,
-                paid_at = event.data.paid_at,
-                created_at = event.data.created_at,
-                channel = event.data.channel,
-                currency = event.data.currency,
-                payeeAcctName = event.data.authorization.account_name,
-                bank = event.data.authorization.bank,
-                alumniEmail = event.data.customer.email
+            var reference, paymentStatus, amount, paid_at, created_at, channel, currency, payeeAcctName, bank, alumniEmail;
+            if (event.data.channel == "card") {
+                reference = event.data.reference,
+                    paymentStatus = event.data.status,
+                    amount = event.data.amount / 100,
+                    paid_at = event.data.paid_at,
+                    created_at = event.data.created_at,
+                    channel = event.data.channel,
+                    currency = event.data.currency,
+                    payeeAcctName = event.data.authorization.account_name,
+                    bank = event.data.authorization.bank,
+                    alumniEmail = event.data.customer.email
+            } else if (event.data.channel == "bank_transfer") {
+                reference = event.data.reference,
+                    paymentStatus = event.data.status,
+                    amount = event.data.amount / 100,
+                    paid_at = event.data.paid_at,
+                    created_at = event.data.created_at,
+                    channel = event.data.channel,
+                    currency = event.data.currency,
+                    payeeAcctName = event.data.authorization.sender_name,
+                    bank = event.data.authorization.sender_bank,
+                    alumniEmail = event.data.customer.email
+            }
             let paymentData = {
                 reference: reference,
                 paymentStatus: paymentStatus,
