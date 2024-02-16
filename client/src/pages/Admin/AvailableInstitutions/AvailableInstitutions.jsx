@@ -3,6 +3,7 @@ import { HiChevronRight } from 'react-icons/hi';
 import { Table, TableA, TranscriptGridItemAdmin } from '../../../components';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'; // Import Link from react-router-dom
+import { useLocation } from 'react-router-dom';
 
 function AvailableInstitutions() {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ function AvailableInstitutions() {
       </div>
 
       <div className="flex flex-col gap-y-5">
-        <TableA headers={[{ title: 'Available Institutions' }]} item={institutions.map((institution) => (
+        <TableA headers={[{ title: 'Available Institutions (Select Institution To Review Staffs And Transactions )' }]} item={institutions.map((institution) => (
           <TranscriptGridItemAdmin
           key={institution._id}
           id={institution._id}

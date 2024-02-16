@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StaffListTable } from '../../../components';
-import { Logs, RecentRequests, StaffList, StudentList, TranscriptData } from '../../../containers';
+import { Logs, RecentRequests, StaffList, StudentList, TranscriptData, TranscriptsA } from '../../../containers';
 import StaffListA from '../../../containers/Admin/StaffListA';
 import ResultsTable from '../../../containers/Admin/ResultsTable';
 import TranscriptGridAdmin from '../../../components/transcriptGridItem/TranscriptGridItemAdmin';
@@ -21,7 +21,7 @@ function InstitutionTables(props) {
     <div className="flex items-start justify-between gap-5 mt-3.5 max-md:max-w-full max-md:flex-wrap max-md:justify-center">
     <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
   <div className="text-zinc-800 text-lg font-semibold px-6 py-4">All Schools</div>
-  {['student', 'staff', 'logs', 'Results', 'Transcript', 'Transactions'].map((button) => (
+  {['student', 'staff', 'logs', 'Results', 'Transcript'].map((button) => (
     <button
       key={button}
       className={`text-sm font-semibold whitespace-nowrap px-6 py-4 rounded-md ${
@@ -48,7 +48,7 @@ function InstitutionTables(props) {
       {activeButton === 'student' && <StudentList />}
       {activeButton === 'logs' && <Logs />}
       {activeButton === 'Results' && <ResultsTable />} 
-      {activeButton === 'Transcript' && <RecentRequests />} 
+      {activeButton === 'Transcript' && <TranscriptsA />} 
 
       {/* Add more conditions for other categories if needed */}
     </div>

@@ -1,24 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import { NewRequestTable, TransactionsTable } from '../../components';
+
 import { useParams } from 'react-router-dom';
+import { TransactionsTable } from '../../../components';
 
-function Transactions() {
+function TransactionsB() {
   const [payments, setPayments] = useState([]);
-  const getStaffInstitutionId = () => {
-    const storedUserData = localStorage.getItem('staff');
-    if (storedUserData) {
-        const userDataObject = JSON.parse(storedUserData);
-        return userDataObject?.institution;
-      
-    }
-    return null;
-};
-
-const institutionId = getStaffInstitutionId();
-
+ const {id} = useParams();
   useEffect(() => {
-    const apiUrl = `https://dacs.onrender.com/api/v1/transcript/institution/payments/${institutionId}`;
+    const apiUrl = `https://dacs.onrender.com/api/v1/transcript/institution/payments/${id}`;
 
     Axios.get(apiUrl)
       .then((response) => {
@@ -27,7 +17,7 @@ const institutionId = getStaffInstitutionId();
       .catch((error) => {
         console.error('Error fetching payments:', error);
       });
-  }, [institutionId]);
+  }, [id]);
 
   const headers = [
     { title: 'Alumni Name' },
@@ -64,4 +54,4 @@ const institutionId = getStaffInstitutionId();
   );
 }
 
-export default Transactions;
+export default TransactionsB;

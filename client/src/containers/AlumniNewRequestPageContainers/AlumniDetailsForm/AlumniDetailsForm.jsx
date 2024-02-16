@@ -877,6 +877,10 @@ const fetchInvoiceData = () => {
                                      <td className="border px-4 py-2">{invoiceData.currency}</td>
                                  </tr>
                                  <tr>
+                                     <td className="border px-4 py-2">Amount</td>
+                                     <td className="border px-4 py-2">{invoiceData.amount}</td>
+                                 </tr>
+                                 <tr>
                                      <td className="border px-4 py-2">Account Name</td>
                                      <td className="border px-4 py-2">{invoiceData.paymentAccountName}</td>
                                  </tr>

@@ -11,7 +11,7 @@ function  TranscriptGridAdmin({ data, icon, selectedInstitutionName, id }) {
   const navigate = useNavigate();
 
   const handleLinkClick = () => {
-    navigate(`/alumni/${data}/${id}/transcripts/newrequest`, { state: { data, id } });
+    // navigate(`/alumni/${data}/${id}/transcripts/newrequest`, { state: { data, id } });
     console.log("Value of data:", data);
   };
 

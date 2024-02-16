@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { StaffListTable } from '../../../components';
-import { Logs, StaffList, StaffListI, StudentList } from '../../../containers';
+import { Logs, StaffList, StaffListI, StudentList, TransactionsB } from '../../../containers';
 import StaffListA from '../../../containers/Admin/StaffListA';
 import { useParams } from 'react-router-dom';
 function InstitutionTablesA(props) {
 
 
   
-    const [activeButton, setActiveButton] = useState('student');
+    const [activeButton, setActiveButton] = useState('staff');
     const { data } = useParams(); 
 
     const handleButtonClick = (button) => {
@@ -21,7 +21,7 @@ function InstitutionTablesA(props) {
     <div className="flex items-start justify-between gap-5 mt-3.5 max-md:max-w-full max-md:flex-wrap max-md:justify-center">
       <div className="flex flex-row space-x-4">
         <div className="text-zinc-800 text-lg font-semibold px-6 py-4">{data}</div>
-        {['staff'].map((button) => (
+        {['staff', 'transactions'].map((button) => (
           <button
             key={button}
             className={`text-sm font-semibold whitespace-nowrap px-6 py-4 rounded-md ${
@@ -44,6 +44,8 @@ function InstitutionTablesA(props) {
 
     <div className="mt-10">
       {activeButton === 'staff' && <StaffListI />}
+      {activeButton === 'transactions' && <TransactionsB />}
+      
       
       {/* Add more conditions for other categories if needed */}
     </div>
