@@ -78,6 +78,7 @@ import {
   TranscriptDataItem,
   Progress,
   Receipt,
+  ReceiptA,
 } from "./components";
 
 // redux imports
@@ -208,6 +209,12 @@ function App() {
           path: '/receipt/:id',
           element: <Receipt/>,
           errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/receipt',
+          element: <ReceiptA/>,
+          errorElement: <ErrorPage/>,
         },
 
 

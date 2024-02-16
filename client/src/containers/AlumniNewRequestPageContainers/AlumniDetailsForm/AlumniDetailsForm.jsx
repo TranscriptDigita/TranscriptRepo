@@ -7,6 +7,24 @@ import { Grid, Typography, Paper, Button } from '@mui/material';
 
 function AlumniDetailsForm() {
 
+  // const handleDownloadClick = () => {
+  //   // Convert invoiceData to a string (you may need to adjust the format)
+  //   const dataString = JSON.stringify(invoiceData, null, 2);
+  //   // Create a Blob with the data
+  //   const blob = new Blob([dataString], { type: 'application/json' });
+  //   // Create a temporary URL for the Blob
+  //   const url = URL.createObjectURL(blob);
+  //   // Create a temporary link element
+  //   const link = document.createElement('a');
+  //   // Set the link's attributes
+  //   link.href = url;
+  //   link.download = 'invoice.json';
+  //   // Simulate a click on the link to trigger the download
+  //   link.click();
+  //   // Clean up by revoking the URL
+  //   URL.revokeObjectURL(url);
+  // };
+
 
 
   const getUserEmail = () => {
@@ -357,17 +375,17 @@ console.log("This is the user data from local storage:", userData);
 
 
 
-const fetchInvoiceData = () => {
-    if (transcriptId) {
-        fetch(`https://dacs.onrender.com/api/v1/transcript/payment-data/${transcriptId}`)
-            .then(response => response.json())
-            .then(data => {
-                setInvoiceData(data);
-                setActiveForm(5);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }
-};
+// const fetchInvoiceData = () => {
+//     if (transcriptId) {
+//         fetch(`https://dacs.onrender.com/api/v1/transcript/payment-data/${transcriptId}`)
+//             .then(response => response.json())
+//             .then(data => {
+//                 setInvoiceData(data);
+//                 setActiveForm(5);
+//             })
+//             .catch(error => console.error('Error fetching data:', error));
+//     }
+// };
 
 
 
@@ -796,9 +814,15 @@ const fetchInvoiceData = () => {
               <div className="max-w-md mx-auto mt-20 p-6 bg-white rounded-lg shadow-md">
               <h1 className="text-3xl font-semibold text-gray-800 mb-4">Payment Successful</h1>
               <p className="text-lg text-gray-600 mb-6">Your payment has been processed successfully.</p>
-              <button type='button' onClick={fetchInvoiceData} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              {/* <button type='button' onClick={fetchInvoiceData} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                   View Receipt
-              </button>
+              </button> */}
+              <button
+              type='button'
+              onClick={() => window.open(`/receipt`, '_blank', 'width=600,height=400')}
+            >
+              View Receipt
+            </button>
           </div>
           )}
 
@@ -854,7 +878,7 @@ const fetchInvoiceData = () => {
 
 <tr>
                                      <td className="border px-4 py-2">Institution Name</td>
-                                     <td className="border px-4 py-2">{invoiceData.institutionId}</td>
+                                     <td className="border px-4 py-2">{invoiceData.institutionName}</td>
                                  </tr> 
                                 <tr>
                                      <td className="border px-4 py-2">Id</td>
@@ -903,6 +927,9 @@ const fetchInvoiceData = () => {
 
                          </tbody>
                      </table>
+                     {/* <Button variant="contained" color="primary" onClick={handleDownloadClick}>
+          Download Invoice
+        </Button> */}
                  </div>
              </div>
          </div>
@@ -949,7 +976,7 @@ const fetchInvoiceData = () => {
                 Add Delivery Details
               </button>
 
-              <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
+              {/* <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
                onClick={() => {
                 setActiveForm(3); // Navigate to the previous step
                 // handleSubmit(); // Call handleSubmit
@@ -962,14 +989,14 @@ const fetchInvoiceData = () => {
                 // handleSubmit(); // Call handleSubmit
               }}>
                 Nexxxxx
-              </button>
+              </button> */}
             </div>
           )}
 
           {activeForm == 3 && (
             <div>
               {/* Added Link To the Table Items To Open The Request Track And Delivery Page */}
-              <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2 lowercase uppercase '>
+              {/* <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2 lowercase uppercase '>
                 Proceed
               </button>
               
@@ -979,24 +1006,24 @@ const fetchInvoiceData = () => {
                 // handleSubmit(); // Call handleSubmit
               }}>
                 Nexxxxx
-              </button>
+              </button> */}
             </div>
           )}
 
         {activeForm == 4 && (
             <div>
               {/* Added Link To the Table Items To Open The Request Track And Delivery Page */}
-              <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2 lowercase uppercase '>
+              {/* <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2 lowercase uppercase '>
                 Proceed
-              </button>
+              </button> */}
               
-              <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
+              {/* <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
                onClick={() => {
                 setActiveForm(3); // Navigate to the previous step
                 // handleSubmit(); // Call handleSubmit
               }}>
                 Prev
-              </button>
+              </button> */}
             </div>
           )}
         </form>

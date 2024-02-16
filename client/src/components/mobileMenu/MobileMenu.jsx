@@ -8,12 +8,12 @@ import { Link } from 'react-router-dom';
 function MobileMenu() {
 
     const menuItems = [
-        // {
-        //     title: 'Home',
-        //     path: '',
-        //     isActive: false,
-        //     icon: <HiOutlineBuildingOffice2 size={30}/>
-        // },
+        {
+            title: 'Home',
+            path: '/',
+            isActive: false,
+            icon: <HiOutlineBuildingOffice2 size={30}/>
+        },
 
         {
             title: 'Login/SignUp',
@@ -21,6 +21,8 @@ function MobileMenu() {
             isActive: false,
             icon: <HiOutlineUser size={30}/>
         },
+
+        
     ]
 
   return (

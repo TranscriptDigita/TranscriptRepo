@@ -66,7 +66,7 @@ return (
 
                                 <tr>
                                      <td className="border px-4 py-2">Institution Name</td>
-                                     <td className="border px-4 py-2">{invoiceData.institutionId}</td>
+                                     <td className="border px-4 py-2">{invoiceData.institutionName}</td>
                                  </tr> 
                                 <tr>
                                      <td className="border px-4 py-2">Id</td>

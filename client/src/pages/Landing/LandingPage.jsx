@@ -11,9 +11,12 @@ function LandingPage() {
       <Navbar/>
         <Header/>
         <WNU/>
+        <div id="services"></div>
         <Services/>
         <OurPartners/>
+        <div id="testimonials"></div>
         <Testimonials/>
+        <div id="contact"></div>
         <Contact/>
         <Footer/>
     </div>

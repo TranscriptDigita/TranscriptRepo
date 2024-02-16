@@ -229,26 +229,23 @@ function Navbar() {
                       TranscriptDigita
                     </Link>
                   </div>
-                  <div className="md:text-[14px] justify-evenly flex-1 hidden md:flex">
+                  <nav className="md:text-[14px] justify-evenly flex-1 hidden md:flex">
                   <Link to={`/`} className='flex'>
                             <p>Home</p>
                         </Link>
+                    {/* <div className='flex'>
+                      <a href="#wnu">About</a>
+                    </div> */}
+                    <div className='flex items-center gap-x-2'>
+                      <a href="#services">Services</a>
+                      {/* <HiChevronDown/> */}
+                    </div>
+                    <div className='flex items-center gap-x-2'>
+                      <a href="#contact">Contact</a>
+                      {/* <HiChevronDown/> */}
+                    </div>
+                  </nav>
 
-                        <div className='flex'>
-                            <Link>About</Link>
-                        </div>
-
-                        <div className='flex items-center gap-x-2'>
-                            <Link>Services</Link>
-                            <HiChevronDown/>
-                        </div>
-
-                        <div className='flex items-center gap-x-2'>
-                            <Link>Contact</Link>
-                            <HiChevronDown/>
-                        </div>
-                    
-                  </div>
                   <div>
                     <Link to={`/selectlogin`}>
                       <Button

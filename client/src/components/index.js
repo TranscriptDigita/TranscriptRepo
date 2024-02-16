@@ -26,3 +26,4 @@ export {default as CourierGridItems } from './transcriptGridItem/CourierGridItem
 export {default as SignInButton } from './mobileMenu/SignInButton'
 export {default as Receipt} from './Receipt/Receipt'
 export {default as TransactionsTable} from './table/TransactionsTable'
+export {default as ReceiptA} from './Receipt/ReceiptA'

@@ -44,7 +44,7 @@ function Contact() {
   };
 
   return (
-    <div className='flex-1 flex flex-col md:-mx-5'>
+    <div  className='flex-1 flex flex-col md:-mx-5'>
       <div className='flex flex-col items-center justify-items-center justify-center'>
         <div className='md:w-[1064px] md:h-[478px] md:p-5 p-3 bg-[#6B3FA0] bg-opacity-10 w-full grid grid-cols-1 md:grid-cols-2 my-12 items-center rounded-md'>
           <div className='flex flex-col gap-y-[16px]'>
