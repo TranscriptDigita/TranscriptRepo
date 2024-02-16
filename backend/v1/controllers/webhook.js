@@ -35,6 +35,17 @@ const webhook = async(req, res) => {
                     payeeAcctName = event.data.authorization.sender_name,
                     bank = event.data.authorization.sender_bank,
                     alumniEmail = event.data.customer.email
+            } else if (event.data.channel == "bank") {
+                reference = event.data.reference,
+                    paymentStatus = event.data.status,
+                    amount = event.data.amount / 100,
+                    paid_at = event.data.paid_at,
+                    created_at = event.data.created_at,
+                    channel = event.data.channel,
+                    currency = event.data.currency,
+                    payeeAcctName = "Not Available",
+                    bank = event.data.authorization.bank,
+                    alumniEmail = event.data.customer.email
             }
             let paymentData = {
                 reference: reference,
