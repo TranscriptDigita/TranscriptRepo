@@ -112,26 +112,26 @@ alumniSchema.statics.login = async function(emailAddress, password) {
 
 // send Alumni and email function
 alumniSchema.statics.sendEmail = async function(email, subject, message) {
-        // let transport = nodemailer.createTransport(smtpTransport({
-        //     service: 'gmail',
-        //     // host: process.env.EMAIL_HOST,
-        //     // secure: true,
-        //     // port: 465,
-        //     auth: {
-        //         user: process.env.EMAIL_USERNAME,
-        //         pass: process.env.EMAIL_PASSWORD
-        //     }
-        // }))
-        let transport = nodemailer.createTransport({
-            service: 'gmail',
-            // host: process.env.EMAIL_HOST,
-            // secure: true,
-            // port: 465,
-            auth: {
-                user: process.env.EMAIL_USERNAME,
-                pass: process.env.EMAIL_PASSWORD
-            }
-        })
+        let transport = nodemailer.createTransport(smtpTransport({
+                // service: 'gmail',
+                host: process.env.EMAIL_HOST,
+                secure: true,
+                port: 465,
+                auth: {
+                    user: process.env.EMAIL_USERNAME,
+                    pass: process.env.EMAIL_PASSWORD
+                }
+            }))
+            // let transport = nodemailer.createTransport({
+            //     service: 'gmail',
+            //     // host: process.env.EMAIL_HOST,
+            //     // secure: true,
+            //     // port: 465,
+            //     auth: {
+            //         user: process.env.EMAIL_USERNAME,
+            //         pass: process.env.EMAIL_PASSWORD
+            //     }
+            // })
 
         const info = await transport.sendMail({
             from: process.env.EMAIL_USERNAME,
@@ -140,7 +140,7 @@ alumniSchema.statics.sendEmail = async function(email, subject, message) {
             html: message
 
         }, (err, sent) => {
-            err ? console.log('error send email', err) : console.log('succesfully sent', sent)
+            err ? console.log('Error send email', err) : console.log('succesfully sent', sent)
 
         })
     }
