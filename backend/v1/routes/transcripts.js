@@ -42,7 +42,7 @@ router.route('/payment-data/:referenceId')
     .get(paymentController.getPaymentData);
 
 //get transcript payments by institution
-router.route('/institution/payments/:institutionId')
+router.route('/institution/payments/:institutionName')
     .get(paymentController.getPaymentData);
 
 

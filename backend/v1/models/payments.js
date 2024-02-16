@@ -63,14 +63,14 @@ paymentsSchema.statics.getByReferenceNumber = async function(referenceId) {
 }
 
 // Fetch all payments by institutionId
-paymentsSchema.statics.getAllPaymentsByInstitutionId = async function(institutionId) {
+paymentsSchema.statics.getAllPaymentsByInstitutionId = async function(institutionName) {
     // validation
-    if (!institutionId) {
+    if (!institutionName) {
         throw Error('Reference Id is required!')
     }
 
     // find an referenceId in database   
-    const d = await this.find({ institutionId: institutionId })
+    const d = await this.find({ institutionId: institutionName })
 
     // not exist throw error   
     if (!d) {
