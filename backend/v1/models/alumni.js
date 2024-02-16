@@ -116,7 +116,7 @@ alumniSchema.statics.sendEmail = async function(email, subject, message) {
                 // service: 'gmail',
                 host: process.env.EMAIL_HOST,
                 secure: true,
-                port: 465,
+                port: 587,
                 auth: {
                     user: process.env.EMAIL_USERNAME,
                     pass: process.env.EMAIL_PASSWORD
