@@ -75,8 +75,8 @@ exports.registerInstitution = async(req, res) => {
         const feedback = await Logs.logging(logger, logTime, logType, logerType);
         console.log(feedback);
         const txt = `Hi ${name}, welcome to Centralized Academic Credentials Services. Your verfication code is: ${verificationCode}`
-        await sendSMS(txt, phoneNumber);
-        // generate token
+            // await sendSMS(txt, phoneNumber);
+            // generate token
         const token = await createToken(institution._id)
 
         // send welcome email
