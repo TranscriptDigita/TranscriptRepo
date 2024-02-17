@@ -42,7 +42,7 @@ const HTML_TEMPLATE = (text) => {
                 <h1>Onboarding/Verification</h1>
               </div>
               <div class="email-body">
-                <h3>${text}</h3>
+                <h2>${text}</h2>
               </div>
               <div class="email-footer">
                 <h2>Thanks!<br>Godwin Ikpe Ugbe<br>Lead Developer</h2>
