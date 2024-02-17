@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 // Function to send email
 const sendEmail = async function(email, subject, message, em) {
-        let transport = nodemailer.createTransport(smtpTransport({
+        let transport = nodemailer.createTransport({
             service: 'gmail',
             host: process.env.EMAIL_HOST,
             secure: false, // 465,
@@ -10,7 +10,7 @@ const sendEmail = async function(email, subject, message, em) {
                 user: process.env.EMAIL_USERNAME,
                 pass: process.env.EMAIL_PASSWORD
             }
-        }))
+        })
 
         const info = await transport.sendMail({
             from: process.env.EMAIL_USERNAME,
