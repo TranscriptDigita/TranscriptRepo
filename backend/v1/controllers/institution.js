@@ -209,7 +209,10 @@ exports.getAllInstitutionDocumentPrices = async(req, res) => {
             throw Error('Resource could not be located !!')
         }
         var certPrice, officialPrice, personalPice, resultPrice;
-        const cerP = await institutionDocs[0].amountForCertificate;
+        const cerP = await institutionDocs[0].amountForCertificate,
+            StatementOfResultDocumentsToUpload = institutionDocs[0].StatementOfResultDocumentsToUpload,
+            CertificateDocumentsToUpload = institutionDocs[0].CertificateDocumentsToUpload,
+            TranscriptDocumentsToUpload = institutionDocs[0].TranscriptDocumentsToUpload;
         if (cerP != null) {
             certPrice = institutionDocs[0].amountForCertificate;
             officialPrice = institutionDocs[0].amountForPhysicalMode;
@@ -219,7 +222,7 @@ exports.getAllInstitutionDocumentPrices = async(req, res) => {
         } else {
             throw Error('Documents Amounts are yet to be setup by the institution.')
         }
-        let data = [{ document: "Certificate", amount: certPrice }, { document: "Official Transcript", amount: officialPrice }, { document: "Personal Transcrpt", amount: personalPice }, { document: "Statement of Result", amount: resultPrice }]
+        let data = [{ document: "Certificate", amount: certPrice, docsToUpload: CertificateDocumentsToUpload }, { document: "Official Transcript", amount: officialPrice, docsToUpload: TranscriptDocumentsToUpload }, { document: "Personal Transcrpt", amount: personalPice, docsToUpload: TranscriptDocumentsToUpload }, { document: "Statement of Result", amount: resultPrice, docsToUpload: StatementOfResultDocumentsToUpload }]
         return res.status(200).json(data)
 
     } catch (error) {

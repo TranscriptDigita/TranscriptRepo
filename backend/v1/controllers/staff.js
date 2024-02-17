@@ -179,22 +179,23 @@ exports.setAmount = async(req, res) => {
         }
         if (typeOfDocument == "Official Transcript" || typeOfDocument === "Officail Transcript") {
             foundInstitution.amountForPhysicalMode = amount;
-            foundInstitution.documentsToUpload = documentsToUpload;
+            foundInstitution.TranscriptDocumentsToUpload = documentsToUpload;
+
             await foundInstitution.save();
             return res.status(200).json({ message: 'Official Transcript processing amont set successfully.', data: { typeOfDocument, amount } });
         } else if (typeOfDocument == "Personal Transcript" || typeOfDocument === "Personal Transcript") {
             foundInstitution.amountForElectronicalMode = amount;
-            foundInstitution.documentsToUpload = documentsToUpload;
+            foundInstitution.TranscriptDocumentsToUpload = documentsToUpload;
             await foundInstitution.save();
             return res.status(200).json({ message: 'Personal Transcript processing amont set successfully.', data: { typeOfDocument, amount } });
         } else if (typeOfDocument == "Certificate" || typeOfDocument === "Certificate") {
             foundInstitution.amountForCertificate = amount;
-            foundInstitution.documentsToUpload = documentsToUpload;
+            foundInstitution.CertificateDocumentsToUpload = documentsToUpload;
             await foundInstitution.save();
             return res.status(200).json({ message: 'Certificte processing amont set successfully.', data: { typeOfDocument, amount } });
         } else if (typeOfDocument == "Statement of Result" || typeOfDocument === "Statement of Result") {
             foundInstitution.amountForStatementOfResult = amount;
-            foundInstitution.documentsToUpload = documentsToUpload;
+            foundInstitution.StatementOfResultDocumentsToUpload = documentsToUpload;
             await foundInstitution.save();
             return res.status(200).json({ message: 'Statement of Result processing amont set successfully.', data: { typeOfDocument, amount } });
         }

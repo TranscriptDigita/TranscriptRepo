@@ -32,7 +32,9 @@ const institutionSchema = new mongoose.Schema({
     amountForPhysicalMode: { type: Number, default: 20000 },
     amountForCertificate: { type: Number, default: 20000 },
     amountForStatementOfResult: { type: Number, default: 20000 },
-    documentsToUpload: { type: String, default: "Statement Result" }
+    StatementOfResultDocumentsToUpload: { type: String, default: "Final Year Clearance Certificate" },
+    CertificateDocumentsToUpload: { type: String, default: "Statement Result" },
+    TranscriptDocumentsToUpload: { type: String, default: "Statement Result" }
 
 }, { timestamps: true })
 
@@ -84,16 +86,7 @@ institutionSchema.statics.signup = async function(name, emailAddress, location, 
     return institution
 }
 
-// sending email to staff
-// let transport = nodemailer.createTransport(smtpTransport({
-//     host: 'smtp.gmail.com',
-//     secure: true,
-//     port: 465,
-//     auth: {
-//         user: process.env.EMAIL_USERNAME,
-//         pass: process.env.EMAIL_PASSWORD
-//     }
-// }))
+
 institutionSchema.statics.sendEmail = async function(email, subject, message) {
 
     let transport = nodemailer.createTransport({

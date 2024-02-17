@@ -4,7 +4,23 @@ const Transcripts = require('../models/transcripts'),
     Alumni = require('../models/alumni'),
     Institution = require('../models/institution'),
     sendSMS = require('./twilio'),
-    mongoose = require('mongoose')
+    mongoose = require('mongoose'),
+    multer = require('multer')
+
+// upload documents
+// Define storage for uploaded files
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './public/docs'); // Destination folder for uploaded files
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname); // Rename the file to include the timestamp
+    },
+});
+
+// Initialize Multer with the storage configuration
+const upload = multer({ storage: storage });
+upload.single('file')
 
 // Function to generate transcript reference id
 const genTrnxRefId = async() => {
