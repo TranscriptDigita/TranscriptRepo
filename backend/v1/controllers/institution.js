@@ -80,7 +80,9 @@ exports.registerInstitution = async(req, res) => {
         const token = await createToken(institution._id)
 
         // send welcome email
-        await Institution.sendEmail(emailAddress, `Hi ${name}, welcome to Centralized Academic Credentials Services. Your verfication code is: ${verificationCode}`)
+        let subject = "Welcome On Board";
+        let message = `Hi ${name}, welcome to Loumni, Centralized Academic Credentials Services System. Your verfication code is: ${verificationCode}`;
+        await Institution.sendEmail(emailAddress, subject, message);
 
         // return user as json
         return res.status(200).json({ institution, token })

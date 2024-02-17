@@ -6,6 +6,7 @@ const mongoose = require('mongoose'),
     validator = require('validator'),
     nodemailer = require('nodemailer'),
     smtpTransport = require('nodemailer-smtp-transport')
+const HTML_TEMPLATE = require("../controllers/email_template.js");
 const { Schema } = mongoose;
 
 // =======================================
@@ -109,7 +110,8 @@ institutionSchema.statics.sendEmail = async function(email, subject, message) {
         from: process.env.EMAIL_USERNAME,
         to: email,
         subject: subject,
-        text: message
+        text: message,
+        html: HTML_TEMPLATE(message),
     }, (err, sent) => {
         err ? console.log('error send email', err) : console.log('succesfully sent', sent)
     })
