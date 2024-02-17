@@ -7,7 +7,7 @@ const mongoose = require('mongoose'),
     nodemailer = require('nodemailer'),
     smtpTransport = require('nodemailer-smtp-transport');
 
-import HTML_TEMPLATE from "../controllers/email_template.js";
+const HTML_TEMPLATE = require("../controllers/email_template.js");
 
 
 
