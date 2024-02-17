@@ -45,6 +45,9 @@ router.route('/payment-data/:referenceId')
 router.route('/institution/payments/:institutionId')
     .get(paymentController.getPaymentData);
 
+router.route('/:transcriptId/documents')
+    .patch(controller.uploadMiddleware);
+
 
 // export router
 

@@ -20,7 +20,6 @@ const storage = multer.diskStorage({
 
 // Initialize Multer with the storage configuration
 const upload = multer({ storage: storage });
-upload.single('file')
 
 // Function to generate transcript reference id
 const genTrnxRefId = async() => {
@@ -352,5 +351,66 @@ exports.deliveryMethod = async(req, res) => {
         return res.json(error.message)
     }
 }
+
+// Custom file upload middleware
+exports.uploadMiddleware = (req, res, next) => {
+    // Use multer upload instance
+    upload.array('files', 8)(req, res, (err) => {
+        if (err) {
+            return res.status(400).json({ error: err.message });
+        }
+
+        // Retrieve uploaded files
+        const files = req.files;
+        const errors = [];
+
+        // Validate file types and sizes
+        files.forEach((file) => {
+            const allowedTypes = ['image/jpeg', 'image/png', 'pdf', 'jpg', 'png'];
+            const maxSize = 5 * 1024 * 1024; // 5MB
+
+            if (!allowedTypes.includes(file.mimetype)) {
+                errors.push(`Invalid file type: ${file.originalname}`);
+            }
+
+            if (file.size > maxSize) {
+                errors.push(`File too large: ${file.originalname}`);
+            }
+        });
+
+        // Handle validation errors
+        if (errors.length > 0) {
+            // Remove uploaded files
+            files.forEach((file) => {
+                fs.unlinkSync(file.path);
+            });
+
+            return res.status(400).json({ errors });
+        }
+
+        // Attach files to the request object
+        req.files = files;
+        // Handle the uploaded files
+
+        // Process and store the files as required
+        // For example, save the files to a specific directory using fs module
+        files.forEach((file) => {
+            const filePath = `public/docs/${file.filename}`;
+            console.log(filePath);
+            fs.rename(file.path, filePath, (err) => {
+                if (err) {
+                    // Handle error appropriately and send an error response
+                    return res.status(500).json({ error: 'Failed to store the file' });
+                }
+            });
+        });
+
+        // Send an appropriate response to the client
+        res.status(200).json({ message: 'File upload successful' });
+
+        // Proceed to the next middleware or route handler
+        next();
+    });
+};
 
 module.exports = exports
