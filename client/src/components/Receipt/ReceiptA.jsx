@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Grid, Typography, Paper, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import lumniImg from '../../assets/lumni.png'
 
 
 function ReceiptA() {
@@ -27,21 +28,31 @@ return (
 <div className="container mx-auto">
              <div className="bg-white border rounded-lg shadow-lg px-8 py-6 my-8">
                  <div className="flex justify-between items-center">
-                     <div>
+                 <div className="flex justify-center">
+                    <img src={lumniImg} alt="Company Logo" className="w-40" />
+                    
+                </div>
+                <div className="flex justify-center">
+                    
+                <h3 className="text-lg font-bold text-gray-800"> {invoiceData.institutionName}</h3>
+                </div>
+                <div className="flex justify-center">
                          <h2 className="text-xl font-bold text-gray-800">Invoice #{invoiceData.reference}</h2>
+                         {/* <p className="text-sm text-gray-600">Generated on {new Date().toLocaleDateString()}</p> */}
+                     </div>
+                     <div className="flex justify-center">
+                         {/* <h2 className="text-xl font-bold text-gray-800">Invoice #{invoiceData.reference}</h2> */}
                          <p className="text-sm text-gray-600">Generated on {new Date().toLocaleDateString()}</p>
                      </div>
-                     <div>
-                         <img src="https://via.placeholder.com/150" alt="Company Logo" className="w-24" />
-                     </div>
+                    
                  </div>
                  <div className="mt-6">
                      <h3 className="text-lg font-bold text-gray-800">Customer Information</h3>
                      <div className="flex justify-between">
                          <div>
                              <p className="text-sm text-gray-600"><span className="font-bold">Name:</span> {invoiceData.alumniName}</p>
-                             <p className="text-sm text-gray-600"><span className="font-bold">Email:</span> {invoiceData.customerEmail}</p>
-                             <p className="text-sm text-gray-600"><span className="font-bold">Phone:</span> {invoiceData.customerPhone}</p>
+                             {/* <p className="text-sm text-gray-600"><span className="font-bold">Email:</span> {invoiceData.customerEmail}</p>
+                             <p className="text-sm text-gray-600"><span className="font-bold">Phone:</span> {invoiceData.customerPhone}</p> */}
                          </div>
                          <div>
                              {/* <p className="text-sm text-gray-600"><span className="font-bold">Address:</span> {invoiceData.customerAddress}</p> */}

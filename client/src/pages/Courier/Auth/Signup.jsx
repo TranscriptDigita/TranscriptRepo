@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     emailAddress: '',
@@ -88,7 +90,7 @@ function Signup() {
       console.log('Verification Response:', response.data);
 
       if (response.data.message === 'successfully updated') {
-        toast.success('Verification successful!', {
+        toast.error('Verification Failed!', {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
@@ -99,7 +101,7 @@ function Signup() {
         });
         // Additional logic for success if needed
       } else {
-        toast.error('Verification failed. Please try again.', {
+        toast.success('Verification successful!', {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
@@ -108,6 +110,7 @@ function Signup() {
           draggable: true,
           progress: undefined,
         });
+        navigate(`/courier/login`);
       }
     } catch (error) {
       console.error('API Error:', error);

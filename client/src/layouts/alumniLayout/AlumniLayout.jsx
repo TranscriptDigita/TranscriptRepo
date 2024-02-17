@@ -6,6 +6,7 @@ import { HiOutlineRectangleGroup, HiViewfinderCircle, HiOutlineBell, HiOutlineCo
 import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
 import Logout from '../../pages/Logout/Logout';
+import lumniImg from '../../assets/lumni.png';
 
 function AlumniLayout() {
   // Retrieve user data from Redux state
@@ -154,6 +155,7 @@ console.log("Stored User Data:", storedUserData);
           {/* Newnavbar with notification count */}
           <Link to={`/alumni/${user?.alumni?._id || defaultUser.alumni._id}/alumninotification`}>
             <div className="flex items-center justify-end p-4">
+            <img src={lumniImg} alt="Company Logo" className="w-20 mr-10" />
             {userFullName}
               <div className="relative">
                 

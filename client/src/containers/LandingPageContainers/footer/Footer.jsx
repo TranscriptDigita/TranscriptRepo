@@ -8,6 +8,8 @@ import { FaFacebookF, FaLinkedin, FaInstagram, FaTwitter } from 'react-icons/fa6
 function Footer() {
   return (
     <div className='md:h-[300px] md:w-full  flex flex-col text-white'>
+       <meta name="description" content="Explore academic credentials processing. Learn about our diverse range of programs, including degrees, certificates, and diplomas. Prepare for a successful career with our accredited and industry-relevant qualifications."/>
+
         <div className="flex flex-col bg-[#6B3FA0] -mx-5 p-5">
             <div className='grid grid-cols-1 gap-y-5 md:grid-cols-5 gap-x-[20px] md:h-72'>
                 <div>

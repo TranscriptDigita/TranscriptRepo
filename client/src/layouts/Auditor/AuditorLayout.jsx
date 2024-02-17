@@ -126,7 +126,8 @@ console.log("Staff iiA", institutionId);
           <Sidebar menuItems={menuItems} />
         </div>
         
-        <div className="md:col-span-4 flex-1 flex flex-col">
+        <div className="md:col-span-4 flex-1 flex flex-col mt-20">
+          <StaffNavBarB/>
           {/* Conditional rendering of the Navbar component */}
           {/* <div>
           {showNavbar ? (

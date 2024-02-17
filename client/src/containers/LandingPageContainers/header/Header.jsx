@@ -67,7 +67,8 @@ function Header() {
 
   return (
     <div className='flex-1 grid md:grid-cols-2 grid-cols-1 gap-y-4 md:gap-y-0'>
-      
+      <meta name="description" content="Explore academic credentials processing. Learn about our diverse range of programs, including degrees, certificates, and diplomas. Prepare for a successful career with our accredited and industry-relevant qualifications."/>
+
       <div className='flex flex-col bg-white justify-center gap-y-4'>
      
         <h1 className='md:text-[60px] text-[30px] font-bold leading-none'>

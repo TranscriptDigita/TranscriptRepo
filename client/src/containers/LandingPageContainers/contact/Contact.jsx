@@ -36,6 +36,7 @@ function Contact() {
       } else {
         const data = await response.json();
         console.log('Form submitted successfully:', data);
+        window.location.reload();
         // You can add further logic or state updates here if needed.
       }
     } catch (error) {
@@ -45,6 +46,8 @@ function Contact() {
 
   return (
     <div  className='flex-1 flex flex-col md:-mx-5'>
+       <meta name="description" content="Explore academic credentials processing. Learn about our diverse range of programs, including degrees, certificates, and diplomas. Prepare for a successful career with our accredited and industry-relevant qualifications."/>
+
       <div className='flex flex-col items-center justify-items-center justify-center'>
         <div className='md:w-[1064px] md:h-[478px] md:p-5 p-3 bg-[#6B3FA0] bg-opacity-10 w-full grid grid-cols-1 md:grid-cols-2 my-12 items-center rounded-md'>
           <div className='flex flex-col gap-y-[16px]'>

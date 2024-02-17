@@ -12,6 +12,7 @@ import { MdOutlineDeliveryDining } from "react-icons/md";
 import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
 import Logout from '../../pages/Logout/Logout';
+import lumniImg from '../../assets/lumni.png';
 
 function EvaluationLayout() {
        // Function to extract staff ID from stored data
@@ -79,6 +80,7 @@ function EvaluationLayout() {
   return (
     <div className="flex-1 grid grid-cols-1 w-full">
       {/* Sidebar */} 
+      
       <div className="md:grid md:grid-cols-5 w-full">
         <div className="col-span-1">
           <Sidebar menuItems={menuItems} />
@@ -86,6 +88,7 @@ function EvaluationLayout() {
         
         <div className="md:col-span-4 flex-1 flex flex-col">
           {/* Conditional rendering of the Navbar component */}
+      
          
   
           <div className="flex-1 p-4 bg-slate-100 overflow-y-auto">

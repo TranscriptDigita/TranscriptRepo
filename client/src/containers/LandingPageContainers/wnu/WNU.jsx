@@ -16,11 +16,14 @@ import {HiOutlineChevronDoubleRight} from 'react-icons/hi2'
 function WNU() {
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 gap-y-[15px] md:gap-y-0'>
+         <meta name="description" content="Explore academic credentials processing. Learn about our diverse range of programs, including degrees, certificates, and diplomas. Prepare for a successful career with our accredited and industry-relevant qualifications."/>
+
         <div className='flex'>
             <img src={wnuImg} alt="wnuimg" />
         </div>
 
         <div className='flex flex-col gap-y-[50px]'>
+
             <h4 className='font-bold md:text-[40px] text-center  md:text-right'>Why need us</h4>
             <p className='font-light md:text-[16px]'>At Loumni we understand the challenges and frustrations that can arise when it comes to obtaining your transcripts, That's why we are here to simplify the process and provide you with a seamless solution. Here's why our customers need us</p>
             <div className='flex flex-col gap-y-[16px] md:w-8/12 w-full self-end'>

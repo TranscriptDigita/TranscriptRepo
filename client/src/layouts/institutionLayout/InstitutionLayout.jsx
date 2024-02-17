@@ -5,6 +5,7 @@ import { HiOutlineRectangleGroup, HiListBullet, HiOutlineBell, HiOutlineCog6Toot
 import { Sidebar } from '../../components';
 import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
+import lumniImg from '../../assets/lumni.png'
 
 // rrd outlets
 import { Outlet, Link } from 'react-router-dom';
@@ -128,14 +129,17 @@ function InstitutionLayout() {
     <div className="flex-1 grid grid-cols-1 w-full">
       {/* Sidebar */}
       <div className="md:grid md:grid-cols-5 w-full">
+      
         <div className="col-span-1">
           <Sidebar menuItems={menuItems}  />
         </div>
 
         <div className="md:col-span-4 flex-1 flex flex-col">
+        
           {/* Newnavbar with notification count */}
           <Link to={`/institution/${institutionId}/institutionnotification`}>
             <div className="flex items-center justify-end p-4">
+            <img src={lumniImg} alt="Company Logo" className="w-20 mr-10" />
             {institutionName}
               <div className="relative">
               

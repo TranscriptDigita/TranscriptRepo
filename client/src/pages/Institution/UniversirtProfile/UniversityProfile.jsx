@@ -160,65 +160,69 @@ function UniversityProfile() {
             <div className='md:w-8/12 m-auto p-5'>
               {window.innerWidth >= 768 ? (
                 <div className='grid md:grid-cols-1 grid-cols-1 md:gap-x-[50px] gap-y-[25px] p-5'>
-                      <p className='text-[14px] font-light '>
+                      <p className='text-[25px] font-bold '>
                       Welcome, University Administrators! To facilitate a smooth transcript retrieval process for your students, 
                       please follow the prompt below to upload the necessary data:
                     </p>
                     
-                    <h4 className='font-bold '>Step 1: Prepare The Excel File</h4>
-                    <p className='text-[14px] font-light '>
-                    Create an Excel file with the following columns:</p>
-                    <p className='text-[14px] font-light '>Registration Number (Reg Number): Each student's unique registration number.</p>
-                    <p className='text-[14px] font-light '>Year Graduated: The year in which the student graduated.</p>
-                    <p className='text-[14px] font-light '>Additional Columns (Optional): Any additional data you would like to include for improved accuracy</p>
-                    
+                    <h4 className='text-[25px] font-bold '>Step 1: Prepare The Excel File</h4>
+                    <p className='text-[20px] font-bold '>
+                    Create an Excel file with the following columns (Please name your columns exactly as written below):</p>
+                    <p className='text-[20px] font-bold '>student_name : Full Name Of The Student.</p>
+                    <p className='text-[20px] font-bold '>registration_number: Unique Student Matric Number.</p>
+                    <p className='text-[20px] font-bold '> year_of_admission : The Year In Which The Student Got Admitted</p>
+                    <p className='text-[20px] font-bold '>year_of_graduation: The year in which the student graduated.</p>
+                    <p className='text-[20px] font-bold '>cgp: The Cgp Of The Student After Graduating.</p> 
+                    <p className='text-[20px] font-bold '>grade: The Students Grade.</p>
 
-                    <h4 className='font-bold '>Step 2: Group Data By Reg Number And Year Graduated</h4>
+                    {/* <h4 className='font-bold '>Step 2: Group Data By Reg Number And Year Graduated</h4>
                     <p className='text-[14px] font-light '>Ensure that the data in the Excel file is grouped according to the registration number and year graduated.</p>
-                    <p className='text-[14px] font-light '>This grouping will enable seamless identification and retrieval of transcripts for eligible students.</p>
+                    <p className='text-[14px] font-light '>This grouping will enable seamless identification and retrieval of transcripts for eligible students.</p> */}
 
-                    <h4 className='font-bold '>Step 3: Upload the Excel File </h4>
-                    <p className='text-[14px] font-light '>Click on the "Upload" button below to securely upload the Excel file.</p>
-                    <p className='text-[14px] font-light '>Our system will process the data and integrate it into our transcript retrieval platform.</p>
+                    <h4 className=' text-[25px] font-bold '>Step 2: Upload the Excel File </h4>
+                    <p className='text-[20px] font-bold '>Click on the "Upload" button below to securely upload the Excel file.</p>
+                    <p className='text-[20px] font-bold '>Our system will process the data and integrate it into our transcript retrieval platform.</p>
 
 
-                    <h4 className='font-bold '>Please note:</h4>
-                    <p className='text-[14px] font-light '>Make sure the Excel file adheres to the specified format.</p>
-                    <p className='text-[14px] font-light '>We prioritize the privacy and security of student data. Rest assured that the information provided will be treated with the utmost confidentiality and stored securely.</p>
+                    <h4 className=' text-[20px] font-bold '>Please note:</h4>
+                    <p className='text-[20px] font-bold '>Make sure the Excel file adheres to the specified format.</p>
+                    <p className='text-[20px] font-bold '>We prioritize the privacy and security of student data. Rest assured that the information provided will be treated with the utmost confidentiality and stored securely.</p>
 
-                    <p className='text-[14px] font-light '>Thank you for partnering with us to streamline the transcript retrieval process. Your cooperation is greatly appreciated, and we are committed to delivering a seamless experience for both universities and students alike.</p>
-                    <p className='text-[14px] font-light '>If you have any questions or need assistance, please reach out to our dedicated support team at [Contact Email/Phone]. We're here to help!</p>
+                    <p className='text-[20px] font-bold '>Thank you for partnering with us to streamline the transcript retrieval process. Your cooperation is greatly appreciated, and we are committed to delivering a seamless experience for both universities and students alike.</p>
+                    <p className='text-[20px] font-bold '>If you have any questions or need assistance, please reach out to our dedicated support team at [Contact Email/Phone]. We're here to help!</p>
                 </div>
               ) : (
                 <div className='grid md:grid-cols-1 grid-cols-1 md:gap-x-[50px] gap-y-[25px] p-5'>
-                      <p className='text-[14px] font-light '>
+                      <p className='text-[20px] font-bold '>
                       Welcome, University Administrators! To facilitate a smooth transcript retrieval process for your students, 
                       please follow the prompt below to upload the necessary data:
                     </p>
                     
-                    <h4 className='font-bold '>Step 1: Prepare The Excel File</h4>
-                    <p className='text-[14px] font-light '>
-                    Create an Excel file with the following columns:</p>
-                    <p className='text-[14px] font-light '>Registration Number (Reg Number): Each student's unique registration number.</p>
-                    <p className='text-[14px] font-light '>Year Graduated: The year in which the student graduated.</p>
-                    <p className='text-[14px] font-light '>Additional Columns (Optional): Any additional data you would like to include for improved accuracy</p>
-                    
+                    <h4 className=' text-[25px] font-bold '>Step 1: Prepare The Excel File</h4>
+                    <p className='text-[20px] font-bold '>
+                    Create an Excel file with the following columns (Please name your columns exactly as written below):</p>
+                    <p className='text-[20px] font-bold '>student_name : Full Name Of The Student.</p>
+                    <p className='text-[20px] font-bold '>registration_number: Unique Student Matric Number.</p>
+                    <p className='text-[20px] font-bold '> year_of_admission : The Year In Which The Student Got Admitted</p>
+                    <p className='text-[20px] font-bold '>year_of_graduation: The year in which the student graduated.</p>
+                    <p className='text-[20px] font-bold '>cgp: The Cgp Of The Student After Graduating.</p> 
+                    <p className='text-[20px] font-bold '>grade: The Students Grade.</p>
 
-                    <h4 className='font-bold '>Step 2: Group Data By Reg Number And Year Graduated</h4>
+                    {/* <h4 className='font-bold '>Step 2: Group Data By Reg Number And Year Graduated</h4>
                     <p className='text-[14px] font-light '>Ensure that the data in the Excel file is grouped according to the registration number and year graduated.</p>
-                    <p className='text-[14px] font-light '>This grouping will enable seamless identification and retrieval of transcripts for eligible students.</p>
+                    <p className='text-[14px] font-light '>This grouping will enable seamless identification and retrieval of transcripts for eligible students.</p> */}
 
-                    <h4 className='font-bold '>Step 3: Upload the Excel File </h4>
-                    <p className='text-[14px] font-light '>Click on the "Upload" button below to securely upload the Excel file.</p>
-                    <p className='text-[14px] font-light '>Our system will process the data and integrate it into our transcript retrieval platform.</p>
+                    <h4 className='text-[25px] font-bold '>Step 2: Upload the Excel File </h4>
+                    <p className='text-[20px] font-bold '>Click on the "Upload" button below to securely upload the Excel file.</p>
+                    <p className='text-[20px] font-bold '>Our system will process the data and integrate it into our transcript retrieval platform.</p>
 
 
-                    <h4 className='font-bold '>Please note:</h4>
-                    <p className='text-[14px] font-light '>Make sure the Excel file adheres to the specified format.</p>
-                    <p className='text-[14px] font-light '>We prioritize the privacy and security of student data. Rest assured that the information provided will be treated with the utmost confidentiality and stored securely.</p>
+                    <h4 className=' text-[25px] font-bold '>Please note:</h4>
+                    <p className='text-[20px] font-bold '>Make sure the Excel file adheres to the specified format.</p>
+                    <p className='text-[20px] font-bold '>We prioritize the privacy and security of student data. Rest assured that the information provided will be treated with the utmost confidentiality and stored securely.</p>
 
-                    <p className='text-[14px] font-light '>Thank you for partnering with us to streamline the transcript retrieval process. Your cooperation is greatly appreciated, and we are committed to delivering a seamless experience for both universities and students alike.</p>
-                    <p className='text-[14px] font-light '>If you have any questions or need assistance, please reach out to our dedicated support team at [Contact Email/Phone]. We're here to help!</p>
+                    <p className='text-[20px] font-bold '>Thank you for partnering with us to streamline the transcript retrieval process. Your cooperation is greatly appreciated, and we are committed to delivering a seamless experience for both universities and students alike.</p>
+                    <p className='text-[20px] font-bold '>If you have any questions or need assistance, please reach out to our dedicated support team at [Contact Email/Phone]. We're here to help!</p>
                 </div>
               
               )}

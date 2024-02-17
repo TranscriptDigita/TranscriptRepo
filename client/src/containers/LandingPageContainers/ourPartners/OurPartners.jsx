@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom'
 function OurPartners() {
   return (
     <div className='grid grid-cols-1 md:grid-cols-2'>
+         <meta name="description" content="Explore academic credentials processing. Learn about our diverse range of programs, including degrees, certificates, and diplomas. Prepare for a successful career with our accredited and industry-relevant qualifications."/>
+
         <div className='flex flex-col gap-y-[16px] items-center'>
             <h4 className='font-bold md:text-[40px] text-[20px]'>Our Partners</h4>
             <p className='font-light'>We work hand-in-hand with educational institutions and other organizations to ensure seamless transcript retrieval services. Together we strive to enhance accessibility, accuracy, and efficiency in delivering official transcripts to support your educational and profesional aspirations. </p>

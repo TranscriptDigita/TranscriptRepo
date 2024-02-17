@@ -12,6 +12,7 @@ import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
 import AdminNavbar from '../../components/navbar/AdminNavbar';
 import Logout from '../../pages/Logout/Logout';
+import lumniImg from '../../assets/lumni.png'
 
 function AdminLayout() {
 
@@ -40,7 +41,18 @@ const getAdminToken = () => {
 };
 
 
+const getEmailAddress = () => {
+  const storedUserData = localStorage.getItem('AdminUser');
+  if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      return userDataObject?.admin?.emailAddress;
+    
+  }
+  return null;
+};
 
+
+const adminEmail = getEmailAddress();
 const adminId = getAdminId();
 
    // Log the value of institutionId
@@ -125,6 +137,8 @@ const adminId = getAdminId();
         </div>
         
         <div className="md:col-span-4 flex-1 flex flex-col">
+        <div className="flex items-center justify-end p-4"><img src={lumniImg} alt="Company Logo" className="w-20 " /></div>
+        <div className="flex items-center justify-end p-4"><h3> {adminEmail} </h3></div>
           {/* Conditional rendering of the Navbar component */}
           {/* <div>
           {showNavbar ? (

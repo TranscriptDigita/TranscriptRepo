@@ -163,9 +163,9 @@ function VerifyCertificate() {
       {isPopupOpen && (
         <div className='popup mt-20 bg-gray-300' style={{borderRadius:"20px", padding:"20px"}}>
           {popupContent.isValid ? (
-            <p>{`The certificate with matric no: ${popupContent.matricNumber} from this institution: ${popupContent.institution} is valid`}</p>
+            <p>{`The certificate with matric no: ${popupContent.matricNumber} from  ${popupContent.institution.name} is valid`}</p>
           ) : (
-            <p>{`The certificate with matric no: ${popupContent.matricNumber} from this institution: ${popupContent.institution} is not valid`}</p>
+            <p>{`The certificate with matric no: ${popupContent.matricNumber} from  ${popupContent.institution} is not valid`}</p>
           )}
           <Button onClick={closePopup} className='bg-gray-200'>Close</Button>
         </div>

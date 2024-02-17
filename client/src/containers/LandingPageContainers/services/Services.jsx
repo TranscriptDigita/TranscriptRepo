@@ -64,6 +64,8 @@ function Services() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
+       <meta name="description" content="Explore academic credentials processing. Learn about our diverse range of programs, including degrees, certificates, and diplomas. Prepare for a successful career with our accredited and industry-relevant qualifications."/>
+
       <div className="w-full max-w-screen-xl">
         <div className="flex flex-col items-center gap-y-[50px]">
           <div className="flex flex-col items-center md:w-7/12 gap-y-[8px]">

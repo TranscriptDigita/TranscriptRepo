@@ -5,6 +5,7 @@ import { HiOutlineRectangleGroup, HiListBullet, HiOutlineBell, HiOutlineCog6Toot
 import { Sidebar } from '../../components';
 import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
+import lumniImg from '../../assets/lumni.png';
 
 // rrd outlets
 import { Outlet, Link } from 'react-router-dom';
@@ -131,14 +132,17 @@ function CourierLayout() {
       {/* Sidebar */}
       <div className="md:grid md:grid-cols-5 w-full">
         <div className="col-span-1">
-          <Sidebar menuItems={menuItems} name={courierName} />
+          <Sidebar menuItems={menuItems}  />
         </div>
 
         <div className="md:col-span-4 flex-1 flex flex-col">
           {/* Newnavbar with notification count */}
           <Link to={``}>
             <div className="flex items-center justify-end p-4">
+            <img src={lumniImg} alt="Company Logo" className="w-20 mr-10" />
+            <h3>{courierName}</h3>
               <div className="relative">
+                
                 <HiOutlineBell size={40}  />
                 {notificationCount > 0 && (
                   <div className="absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">

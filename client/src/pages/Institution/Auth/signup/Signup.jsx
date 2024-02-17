@@ -199,11 +199,11 @@ function Signup() {
             {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
             <p className='text-center'>Please insert the 5-digit token sent to your email</p>
             <p className='text-[#6B3FA0] text-center'>{apiResponse.institution.emailAddress}</p>
-            <p className='text-[#6B3FA0] text-center'>{apiResponse.institution.emailAddress}</p>
+            {/* <p className='text-[#6B3FA0] text-center'>{apiResponse.institution.emailAddress}</p> */}
             <p className='text-center'>Verification Code: {apiResponse.institution.verificationCode}</p>
             {/* {console.log(apiResponse)} */}
-            <pre>{JSON.stringify(apiResponse, null, 2)}</pre>
-            <pre>{JSON.stringify(verifyResponse, null, 2)}</pre>
+            {/* <pre>{JSON.stringify(apiResponse, null, 2)}</pre>
+            <pre>{JSON.stringify(verifyResponse, null, 2)}</pre> */}
           </div>
         )}
       </form>
