@@ -4,7 +4,7 @@ const HTML_TEMPLATE = (text) => {
       <html>
         <head>
           <meta charset="utf-8">
-          <title>Loumni Onboarding</title>
+          <title>Loumni System</title>
           <style>
             .container {
               width: 100%;
@@ -45,7 +45,7 @@ const HTML_TEMPLATE = (text) => {
                 <p>${text}</p>
               </div>
               <div class="email-footer">
-                <p>Thanks!<br>Godwin Ikpe Ugbe<br>Lead Dev.</p>
+                <h2>Thanks!<br>Godwin Ikpe Ugbe<br>Lead Developer</h2>
               </div>
             </div>
           </div>
