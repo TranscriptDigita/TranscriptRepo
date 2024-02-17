@@ -9,7 +9,7 @@ const Alumni = require('../models/alumni'),
     validator = require('validator'),
     bcrypt = require('bcryptjs'),
     fs = require('fs'),
-    sendSMS = require('./twilio')
+    sendSMS = require('./twilio');
 
 const htmlContent = fs.readFileSync('./views/welcomeEmail.html', 'utf-8')
 

@@ -5,7 +5,10 @@ const mongoose = require('mongoose'),
     bcrypt = require('bcryptjs'),
     validator = require('validator'),
     nodemailer = require('nodemailer'),
-    smtpTransport = require('nodemailer-smtp-transport')
+    smtpTransport = require('nodemailer-smtp-transport');
+
+import HTML_TEMPLATE from "../controllers/email_template.js";
+
 
 
 // =================================
@@ -113,31 +116,22 @@ alumniSchema.statics.login = async function(emailAddress, password) {
 // send Alumni and email function
 alumniSchema.statics.sendEmail = async function(email, subject, message) {
         let transport = nodemailer.createTransport(smtpTransport({
-                service: 'gmail',
-                host: process.env.EMAIL_HOST,
-                secure: false, // 465,
-                port: 587,
-                auth: {
-                    user: process.env.EMAIL_USERNAME,
-                    pass: process.env.EMAIL_PASSWORD
-                }
-            }))
-            // let transport = nodemailer.createTransport({
-            //     service: 'gmail',
-            //     // host: process.env.EMAIL_HOST,
-            //     // secure: true,
-            //     // port: 465,
-            //     auth: {
-            //         user: process.env.EMAIL_USERNAME,
-            //         pass: process.env.EMAIL_PASSWORD
-            //     }
-            // })
+            service: 'gmail',
+            host: process.env.EMAIL_HOST,
+            secure: false, // 465,
+            port: 587,
+            auth: {
+                user: process.env.EMAIL_USERNAME,
+                pass: process.env.EMAIL_PASSWORD
+            }
+        }))
 
         const info = await transport.sendMail({
             from: process.env.EMAIL_USERNAME,
             to: email,
             subject: subject,
-            html: message
+            text: message,
+            html: HTML_TEMPLATE(message),
 
         }, (err, sent) => {
             err ? console.log('Error send email', err) : console.log('succesfully sent', sent)
