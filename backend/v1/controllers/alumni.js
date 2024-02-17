@@ -115,7 +115,7 @@ exports.createAlumni = async(req, res) => {
         console.log(feedback);
 
         // send welcome email
-        let subject = "Onboading/Verification";
+        let subject = "Welcome On Board";
         let message = `Hi ${fullName}, welcome to Centralized Academic Credentials Services. Your verfication code is: ${verificationCode}`;
         await Alumni.sendEmail(emailAddress, subject, message)
 
