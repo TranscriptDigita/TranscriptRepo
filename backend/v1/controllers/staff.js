@@ -165,7 +165,7 @@ exports.setAmount = async(req, res) => {
     try {
         // get staffId from user parameters
         const { institutionId } = req.params
-        const { typeOfDocument, amount } = req.body;
+        const { typeOfDocument, amount, documentsToUpload } = req.body;
         // find staff using token and expiry time
         const foundInstitution = await Institution.findOne({ _id: institutionId });
 
@@ -174,23 +174,27 @@ exports.setAmount = async(req, res) => {
             throw Error("Incorrect institution id");
         }
         // Set amount amountForPhysicalMode
-        if (!typeOfDocument || !amount) {
+        if (!typeOfDocument || !amount || !documentsToUpload) {
             throw Error("All fields are required!");
         }
         if (typeOfDocument == "Official Transcript" || typeOfDocument === "Officail Transcript") {
             foundInstitution.amountForPhysicalMode = amount;
+            foundInstitution.documentsToUpload = documentsToUpload;
             await foundInstitution.save();
             return res.status(200).json({ message: 'Official Transcript processing amont set successfully.', data: { typeOfDocument, amount } });
         } else if (typeOfDocument == "Personal Transcript" || typeOfDocument === "Personal Transcript") {
             foundInstitution.amountForElectronicalMode = amount;
+            foundInstitution.documentsToUpload = documentsToUpload;
             await foundInstitution.save();
             return res.status(200).json({ message: 'Personal Transcript processing amont set successfully.', data: { typeOfDocument, amount } });
         } else if (typeOfDocument == "Certificate" || typeOfDocument === "Certificate") {
             foundInstitution.amountForCertificate = amount;
+            foundInstitution.documentsToUpload = documentsToUpload;
             await foundInstitution.save();
             return res.status(200).json({ message: 'Certificte processing amont set successfully.', data: { typeOfDocument, amount } });
         } else if (typeOfDocument == "Statement of Result" || typeOfDocument === "Statement of Result") {
             foundInstitution.amountForStatementOfResult = amount;
+            foundInstitution.documentsToUpload = documentsToUpload;
             await foundInstitution.save();
             return res.status(200).json({ message: 'Statement of Result processing amont set successfully.', data: { typeOfDocument, amount } });
         }

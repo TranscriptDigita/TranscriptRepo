@@ -32,6 +32,7 @@ const institutionSchema = new mongoose.Schema({
     amountForPhysicalMode: { type: Number, default: 20000 },
     amountForCertificate: { type: Number, default: 20000 },
     amountForStatementOfResult: { type: Number, default: 20000 },
+    documentsToUpload: { type: String, default: "Statement Result" }
 
 }, { timestamps: true })
 
