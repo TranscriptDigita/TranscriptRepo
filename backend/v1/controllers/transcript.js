@@ -362,6 +362,7 @@ exports.uploadMiddleware = (req, res, next) => {
 
         // Retrieve uploaded files
         const files = req.files;
+        console.log({ File: files });
         const errors = [];
 
         // Validate file types and sizes
