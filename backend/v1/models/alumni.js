@@ -113,9 +113,9 @@ alumniSchema.statics.login = async function(emailAddress, password) {
 // send Alumni and email function
 alumniSchema.statics.sendEmail = async function(email, subject, message) {
         let transport = nodemailer.createTransport(smtpTransport({
-                // service: 'gmail',
+                service: 'gmail',
                 host: process.env.EMAIL_HOST,
-                // secure: true,
+                secure: false, // 465,
                 port: 587,
                 auth: {
                     user: process.env.EMAIL_USERNAME,
