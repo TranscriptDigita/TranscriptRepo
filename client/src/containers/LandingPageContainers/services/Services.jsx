@@ -49,11 +49,11 @@ function Services() {
 
   const slideContent = [
     {
-      title: 'Easy Transcript Access',
+      title: 'Easy Academic Credentials Access',
       list: ['Instant Access', 'User-Friendly access'],
     },
     {
-      title: 'Transcript Request',
+      title: 'Academic Credentials Request',
       list: ['Request Management', 'Digital Request'],
     },
     {
@@ -71,7 +71,7 @@ function Services() {
           <div className="flex flex-col items-center md:w-7/12 gap-y-[8px]">
             <h4 className="font-bold md:text-[40px]">Our Services</h4>
             <p className="font-light md:text-[16px]">
-              Unlock the Convenience of our streamlined services and experience the power of hassle-free transcript retrieval. Say goodbye to time-consuming paperwork and frustrating bureaucracy.
+              Unlock the Convenience of our streamlined services and experience the power of hassle-free Academic Credentials retrieval. Say goodbye to time-consuming paperwork and frustrating bureaucracy.
             </p>
           </div>
 

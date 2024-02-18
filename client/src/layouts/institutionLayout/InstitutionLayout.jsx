@@ -5,7 +5,7 @@ import { HiOutlineRectangleGroup, HiListBullet, HiOutlineBell, HiOutlineCog6Toot
 import { Sidebar } from '../../components';
 import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
-import lumniImg from '../../assets/lumni.png'
+import lumniImg from '../../assets/loumni2.png';
 
 // rrd outlets
 import { Outlet, Link } from 'react-router-dom';

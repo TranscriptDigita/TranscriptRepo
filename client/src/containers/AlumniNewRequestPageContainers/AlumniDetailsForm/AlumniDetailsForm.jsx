@@ -3,6 +3,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import remitaImg from '../../../assets/remita.png';
 import { CountryDropdown } from '../../../components';
 import { Grid, Typography, Paper, Button } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 function AlumniDetailsForm() {
@@ -28,6 +29,14 @@ function AlumniDetailsForm() {
 
 
   const getUserEmail = () => {
+    const [selectedFiles, setSelectedFiles] = useState([]);
+
+    const handleFileChange = (event) => {
+      const files = event.target.files;
+      setSelectedFiles([...selectedFiles, ...files]);
+    };
+  
+   
     const storedUserData = localStorage.getItem('user');
     if (storedUserData) {
         const userDataObject = JSON.parse(storedUserData);
@@ -77,6 +86,41 @@ function AlumniDetailsForm() {
     console.log("val", schoolCharge, deliveryCharge, processingFee, total)
 
     const [invoiceData, setInvoiceData] = useState(null);
+    const [docsToUpload, setDocsToUpload] = useState('');
+
+
+   
+      // Function to find the matching document price entry
+  const findDocumentPrice = () => {
+    // Retrieve data from local storage
+    const documentPrices = JSON.parse(localStorage.getItem('documentPrices'));
+    const transcriptApiResponse = JSON.parse(localStorage.getItem('transcriptApiResponse'));
+
+    // Check if the data exists in local storage
+    if (documentPrices && transcriptApiResponse) {
+      // Extracting typeOfDocument from transcriptApiResponse
+      const typeOfDocumentFromResponse = transcriptApiResponse.Transcript.typeOfDocument;
+
+      // Find the matching document price entry
+      const matchingDocumentPrice = documentPrices.find(price => price.document === typeOfDocumentFromResponse);
+
+      // Update state with docsToUpload value if found
+      if (matchingDocumentPrice) {
+        setDocsToUpload(matchingDocumentPrice.docsToUpload);
+      } else {
+        console.log("Document price not found for typeOfDocument:", typeOfDocumentFromResponse);
+      }
+    } else {
+      console.log("Data not found in local storage");
+    }
+  };
+   
+
+
+
+
+
+    
 
 
     function payWithPaystack() {
@@ -108,23 +152,27 @@ function AlumniDetailsForm() {
 
 
 
-  useEffect(() => {
-    const fetchDocumentPrices = async () => {
-      try {
-        const response = await fetch(`https://dacs.onrender.com/api/v1/institution/${id}/documents-price`);
-        if (response.ok) {
-          const data = await response.json();
-          setDocumentPrices(data);
-        } else {
-          console.error('Failed to fetch document prices:', response.statusText);
+    useEffect(() => {
+      const fetchDocumentPrices = async () => {
+        try {
+          const response = await fetch(`https://dacs.onrender.com/api/v1/institution/${id}/documents-price`);
+          if (response.ok) {
+            const data = await response.json();
+            setDocumentPrices(data);
+            // Store data in local storage
+            localStorage.setItem('documentPrices', JSON.stringify(data));
+          } else {
+            console.error('Failed to fetch document prices:', response.statusText);
+          }
+        } catch (error) {
+          console.error('Error fetching document prices:', error);
         }
-      } catch (error) {
-        console.error('Error fetching document prices:', error);
-      }
-    };
-
-    fetchDocumentPrices();
-  }, [id]);
+      };
+  
+      fetchDocumentPrices();
+    }, [id]);
+  
+  
 
   const handleCountryChange = (selectedOption) => {
     console.log('Selected Country on this Pjgjhgage:', selectedOption.label);
@@ -352,8 +400,56 @@ console.log("This is the user data from local storage:", userData);
       console.error('An error occurred:', error);
     }
   };
+
+
+
+
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setSelectedFiles(files);
+  };
   
 
+
+
+
+
+  const handleUpload = async () => {
+    try {
+      const formData = new FormData();
+      selectedFiles.forEach(file => {
+        formData.append('files', file);
+        console.log('Uploaded file:', file.name);
+      });
+
+       // Log the content of the FormData object
+    for (let pair of formData.entries()) {
+      console.log('FormData entry:', pair[0], pair[1]);
+    }
+
+      const response = await fetch(`https://dacs.onrender.com/api/v1/transcript/${transcriptId}/documents`, {
+
+      
+        method: 'POST',
+        body: formData
+      });
+      
+
+      if (response.ok) {
+        console.log('Files uploaded successfully.');
+        toast.success('File upload successful');
+        setActiveForm(7);
+        // Handle further logic as needed
+      } else {
+        console.error('Failed to upload files:', response.statusText);
+         toast.error('File upload failed');
+      }
+    } catch (error) {
+      console.error('Error uploading files:', error);
+    }
+  };
 
 
 
@@ -412,14 +508,14 @@ console.log("This is the user data from local storage:", userData);
           onClick={() => {}}
           // style={{ color: 'black', marginLeft: '0' }}
         >
-          Request Transcript From {data}
+          Request Academic Credentials From {data}
         </button>
 
         <h4 className='font-bold text-center'>Fill the Form below</h4>
         <p className='text-[14px] font-light text-center'>
-          When applying for your transcript, please ensure that you carefully and accurately fill out the form below.
+          When applying for your your academic credential, please ensure that you carefully and accurately fill out the form below.
           Double-check all the information you provide, including your name, student ID number, course details, and the
-          address where you want the transcript to be sent. Any errors or discrepancies may lead to delays in processing
+          address where you want the academic document to be sent. Any errors or discrepancies may lead to delays in processing
           your request.
         </p>
 
@@ -818,10 +914,19 @@ console.log("This is the user data from local storage:", userData);
                   View Receipt
               </button> */}
               <button
+              className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
               type='button'
               onClick={() => window.open(`/receipt`, '_blank', 'width=600,height=400')}
             >
               View Receipt
+            </button>
+            <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
+            onClick={() => {
+              setActiveForm(6);
+              findDocumentPrice(); // Navigate to the next step
+              // handleSubmit(); // Call handleSubmit
+            }}>
+              Upload Documents
             </button>
           </div>
           )}
@@ -935,6 +1040,64 @@ console.log("This is the user data from local storage:", userData);
          </div>
           )}
 
+
+
+          {activeForm == 6 && (
+             <div>
+               <h3 className='mt-10'>The Institution Requires You To Upload The Following: {docsToUpload}</h3>
+             <div className={`md:w-4/12 mx-auto mt-5 bg-${selectedFiles.length > 0 ? 'green' : 'gray-300'} 
+                 border-2 rounded-md p-2 cursor-pointer`}
+             >
+              
+        <input
+       
+        type="file"
+        multiple
+        onChange={handleFileChange}
+      />
+      <div>
+        {selectedFiles.map((file, index) => (
+          <p key={index}>{file.name}</p>
+        ))}
+      </div>
+      <button type='button'  onClick={handleUpload}>Upload Files</button>
+    </div>
+    <button
+  type="button"
+  onClick={handleUpload}
+  className="block mx-auto mt-4 px-4 py-2 bg-purple-600 text-white rounded-md shadow hover:bg-purple-700 focus:outline-none focus:bg-purple-700"
+>
+  Upload Files
+</button>
+<ToastContainer />
+    
+             </div>
+            
+             
+           
+          )}
+
+
+
+{activeForm == 7 && (
+    <div className="flex flex-col items-center  h-screen bg-white">
+    <div className="max-w-md p-8 bg-white shadow-lg rounded-lg">
+      <Typography variant="h4" className="mb-4 text-center text-gray-800">
+        Congratulations!
+      </Typography>
+      <Typography variant="h5" className="mb-4 text-center text-gray-800">
+        Your Academic Credentials Application is Complete
+      </Typography>
+      <Typography variant="body1" className="text-center text-gray-600">
+        Thank you for submitting your application. You will receive further instructions via email.
+      </Typography>
+    </div>
+  </div>
+            
+             
+           
+          )}
+
           {/* Buttons */}
           {activeForm == 1 && (
 
@@ -947,13 +1110,14 @@ console.log("This is the user data from local storage:", userData);
               Continue
             </button>
 
-            <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
+            {/* <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
             onClick={() => {
-              setActiveForm(4); // Navigate to the next step
+              setActiveForm(6);
+              findDocumentPrice(); // Navigate to the next step
               // handleSubmit(); // Call handleSubmit
             }}>
               next
-            </button>
+            </button> */}
             </div>
           )}
 

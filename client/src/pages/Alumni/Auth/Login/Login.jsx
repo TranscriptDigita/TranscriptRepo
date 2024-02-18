@@ -14,7 +14,7 @@ import { Button, Divider, TextField } from '@mui/material';
 import {FaGoogle} from 'react-icons/fa6'
 
 // components imports
-import { Spinner } from '../../../../components'
+import { Navbar, Spinner } from '../../../../components'
 
 // assets imports
 import illustration1 from '../../../../assets/college admission-bro.png'
@@ -90,7 +90,7 @@ function Login() {
 
   return (
     <div className='w-full flex flex-col gap-y-4'>
-        
+        <Navbar/>
         <div className="grid grid-cols-1 md:w-9/12 m-auto md:grid-cols-2">
           <div className='flex flex-1 md:block hidden gap-y-4'>
             <img src={imageSrc} alt="" width={400} />

@@ -13,6 +13,7 @@ import staff from '../../assets/staff.jpg'
 import { Link } from 'react-router-dom'
 import { Footer } from '../../containers'
 import Navbar from '../navbar/Navbar'
+import courier from '../../assets/courier.png'
 
 function SelectLogin() {
 
@@ -74,7 +75,7 @@ function SelectLogin() {
 
 
 
-                <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
+                {/* <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
                     <img src={alumni} alt="alumnipic" />
                     <h4>Super Admin</h4>
                     <Link to={`/superadmin/login`}> 
@@ -87,7 +88,8 @@ function SelectLogin() {
                             continue
                         </Button>
                     </Link>
-                </div>
+                </div> */}
+
 
 
                 <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
@@ -106,7 +108,7 @@ function SelectLogin() {
                 </div>
 
                 <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
-                    <img src={alumni} alt="alumnipic" />
+                    <img src={courier} alt="alumnipic" />
                     <h4>Courier</h4>
                     <Link to={`/courier/login`}> 
                         <Button

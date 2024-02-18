@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import { Navbar } from '../../../../components';
 
 
 
@@ -59,10 +60,13 @@ function Login() {
   };
 
   return (
-    <div className="w-full flex flex-col justify-center items-center">
+    <div>
+      <Navbar/>
+    <div className="w-full flex flex-col justify-center items-center mt-20">
+      
       <div className="flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0">
         {/* Your spinner component */}
-     
+        
         <div className="flex flex-col gap-y-4">
           <TextField
             id="outlined-email-input"
@@ -91,6 +95,7 @@ function Login() {
         </Button>
         
       </div>
+    </div>
     </div>
   );
 }

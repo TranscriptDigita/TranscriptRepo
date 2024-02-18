@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../../features/auth/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
+import lumniImg from '../../assets/loumni2.png';
 
 // material-ui imports
 import { Button } from '@mui/material';
@@ -224,6 +225,7 @@ function Navbar() {
               ) : (
                 // Render content for not-logged-in user
                 <>
+                <div className="flex items-center justify-end p-4"><img src={lumniImg} alt="Company Logo" className="w-20" /></div>
                   <div>
                     <Link to={`/`} className="font-bold text-white">
                       TranscriptDigita
@@ -233,26 +235,37 @@ function Navbar() {
                   <Link to={`/`} className='flex'>
                             <p>Home</p>
                         </Link>
-                    {/* <div className='flex'>
-                      <a href="#wnu">About</a>
-                    </div> */}
-                    <div className='flex items-center gap-x-2'>
-                      <a href="#services">Services</a>
-                      {/* <HiChevronDown/> */}
-                    </div>
-                    <div className='flex items-center gap-x-2'>
-                      <a href="#contact">Contact</a>
-                      {/* <HiChevronDown/> */}
-                    </div>
+                        <Link to={`/#contact`} className='flex'>
+                            <p>Contact</p>
+                        </Link>
+
+                        <Link to={`/#testimonials`} className='flex'>
+                            <p>Testimonials</p>
+                        </Link>
+                  
+                        <Link to={`/#services`} className='flex'>
+                            <p>Services</p>
+                        </Link>
+                   
                   </nav>
 
-                  <div>
+                  <div className='mr-10'>
                     <Link to={`/selectlogin`}>
                       <Button
                         variant="contained"
                         className="md:block hidden bg-[#6B3FA0] hover:bg-[#6B3FA0]"
                       >
                         Sign in
+                      </Button>
+                    </Link>
+                  </div>
+                  <div>
+                    <Link to={`/selectlogin`}>
+                      <Button
+                        variant="contained"
+                        className="md:block hidden bg-[#6B3FA0] hover:bg-[#6B3FA0]"
+                      >
+                        Sign up
                       </Button>
                     </Link>
                   </div>

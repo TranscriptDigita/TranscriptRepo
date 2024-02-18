@@ -6,7 +6,7 @@ import { HiOutlineRectangleGroup, HiViewfinderCircle, HiOutlineBell, HiOutlineCo
 import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
 import Logout from '../../pages/Logout/Logout';
-import lumniImg from '../../assets/lumni.png';
+import lumniImg from '../../assets/loumni2.png';
 
 function AlumniLayout() {
   // Retrieve user data from Redux state

@@ -3,8 +3,10 @@ import { Button, Divider, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { registerInstitution, verifyInstitutionEmail } from '../../../../features/auth/institutionSlice';
-import { Spinner } from '../../../../components';
+import { Navbar, Spinner } from '../../../../components';
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify'
+
 
 function Signup() {
   const [activeForm, setActiveForm] = useState(1);
@@ -92,6 +94,7 @@ function Signup() {
         setApiResponse(response.payload);
         setActiveForm(2);
       } else if (registerInstitution.rejected.match(response)) {
+        toast.error(message);
         console.error('API Error:', response.error.message);
       }
     } catch (error) {
@@ -100,7 +103,10 @@ function Signup() {
   };
 
   return (
-    <div className='flex flex-col gap-y-4 bg-white p-5 my-auto justify-center align-center'>
+    <div>
+      <Navbar/>
+   
+    <div className='flex flex-col gap-y-4 bg-white p-5 my-auto justify-center align-center mt-10'>
       <form className='flex flex-col'>
         {activeForm === 1 && (
           <div className='flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0' style={{ alignSelf: "center" }}>
@@ -167,13 +173,13 @@ function Signup() {
             <div className='text-right text-xs font-light'>
               <Link to={`/institution/login`}>Already have an account? Login</Link>
             </div>
-            <Divider>or continue with</Divider>
-            <Button
+            {/* <Divider>or continue with</Divider> */}
+            {/* <Button
               variant='contained'
               className='bg-[#CCCCCC] text-slate-900 lowercase hover-bg-[#CCCCCC]'
             >
               continue with google
-            </Button>
+            </Button> */}
             <p className='text-xs text-center'>By clicking the sign-up button, you agree to our terms and policies.</p>
           </div>
         )}
@@ -207,6 +213,7 @@ function Signup() {
           </div>
         )}
       </form>
+    </div>
     </div>
   );
 }

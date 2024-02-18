@@ -127,7 +127,7 @@ console.log("Staff iiA", institutionId);
         </div>
         
         <div className="md:col-span-4 flex-1 flex flex-col mt-20">
-          <StaffNavBarB/>
+          {/* <StaffNavBarB/> */}
           {/* Conditional rendering of the Navbar component */}
           {/* <div>
           {showNavbar ? (

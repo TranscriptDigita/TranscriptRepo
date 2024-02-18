@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Navbar } from '../../../components';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -35,7 +36,11 @@ function Login() {
   
 
   return (
-    <div className="w-full flex flex-col justify-center items-center">
+    <div>
+      <Navbar/>
+    
+    <div className="w-full flex flex-col justify-center items-center mt-10">
+      
       <div className="flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0">
         <div className="flex flex-col gap-y-4">
           <TextField
@@ -75,6 +80,7 @@ function Login() {
         </Link>
         {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
       </div>
+    </div>
     </div>
   );
 }

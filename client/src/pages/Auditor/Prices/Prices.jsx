@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, 
-    Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Modal } from '@material-ui/core';
+    Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper 
+    , FormControlLabel, Radio, RadioGroup, Checkbox
+} from '@material-ui/core';
 
 function Prices() {
     const getStaffInstitutionId = () => {
@@ -14,9 +16,20 @@ function Prices() {
     };
 
 
-    const [showModal, setShowModal] = useState(false);
-  const handleCloseModal = () => setShowModal(false);
-  const handleShowModal = () => setShowModal(true);
+
+
+    const [documentsToUpload, setDocumentsToUpload] = useState('');
+
+//   const handleDocumentChange = (event) => {
+//     const { checked, value } = event.target;
+//     if (checked) {
+//       setDocumentsToUpload([...documentsToUpload, value]);
+//     } else {
+//       setDocumentsToUpload(documentsToUpload.filter((doc) => doc !== value));
+//     }
+//   };
+
+  
       
       
       
@@ -24,6 +37,7 @@ function Prices() {
 
     const institutionId = getStaffInstitutionId();
     const { token: staffToken } = useParams();
+    
   const [typeOfDocument, setTypeOfDocument] = useState('');
   const [amount, setAmount] = useState('');
   const [response, setResponse] = useState(null);
@@ -53,8 +67,9 @@ function Prices() {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${staffToken}`,
       },
-      body: JSON.stringify({ typeOfDocument, amount }),
+      body: JSON.stringify({ typeOfDocument, amount, documentsToUpload }),
     };
+    console.log('values of ', typeOfDocument, amount, documentsToUpload)
 
     try {
       const response = await fetch(`https://dacs.onrender.com/api/v1/staff/transcript-charge/${institutionId}`, requestOptions);
@@ -62,17 +77,58 @@ function Prices() {
       setResponse(data);
       console.log("Response", data);
       window.location.reload();
+      
     } catch (error) {
       console.error('Error:', error);
       setResponse({ error: 'An error occurred while processing your request.' });
     }
   };
+//   window.location.reload();
+
+
+
+
+
 
   return (
     <div className="container mx-auto p-4">
-      <Typography variant="h6">Set Document Processing Amount</Typography>
+      <Typography variant="h6">Set Document Processing Amount </Typography>
       <form onSubmit={handleSubmit} className="mt-4">
-        <div className="mb-4">
+      {/* <FormControl component="fieldset">
+        <Typography variant="subtitle1">Type of Document</Typography>
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Certificate"
+          value="Certificate"
+          onChange={handleDocumentChange}
+          checked={documentsToUpload.some((doc) => doc.name === 'Certificate')}
+        />
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Statement Of Result"
+          value="Statement Of Result"
+          onChange={handleDocumentChange}
+          checked={documentsToUpload.some((doc) => doc.name === 'Statement Of Result')}
+        />
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Transcript"
+          value="Transcript"
+          onChange={handleDocumentChange}
+          checked={documentsToUpload.some((doc) => doc.name === 'Transcript')}
+        />
+      </FormControl> */}
+
+      <TextField
+            fullWidth
+            id="documentsToUpload"
+            label="Write Out Documents Students need To Upload To Complete Each Application Process separated with Comas (e.g Certificate, Statement)"
+            variant="outlined"
+            value={documentsToUpload}
+            onChange={(e) => setDocumentsToUpload(e.target.value)}
+          />
+      
+        <div className="mb-4 mt-10">
           <FormControl fullWidth>
             <InputLabel id="typeOfDocument-label">Type of Document</InputLabel>
             <Select
@@ -133,16 +189,7 @@ function Prices() {
       </TableContainer>
     </div>
 
-                 {/* Success Modal */}
-      <Modal open={showModal} onClose={handleCloseModal}>
-        <div className="bg-white p-4 rounded shadow-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <h3 className="text-xl font-semibold mb-2">KYC Verification Successful</h3>
-          <p>Your KYC has been successfully updated!</p>
-          <Button variant="contained" color="primary" onClick={handleCloseModal} fullWidth className="mt-4">
-            Close
-          </Button>
-        </div>
-      </Modal>
+       
 
     </div>
   );

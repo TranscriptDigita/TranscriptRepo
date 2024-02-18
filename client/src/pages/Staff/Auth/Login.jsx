@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loginInstitution } from '../../../../features/auth/institutionSlice';
 import { Spinner } from '../../../../components';
 import { useNavigate } from "react-router-dom";
+import { Navbar } from '../../../components';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -58,7 +59,10 @@ function Login() {
   
   
   return (
-    <div className="w-full flex flex-col justify-center items-center">
+    <div>
+      <Navbar/>
+    
+    <div className="w-full flex flex-col justify-center items-center mt-10">
       <div className="flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0">
         {isLoading ? <Spinner /> : ``}
         <div className="flex flex-col gap-y-4">
@@ -99,6 +103,7 @@ function Login() {
         </Button>
         </Link>
       </div>
+    </div>
     </div>
   );
 }

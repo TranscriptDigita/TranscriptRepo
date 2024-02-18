@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { HiOutlineInformationCircle } from 'react-icons/hi2'
 import { register, reset } from "../../../../features/auth/authSlice";
 import { Link } from "react-router-dom";
-import { Spinner } from "../../../../components";
+import { Navbar, Spinner } from "../../../../components";
 
 function Signup() {
     const [formData, setFormData] = useState({
@@ -74,7 +74,10 @@ function Signup() {
     }
 
     return (
-        <div className='w-full flex flex-col justify-center items-center'>
+        <div>
+        <Navbar/>
+        <div className='w-full flex flex-col justify-center items-center mt-10'>
+            
             <form onSubmit={handleSubmit} className='flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0'>
                 {isLoading ? <Spinner /> : ``}
                 <div className='flex flex-col gap-y-4'>
@@ -144,6 +147,7 @@ function Signup() {
                     <Link to={`/alumni/login`}>Already have an account? Login</Link>
                 </div>
             </form>
+        </div>
         </div>
     )
 }

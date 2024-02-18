@@ -103,6 +103,27 @@ function App() {
           index: true,
           element: <LandingPage />,
         },
+
+
+        {
+          path: "/#contact",
+          element: <LandingPage />,
+          errorElement: <ErrorPage />,
+        },
+
+        {
+          path: "/#testimonials",
+          element: <LandingPage />,
+          errorElement: <ErrorPage />,
+        },
+
+        {
+          path: "/#services",
+          element: <LandingPage />,
+          errorElement: <ErrorPage />,
+        },
+
+
         {
           path: "/selectlogin",
           element: <SelectLogin />,

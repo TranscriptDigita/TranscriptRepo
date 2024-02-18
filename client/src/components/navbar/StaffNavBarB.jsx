@@ -4,8 +4,7 @@ import { Button } from '@mui/material';
 import { HiChevronDown, HiBars3, HiXMark } from 'react-icons/hi2';
 import MobileMenu from '../mobileMenu/MobileMenu';
 import Logout from '../../pages/Logout/Logout';
-import lumniImg from '../../assets/lumni.png';
-
+import lumniImg from '../../assets/loumni2.png';
 function StaffNavBarB() {
   const { user } = useSelector((state) => state.institution);
   

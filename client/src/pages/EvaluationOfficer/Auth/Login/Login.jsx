@@ -3,6 +3,7 @@ import { Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions } 
 import { Link, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import StaffNavBar from '../../../../components/navbar/StaffNavBar';
+import { Navbar } from '../../../../components';
 
 function Login() {
 
@@ -31,13 +32,13 @@ const staffToken = getToken();
 
 
   const handleLogin = async () => {
-    console.log('sent')
+   
     try {
       const response = await Axios.post('https://dacs.onrender.com/api/v1/staff/login', {
         emailAddress: email,
         password: password,
       });
-      console.log('sent')
+    
   
       // Extract role and staff/institution ID from the response
       const { role, _id: staffId, institution: institutionId } = response.data.staff;
@@ -70,7 +71,7 @@ const staffToken = getToken();
 
   return (
     <div>
-      <StaffNavBar />
+      <Navbar/>
       <div className='w-full flex flex-col justify-center items-center'>
         <div className='flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0'>
           <div className='flex flex-col gap-y-4 mt-20'>

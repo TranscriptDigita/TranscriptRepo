@@ -12,7 +12,7 @@ import Newnavbar from '../../components/navbar/Newnavbar';
 import MobileNavBar from '../../components/navbar/MobileNavBar';
 import AdminNavbar from '../../components/navbar/AdminNavbar';
 import Logout from '../../pages/Logout/Logout';
-import lumniImg from '../../assets/lumni.png'
+import lumniImg from '../../assets/loumni2.png';
 
 function AdminLayout() {
 

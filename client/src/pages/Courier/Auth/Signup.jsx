@@ -5,6 +5,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import { Navbar } from '../../../components';
 
 function Signup() {
   const navigate = useNavigate();
@@ -118,7 +119,10 @@ function Signup() {
   };
 
   return (
-    <div className='flex flex-col gap-y-4 bg-white p-5 my-auto justify-center align-center'>
+    <div>
+      <Navbar/>
+    
+    <div className='flex flex-col gap-y-4 bg-white p-5 my-auto justify-center align-center mt-10'>
       <form className='flex flex-col'>
         <div className='flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0' style={{ alignSelf: 'center' }}>
           <div className='grid grid-cols-2 gap-y-4 gap-x-4 '>
@@ -206,6 +210,7 @@ function Signup() {
         </div>
       </form>
       <ToastContainer />
+    </div>
     </div>
   );
 }
