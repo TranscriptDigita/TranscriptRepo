@@ -354,17 +354,16 @@ exports.deliveryMethod = async(req, res) => {
 
 // Custom file upload middleware
 exports.uploadMiddleware = (req, res, next) => {
-    console.log({ rfiles: req.file })
-    console.log({ rfiles: req.files })
-        // Use multer upload instance
+    // Use multer upload instance
     upload.array('files', 8)(req, res, (err) => {
 
+        console.log("I am found here")
         if (err) {
             return res.status(400).json({ error: err.message });
         }
-        console.log("I am found here")
-            // Retrieve uploaded files
+        // Retrieve uploaded files
         const files = req.files;
+        console.log(files);
         console.log({ File: files });
         const errors = [];
 
