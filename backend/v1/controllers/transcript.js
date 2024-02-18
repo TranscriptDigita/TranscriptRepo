@@ -358,12 +358,12 @@ exports.uploadMiddleware = (req, res, next) => {
     upload.array('files', 8)(req, res, (err) => {
 
         console.log("I am found here")
+        console.log(req.file);
         if (err) {
             return res.status(400).json({ error: err.message });
         }
         // Retrieve uploaded files
         const files = req.files;
-        console.log(files);
         console.log({ File: files });
         const errors = [];
 
