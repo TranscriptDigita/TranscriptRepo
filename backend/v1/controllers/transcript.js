@@ -5,7 +5,8 @@ const Transcripts = require('../models/transcripts'),
     Institution = require('../models/institution'),
     sendSMS = require('./twilio'),
     mongoose = require('mongoose'),
-    multer = require('multer')
+    multer = require('multer'),
+    fs = require('fs');
 
 // upload documents
 // Define storage for uploaded files
