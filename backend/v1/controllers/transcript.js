@@ -354,7 +354,7 @@ exports.deliveryMethod = async(req, res) => {
 
 // Custom file upload middleware
 exports.uploadMiddleware = (req, res, next) => {
-    console.log({ r: req, rbody: req.body })
+    console.log({ rfiles: req.file })
         // Use multer upload instance
     upload.array('files', 8)(req, res, (err) => {
 
