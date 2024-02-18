@@ -46,7 +46,7 @@ router.route('/institution/payments/:institutionId')
     .get(paymentController.getPaymentData);
 
 router.route('/:transcriptId/documents')
-    .put(controller.uploadMiddleware);
+    .post(controller.uploadMiddleware);
 
 
 // export router
