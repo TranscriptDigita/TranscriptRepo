@@ -409,7 +409,7 @@ exports.uploadMiddleware = (req, res, next) => {
         });
 
         // Send an appropriate response to the client
-        res.status(200).json({ message: 'File upload successful' });
+        res.status(200).json({ message: 'File(s) upload successful' });
 
         // Proceed to the next middleware or route handler
         next();

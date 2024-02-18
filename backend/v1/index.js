@@ -21,7 +21,8 @@ const express = require('express'),
 // using cors 
 app.use(cors())
 
-
+// Accessing your public folder
+app.use(express.static(__dirname + '/public'));
 // =========================================================
 // === using bodyParser access to req body in post route ===
 // =========================================================
