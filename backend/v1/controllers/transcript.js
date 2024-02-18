@@ -11,7 +11,7 @@ const Transcripts = require('../models/transcripts'),
 // Define storage for uploaded files
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './public/docs'); // Destination folder for uploaded files
+        cb(null, './public'); // Destination folder for uploaded files
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname); // Rename the file to include the timestamp
@@ -356,9 +356,8 @@ exports.deliveryMethod = async(req, res) => {
 exports.uploadMiddleware = (req, res, next) => {
     // Use multer upload instance
     upload.array('files', 8)(req, res, (err) => {
-
         console.log("I am found here")
-        console.log(req.file);
+
         if (err) {
             return res.status(400).json({ error: err.message });
         }
