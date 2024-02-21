@@ -15,6 +15,9 @@ import { resetPassword, reset } from "../../../../features/auth/authSlice";
 
 // components imports
 import { Spinner } from '../../../../components';
+import { Navigate, useNavigate  } from 'react-router-dom';
+
+
 
 function Forgotpassword() {
 
@@ -36,15 +39,48 @@ function Forgotpassword() {
     
       }, [isError, isSuccess, message, dispatch])
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
 
-        const userData = {
-            emailAddress
-        }
 
-        dispatch(resetPassword(userData))
-    }
+
+//       const navigate = useNavigate();
+
+// const handleSubmit = (e) => {
+//     e.preventDefault();
+
+//     const userData = {
+//         emailAddress
+//     };
+
+//     dispatch(resetPassword(userData))
+//         .then(() => {
+//             navigate(`/alumni/reset-password`);
+//         })
+//         .catch((error) => {
+//             console.error('Error resetting password:', error);
+//             // Handle error if needed
+//         });
+// };
+
+
+   
+
+      const handleSubmit = (e) => {
+          e.preventDefault();
+      
+          const userData = {
+              emailAddress
+          };
+      
+          dispatch(resetPassword(userData))
+              .then(() => {
+                  navigate(`/alumni/reset-password`);
+              })
+              .catch((error) => {
+                  console.error('Error resetting password:', error);
+                  // Handle error if needed
+              });
+      };
+      
 
   return (
     <div className='grid grid-cols-1 flex-1 justify-items-center items-center justify-center'>       
@@ -63,7 +99,7 @@ function Forgotpassword() {
                 className='bg-[#6B3FA0] lowercase hover:bg-[#6B3FA0]'
                 type='submit'
             >
-                Recovery Link
+                Proceed
             </Button>
 
             {isLoading ? <Spinner/> : ``}

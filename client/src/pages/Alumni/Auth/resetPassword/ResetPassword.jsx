@@ -6,6 +6,7 @@ import { Button, TextField } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 
+
 // components imports
 import { Spinner } from '../../../../components'
 
@@ -68,6 +69,7 @@ function ResetPassword() {
             console.log(password, confirmedPassword)
 
             dispatch(changePassword(userData))
+            navigate(`/alumni/${user.alumni._id}/dashboard`)
         }
         
     }
@@ -99,6 +101,7 @@ function ResetPassword() {
                 variant='contained'
                 className='bg-[#6B3FA0] lowercase hover:bg-[#6B3FA0]'
                 type='submit'
+                onClick={handleSubmit}
             >
                 save
             </Button>

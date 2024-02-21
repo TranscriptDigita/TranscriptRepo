@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 function UniversityProfile() {
-  const [activeForm, setActiveForm] = useState(1);
+  const [activeForm, setActiveForm] = useState(2);
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -179,8 +179,9 @@ function UniversityProfile() {
                     <p className='text-[14px] font-light '>Ensure that the data in the Excel file is grouped according to the registration number and year graduated.</p>
                     <p className='text-[14px] font-light '>This grouping will enable seamless identification and retrieval of transcripts for eligible students.</p> */}
 
-                    <h4 className=' text-[25px] font-bold '>Step 2: Upload the Excel File </h4>
-                    <p className='text-[20px] font-bold '>Click on the "Upload" button below to securely upload the Excel file.</p>
+                    <h4 className=' text-[25px] font-bold '>Step 2: Convert Or Save your Excel File as Csv  </h4>
+                    <h4 className=' text-[25px] font-bold '>Step 3: Upload the Excel File </h4>
+                    <p className='text-[20px] font-bold '>Click on the "Upload" button below to securely upload the Csv file.</p>
                     <p className='text-[20px] font-bold '>Our system will process the data and integrate it into our transcript retrieval platform.</p>
 
 

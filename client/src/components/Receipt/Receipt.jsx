@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Grid, Typography, Paper, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import lumniImg from '../../assets/lumni.png'
+import lumniImg from '../../assets/loumni2.png';
 
 
 function Receipt() {

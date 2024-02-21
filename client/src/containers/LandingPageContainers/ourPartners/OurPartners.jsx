@@ -1,33 +1,91 @@
 // mui imports
-import { Button } from '@mui/material'
+import { Button } from '@mui/material';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 // react imports
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function OurPartners() {
+  const [partners, setPartners] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    // Fetch data from the API
+    fetch('https://dacs.onrender.com/api/v1/institution/')
+      .then(response => response.json())
+      .then(data => {
+        // Extract partner names from the data and update the state
+        const partnerNames = data.map(institution => institution.name);
+        setPartners(partnerNames);
+      })
+      .catch(error => {
+        console.error('Error fetching partners:', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    // Automatically slide partners every 3 seconds
+    const intervalId = setInterval(() => {
+      setCurrentIndex(prevIndex =>
+        prevIndex === partners.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 3000);
+
+    return () => clearInterval(intervalId); // Cleanup the interval
+  }, [partners.length]);
+
+  const goToPreviousPartner = () => {
+    setCurrentIndex(prevIndex =>
+      prevIndex === 0 ? partners.length - 1 : prevIndex - 1
+    );
+  };
+
+  const goToNextPartner = () => {
+    setCurrentIndex(prevIndex =>
+      prevIndex === partners.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2'>
-         <meta name="description" content="Explore academic credentials processing. Learn about our diverse range of programs, including degrees, certificates, and diplomas. Prepare for a successful career with our accredited and industry-relevant qualifications."/>
+    <div className='py-16 bg-gray-100'>
+      <div className='container mx-auto'>
+        <div className='text-center mb-8'>
+          <h2 className='text-3xl md:text-5xl font-bold mb-2'>Our Partners</h2>
+          <p className='text-lg md:text-xl text-gray-700'>We collaborate with reputable institutions and organizations to provide top-quality services.</p>
+        </div>
 
-        <div className='flex flex-col gap-y-[16px] items-center'>
-            <h4 className='font-bold md:text-[40px] text-[20px]'>Our Partners</h4>
-            <p className='font-light'>We work hand-in-hand with educational institutions and other organizations to ensure seamless transcript retrieval services. Together we strive to enhance accessibility, accuracy, and efficiency in delivering official transcripts to support your educational and profesional aspirations. </p>
-            {/* <Link>
-                <Button
-                    variant='contained'
-                    className='bg-[#6B3FA0] lowercase'
+        <div className='relative'>
+          <div className='overflow-hidden'>
+            {/* Render the current partner */}
+            <div className='partner-slide flex justify-center'>
+              <button onClick={goToPreviousPartner} className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full z-10">
+                <KeyboardArrowLeftIcon />
+              </button>
+              {partners.map((partner, index) => (
+                <div
+                  key={index}
+                  className={`w-full transition-transform duration-500 transform ${
+                    index === currentIndex ? 'opacity-100' : 'opacity-0 hidden'
+                  }`}
                 >
-                    see all
-                </Button>
-            </Link> */}
-        </div>
+                  <div className='bg-white p-4 rounded shadow-md text-center'>
+                  <h3 className='text-xl font-semibold mb-2'>{partner.toUpperCase()}</h3>
 
-        <div className='grid grid-cols-1'>
-
+                    {/* <p className='text-gray-600'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus feugiat lacus id neque dapibus, sit amet sodales neque lacinia.</p> */}
+                  </div>
+                </div>
+              ))}
+              <button onClick={goToNextPartner} className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full z-10">
+                <KeyboardArrowRightIcon />
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default OurPartners
+export default OurPartners;

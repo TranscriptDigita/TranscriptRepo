@@ -108,6 +108,7 @@ function Navbar() {
 
   return (
     <div className="grid grid-cols-1 shadow">
+      
       <div className="p-3 md:p-5 flex justify-between items-center">
         {/* Check for user */}
         {storedUser && storedUser.alumni.isVerified === true ? (

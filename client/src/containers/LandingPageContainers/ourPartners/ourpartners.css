@@ -1,0 +1,21 @@
+.partner-slide {
+    display: flex;
+    overflow: hidden;
+  }
+  
+  .partner-slide > div {
+    flex: 0 0 auto;
+    width: 100%;
+    transition: opacity 0.5s ease;
+  }
+  
+  .partner-slide > div.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  .partner-slide > div.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+  

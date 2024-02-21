@@ -2,6 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { Button, TextField } from '@mui/material';
 
 function VerifyCertificate() {
+
+
+
+  useEffect(() => {
+    
+    const keywordsMetaTag = document.createElement('meta');
+    keywordsMetaTag.name = 'keywords';
+    keywordsMetaTag.content = 'loumni, transcript, transcript processing, certificate, certificate processing, request for transcript, transcript processing system, academic records system, academy document, process academy document, request academy document, online transcript request system, centralized academy system, certificate system, transcript request';
+
+    const descriptionMetaTag = document.createElement('meta');
+    descriptionMetaTag.name = 'description';
+    descriptionMetaTag.content = "Loumni is a nationwide academy document processing system. With loumni, alumni/student can request for academic document such as Certificate, transcript, statement of result from their comfort zone and it'll delivered with ease.";
+
+    document.head.appendChild(keywordsMetaTag);
+    document.head.appendChild(descriptionMetaTag);
+
+    return () => {
+      // Clean up the added meta tags when the component unmounts
+      document.head.removeChild(keywordsMetaTag);
+      document.head.removeChild(descriptionMetaTag);
+    };
+  }, []);
+
+  
   const [institutionData, setInstitutionData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedSchool, setSelectedSchool] = useState('option1'); // Default selected value

@@ -4,7 +4,7 @@ import './mobileMenu.css'
 import {HiOutlineBellAlert, HiOutlineBuildingOffice2, HiOutlineUser} from 'react-icons/hi2'
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Link } from 'react-router-dom';
-import lumniImg from '../../assets/lumni.png'
+import lumniImg from '../../assets/loumni2.png';
 
 function MobileMenu() {
 
@@ -28,7 +28,7 @@ function MobileMenu() {
 
   return (
     <div className='flex flex-col fixed top-16 w-full bg-white p-3'>
-        <div className="flex items-center justify-end p-4"><img src={lumniImg} alt="Company Logo" className="w-20 " /></div>
+        {/* <div className="flex items-center justify-end p-4"><img src={lumniImg} alt="Company Logo" className="w-20 " /></div> */}
          <List className='p-2 gap-y-2 flex flex-col'>
             {menuItems && menuItems.map((menuItem)=>(
                 <Link 

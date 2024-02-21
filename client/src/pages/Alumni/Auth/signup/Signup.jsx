@@ -9,6 +9,26 @@ import { Link } from "react-router-dom";
 import { Navbar, Spinner } from "../../../../components";
 
 function Signup() {
+
+    useEffect(() => {
+        const keywordsMetaTag = document.createElement('meta');
+        keywordsMetaTag.name = 'keywords';
+        keywordsMetaTag.content = 'sign up to loumni, sign in to loumni, loumni login, create account, login to my loumni account, create loumni account, transcript, university, tertiary institution, Nigeria academic system, alumni, Nigeria institution, certificate, certificate processing, request for transcript, transcript processing system, academic records system, academy document, process academy document, request academy document, online transcript request system, centralized academy system, certificate system, transcript request';
+    
+        const descriptionMetaTag = document.createElement('meta');
+        descriptionMetaTag.name = 'description';
+        descriptionMetaTag.content = "Loumni is a nationwide academy document processing system. With loumni, alumni/student can request for academic document such as Certificate, transcript, statement of result from their comfort zone and it'll delivered with ease.";
+    
+        document.head.appendChild(keywordsMetaTag);
+        document.head.appendChild(descriptionMetaTag);
+    
+        return () => {
+          // Clean up the added meta tags when the component unmounts
+          document.head.removeChild(keywordsMetaTag);
+          document.head.removeChild(descriptionMetaTag);
+        };
+      }, []);
+
     const [formData, setFormData] = useState({
         fullName: '',
         emailAddress: '',

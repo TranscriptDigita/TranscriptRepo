@@ -92,7 +92,7 @@ function SelectLogin() {
 
 
 
-                <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
+                {/* <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
                     <img src={university} alt="alumnipic" />
                     <h4>Admin</h4>
                     <Link to={`/admin/login`}> 
@@ -105,7 +105,7 @@ function SelectLogin() {
                             continue
                         </Button>
                     </Link>
-                </div>
+                </div> */}
 
                 <div className="border p-2 gap-y-2 rounded-md flex flex-col items-center">
                     <img src={courier} alt="alumnipic" />

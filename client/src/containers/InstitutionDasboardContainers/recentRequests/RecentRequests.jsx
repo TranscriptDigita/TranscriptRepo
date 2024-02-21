@@ -130,10 +130,12 @@ function RecentRequests() {
     'Request Number': transcript.referenceId,
     'Receipt': (
       <button
-        onClick={() => window.open(`/receipt/${transcript._id}`, '_blank', 'width=600,height=400')}
-      >
-        View Receipt
-      </button>
+      onClick={() => window.open(`/receipt/${transcript._id}`, '_blank', 'width=600,height=400')}
+      className=' text-purple-800 hover:bg-purple-600 hover:text-white px-4 py-2 rounded-md'
+    >
+      View Receipt
+    </button>
+    
     ),
   }));
 
