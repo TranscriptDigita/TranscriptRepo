@@ -335,7 +335,7 @@ exports.deliveryMethod = async(req, res) => {
         let courierContactPhoneNumber = courierResponse.contactPhoneNumber;
         let courierHeadOfficeAddress = courierResponse.headOfficeAddress;
 
-        const transcriptUpdated = await Transcripts.findByIdAndUpdate(transcriptId, { typeOfTranscript, modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail, preferCourier, courierContactPhoneNumber, courierHeadOfficeAddress }, { new: true, useFindAndModify: false })
+        const transcriptUpdated = await Transcripts.findByIdAndUpdate(transcriptId, { modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail, preferCourier, courierContactPhoneNumber, courierHeadOfficeAddress }, { new: true, useFindAndModify: false })
 
         // If record found
         if (!transcriptUpdated) {
