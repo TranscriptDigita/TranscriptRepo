@@ -152,7 +152,7 @@ exports.forgotPassword = async(req, res) => {
         await foundAlumni.save();
 
         // send password reset email
-        await Alumni.sendEmail(emailAddress, 'Reset password', `Password reset link: https://transcript360.onrender.com/alumni/reset-password/${resetToken}`)
+        await Alumni.sendEmail(emailAddress, 'Reset password', `Password reset link: https://loumni.net/alumni/reset-password/${resetToken}`)
 
         // debug here for errors
         return res.status(200).json({ message: `verification email successfully sent`, alumni: foundAlumni })
