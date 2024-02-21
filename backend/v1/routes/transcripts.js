@@ -11,7 +11,7 @@ router.route(`/`)
 
 router.route(`/:transcriptId`)
     .get(controller.getTranscriptById)
-    .put(isAuth, controller.deliveryMethod);
+    .patch(isAuth, controller.deliveryMethod);
 
 // get transcript by alumni Id route
 router.route('/all/:alumniId')
