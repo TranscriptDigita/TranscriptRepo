@@ -1,22 +1,15 @@
-//  function to sum two numbers
-<table>
-    <thead>Student's Records</thead>
-    <tbody>
-        <tr>
-            <th>Serial</th>
-            <th>Name</th>
-            <th>Class</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Stella James</td>
-            <td>Jss1</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>James David</td>
-            <td>Jss2</td>
-        </tr>
-    </tbody>
-</table>
-# javascript
+<!Doctype html>
+<html>
+    <head>
+    <title>My Title</title>
+    <meta name="keywords" content="Ecommerce, ecommerce website, affordable shoes">
+    <meta name="description" content="Buy affordable shoes and cloths">
+    </head>
+    <body>
+        <h1>This is my first website</h1>
+        <footer>
+        </footer>
+    </body>
+</html>
+
+
