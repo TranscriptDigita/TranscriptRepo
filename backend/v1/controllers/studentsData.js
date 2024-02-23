@@ -44,7 +44,7 @@ exports.uploadData = function(req, res, next) {
                 const institutionId = req.user;
                 csvtojson().fromFile(filePath).then(async(response) => {
                     // Fetching all the data from each row
-                    console.log(response)
+                    console.log(response, institutionId)
                     for (var i = 0; i < response.length; i++) {
                         console.log(response[i].studentName);
                         var singleRow = {
@@ -78,7 +78,7 @@ exports.uploadData = function(req, res, next) {
 }
 
 exports.uploadDat = (excelUploads.single("studentsdata"), (req, res) => {
-    console.log(req.file);
+    // console.log(req.file);
     if (!req.file) {
         return res.status(403).json({ message: "File is required!" })
     }
