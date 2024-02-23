@@ -41,12 +41,12 @@ exports.uploadData = function(req, res, next) {
             function importFile(filePath) {
                 //  Read Excel File to Json Data
                 var arrayToInsert = [];
-                const institutionId = req.user;
+                const institutionId = req.user._id;
                 csvtojson().fromFile(filePath).then(async(response) => {
                     // Fetching all the data from each row
                     console.log(response, institutionId)
                     for (var i = 0; i < response.length; i++) {
-                        console.log(response[i].studentName);
+                        console.log(response[i].student_name);
                         var singleRow = {
                             studentName: response[i].student_name,
                             registrationNumber: response[i].registration_number,
