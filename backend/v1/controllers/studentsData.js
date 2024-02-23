@@ -121,11 +121,11 @@ exports.verifyStudent = async(req, res) => {
         const { registrationNumber, institutionId } = req.body;
         // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(institutionId)) {
-            throw Error('not a valid institutionId')
+            throw Error('Not a valid institutionId')
         }
 
         // find record using student regitration number and intitution Id in db
-        const findStudent = await Result.find({ registrationNumber: registrationNumber, institutionId: institutionId })
+        const findStudent = await Result.findOne({ registrationNumber: registrationNumber, institutionId: institutionId })
 
         // if not found throw error
         if (!findStudent.institutionId) {
