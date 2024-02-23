@@ -91,7 +91,7 @@ exports.uploadDat = (excelUploads.single("studentsdata"), (req, res) => {
         csvtojson().fromFile(filePath).then(response => {
             // Fetching all the data from each row
             for (var i = 0; i < response.length; i++) {
-                console.log(response[i]["student_name"], institutionId)
+                console.log("Student Name: " + response[i]["student_name"] + ", InstitutionId: " + institutionId)
                 var singleRow = {
                     studentName: response[i]["student_name"],
                     registratioNumber: response[i]["registration_number"],
