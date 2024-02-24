@@ -85,11 +85,12 @@ exports.getTranscriptByAlumniId = async(req, res) => {
 // Fetch transcript by ID
 exports.verifyTranscriptById = async(req, res) => {
     try {
-        const { transcriptId } = req.params;
+        const { referenceId } = req.params;
         // if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
         //     throw Error('Not a valid transcript Id.')
         // }
-        let response = await Transcripts.find({ _id: transcriptId })
+        let t = true;
+        let response = await Transcripts.find({ referenceId: transcriptId, isApproved: t })
         return res.status(200).json(response)
     } catch (error) {
         return res.status(409).json({ message: error.message })
