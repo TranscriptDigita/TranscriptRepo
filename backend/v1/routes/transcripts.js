@@ -14,7 +14,7 @@ router.route(`/:transcriptId`)
     .patch(isAuth, controller.deliveryMethod);
 
 // Verify transccript
-router.route(`/:transcriptId/verify`)
+router.route(`/verify`)
     .get(controller.verifyTranscript)
 
 // get transcript by alumni Id route
