@@ -1,0 +1,15 @@
+<!Doctype html>
+<html>
+    <head>
+    <title>My Title</title>
+    <meta name="keywords" content="Ecommerce, ecommerce website, affordable shoes">
+    <meta name="description" content="Buy affordable shoes and cloths">
+    </head>
+    <body>
+        <h1>This is my first website</h1>
+        <footer>
+        </footer>
+    </body>
+</html>
+
+
