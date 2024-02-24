@@ -89,7 +89,7 @@ exports.verifyTranscript = async(req, res) => {
         // if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
         //     throw Error('Not a valid transcript Id.')
         // }
-        let response = await Transcripts.findOne({ _id: transcriptId })
+        let response = await Transcripts.find({ _id: transcriptId })
         return res.status(200).json(response)
     } catch (error) {
         return res.status(409).json({ message: error.message })
