@@ -85,7 +85,7 @@ exports.getTranscriptByAlumniId = async(req, res) => {
 // Fetch transcript by ID
 exports.verifyTranscript = async(req, res) => {
     try {
-        const { transcriptId } = req.body;
+        const { transcriptId } = req.params;
         // if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
         //     throw Error('Not a valid transcript Id.')
         // }
