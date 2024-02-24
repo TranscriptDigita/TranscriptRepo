@@ -58,7 +58,7 @@ exports.getTranscriptById = async(req, res) => {
     try {
         const { transcriptId } = req.params;
         if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
-            throw Error('Not a valid id')
+            throw Error('Not a valid  transcript Id')
         }
         let response = await Transcripts.findById(transcriptId)
         return res.json(response)
@@ -81,6 +81,21 @@ exports.getTranscriptByAlumniId = async(req, res) => {
     }
 }
 
+
+// Fetch transcript by ID
+exports.verifyTranscript = async(req, res) => {
+    try {
+        const { transcriptId } = req.body;
+        if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
+            throw Error('Not a valid transcript Id.')
+        }
+        let response = await Transcripts.findOne({ _id: transcriptId })
+        return res.status(200).json(response)
+    } catch (error) {
+        return res.status(409).json({ message: error.message })
+    }
+
+}
 
 // Fetch all transcripts
 exports.getAllTranscripts = async(req, res) => {

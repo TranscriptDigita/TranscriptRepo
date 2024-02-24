@@ -13,6 +13,10 @@ router.route(`/:transcriptId`)
     .get(controller.getTranscriptById)
     .patch(isAuth, controller.deliveryMethod);
 
+// Verify transccript
+router.route(`/:transcriptId/verify`)
+    .get(controller.verifyTranscript)
+
 // get transcript by alumni Id route
 router.route('/all/:alumniId')
     .get(isAuth, controller.getTranscriptByAlumniId);
