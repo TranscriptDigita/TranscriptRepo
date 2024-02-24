@@ -83,7 +83,7 @@ exports.getTranscriptByAlumniId = async(req, res) => {
 
 
 // Fetch transcript by ID
-exports.verifyTranscript = async(req, res) => {
+exports.verifyTranscriptById = async(req, res) => {
     try {
         const { transcriptId } = req.params;
         // if (!mongoose.Types.ObjectId.isValid(transcriptId)) {

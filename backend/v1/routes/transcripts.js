@@ -15,7 +15,7 @@ router.route(`/:transcriptId`)
 
 // Verify transccript
 router.route(`/:transcriptId/verify`)
-    .get(controller.verifyTranscript)
+    .get(controller.verifyTranscriptById)
 
 // get transcript by alumni Id route
 router.route('/all/:alumniId')
