@@ -53,7 +53,7 @@ router.route('/:transcriptId/documents')
     .post(controller.uploadMiddleware);
 
 router.route('/:courier')
-    .get(verifyTranscriptsByCourier);
+    .get(controller.verifyTranscriptsByCourier);
 
 
 // export router
