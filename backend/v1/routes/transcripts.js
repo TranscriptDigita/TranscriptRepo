@@ -52,6 +52,9 @@ router.route('/institution/payments/:institutionId')
 router.route('/:transcriptId/documents')
     .post(controller.uploadMiddleware);
 
+router.route('/:courier')
+    .get(verifyTranscriptsByCourier);
+
 
 // export router
 

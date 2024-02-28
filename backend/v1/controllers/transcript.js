@@ -432,4 +432,20 @@ exports.uploadMiddleware = (req, res, next) => {
     });
 };
 
+// Fetch transcripts by courier service
+exports.verifyTranscriptsByCourier = async(req, res) => {
+    try {
+        const { courier } = req.params;
+        // if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
+        //     throw Error('Not a valid transcript Id.')
+        // }
+        let t = true;
+        let response = await Transcripts.find({ preferCourier: courier })
+        return res.status(200).json(response)
+    } catch (error) {
+        return res.status(409).json({ message: error.message })
+    }
+
+}
+
 module.exports = exports
