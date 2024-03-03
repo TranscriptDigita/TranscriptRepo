@@ -360,12 +360,12 @@ exports.deliveryMethod = async(req, res) => {
             }
             // return succesful status code, message and the new creaed transcript
             return res.status(200).json({
-                message: 'Courier service address and phone number are missing.',
+                message: 'Record updated.',
                 transcriptUpdated
             })
         } else {
             //    return status code with message
-            return res.status(409).json({ message: "Incorrect transcript ID passed!" })
+            return res.status(409).json({ message: "Courier service address and phone number are missing." })
         }
 
     } catch (error) {
