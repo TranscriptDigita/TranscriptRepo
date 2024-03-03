@@ -364,33 +364,34 @@ exports.updateLogistic = async(req, res) => {
 
 // courier service delivery options
 exports.delOptions = async(req, res) => {
-        const { id } = req.params
-        const {
+    const { id } = req.params
+    const {
+        weDoInternationalDelivery,
+        localDeliveryPrice,
+        internationalDeliveryPrice
+    } = req.body
+
+    try {
+        // verify if id is of mongoose type
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('Not a valid id')
+        }
+        // find alumnus in database the id and update
+        let updateData = await Logistic.deliveryOptions(id, {
             weDoInternationalDelivery,
             localDeliveryPrice,
             internationalDeliveryPrice
-        } = req.body
+        });
+        // return succesful status code, message and the updated user
+        return res.status(200).json({ message: "Successfully submitted", updateData })
 
-        try {
-            // verify if id is of mongoose type
-            if (!mongoose.Types.ObjectId.isValid(id)) {
-                throw Error('Not a valid id')
-            }
-            // find alumnus in database the id and update
-            let updateData = await Logistic.deliveryOptions(id, {
-                weDoInternationalDelivery,
-                localDeliveryPrice,
-                internationalDeliveryPrice
-            });
-            // return succesful status code, message and the updated user
-            return res.status(200).json({ message: "Successfully submitted", updateData })
-
-        } catch (error) {
-            // return error code and message 
-            return res.status(400).json({ message: error.message })
-        }
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
     }
-    // delete logistic
+}
+
+// delete logistic
 exports.deleteLogistic = async(req, res) => {
     const { id } = req.params
 
@@ -460,4 +461,36 @@ exports.upladIdCard = async(req, res) => {
         }
     })
 }
+
+// Setup account details
+exports.setUpAccount = async(req, res) => {
+    const { courierId } = req.params
+    const {
+        bankName,
+        bankSortCode,
+        accountName,
+        accountNumber
+    } = req.body
+
+    try {
+        // verify if id is of mongoose type
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('Not a valid id')
+        }
+        // find alumnus in database the id and update
+        let updateAccountData = await Logistic.setupBankAccount(id, {
+            bankName,
+            bankSortCode,
+            accountName,
+            accountNumber
+        });
+        // return succesful status code, message and the updated user
+        return res.status(200).json({ message: "Successfully submitted", updateAccountData })
+
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
+    }
+}
+
 module.exports = exports

@@ -52,4 +52,8 @@ router.route('/set-price/:id')
 router.route('/inter-services')
     .get(controller.getAllIntOfferLogistics)
 
+// set up bank account route
+router.route('/setup-account/:id')
+    .patch(controller.setUpAccount)
+
 module.exports = router

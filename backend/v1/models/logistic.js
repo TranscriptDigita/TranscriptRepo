@@ -27,6 +27,10 @@ const logisticSchema = new mongoose.Schema({
     weDoInternationalDelivery: { type: Boolean, default: false },
     localDeliveryPrice: { type: String },
     internationalDeliveryPrice: { type: String },
+    accountNumber: { type: String, default: "None" },
+    accountName: { type: String, default: "None" },
+    bankName: { type: String, default: "None" },
+    bankSortCode: { type: String, default: "None" },
     isVerified: { type: Boolean, default: false },
     kycIsSubmitted: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
@@ -194,6 +198,33 @@ logisticSchema.statics.getLogisticById = async function(id) {
     // fetching the admin details from the database
     const logistic = await this.findOne({ _id: id })
 
+}
+
+// Set up bank account details
+logisticSchema.statics.setupBankAccount = async(id, bankName, bankSortCode, accountName, accountNumber) => {
+    try {
+        if (!bankName || !bankSortCode || !accountName || !accountNumber) {
+            return res.status(403).json({ message: "All fields are required!" });
+        }
+        // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(409).json({ message: "Not a valid id!" })
+                // throw Error('Not a valid id')
+        }
+        const bankAccountUpdated = await this.findByIdAndUpdate(id, { bankName, bankSortCode, accountNumber, accountName })
+
+        // If record found
+        if (!bankAccountUpdated) {
+            //    return status code with message
+            return res.status(404).json({ message: "Incorrect transcript ID passed!" })
+        }
+        // return succesful status code, message and the new creaed transcript
+        return bankAccountUpdated;
+
+    } catch (error) {
+        // return error code and message 
+        return res.status(500).json({ message: error.message })
+    }
 }
 
 // ==================================
