@@ -464,7 +464,7 @@ exports.upladIdCard = async(req, res) => {
 
 // Setup account details
 exports.setUpAccount = async(req, res) => {
-    const { courierId } = req.params
+    const { id } = req.params
     const {
         bankName,
         bankSortCode,
