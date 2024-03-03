@@ -464,26 +464,28 @@ exports.upladIdCard = async(req, res) => {
 
 // Setup account details
 exports.setUpAccount = async(req, res) => {
-    const { id } = req.params
-    const {
-        bankName,
-        bankSortCode,
-        accountName,
-        accountNumber
-    } = req.body
-
     try {
-        // verify if id is of mongoose type
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw Error('Not a valid id')
-        }
-        // find alumnus in database the id and update
-        let updateAccountData = await Logistic.setupBankAccount(id,
+        const { id } = req.params
+        const {
             bankName,
             bankSortCode,
             accountName,
             accountNumber
-        );
+        } = req.body
+            // verify if id is of mongoose type
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('Not a valid id')
+        }
+        if (!bankName || !bankSortCode || !accountName || !accountNumber) {
+            throw Error('All fields are required!')
+        }
+        // find alumnus in database the id and update
+        let updateAccountData = await Logistic.setupBankAccount(id, {
+            bankName,
+            bankSortCode,
+            accountName,
+            accountNumber
+        });
         // return succesful status code, message and the updated user
         return res.status(200).json({ message: "Successfully submitted", updateAccountData })
 
