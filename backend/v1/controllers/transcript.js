@@ -433,7 +433,7 @@ exports.uploadMiddleware = (req, res, next) => {
 };
 
 // Fetch transcripts by courier service
-exports.verifyTranscriptsByCourier = async(req, res) => {
+exports.fetchTranscriptsByCourier = async(req, res) => {
     try {
         const { courier } = req.params;
         if (!courier) {
