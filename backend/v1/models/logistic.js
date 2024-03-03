@@ -224,7 +224,7 @@ logisticSchema.statics.setupBankAccount = async(id, bankName, bankSortCode, acco
 
     } catch (error) {
         // return error code and message 
-        return error.message
+        throw Error(error.message)
     }
 }
 
