@@ -436,9 +436,9 @@ exports.uploadMiddleware = (req, res, next) => {
 exports.verifyTranscriptsByCourier = async(req, res) => {
     try {
         const { courier } = req.params;
-        // if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
-        //     throw Error('Not a valid transcript Id.')
-        // }
+        if (!courier) {
+            throw Error('Courier Name is required.')
+        }
         let t = true;
         let response = await Transcripts.find({ preferCourier: courier })
         return res.status(200).json(response)
