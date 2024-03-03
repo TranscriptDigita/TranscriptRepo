@@ -350,19 +350,23 @@ exports.deliveryMethod = async(req, res) => {
         let courierResponse = await Logistic.findOne({ businessName: preferCourier });
         let courierContactPhoneNumber = courierResponse.contactPhoneNumber;
         let courierHeadOfficeAddress = courierResponse.headOfficeAddress;
+        if (courierContactPhoneNumber != "" && courierHeadOfficeAddress != "") {
+            const transcriptUpdated = await Transcripts.findByIdAndUpdate(transcriptId, { modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail, preferCourier, courierContactPhoneNumber, courierHeadOfficeAddress }, { new: true, useFindAndModify: false })
 
-        const transcriptUpdated = await Transcripts.findByIdAndUpdate(transcriptId, { modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail, preferCourier, courierContactPhoneNumber, courierHeadOfficeAddress }, { new: true, useFindAndModify: false })
-
-        // If record found
-        if (!transcriptUpdated) {
+            // If record found
+            if (!transcriptUpdated) {
+                //    return status code with message
+                return res.status(404).json({ message: "Incorrect transcript ID passed!" })
+            }
+            // return succesful status code, message and the new creaed transcript
+            return res.status(200).json({
+                message: 'Courier service address and phone number are missing.',
+                transcriptUpdated
+            })
+        } else {
             //    return status code with message
-            return res.status(404).json({ message: "Incorrect transcript ID passed!" })
+            return res.status(409).json({ message: "Incorrect transcript ID passed!" })
         }
-        // return succesful status code, message and the new creaed transcript
-        return res.status(200).json({
-            message: 'Delivery method updated successfully.',
-            transcriptUpdated
-        })
 
     } catch (error) {
         return res.json(error.message)
