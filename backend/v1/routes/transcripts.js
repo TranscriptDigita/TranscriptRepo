@@ -52,7 +52,7 @@ router.route('/institution/payments/:institutionId')
 router.route('/:transcriptId/documents')
     .post(controller.uploadMiddleware);
 
-router.route('/:courier')
+router.route('/fetchall/:courier')
     .get(controller.fetchTranscriptsByCourier);
 
 
