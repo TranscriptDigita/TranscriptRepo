@@ -204,26 +204,27 @@ logisticSchema.statics.getLogisticById = async function(id) {
 logisticSchema.statics.setupBankAccount = async(id, bankName, bankSortCode, accountName, accountNumber) => {
     try {
         if (!bankName || !bankSortCode || !accountName || !accountNumber) {
-            return res.status(403).json({ message: "All fields are required!" });
+            throw Error('All fields are required!')
         }
         // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(409).json({ message: "Not a valid id!" })
-                // throw Error('Not a valid id')
+            throw Error('Not a valid id')
+
         }
         const bankAccountUpdated = await this.findByIdAndUpdate(id, { bankName, bankSortCode, accountNumber, accountName })
 
         // If record found
         if (!bankAccountUpdated) {
             //    return status code with message
-            return res.status(404).json({ message: "Incorrect transcript ID passed!" })
+            throw Error('Incorrect transcript ID passed')
+
         }
         // return succesful status code, message and the new creaed transcript
         return bankAccountUpdated;
 
     } catch (error) {
         // return error code and message 
-        return res.status(500).json({ message: error.message })
+        return error.message
     }
 }
 

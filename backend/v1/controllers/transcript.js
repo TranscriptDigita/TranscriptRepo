@@ -338,7 +338,7 @@ exports.deliveryMethod = async(req, res) => {
 
         // getting the data from input by destructuring request body
         const { transcriptId } = req.params;
-        const { typeOfTranscript, modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail, preferCourier } = req.body;
+        const { modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail, preferCourier } = req.body;
         // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
             throw Error('Not a valid id')
@@ -346,8 +346,11 @@ exports.deliveryMethod = async(req, res) => {
         if (modeOfDelivery != "Email" && !preferCourier) {
             throw Error('Prefer courier service is required!')
         }
+        const myArray = preferCourier.split("-");
+        let preferCourierTaken = myArray[0];
+        let courierAmount = myArray[1];
         // get courier details
-        let courierResponse = await Logistic.findOne({ businessName: preferCourier });
+        let courierResponse = await Logistic.findOne({ businessName: preferCourierTaken });
         let courierContactPhoneNumber = courierResponse.contactPhoneNumber;
         let courierHeadOfficeAddress = courierResponse.headOfficeAddress;
         if (courierContactPhoneNumber != "" && courierHeadOfficeAddress != "") {
