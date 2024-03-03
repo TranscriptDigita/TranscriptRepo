@@ -377,9 +377,10 @@ exports.deliveryMethod = async(req, res) => {
 }
 
 // Custom file upload middleware
-exports.uploadMiddleware = (req, res, next) => {
+exports.uploadMiddleware = async(req, res, next) => {
     // Use multer upload instance
-    upload.array('files', 8)(req, res, (err) => {
+    const { transcriptId } = req.params;
+    upload.array('files', 8)(req, res, async(err) => {
         console.log("I am found here")
 
         if (err) {
@@ -430,6 +431,8 @@ exports.uploadMiddleware = (req, res, next) => {
                 }
             });
         });
+        const t = true;
+        const transcriptUpdated = await Transcripts.findByIdAndUpdate(transcriptId, { isUploadedDocs: t }, { new: true, useFindAndModify: false })
 
         // Send an appropriate response to the client
         res.status(200).json({ message: 'File(s) upload successful' });
