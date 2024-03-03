@@ -348,13 +348,13 @@ exports.deliveryMethod = async(req, res) => {
         }
         const myArray = preferCourier.split("-");
         let preferCourierTaken = myArray[0];
-        let courierAmount = myArray[1];
+        let logisticAmount = myArray[1];
         // get courier details
         let courierResponse = await Logistic.findOne({ businessName: preferCourierTaken });
         let courierContactPhoneNumber = courierResponse.contactPhoneNumber;
         let courierHeadOfficeAddress = courierResponse.headOfficeAddress;
         if (courierContactPhoneNumber != "" && courierHeadOfficeAddress != "") {
-            const transcriptUpdated = await Transcripts.findByIdAndUpdate(transcriptId, { modeOfDelivery, recipientCountry, recipientAddress, recipientPhoneNumber, recipientEmail, preferCourier, courierContactPhoneNumber, courierHeadOfficeAddress }, { new: true, useFindAndModify: false })
+            const transcriptUpdated = await Transcripts.findByIdAndUpdate(transcriptId, { modeOfDelivery: modeOfDelivery, recipientCountry: recipientCountry, recipientAddress: recipientAddress, recipientPhoneNumber: recipientPhoneNumber, recipientEmail: recipientEmail, preferCourier: preferCourierTaken, courierContactPhoneNumber: courierContactPhoneNumber, courierHeadOfficeAddress: courierHeadOfficeAddress, logisticAmount: logisticAmount }, { new: true, useFindAndModify: false })
 
             // If record found
             if (!transcriptUpdated) {
