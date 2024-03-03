@@ -478,12 +478,12 @@ exports.setUpAccount = async(req, res) => {
             throw Error('Not a valid id')
         }
         // find alumnus in database the id and update
-        let updateAccountData = await Logistic.setupBankAccount(id, {
+        let updateAccountData = await Logistic.setupBankAccount(id,
             bankName,
             bankSortCode,
             accountName,
             accountNumber
-        });
+        );
         // return succesful status code, message and the updated user
         return res.status(200).json({ message: "Successfully submitted", updateAccountData })
 
