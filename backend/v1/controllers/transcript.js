@@ -452,4 +452,46 @@ exports.fetchTranscriptsByCourier = async(req, res) => {
 
 }
 
+// function for  transcript pick up
+exports.pickedUp = async(req, res) => {
+    try {
+
+        // getting the data from input by destructuring request body
+        const { transcriptId, courierId } = req.params;
+
+        // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(transcriptId)) {
+            throw Error('Not a valid transcript id')
+        }
+        if (!transcriptId || !courierId) {
+            throw Error('Both transcript Id and courier Id are required!')
+        }
+        // get courier details
+        let courierResponse = await Logistic.findOne({ _id: courierId });
+        let courierContactPhoneNumber = courierResponse.contactPhoneNumber;
+        let courierHeadOfficeAddress = courierResponse.headOfficeAddress;
+        if (courierContactPhoneNumber != "" && courierHeadOfficeAddress != "") {
+            const t = true;
+            const transcriptUpdated = await Transcripts.findByIdAndUpdate(transcriptId, { isPickedUp: t }, { new: true, useFindAndModify: false })
+
+            // If record found
+            if (!transcriptUpdated) {
+                //    return status code with message
+                return res.status(404).json({ message: "Incorrect transcript ID passed!" })
+            }
+            // return succesful status code, message and the new creaed transcript
+            return res.status(200).json({
+                message: 'Record updated.',
+                transcriptUpdated
+            })
+        } else {
+            //    return status code with message
+            return res.status(409).json({ message: "Courier service is missing." })
+        }
+
+    } catch (error) {
+        return res.json(error.message)
+    }
+}
+
 module.exports = exports

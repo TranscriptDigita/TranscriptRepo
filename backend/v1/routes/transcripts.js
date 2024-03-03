@@ -55,6 +55,9 @@ router.route('/:transcriptId/documents')
 router.route('/fetchall/:courier')
     .get(controller.fetchTranscriptsByCourier);
 
+router.route('/picked/:transcriptId/:courierId')
+    .get(controller.pickedUp);
+
 
 // export router
 
