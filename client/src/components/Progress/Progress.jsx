@@ -4,6 +4,7 @@ import FullList from '../listInformation/FullList';
 import DeliveryList from '../listInformation/DeliveryList';
 import { Table, TranscriptGridItem } from '../../components';
 import { useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 // Define a new page component for the initial status
 function Page0({ schoolName, studentName, status }) {
@@ -131,6 +132,7 @@ function Progress() {
   const [activeStep, setActiveStep] = useState(0);
   const [transcript, setTranscript] = useState(null);
   const { id, data } = useParams();
+  const [selectedFiles, setSelectedFiles] = useState([]); // Added selectedFiles state
 
   // Function to extract institution ID from stored data
   const getUserName = () => {
@@ -197,22 +199,129 @@ function Progress() {
     }
   }, [transcript]);
 
+
+
+
+
+
+  const handleUpload = async () => {
+    try {
+      const formData = new FormData();
+      selectedFiles.forEach(file => {
+        formData.append('files', file);
+        console.log('Uploaded file:', file.name);
+      });
+
+       // Log the content of the FormData object
+    for (let pair of formData.entries()) {
+      console.log('FormData entry:', pair[0], pair[1]);
+    }
+
+      const response = await fetch(`https://dacs.onrender.com/api/v1/transcript/${id}/documents`, {
+
+      
+        method: 'POST',
+        body: formData
+      });
+      
+
+      if (response.ok) {
+        console.log('Files uploaded successfully.');
+        toast.success('File upload successful');
+        
+        // Handle further logic as needed
+      } else {
+        console.error('Failed to upload files:', response.statusText);
+         toast.error('File upload failed');
+      }
+    } catch (error) {
+      console.error('Error uploading files:', error);
+    }
+  };
+
+
+
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+
+  const openUploadModal = () => {
+    setIsUploadModalOpen(true);
+  };
+
+  const closeUploadModal = () => {
+    setIsUploadModalOpen(false);
+  };
+
+  const handleFileChange = (event) => {
+    const files = event.target.files;
+    setSelectedFiles([...selectedFiles, ...files]);
+  };
+  
+  const renderUploadButton = () => {
+    if (transcript && !transcript.isUploadedDocs) {
+      return (
+        <button
+        onClick={openUploadModal}
+        className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded ml-10"
+      >
+        Proceed to Upload Your Document
+      </button>
+      );
+    }
+    return null;
+  };
+
+
+
   return (
     <div>
+
+      
        
       <button
         onClick={() => window.open(`/receipt/${id}`, '_blank', 'width=600,height=400')}
+        className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
       >
         View Receipt
       </button>
+      {renderUploadButton()}
+      
       {/* Render the component for the active step */}
-      <div>{steps[activeStep].component}</div>
+      <div className='mt-5'>{steps[activeStep].component}</div>
       {/* Display transcript data if available */}
       {/* {transcript && (
         <div>
           <p>Transcript Data: {JSON.stringify(transcript)}</p>
         </div>
       )} */}
+       {/* Upload Modal */}
+       {isUploadModalOpen && (
+        <div className="fixed z-10 inset-0 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen">
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={closeUploadModal}></div>
+            <div className="relative bg-white rounded-lg p-8">
+              <h3 className='text-lg font-semibold mb-6'>The Institution Requires You To Upload The Following:</h3>
+              <div className={`bg-${selectedFiles.length > 0 ? 'green' : 'gray-300'} border border-gray-300 rounded-md p-4 mb-4`}>
+                <input
+                  type="file"
+                  multiple
+                  onChange={handleFileChange}
+                  className="mb-2"
+                />
+                <div>
+                  {selectedFiles.map((file, index) => (
+                    <p key={index}>{file.name}</p>
+                  ))}
+                </div>
+                <button type='button' onClick={handleUpload} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  Upload Files
+                </button>
+                <ToastContainer/>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    
     </div>
   );
 }

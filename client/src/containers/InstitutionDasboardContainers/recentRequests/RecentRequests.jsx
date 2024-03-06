@@ -111,7 +111,7 @@ function RecentRequests() {
       title: 'Status'
     },
     {
-      title: 'Request Number'
+      title: 'Reference ID'
     },
     {
       title: 'Receipt'
@@ -127,7 +127,7 @@ function RecentRequests() {
     'Course': transcript.program,
     'Year Graduated': transcript.yearOfGraduation,
     'Status': getStatus(transcript),
-    'Request Number': transcript.referenceId,
+    'Reference ID': transcript.referenceId,
     'Receipt': (
       <button
       onClick={() => window.open(`/receipt/${transcript._id}`, '_blank', 'width=600,height=400')}

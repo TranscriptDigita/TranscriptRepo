@@ -79,7 +79,7 @@ function AlumniDetailsForm() {
   }
   
     const schoolCharge = typeOfDocument ? parseInt(typeOfDocument.split('-')[1].trim()) : 0;
-    const deliveryCharge = preferCourier ? parseInt(preferCourier.split('₦')[1].trim()) : 0;
+    const deliveryCharge = preferCourier ? parseInt(preferCourier.split('-')[1].trim()) : 0;
     const processingFee = 0.05 * schoolCharge;
     const total = schoolCharge + deliveryCharge + processingFee ;
 
@@ -129,7 +129,7 @@ function AlumniDetailsForm() {
         key: 'pk_live_b586f423b250b6270f1df76df842c8cd4bee30dc', // This is a test  public key, we'll replace it later
         email: userEmail,
         amount: total * 100 , // the amount value is multiplied by 100 to convert to the lowest currency unit
-        currency: 'NGN', 
+        currency: 'NGN',
         ref: transcriptId, //put the transcript/document ID here
         callback: function(response) {
           //this happens after the payment is completed successfully
@@ -370,6 +370,8 @@ console.log("This is the user data from local storage:", userData);
       recipientEmail: recipientEmailRef.current?.value,
       preferCourier: selectedCourier,
     };
+
+    console.log('the data', requestDataa);
   
     // Save the request data to local storage
     localStorage.setItem('tempDataD', JSON.stringify(requestDataa));
@@ -506,12 +508,13 @@ console.log("This is the user data from local storage:", userData);
         <button
           className='md:w-4/12 mx-auto bg-gray-300'
           onClick={() => {}}
-          // style={{ color: 'black', marginLeft: '0' }}
+         
+          className='font-bold text-center'
         >
-          Request Academic Credentials From {data}
+         Alumni Academic Credentials Request From 
         </button>
 
-        <h4 className='font-bold text-center'>Fill the Form below</h4>
+        <h4 className='font-bold text-center'>Fill The Form Below</h4>
         <p className='text-[14px] font-light text-center'>
           When applying for your your academic credential, please ensure that you carefully and accurately fill out the form below.
           Double-check all the information you provide, including your name, student ID number, course details, and the
@@ -539,7 +542,7 @@ console.log("This is the user data from local storage:", userData);
                     <option value=''>Select Document {document.document}{document.amount}</option>
                     {documentPrices.map((document) => (
                       <option key={document.document} value={`${document.document}-${document.amount}`}>
-                        {document.document} ({document.amount})
+                        {document.document} (₦{document.amount})
                       </option>
                     ))}
                   </select>
@@ -706,25 +709,26 @@ console.log("This is the user data from local storage:", userData);
 
 
 <select
- className='custom-textfield border-2 border-black border-solid rounded-md p-2 h-10'
- value={selectedCourier}
- onChange={(e) => setSelectedCourier(e.target.value)}
+    className='custom-textfield border-2 border-black border-solid rounded-md p-2 h-10'
+    value={selectedCourier}
+    onChange={(e) => setSelectedCourier(e.target.value)}
 >
- <option value='' disabled>Select Courier Service To Use</option>
- {courierServiceProviders.map((courier) => (
-   <option
-     key={courier._id}
-     value={`${courier.businessName} - ${selectedCountry?.value === 'Nigeria' ? `₦ ${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `₦: ${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}`}
-     disabled={
-       (selectedCountry?.value === 'Nigeria' && courier.localDeliveryPrice === undefined) ||
-       (selectedCountry?.value !== 'Nigeria' && courier.internationalDeliveryPrice === undefined)
-     }
-     style={{ color: (selectedCountry?.value === 'Nigeria' && courier.localDeliveryPrice === undefined) || (selectedCountry?.value !== 'Nigeria' && courier.internationalDeliveryPrice === undefined) ? 'gray' : 'black' }}
-   >
-     {courier.businessName} {selectedCountry?.value === 'Nigeria' ? ` ${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `₦: ${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}
-   </option>
- ))}
+    <option value='' disabled>Select Courier Service To Use</option>
+    {courierServiceProviders.map((courier) => (
+        <option
+            key={courier._id}
+            value={`${courier.businessName}-${selectedCountry?.value === 'Nigeria' ? `${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `-:${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}`}
+            disabled={
+                (selectedCountry?.value === 'Nigeria' && courier.localDeliveryPrice === undefined) ||
+                (selectedCountry?.value !== 'Nigeria' && courier.internationalDeliveryPrice === undefined)
+            }
+            style={{ color: (selectedCountry?.value === 'Nigeria' && courier.localDeliveryPrice === undefined) || (selectedCountry?.value !== 'Nigeria' && courier.internationalDeliveryPrice === undefined) ? 'gray' : 'black' }}
+        >
+            {courier.businessName} ₦{selectedCountry?.value === 'Nigeria' ? ` ${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `₦: ${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}
+        </option>
+    ))}
 </select>
+
 
 
 
@@ -801,25 +805,25 @@ console.log("This is the user data from local storage:", userData);
                      className='custom-textfield border-2 border-black border-solid rounded-md p-2'
                    />
                    <select
-                     className='custom-textfield border-2 border-black border-solid rounded-md p-2 h-10'
-                     value={selectedCourier}
-                     onChange={(e) => setSelectedCourier(e.target.value)}
-                   >
-                     <option value='' disabled>Select Courier Service To Use</option>
-                     {courierServiceProviders.map((courier) => (
-                       <option
-                         key={courier._id}
-                         value={`${courier.businessName} - ${selectedCountry?.value === 'Nigeria' ? `₦ ${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `₦: ${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}`}
-                         disabled={
-                           (selectedCountry?.value === 'Nigeria' && courier.localDeliveryPrice === undefined) ||
-                           (selectedCountry?.value !== 'Nigeria' && courier.internationalDeliveryPrice === undefined)
-                         }
-                         style={{ color: (selectedCountry?.value === 'Nigeria' && courier.localDeliveryPrice === undefined) || (selectedCountry?.value !== 'Nigeria' && courier.internationalDeliveryPrice === undefined) ? 'gray' : 'black' }}
-                       >
-                         {courier.businessName} {selectedCountry?.value === 'Nigeria' ? ` ${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `₦: ${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}
-                       </option>
-                     ))}
-                   </select>
+    className='custom-textfield border-2 border-black border-solid rounded-md p-2 h-10'
+    value={selectedCourier}
+    onChange={(e) => setSelectedCourier(e.target.value)}
+>
+    <option value='' disabled>Select Courier Service To Use</option>
+    {courierServiceProviders.map((courier) => (
+        <option
+            key={courier._id}
+            value={`${courier.businessName}-${selectedCountry?.value === 'Nigeria' ? `${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `-:${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}`}
+            disabled={
+                (selectedCountry?.value === 'Nigeria' && courier.localDeliveryPrice === undefined) ||
+                (selectedCountry?.value !== 'Nigeria' && courier.internationalDeliveryPrice === undefined)
+            }
+            style={{ color: (selectedCountry?.value === 'Nigeria' && courier.localDeliveryPrice === undefined) || (selectedCountry?.value !== 'Nigeria' && courier.internationalDeliveryPrice === undefined) ? 'gray' : 'black' }}
+        >
+            {courier.businessName} ₦{selectedCountry?.value === 'Nigeria' ? ` ${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `₦: ${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}
+        </option>
+    ))}
+</select>
                  </>
                )}
          
@@ -1112,7 +1116,7 @@ console.log("This is the user data from local storage:", userData);
 
             {/* <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
             onClick={() => {
-              setActiveForm(6);
+              setActiveForm(2);
               findDocumentPrice(); // Navigate to the next step
               // handleSubmit(); // Call handleSubmit
             }}>

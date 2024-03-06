@@ -9,6 +9,7 @@ function ReceiptA() {
  const [invoiceData, setInvoiceData] = useState(null);
  const transcriptApiResponse = JSON.parse(localStorage.getItem('transcriptApiResponse'));
  const transcriptId = transcriptApiResponse?.Transcript?._id;
+ const contentRef = useRef();
 
   useEffect(() => {
     fetch(`https://dacs.onrender.com/api/v1/transcript/payment-data/${transcriptId}`)
@@ -16,6 +17,16 @@ function ReceiptA() {
         .then(data => setInvoiceData(data))
         .catch(error => console.error('Error fetching data:', error));
 }, [transcriptId]);
+
+
+const handleDownloadPDF = () => {
+    const printableContent = contentRef.current.innerHTML;
+    const originalContent = document.body.innerHTML;
+
+    document.body.innerHTML = printableContent;
+    window.print();
+    document.body.innerHTML = originalContent;
+  };
 
 if (!invoiceData) {
     return <p>Loading...</p>;
@@ -25,26 +36,29 @@ if (!invoiceData) {
 
 return (
 
-<div className="container mx-auto">
-             <div className="bg-white border rounded-lg shadow-lg px-8 py-6 my-8">
-                 <div className="flex justify-between items-center">
-                 <div className="flex justify-center">
-                    <img src={lumniImg} alt="Company Logo" className="w-40" />
-                    
-                </div>
-                <div className="flex justify-center">
-                    
-                <h3 className="text-lg font-bold text-gray-800"> {invoiceData.institutionName}</h3>
-                </div>
-                <div className="flex justify-center">
-                         <h2 className="text-xl font-bold text-gray-800">Invoice #{invoiceData.reference}</h2>
-                         {/* <p className="text-sm text-gray-600">Generated on {new Date().toLocaleDateString()}</p> */}
-                     </div>
-                     <div className="flex justify-center">
-                         {/* <h2 className="text-xl font-bold text-gray-800">Invoice #{invoiceData.reference}</h2> */}
-                         <p className="text-sm text-gray-600">Generated on {new Date().toLocaleDateString()}</p>
-                     </div>
-                    
+    <div className="container mx-auto" ref={contentRef}>
+    <div className="bg-white border rounded-lg shadow-lg px-8 py-6 my-8">
+    <div className="flex justify-center">
+           <img src={lumniImg} alt="Company Logo" className="w-40" />
+           
+       </div>
+       <div className="flex justify-center">
+           
+       <h3 className="text-lg font-bold text-gray-800"> {invoiceData.institutionName}</h3>
+       </div>
+       <div className="flex justify-center">
+            <div>
+                <h2 className="text-xl font-bold text-gray-800">Invoice #{invoiceData.reference}</h2>
+                {/* <p className="text-sm font-bold text-gray-600">Generated on {new Date().toLocaleDateString()}</p> */}
+            </div>
+
+        </div>
+        <div className="flex justify-center">
+            <div>
+                {/* <h2 className="text-xl font-bold text-gray-800">Invoice #{invoiceData.reference}</h2> */}
+                <p className="text-sm font-bold text-gray-600">Generated on {new Date().toLocaleDateString()}</p>
+            </div>
+          
                  </div>
                  <div className="mt-6">
                      <h3 className="text-lg font-bold text-gray-800">Customer Information</h3>
@@ -128,6 +142,7 @@ return (
                          </tbody>
                      </table>
                  </div>
+                 <button onClick={handleDownloadPDF}>Download PDF</button>
              </div>
          </div>
 

@@ -110,6 +110,8 @@ function Signup() {
       phoneNumber,
     };
 
+    console.log("data", institutionData)
+
     try {
       const response = await dispatch(registerInstitution(institutionData));
 
@@ -123,6 +125,20 @@ function Signup() {
     } catch (error) {
       console.error('API Error:', error);
     }
+  };
+
+
+  const inputChangePhone = (event) => {
+    let value = event.target.value;
+    // Check if the value starts with '+' and if it does, remove it before setting the state
+    if (value.startsWith('+')) {
+      value = value.substring(1);
+    }
+    // Update the state with the value including the '+' sign
+    setFormData({
+      ...formData,
+      phoneNumber: '+' + value,
+    });
   };
 
   return (
@@ -159,17 +175,18 @@ function Signup() {
                 value={formData.location}
                 onChange={inputChange}
               />
-              <TextField
-                id='outlined-text-input'
-                label='Phone Number'
-                type='text'
-                name='phoneNumber'
-                value={formData.phoneNumber}
-                onChange={inputChange}
-              />
+                <TextField
+                  id='outlined-text-input'
+                  label='Phone Number (With Country Code)'
+                  type='text'
+                  name='phoneNumber'
+                  value={formData.phoneNumber.startsWith('+') ? formData.phoneNumber : '+' + formData.phoneNumber} // Ensure '+' is always present in the displayed value
+                  onChange={inputChangePhone}
+                />
+              
               <TextField
                 id='outlined-password-input'
-                label='Password'
+                label='Password' 
                 type='password'
                 autoComplete='current-password'
                 name='password'
@@ -229,7 +246,7 @@ function Signup() {
             <p className='text-center'>Please insert the 5-digit token sent to your email</p>
             <p className='text-[#6B3FA0] text-center'>{apiResponse.institution.emailAddress}</p>
             {/* <p className='text-[#6B3FA0] text-center'>{apiResponse.institution.emailAddress}</p> */}
-            <p className='text-center'>Verification Code: {apiResponse.institution.verificationCode}</p>
+            {/* <p className='text-center'>Verification Code: {apiResponse.institution.verificationCode}</p> */}
             {/* {console.log(apiResponse)} */}
             {/* <pre>{JSON.stringify(apiResponse, null, 2)}</pre>
             <pre>{JSON.stringify(verifyResponse, null, 2)}</pre> */}

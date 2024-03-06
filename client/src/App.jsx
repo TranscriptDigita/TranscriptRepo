@@ -50,7 +50,7 @@ import {
   EvaluationOfficerLogin,
   EvaluationOfficerDashboard,
   UniversityProfile,
-  VerifyCertificate,
+  
   Settings,
   TrackingPage,
   SuperAdminLogin,
@@ -69,6 +69,8 @@ import {
   CourierDashboard,
   KYC,
   CourierPrices,
+  SetupBankAccountPage,
+  VerifyCertificate,
 } from "./pages";
 
 // components imports
@@ -87,6 +89,7 @@ import TranscriptDetail from "./pages/Alumni/Transcripts/TranscriptDetail/Transc
 import NewRequestPage from "./pages/Alumni/Transcripts/NewRequestPage/NewRequestPage";
 import RegistraLayout from "./layouts/registraLayout/RegistraLayout";
 import { BookCourier } from "./containers";
+import VerifyTranscript from "./pages/VerifyCertificate/VerifyTranscript";
 
 function App() {
 
@@ -227,6 +230,12 @@ function App() {
         },
 
         {
+          path: '/verifytranscript',
+          element: <VerifyTranscript/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
           path: '/receipt/:id',
           element: <Receipt/>,
           errorElement: <ErrorPage/>
@@ -318,6 +327,12 @@ function App() {
             {
               path: "/courier/:id/:token/courierprices",
               element: <CourierPrices/>,
+              errorElement: <ErrorPage />,
+            },
+
+            {
+              path: "/courier/:id/:token/setaccount",
+              element: <SetupBankAccountPage/>,
               errorElement: <ErrorPage />,
             },
 

@@ -28,6 +28,7 @@ function TrackingPage() {
         if (data && Array.isArray(data)) {
           // Reverse the array to display from last to first
           setTranscripts(data.reverse());
+          
         } else {
           console.error('Invalid data structure. Expected an array:', data);
         }

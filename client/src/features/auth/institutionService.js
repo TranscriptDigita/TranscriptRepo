@@ -33,6 +33,7 @@ export const verifyInstitutionEmail = async (id, verificationCode) => {
     const institutionUserData = response.data;
     saveInstitutionUserData(institutionUserData);
     console.log('Institution data after email verification:', institutionUserData);
+    localStorage.clear();
     return institutionUserData;
   } catch (error) {
     console.error('Error during email verification:', error);

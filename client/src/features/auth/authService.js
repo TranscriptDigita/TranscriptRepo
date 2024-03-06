@@ -32,6 +32,7 @@ const verify = async (userData) => {
 
     if(response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
+        localStorage.clear();
     }
 
     return response.data

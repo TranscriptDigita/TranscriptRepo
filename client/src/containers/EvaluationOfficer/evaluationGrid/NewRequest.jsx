@@ -253,7 +253,7 @@ function NewRequest() {
       title: 'Status'
     },
     {
-      title: 'Request Number'
+      title: 'Reference ID'
     },
     {
       title: 'Action'
@@ -274,7 +274,7 @@ const formattedItems = reversedFilteredTranscripts.map((transcript) => ({
     'Course': transcript.program,
     'Year Graduated': transcript.yearOfGraduation,
     'Status': getStatus(transcript),
-    'Request Number': transcript.referenceId,
+    'Reference ID': transcript.referenceId,
     'Action': (
         <select onChange={(e) => {
           switch (e.target.value) {

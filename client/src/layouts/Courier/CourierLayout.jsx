@@ -105,15 +105,20 @@ function CourierLayout() {
     // },
    
     {
-      title: 'Notification',
+      title: 'Dashboard',
       icon: <HiOutlineBell size={20} />,
-      path: ``,
+      path: `/courier/${courierId}/${courierToken}/dashboard`,
       notificationCount: notificationCount,
     },
     {
       title: 'KYC Verification',
       icon: <HiOutlineCog6Tooth size={20} />,
       path: `/courier/${courierId}/${courierToken}/kyc`,
+    },
+    {
+      title: 'Set Account',
+      icon: <HiOutlineCog6Tooth size={20} />,
+      path: `/courier/${courierId}/${courierToken}/setaccount`,
     },
     {
       title: 'Prices',

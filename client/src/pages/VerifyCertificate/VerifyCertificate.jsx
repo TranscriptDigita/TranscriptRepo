@@ -80,32 +80,16 @@ function VerifyCertificate() {
       console.log('Please select a school and enter a student registration number');
       return;
     }
-
+  
     // Use the selectedSchool directly as the institutionId
     const institutionId = selectedSchool;
-
-    // Log the institutionId and studentRegNumber before making the API call
-    console.log('Institution ID:', institutionId);
-    console.log('Student Registration Number:', studentRegNumber);
-
+  
     // Construct the request body
     const requestBody = {
       registrationNumber: studentRegNumber,
       institutionId: institutionId,
     };
-
-    // Log the data sent to the API
-    console.log('Data Sent to API:', requestBody);
-
-    // Log the headers before making the API call
-    console.log('Request Headers:', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    });
-
+  
     try {
       const response = await fetch('https://dacs.onrender.com/api/v1/students-data/verify', {
         method: 'POST',
@@ -114,29 +98,31 @@ function VerifyCertificate() {
         },
         body: JSON.stringify(requestBody),
       });
-
-      // Log the entire API response, whether success or error
-      console.log('API Response:', response);
-
+  
       if (response.ok) {
         const data = await response.json();
         // Handle the response data as needed for successful cases
         console.log('Success: Certificate verified', data);
+  
+        // Open the pop-up with the verification result and selected data from API response
         openPopup({
           isValid: true,
           matricNumber: studentRegNumber,
           institution: institutionData.find((inst) => inst._id === selectedSchool)?.name,
+          // Select the required data to display in the pop-up message
+          studentName: data.data.studentName,
+          grade: data.data.grade,
+          cgp: data.data.cgp,
+          yearOfGraduation: data.data.yearOfGraduation
+
         });
+        
       } else {
         throw new Error('Failed to verify certificate');
       }
     } catch (error) {
-      // Log the error message and the entire API response in case of an error
-      if (error && error.message) {
-        console.error('Error verifying certificate:', error.message);
-      } else {
-        console.error('Error verifying certificate:', error);
-      }
+      // Log the error message and open the pop-up with the verification failure
+      console.error('Error verifying certificate:', error);
       openPopup({
         isValid: false,
         matricNumber: studentRegNumber,
@@ -185,15 +171,28 @@ function VerifyCertificate() {
 
       {/* Pop-up window for displaying the verification result */}
       {isPopupOpen && (
-        <div className='popup mt-20 bg-gray-300' style={{borderRadius:"20px", padding:"20px"}}>
-          {popupContent.isValid ? (
-            <p>{`The certificate with matric no: ${popupContent.matricNumber} from  ${popupContent.institution.name} is valid`}</p>
-          ) : (
-            <p>{`The certificate with matric no: ${popupContent.matricNumber} from  ${popupContent.institution} is not valid`}</p>
-          )}
-          <Button onClick={closePopup} className='bg-gray-200'>Close</Button>
-        </div>
-      )}
+  <div className='popup mt-20 bg-gray-300' style={{ borderRadius: "20px", padding: "20px" }}>
+    {popupContent.isValid ? (
+      <div>
+        <p style={{ fontSize: "1.2rem", marginBottom: "1rem", fontWeight: "bold" }}>
+          Certificate Verification Result
+        </p>
+        <p style={{ fontSize: "1rem" }}>
+          The certificate bearing registration number <span style={{ fontWeight: "bold" }}>{popupContent.matricNumber}</span> from <span style={{ fontWeight: "bold" }}>{popupContent.institution}</span> has been verified as authentic.
+        </p>
+        <p style={{ fontSize: "1rem", marginTop: "0.5rem" }}>
+          Student Name: <span style={{ fontWeight: "bold" }}>{popupContent.studentName}</span> | Grade: <span style={{ fontWeight: "bold" }}>{popupContent.grade}</span> | CGP: <span style={{ fontWeight: "bold" }}>{popupContent.cgp}</span>
+        </p>
+      </div>
+    ) : (
+      <p style={{ fontSize: "1rem" }}>
+        The certificate with matric no: <span style={{ fontWeight: "bold" }}>{popupContent.matricNumber}</span> from <span style={{ fontWeight: "bold" }}>{popupContent.institution}</span> could not be verified.
+      </p>
+    )}
+    <Button onClick={closePopup} className='bg-gray-200'>Close</Button>
+  </div>
+)}
+
     </div>
   );
 }

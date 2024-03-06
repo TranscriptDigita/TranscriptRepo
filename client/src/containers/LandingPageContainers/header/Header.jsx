@@ -20,7 +20,9 @@ function Header() {
       description:
         'Accelerate your educational journey with our simplified transcript retrieval platform. Gain easy access to your transcripts, effortlessly request official records, and pave the way to your success.',
       buttonText: 'Verify Certificate',
-      linkTo: '/verifycertificate',
+      buttonLink: '/verifycertificate',
+      buttonText2: 'Verify Transcript',
+      buttonLink2: '/verifytranscript',
       image: headerImg,
     },
     {
@@ -28,7 +30,9 @@ function Header() {
       description:
         ' Central Transcript Issuance and Verification System, Database Storage for digitized academic credentials Get your transcript processed and verified within 24hrs',
       buttonText: 'Verify Certificate',
-      linkTo: '/verifycertificate',
+      buttonLink: '/verifycertificate',
+      buttonText2: 'Verify Transcript',
+      buttonLink2: '/verifytranscript',
       image: headerImg,
     },
     {
@@ -36,7 +40,9 @@ function Header() {
       description:
         'Get your statement of result processed and issued within 48hrs..',
       buttonText: 'Verify Certificate',
-      linkTo: '/selectlogin',
+      buttonLink: '/verifycertificate',
+      buttonText2: 'Verify Transcript',
+      buttonLink2: '/verifytranscript',
       image: headerImg,
     },
     {
@@ -44,7 +50,9 @@ function Header() {
       description:
         'Request, Generate, Digitalize, Send, Receive, Evaluate, Verify, Store and share academic credentials',
       buttonText: 'Verify Certificate',
-      linkTo: '/verifycertificate',
+      buttonLink: '/verifycertificate',
+      buttonText2: 'Verify Transcript',
+      buttonLink2: '/verifytranscript',
       image: headerImg,
     },
   ];
@@ -77,11 +85,19 @@ function Header() {
         <p className='md:text-[16px] text-[12px] font-light'>
           {slides[currentSlide].description}
         </p>
-        <Link to={slides[currentSlide].linkTo}>
-          <Button variant='contained' className='bg-[#6B3FA0]'>
-            {slides[currentSlide].buttonText}
-          </Button>
-        </Link>
+        <div className="flex gap-x-4">
+  <Link to={slides[currentSlide].buttonLink} className="flex-shrink-0">
+    <Button variant='contained' className='bg-[#6B3FA0]'>
+      {slides[currentSlide].buttonText}
+    </Button>
+  </Link>
+  <Link to={slides[currentSlide].buttonLink2} className="flex-shrink-0">
+    <Button variant='contained' className='bg-[#6B3FA0]'>
+      {slides[currentSlide].buttonText2}
+    </Button>
+  </Link>
+</div>
+
         <div>
         {/* <button onClick={() => handleSlideChange(-1)}>
             <HiChevronLeft />

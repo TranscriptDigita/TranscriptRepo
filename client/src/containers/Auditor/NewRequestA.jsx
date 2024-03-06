@@ -119,6 +119,8 @@ const institutionId = getStaffInstitutionId();
                 : transcript
             )
           );
+           // Reload the page
+        window.location.reload();
       
           // Log the reload response
           console.log('Transcript marked as Queried:', transcriptId);
@@ -143,7 +145,7 @@ const institutionId = getStaffInstitutionId();
       title: 'Status'
     },
     {
-      title: 'Request Number'
+      title: 'Reference ID'
     },
     {
       title: 'Action'
@@ -165,7 +167,7 @@ const formattedItems = reversedFilteredTranscripts.map((transcript) => ({
   'Course': transcript.program,
   'Year Graduated': transcript.yearOfGraduation,
   'Status': transcript.isQuerried === true ? 'Queried' : 'Not Queried', // Directly use isQueried property,
-  'Request Number': transcript.referenceId,
+  'Reference ID': transcript.referenceId,
   'Action': (
       <select onChange={(e) => {
         switch (e.target.value) {

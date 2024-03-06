@@ -46,7 +46,7 @@ function RecentTranscriptTable({ headers, items }) {
   };
 
   const filteredItems = items.filter((item) =>
-    item['Request Number'].toLowerCase().includes(searchText.toLowerCase())
+    item['Reference ID'].toLowerCase().includes(searchText.toLowerCase())
   );
 
   const sortedItems = [...filteredItems].sort((a, b) => {
@@ -85,7 +85,7 @@ function RecentTranscriptTable({ headers, items }) {
         onChange={handleSearch}
         className="mb-4 p-2"
       />
-
+     <p style={{color:"red"}}>Ensure You Include The Reference ID To The Transcript, When Sending It To The Alumni</p>
       <div className='grid grid-cols-1'>
         <table className='w-full text-sm text-left rtl:text-right text-black bg-white'>
           

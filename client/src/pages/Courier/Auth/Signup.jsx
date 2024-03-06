@@ -122,6 +122,7 @@ function Signup() {
           draggable: true,
           progress: undefined,
         });
+        localStorage.clear();
         // Additional logic for success if needed
       } else {
         toast.success('Verification successful!', {
@@ -133,6 +134,7 @@ function Signup() {
           draggable: true,
           progress: undefined,
         });
+        localStorage.clear();
         navigate(`/courier/login`);
       }
     } catch (error) {

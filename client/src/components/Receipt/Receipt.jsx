@@ -8,6 +8,7 @@ function Receipt() {
 
  const [invoiceData, setInvoiceData] = useState(null);
 const {id} = useParams(); 
+const contentRef = useRef();
 
   useEffect(() => {
     fetch(`https://dacs.onrender.com/api/v1/transcript/payment-data/${id}`)
@@ -16,15 +17,32 @@ const {id} = useParams();
         .catch(error => console.error('Error fetching data:', error));
 }, [id]);
 
+
+
+const handleDownloadPDF = () => {
+    const printableContent = contentRef.current.innerHTML;
+    const originalContent = document.body.innerHTML;
+
+    document.body.innerHTML = printableContent;
+    window.print();
+    document.body.innerHTML = originalContent;
+  };
+
+
 if (!invoiceData) {
     return <p>Loading...</p>;
 }
 
 
 
+
+
+
+
+
 return (
 
-<div className="container mx-auto">
+<div className="container mx-auto" ref={contentRef}>
              <div className="bg-white border rounded-lg shadow-lg px-8 py-6 my-8">
              <div className="flex justify-center">
                     <img src={lumniImg} alt="Company Logo" className="w-40" />
@@ -130,6 +148,7 @@ return (
                          </tbody>
                      </table>
                  </div>
+                 <button onClick={handleDownloadPDF}>Download PDF</button>
              </div>
          </div>
 
