@@ -46,6 +46,7 @@ const HTML_TEMPLATE = (text) => {
               </div>
               <div class="email-footer">
                 <h2>Thanks!<br>Godwin Ikpe Ugbe<br>- Lead Dev</h2>
+                <h2><button><a href='https://loumni.net'>Loumni</a></button></h2>
               </div>
             </div>
           </div>

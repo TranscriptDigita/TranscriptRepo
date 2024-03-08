@@ -25,25 +25,30 @@ const createToken = (_id) => {
 // ============================
 exports.createNewStaff = async(req, res) => {
 
-        try {
-            // destructure requestbody
-            const { emailAddress, role, password } = req.body
+    try {
+        // destructure requestbody
+        const { emailAddress, role, password } = req.body
 
-            // getting the institution Id from the database
-            let institution = req.user._id
-            console.log(password);
-            // signup user using statics func
-            const newStaff = await Staff.createStaff(emailAddress, password, role, institution)
-                // return newly created staff as json
-            return res.status(200).json({ newStaff })
+        // getting the institution Id from the database
+        let institution = req.user._id
+        console.log(password);
+        // signup user using statics func
+        const newStaff = await Staff.createStaff(emailAddress, password, role, institution)
+            // send message to the staff email
+        const subject = 'Task Assigned',
+            message = `Hello, this is to notify you that your institution have assigned you to work as: ${role} in loumni system. Your login details are: Email=> ${emailAddress}, password=> ${password} . Kindly visit www.loumni.net and sign as a staff to do your assigned works.`;
+        await Institution.sendEmail(emailAddress, subject, message)
+            // return newly created staff as json
+        return res.status(200).json({ newStaff })
 
-        } catch (error) {
-            // return error code and message 
-            return res.status(400).json({ message: error.message })
-        }
-
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
     }
-    // function to get all Staff
+
+}
+
+// function to get all Staff
 exports.getAllStaff = async(req, res) => {
     try {
         const institution = req.user._id
@@ -112,6 +117,11 @@ exports.loginStaff = async(req, res) => {
             let logerType = "Staff";
             // tracking the sign up time
             const feedback = await Logs.logging(logger, logTime, logType, logerType);
+            // send message to the staff email
+            const t = new Date();
+            const subject = 'Login Notification',
+                message = `Hello, this is to notify you  recently login to your loumni staff account on ${t}. Kindly contact our support immediately if it was not you.`;
+            await Institution.sendEmail(emailAddress, subject, message)
             return res.status(200).json({ staff, token });
 
         } catch (error) {
@@ -151,6 +161,11 @@ exports.changePassword = async(req, res) => {
 
 
         await foundStaff.save();
+        // send message to the staff email
+        const emailAddress = foundStaff.emailAddress,
+            subject = 'Password Changed',
+            message = `Your password to loumni account has been successfully changed to: ${newPassword}`;
+        await Institution.sendEmail(emailAddress, subject, message)
 
         return res.status(200).json({ message: "Password successfully changed", staff: foundStaff });
 
@@ -182,22 +197,22 @@ exports.setAmount = async(req, res) => {
             foundInstitution.TranscriptDocumentsToUpload = documentsToUpload;
 
             await foundInstitution.save();
-            return res.status(200).json({ message: 'Official Transcript processing amont set successfully.', data: { typeOfDocument, amount } });
+            return res.status(200).json({ message: 'Official Transcript processing amount set successfully.', data: { typeOfDocument, amount } });
         } else if (typeOfDocument == "Personal Transcript" || typeOfDocument === "Personal Transcript") {
             foundInstitution.amountForElectronicalMode = amount;
             foundInstitution.TranscriptDocumentsToUpload = documentsToUpload;
             await foundInstitution.save();
-            return res.status(200).json({ message: 'Personal Transcript processing amont set successfully.', data: { typeOfDocument, amount } });
+            return res.status(200).json({ message: 'Personal Transcript processing amount set successfully.', data: { typeOfDocument, amount } });
         } else if (typeOfDocument == "Certificate" || typeOfDocument === "Certificate") {
             foundInstitution.amountForCertificate = amount;
             foundInstitution.CertificateDocumentsToUpload = documentsToUpload;
             await foundInstitution.save();
-            return res.status(200).json({ message: 'Certificte processing amont set successfully.', data: { typeOfDocument, amount } });
+            return res.status(200).json({ message: 'Certificte processing amount set successfully.', data: { typeOfDocument, amount } });
         } else if (typeOfDocument == "Statement of Result" || typeOfDocument === "Statement of Result") {
             foundInstitution.amountForStatementOfResult = amount;
             foundInstitution.StatementOfResultDocumentsToUpload = documentsToUpload;
             await foundInstitution.save();
-            return res.status(200).json({ message: 'Statement of Result processing amont set successfully.', data: { typeOfDocument, amount } });
+            return res.status(200).json({ message: 'Statement of Result processing amount set successfully.', data: { typeOfDocument, amount } });
         }
     } catch (error) {
         // return error code and message 
