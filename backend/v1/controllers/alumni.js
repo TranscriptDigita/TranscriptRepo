@@ -50,7 +50,7 @@ exports.getAllAlumnus = async(req, res) => {
 
         // if not allAlumnus throw error 
         if (!allAlumnus) {
-            throw Error('resource could not be located !!')
+            throw Error('Resource could not be located !!')
         }
 
         // return status and data as json
@@ -69,7 +69,7 @@ exports.getAlumniById = async(req, res) => {
     try {
         // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw Error('not a valid id')
+            throw Error('Not a valid id')
         }
 
         // find alumni using db using id
@@ -77,7 +77,7 @@ exports.getAlumniById = async(req, res) => {
 
         // if not found throw error
         if (!alumni) {
-            throw Error(`resource could ot be located`)
+            throw Error(`Resource could ot be located`)
         }
 
         // return data and message as json
@@ -155,7 +155,7 @@ exports.forgotPassword = async(req, res) => {
         await Alumni.sendEmail(emailAddress, 'Reset password', `Password reset link: https://loumni.net/alumni/reset-password/${resetToken}`)
 
         // debug here for errors
-        return res.status(200).json({ message: `verification email successfully sent`, alumni: foundAlumni })
+        return res.status(200).json({ message: `Verification email successfully sent`, alumni: foundAlumni })
 
     } catch (error) {
         // return error code and message 
@@ -214,7 +214,7 @@ exports.changePassword = async(req, res) => {
         const { newPassword, confirmNewPassword } = req.body;
 
         // find alumni using Id
-        const foundAlumni = await Alumni.findById(_id);
+        const foundAlumni = await Alumni.findById(_Id);
 
         // if alumni not found throw error
         if (!foundAlumni) {
@@ -238,7 +238,7 @@ exports.changePassword = async(req, res) => {
 
         await foundAlumni.save();
 
-        return res.status(200).json({ message: "Password reset successful", alumni: foundAlumni });
+        return res.status(200).json({ message: "Password reset successfully", alumni: foundAlumni });
 
     } catch (error) {
         // return error code and message 
@@ -256,7 +256,7 @@ exports.verifyAlumnus = async(req, res) => {
     try {
         // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw Error('not a valid id')
+            throw Error('Not a valid id')
         }
 
         // find alumnus in database
@@ -264,7 +264,7 @@ exports.verifyAlumnus = async(req, res) => {
 
         // if user not found in database throw error
         if (!foundAlumni) {
-            throw Error('This user doesnt exist in our database')
+            throw Error("This user doesn't exist in our database")
         }
 
         // not match throw error
@@ -322,7 +322,7 @@ exports.updateAlumni = async(req, res) => {
         phoneNumber,
         emailAddress
     } = req.body
-    let txt = 'Hello ' + fullName + ', congratulation your account with ARS has been updated.';
+    let txt = 'Hello ' + fullName + ', congratulation your account with Loumni system has been successfuly updated.';
     try {
 
         // verify if id is of mongoose type
@@ -353,17 +353,17 @@ exports.deleteAlumni = async(req, res) => {
     try {
         // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw Error('not a valid id')
+            throw Error('Not a valid id')
         }
 
         // search alumni db and delete item with the id
         let deletedAlumni = await Alumni.findByIdAndDelete(id)
 
         if (!deletedAlumni) {
-            throw Error('this resource could not be deleted, it seems it doest exist in our database')
+            throw Error('This resource could not be deleted, it seems it does not exist in our database')
         }
 
-        return res.status(200).json({ message: 'successfully deleted', data: deletedAlumni })
+        return res.status(200).json({ message: 'Successfully deleted', data: deletedAlumni })
 
     } catch (error) {
         // return error code and message 
@@ -400,7 +400,7 @@ exports.getTranscriptPaymentDetails = async(req, res) => {
         await Alumni.sendEmail(emailAddress, 'Reset password', `Password reset link: https://transcript360.onrender.com/alumni/reset-password/${resetToken}`)
 
         // debug here for errors
-        return res.status(200).json({ message: `verification email successfully sent`, alumni: foundAlumni })
+        return res.status(200).json({ message: `Verification email successfully sent`, alumni: foundAlumni })
 
     } catch (error) {
         // return error code and message 
