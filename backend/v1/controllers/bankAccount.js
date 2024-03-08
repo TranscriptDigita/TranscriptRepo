@@ -5,14 +5,36 @@ require('dotenv').config()
 const Institution = require('../models/institution'),
     mongoose = require('mongoose'),
     jwt = require('jsonwebtoken'),
-    validator = require('validator')
+    validator = require('validator'),
+    nodemailer = require('nodemailer');
 
 // =============================
 // === funtion to create token==
 // ============================= 
-const createToken = (_id) => {
-    return jwt.sign({ _id }, process.env.SECRET_KEY, { expiresIn: '1d' })
+const sendEmail = async function(email, subject, message) {
+    let transport = nodemailer.createTransport({
+        service: 'gmail',
+        host: process.env.EMAIL_HOST,
+        secure: false, // 465,
+        port: 587,
+        auth: {
+            user: process.env.EMAIL_USERNAME,
+            pass: process.env.EMAIL_PASSWORD
+        }
+    })
+
+    const info = await transport.sendMail({
+        from: process.env.EMAIL_USERNAME,
+        to: email,
+        subject: subject,
+        html: message
+
+    }, (err, sent) => {
+        err ? res.status(505).json({ message: 'Error ocuured while sending your message.', err }) : res.status(200).json({ message: 'Successully sent', sent })
+
+    })
 }
+
 
 // ===========================================
 // ==== function that generates random nums ==
@@ -35,9 +57,14 @@ exports.setupBankAccount = async(req, res, next) => {
         // If record found
         if (!bankAccountUpdated) {
             //    return status code with message
-            return res.status(404).json({ message: "Incorrect transcript ID passed!" })
+            return res.status(404).json({ message: "Incorrect institution ID passed!" })
         }
-        // return succesful status code, message and the new creaed transcript
+        // sending the contact us message
+        const email = bankAccountUpdated.emailAddress,
+            subject = 'Submission Of Bank Account',
+            message = `Hello ${accountName}, your account details has been submitted to Loumni system as your official school bank account. If you did not authorized this process kindly contact our support team immediately.`;
+        await sendEmail(email, subject, message)
+            // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
             message: 'Bank account set and updated successfully.',
             bankAccountUpdated

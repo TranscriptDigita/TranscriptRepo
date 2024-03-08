@@ -45,7 +45,7 @@ const HTML_TEMPLATE = (text) => {
                 <h2>${text}</h2>
               </div>
               <div class="email-footer">
-                <h2>Thanks!<br>Godwin Ikpe Ugbe<br>Lead Developer</h2>
+                <h2>Thanks!<br>Godwin Ikpe Ugbe<br>- Lead Dev</h2>
               </div>
             </div>
           </div>

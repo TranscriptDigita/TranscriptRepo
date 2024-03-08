@@ -1,29 +1,30 @@
 const nodemailer = require('nodemailer');
 // Function to send email
 const sendEmail = async function(email, subject, message, em) {
-        let transport = nodemailer.createTransport({
-            service: 'gmail',
-            host: process.env.EMAIL_HOST,
-            secure: false, // 465,
-            port: 587,
-            auth: {
-                user: process.env.EMAIL_USERNAME,
-                pass: process.env.EMAIL_PASSWORD
-            }
-        })
+    let transport = nodemailer.createTransport({
+        service: 'gmail',
+        host: process.env.EMAIL_HOST,
+        secure: false, // 465,
+        port: 587,
+        auth: {
+            user: process.env.EMAIL_USERNAME,
+            pass: process.env.EMAIL_PASSWORD
+        }
+    })
 
-        const info = await transport.sendMail({
-            from: process.env.EMAIL_USERNAME,
-            to: em,
-            subject: subject,
-            html: message + ' ' + email
+    const info = await transport.sendMail({
+        from: process.env.EMAIL_USERNAME,
+        to: em,
+        subject: subject,
+        html: message + ' ' + email
 
-        }, (err, sent) => {
-            err ? res.status(505).json({ message: 'Error ocuured while sending your message.', err }) : res.status(200).json({ message: 'Successully sent', sent })
+    }, (err, sent) => {
+        err ? res.status(505).json({ message: 'Error ocuured while sending your message.', err }) : res.status(200).json({ message: 'Successully sent', sent })
 
-        })
-    }
-    //contact us function
+    })
+}
+
+//contact us function
 exports.contactUs = async(req, res) => {
         const em = "transcriptdigita@gmail.com"
             // destructuring request body

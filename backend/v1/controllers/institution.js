@@ -74,14 +74,14 @@ exports.registerInstitution = async(req, res) => {
         // tracking the sign up time
         const feedback = await Logs.logging(logger, logTime, logType, logerType);
         console.log(feedback);
-        const txt = `Hi ${name}, welcome to Centralized Academic Credentials Services. Your verfication code is: ${verificationCode}`
+        const txt = `Hi ${name}, welcome to Loumni System - A Centralized Academic Credentials Services. Your verfication code is: ${verificationCode}`
             // await sendSMS(txt, phoneNumber);
             // generate token
         const token = await createToken(institution._id)
 
         // send welcome email
         let subject = "Welcome On Board";
-        let message = `Hi ${name}, welcome to Loumni, Centralized Academic Credentials Services System. Your verfication code is: ${verificationCode}`;
+        let message = `Hi ${name}, welcome to Loumni System - A Centralized Academic Credentials Services System. Your verfication code is: ${verificationCode}`;
         await Institution.sendEmail(emailAddress, subject, message);
 
         // return user as json
@@ -106,6 +106,11 @@ exports.loginInstitution = async(req, res) => {
         if (!institution) {
             throw Error('Login unsucessful')
         }
+
+        // send login notification message
+        const subject = "Login Notification",
+            message = "Someone just login to your Loumni account. Please contact our support team immediately if you think is an unauthorized user."
+        await Institution.sendEmail(emailAddress, subject, message);
         // create a token
         const token = createToken(institution._id)
             // getting the current time
@@ -135,7 +140,7 @@ exports.verifyInstitution = async(req, res) => {
     try {
         // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw Error('not a valid id')
+            throw Error('Not a valid id')
         }
 
         // find alumnus in database
@@ -154,7 +159,12 @@ exports.verifyInstitution = async(req, res) => {
         // compare params code with found users verification code
         if (verificationCode === foundInstitution.verificationCode) {
             let verifiedInstitution = await Institution.findByIdAndUpdate(id, { isVerified: true }, { new: true, useFindAndModify: false })
-            return res.status(200).json({ message: 'successfully updated', institution: verifiedInstitution })
+                // send login notification message
+            const subject = "Verification Status",
+                emailAddress = verifiedInstitution.emailAddress,
+                message = "Your account verification was successfulled! You can now proceed and login"
+            await Institution.sendEmail(emailAddress, subject, message);
+            return res.status(200).json({ message: 'Successfully updated', institution: verifiedInstitution })
         }
 
     } catch (error) {
@@ -185,6 +195,12 @@ exports.setupBankAccountDetails = async(req, res) => {
             // throw Error('This user doesnt exist in our database')
         }
         let bankDetails = await Institution.findByIdAndUpdate(id, { accountNumber, accountName, bankName, bankSortCode })
+            // sending the contact us message
+        const email = bankDetails.emailAddress,
+            instName = bankDetails.name,
+            subject = 'Submission Of Bank Account',
+            message = `Hello ${instName}, your account details has been submitted to Loumni system as your official school bank account. If you did not authorized this process kindly contact our support team immediately.`;
+        await sendEmail(email, subject, message)
         return res.status(200).json({ message: 'Account details successfully setup.', institution: bankDetails })
 
 
