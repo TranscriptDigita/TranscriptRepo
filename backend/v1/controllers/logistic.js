@@ -57,9 +57,9 @@ exports.getAllLogistic = async(req, res) => {
         // find all alumni in database
         let allLogistic = await Logistic.find({ kycIsSubmitted: t })
 
-        // if not allAlumnus throw error 
+        // if not allLogistic throw error 
         if (!allLogistic) {
-            throw Error('resource could not be located !!')
+            throw Error('Resource could not be located !!')
         }
 
         // return status and data as json
@@ -78,7 +78,7 @@ exports.getLogisticById = async(req, res) => {
     try {
         // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw Error('not a valid id')
+            throw Error('Not a valid id')
         }
 
         // find alumni using db using id
@@ -86,11 +86,11 @@ exports.getLogisticById = async(req, res) => {
 
         // if not found throw error
         if (!logistic) {
-            throw Error(`resource could ot be located`)
+            throw Error(`Resource could ot be located`)
         }
 
         // return data and message as json
-        res.status(200).json({ message: 'successful', data: logistic })
+        res.status(200).json({ message: 'Successful', data: logistic })
 
     } catch (error) {
         // return status and error as json
@@ -124,7 +124,9 @@ exports.createLogistic = async(req, res) => {
         console.log(feedback);
 
         // send welcome email
-        await Logistic.sendEmail(emailAddress, `Hi ${businessName}, welcome to Centralized Academic Credentials Services. Your verfication code is: ${verificationCode}`)
+        const subject = "Welcome On Board",
+            message = `Hi ${businessName}, welcome to Loumni System - A Centralized Academic Credentials Services. Your verfication code is: ${verificationCode}`;
+        await Logistic.sendEmail(emailAddress, subject, message)
 
         // return status code and data as json
         return res.status(200).json({ logistic: logistic, token: token })
@@ -243,6 +245,12 @@ exports.changePassword = async(req, res) => {
         const hash = await bcrypt.hash(newPassword, salt)
         foundLogistic.password = hash;
         await foundLogistic.save();
+        // send welcome email
+        const emailAddress = foundLogistic.emailAddress,
+            subject = 'Password Changed',
+            message = `Hello, your Loumni account password has been changed to: ${newPassword} If you did not authorized this changes, kindly contact our support immediately.`;
+        await Logistic.sendEmail(emailAddress, subject, message)
+
 
         return res.status(200).json({ message: "Password reset successful", courier: foundLogistic });
 
@@ -282,6 +290,12 @@ exports.verifyLogistic = async(req, res) => {
 
         foundLogistic.isVerified = true;
         await foundLogistic.save();
+        // send welcome email
+        const emailAddress = foundLogistic.emailAddress,
+            subject = 'Verification Status',
+            message = 'Your email has been successfully verified. You can now proceed to login.';
+        await Logistic.sendEmail(emailAddress, subject, message)
+
         return res.status(200).json({ message: 'Successfully verified and updated', foundLogistic })
 
     } catch (error) {
@@ -311,6 +325,11 @@ exports.loginLogistic = async(req, res) => {
             // tracking the sign up time
         const feedback = await Logs.logging(logger, logTime, logType, logerType);
         console.log(feedback);
+        // send welcome email
+        const t = new Date();
+        const subject = 'Login Notification',
+            message = `Hello courier, you recently login to your Loumni account on ${t}. If it was not you kindly contact our support immediately.`;
+        await Logistic.sendEmail(emailAddress, subject, message)
 
         return res.status(200).json({ logistic, token })
 
@@ -486,6 +505,10 @@ exports.setUpAccount = async(req, res) => {
             accountName,
             accountNumber
         });
+        // send welcome email
+        // const subject = 'KYC Submitted',
+        //     message = `Hello courier, your details has been successfully submitted for KYC verification. Our team will verify your infomation and nnotify you accordingly.`;
+        // await Logistic.sendEmail(emailAddress, subject, message)
         // return succesful status code, message and the updated user
         return res.status(200).json({ message: "Successfully submitted", updateAccountData })
 
