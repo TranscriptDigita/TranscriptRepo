@@ -156,11 +156,14 @@ exports.createNewRequest = async(req, res) => {
         );
         const inst = await Institution.findOne({ name: institutionName });
         let instPhone = inst.phoneNumber;
-        // send message to notify institution of the newly create transcript request
-        let txt = "The " + institutionName + " Registrar, this is to notify you that there a new transcript processing request on the ARS system.";
+        let emailAddress = inst.emailAddress;
+        let subject = 'New Document Request From Alumni'
+            // send message to notify institution of the newly create transcript request
+        let txt = "The " + institutionName + " Registrar, this is to notify you that there a new " + typeOfDocumentTaken + " processing request on your Loumni dashboard.";
         await sendSMS(txt, instPhone);
-        // return succesful status code, message and the new creaed transcript
-        return res.status(200).json({ message: "Transcripted Successfully created!", Transcript: newTranscript })
+        await Institution.sendEmail(emailAddress, subject, txt)
+            // return succesful status code, message and the new creaed transcript
+        return res.status(200).json({ message: "Document Successfully created!", Transcript: newTranscript })
 
     } catch (error) {
         return res.json(error.message)
@@ -228,7 +231,7 @@ exports.verifyTranscript = async(req, res) => {
         }
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
-            message: 'verified successfully.',
+            message: 'Verified successfully.',
             verified
         })
 
@@ -256,12 +259,18 @@ exports.approveTranscript = async(req, res) => {
         let ID = approved.createdBy;
         const aUser = await Alumni.findById(ID);
         let alumniPhoneNumber = aUser.phoneNumber;
-        // send message to the alumni that his/her transcript have been approved
-        let txt = "Hello Alumni, this is to notify you that your transcript has been processed and ready for pick up.";
-        await sendSMS(txt, alumniPhoneNumber);
-        // return succesful status code, message and the new creaed transcript
+        let emailAddress = aUser.emailAddress;
+        let courierPhoneNumber = aUser.courierContactPhoneNumber;
+        const subject = "Document Processing Request Was Approved"
+            // send message to the alumni that his/her transcript have been approved
+        let txt1 = "Hello Alumni, this is to notify you that your document has been processed, approved and ready for pick up.";
+        let txt2 = "Hello Courier, this is to notify you that there a package ready for you to pickup and deliver. Kindly login to your loumni account now."
+        await sendSMS(txt1, alumniPhoneNumber);
+        await sendSMS(txt2, courierPhoneNumber);
+        await Alumni.sendEmail(emailAddress, subject, txt1)
+            // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
-            message: 'approved successfully.',
+            message: 'Approved successfully.',
             approved
         })
 
@@ -278,7 +287,7 @@ exports.querryTranscript = async(req, res) => {
         const { id } = req.params
             // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw Error('not a valid id')
+            throw Error('Not a valid id')
         }
         const querried = await Transcripts.findByIdAndUpdate(id, { isQuerried: true, isDeclined: false, isApproved: false, querriedBy: req.user._id }, { new: true, useFindAndModify: false })
 
@@ -289,7 +298,7 @@ exports.querryTranscript = async(req, res) => {
         }
         // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
-            message: 'querried successfully.',
+            message: 'Querried successfully.',
             querried
         })
 
@@ -306,7 +315,7 @@ exports.declineTranscript = async(req, res) => {
         const { id } = req.params
             // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw Error('not a valid id')
+            throw Error('Not a valid id')
         }
         const declined = await Transcripts.findByIdAndUpdate(id, { isDeclined: true, isApproved: false, declinedBy: req.user._id }, { new: true, useFindAndModify: false })
 
@@ -317,11 +326,14 @@ exports.declineTranscript = async(req, res) => {
         }
         let ID = declined.createdBy;
         const aUser = await Alumni.findById(ID);
+        // send message to the alumni that his/her transcript have been declined
         let alumniPhoneNumber = aUser.phoneNumber;
-        // send message to the alumni that his/her transcript have been approved
-        let txt = "Hello Alumni, your transcript process was declined kindly login to your ARS account see the reason.";
+        let emailAddress = aUser.emailAddress;
+        const subject = 'Document Processing Request Was Declined';
+        let txt = "Hello Alumni, your document processing request was declined. kindly login to your Loumni account to see the document request status..";
         await sendSMS(txt, alumniPhoneNumber);
-        // return succesful status code, message and the new creaed transcript
+        await Alumni.sendEmail(emailAddress, subject, txt)
+            // return succesful status code, message and the new creaed transcript
         return res.status(200).json({
             message: 'declined successfully.',
             declined

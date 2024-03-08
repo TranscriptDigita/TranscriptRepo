@@ -198,6 +198,7 @@ exports.passwordReset = async(req, res) => {
 
         await foundAlumni.save();
 
+
         return res.status(200).json({ message: "Password reset successful", alumni: foundAlumni });
 
     } catch (error) {
@@ -235,10 +236,14 @@ exports.changePassword = async(req, res) => {
         // generating salt to hash password
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(newPassword, salt)
-
+        foundAlumni.password = hash;
         await foundAlumni.save();
-
-        return res.status(200).json({ message: "Password reset successfully", alumni: foundAlumni });
+        // send message to user email
+        const emailAddress = foundAlumni.emailAddress,
+            subject = "Password changed",
+            message = `This is to notifies you that your password has been successfully change to: ${newPassword}. If this changes were made from unauthorized user, kindly contact our support immediately.`;
+        await Alumni.sendEmail(emailAddress, subject, message)
+        return res.status(200).json({ message: "Password updated successfully", alumni: foundAlumni });
 
     } catch (error) {
         // return error code and message 
@@ -275,7 +280,12 @@ exports.verifyAlumnus = async(req, res) => {
         // compare params code with found users verification code
         if (verificationCode === foundAlumni.verfificationCode) {
             let verifiedAlumni = await Alumni.findByIdAndUpdate(id, { isVerified: true }, { new: true, useFindAndModify: false })
-            return res.status(200).json({ message: 'successfully updated', alumni: verifiedAlumni })
+            const emailAddress = foundAlumni.emailAddress,
+                subject = "Verification Status",
+                message = "congratulation, your email verification was successfulled."
+            await Alumni.sendEmail(emailAddress, subject, message)
+            return res.status(200).json({ message: 'Successfully updated', alumni: verifiedAlumni })
+
         }
 
     } catch (error) {
@@ -305,7 +315,11 @@ exports.loginAlumnus = async(req, res) => {
             // tracking the sign up time
         const feedback = await Logs.logging(logger, logTime, logType, logerType);
         console.log(feedback);
-
+        // Send login notification to user email
+        let t = new Date();
+        const subject = "Login Notification",
+            message = `Hi Alumni, this is to notifies you that there is a recent login to your Loumni account. If it was not you, kindly contact our support team immediately. This activity happend on: ${t}`
+        await Alumni.sendEmail(emailAddress, subject, message)
         return res.status(200).json({ alumni, token })
 
     } catch (error) {
@@ -337,7 +351,10 @@ exports.updateAlumni = async(req, res) => {
         });
         // send congratulatory message to the alumni phone number
         await sendSMS(txt, phoneNumber);
-        // return succesful status code, message and the updated user
+        subject = "Account Updated Successfully",
+            message = "Congratulation, your has been updated successfully."
+        await Alumni.sendEmail(emailAddress, subject, message)
+            // return succesful status code, message and the updated user
         return res.status(200).json({ message: "Alumni updated!", Alumni: updatedDetails })
 
     } catch (error) {
