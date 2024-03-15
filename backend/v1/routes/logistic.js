@@ -56,4 +56,8 @@ router.route('/inter-services')
 router.route('/setup-account/:id')
     .patch(controller.setUpAccount)
 
+// route to verify login authentication code
+router.route('/verify-authentication')
+    .post(controller.verifyLoginLogistic)
+
 module.exports = router

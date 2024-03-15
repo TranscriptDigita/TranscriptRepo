@@ -125,7 +125,7 @@ exports.createLogistic = async(req, res) => {
 
         // send welcome email
         const subject = "Welcome On Board",
-            message = `Hi ${businessName}, welcome to Loumni System - A Centralized Academic Credentials Services. Your verfication code is: ${verificationCode}`;
+            message = `Hi ${businessName}, welcome to Loumni Academic Integrety System - A Centralized Academic Credentials Services. Your verfication code is: ${verificationCode}`;
         await Logistic.sendEmail(emailAddress, subject, message)
 
         // return status code and data as json
@@ -315,8 +315,11 @@ exports.loginLogistic = async(req, res) => {
         if (!logistic) {
             throw Error('Login unsucessful')
         }
-        // create a token
-        const token = createToken(logistic._id);
+
+        // generate verification code
+        let verificationCode = await generateRandomNumber()
+        let id = logistic._id
+        await Logistic.findByIdAndUpdate(id, { verificationCode: verificationCode });
         // getting the current time
         let logTime = new Date();
         let logger = emailAddress;
@@ -328,9 +331,42 @@ exports.loginLogistic = async(req, res) => {
         // send welcome email
         const t = new Date();
         const subject = 'Login Notification',
-            message = `Hello courier, you recently login to your Loumni account on ${t}. If it was not you kindly contact our support immediately.`;
+            message = `Hello courier, login authentication code to your Loumni account is: ${verificationCode} . This login attempt was generated on ${t}. If it was not you kindly contact our support immediately.`;
         await Logistic.sendEmail(emailAddress, subject, message)
 
+        return res.status(200).json({ logistic, message: "Login authentification code has been sent to your email." })
+
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
+    }
+}
+
+// verify a recently courier login attempt
+exports.verifyLoginLogistic = async(req, res) => {
+    // get logisticId and verificationCode from user parameters
+    const { verificationCode, id } = req.body
+    try {
+        if (!id || !verificationCode) {
+            throw Error('Courier Id and verification are required!')
+        }
+        // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('Not a valid id')
+        }
+
+        // find logistic in database
+        const logistic = await Logistic.findOne({
+            _id: id,
+            verfificationCode: verificationCode
+        });
+
+        // if user not found in database throw error
+        if (!logistic) {
+            throw Error('Incorrect data passed!')
+        }
+        // create a token
+        const token = await createToken(logistic._id);
         return res.status(200).json({ logistic, token })
 
     } catch (error) {
