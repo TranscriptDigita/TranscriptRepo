@@ -306,12 +306,11 @@ exports.loginAlumnus = async(req, res) => {
             throw Error('Login unsucessful')
         }
         // generate verification code
-        let verificationCode = await generateRandomNumber()
+        let verificationCode = generateRandomNumber()
             // update verification code
         let id = alumni._id
         await Alumni.findByIdAndUpdate(id, { verificationCode: verificationCode }, { new: true, useFindAndModify: false });
         // create a token
-        // const token = createToken(alumni._id);
         // getting the current time
         let logTime = new Date();
         let logger = emailAddress;
@@ -323,7 +322,7 @@ exports.loginAlumnus = async(req, res) => {
         // Send login notification to user email
         let t = new Date();
         const subject = "Login Notification",
-            message = `Hi Alumni, your login authentication code to your Loumni integraty system account is: ${verificationCode}. If this login attemt was not from you, kindly contact our support team immediately. This activity happend on: ${t}`
+            message = `Hi Alumni, your login authentication code to your Loumni integrity system account is: ${verificationCode}. If this login attemt was not from you, kindly contact our support team immediately. This activity happend on: ${t}`
         await Alumni.sendEmail(emailAddress, subject, message)
         return res.status(200).json({ alumni, message: "Login authentication code has been sent to your email." })
 

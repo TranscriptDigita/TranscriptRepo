@@ -12,6 +12,21 @@ const Staff = require('../models/staff'),
 
 // const htmlContent = fs.readFileSync('./views/welcomeEmail.html', 'utf-8')
 
+// ===========================================
+// ==== function that generates random nums ==
+// ===========================================
+
+const generateRandomNumber = () => {
+    const length = 5;
+
+    // Generate random number with a specified length
+    const randomNumber = Math.floor(Math.random() * 10 ** length);
+
+    // Pad the number with leading zeros to ensure it has exactly five digits
+    const formattedNumber = randomNumber.toString().padStart(length, "0");
+
+    return formattedNumber;
+}
 
 // =============================
 // === funtion to create token==
@@ -86,18 +101,19 @@ exports.deactivateStaff = async(req, res) => {
 
 // Activating staff
 exports.activateStaff = async(req, res) => {
-        try {
-            // get staffId from user parameters
-            const { id } = req.params
-                // Deactivating staff
-            let activatedStaff = await Staff.activateStaffById(id)
-            return res.status(200).json({ message: 'Staff has been succefully activated', activatedStaff });
-        } catch (error) {
-            // return error code and message 
-            return res.status(400).json({ message: error.message })
-        }
+    try {
+        // get staffId from user parameters
+        const { id } = req.params
+            // Deactivating staff
+        let activatedStaff = await Staff.activateStaffById(id)
+        return res.status(200).json({ message: 'Staff has been succefully activated', activatedStaff });
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
     }
-    // login staff
+}
+
+// login staff
 exports.loginStaff = async(req, res) => {
         const { emailAddress, password } = req.body;
         try {
@@ -108,8 +124,15 @@ exports.loginStaff = async(req, res) => {
             if (!staff) {
                 throw Error('Incorrect login credentials entered!')
             }
+
             // create a token
             const token = createToken(staff._id);
+            // generate verification code
+            let verificationCode = await generateRandomNumber()
+                // update verification code
+            let id = staff._id
+            await Staff.findByIdAndUpdate(id, { verificationCode: verificationCode }, { new: true, useFindAndModify: false });
+
             // getting the current time
             let logTime = new Date();
             let logger = emailAddress;
@@ -120,9 +143,9 @@ exports.loginStaff = async(req, res) => {
             // send message to the staff email
             const t = new Date();
             const subject = 'Login Notification',
-                message = `Hello, this is to notify you  recently login to your loumni staff account on ${t}. Kindly contact our support immediately if it was not you.`;
+                message = `Hello, your login authentication to your loumni integrity system staff account is: ${verificationCode} . This was generated on ${t}. Kindly contact our support immediately if you did not authorized this login attempt..`;
             await Institution.sendEmail(emailAddress, subject, message)
-            return res.status(200).json({ staff, token });
+            return res.status(200).json({ staff, message: "Login authentication code has been sent to your email." });
 
         } catch (error) {
             // return error code and message 
