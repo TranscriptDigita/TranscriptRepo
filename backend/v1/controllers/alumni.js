@@ -305,8 +305,13 @@ exports.loginAlumnus = async(req, res) => {
         if (!alumni) {
             throw Error('Login unsucessful')
         }
+        // generate verification code
+        let verificationCode = await generateRandomNumber()
+            // update verification code
+        let id = alumni._id
+        await Alumni.findByIdAndUpdate(id, { verificationCode: verificationCode }, { new: true, useFindAndModify: false });
         // create a token
-        const token = createToken(alumni._id);
+        // const token = createToken(alumni._id);
         // getting the current time
         let logTime = new Date();
         let logger = emailAddress;
@@ -318,15 +323,54 @@ exports.loginAlumnus = async(req, res) => {
         // Send login notification to user email
         let t = new Date();
         const subject = "Login Notification",
-            message = `Hi Alumni, this is to notifies you that there is a recent login to your Loumni account. If it was not you, kindly contact our support team immediately. This activity happend on: ${t}`
+            message = `Hi Alumni, your login authentication code to your Loumni integraty system account is: ${verificationCode}. If this login attemt was not from you, kindly contact our support team immediately. This activity happend on: ${t}`
         await Alumni.sendEmail(emailAddress, subject, message)
-        return res.status(200).json({ alumni, token })
+        return res.status(200).json({ alumni, message: "Login authentication code has been sent to your email." })
 
     } catch (error) {
         // return error code and message 
         return res.status(400).json({ message: error.message })
     }
 }
+
+// verify a recently login atempt by alumni user
+exports.verifyLoginAlumni = async(req, res) => {
+    // get alumnusId and verificationCode from user parameters
+
+    const { verificationCode, id } = req.body
+
+    try {
+        // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('Not a valid id')
+        }
+
+        // find alumnus in database
+        const alumni = await Alumni.findById(id)
+
+        // if user not found in database throw error
+        if (!alumni) {
+            throw Error("This user doesn't exist in our database")
+        }
+
+        // not match throw error
+        if (verificationCode != alumni.verfificationCode) {
+            throw Error('Incorrect verfication code')
+        }
+
+        // compare params code with found users verification code
+        if (verificationCode === alumni.verfificationCode) {
+            const token = createToken(alumni._id);
+            return res.status(200).json({ alumni, token })
+
+        }
+
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
+    }
+}
+
 
 // update alumni information
 exports.updateAlumni = async(req, res) => {
@@ -336,7 +380,7 @@ exports.updateAlumni = async(req, res) => {
         phoneNumber,
         emailAddress
     } = req.body
-    let txt = 'Hello ' + fullName + ', congratulation your account with Loumni system has been successfuly updated.';
+    let txt = 'Hello ' + fullName + ', congratulation your account with Loumni integrety system has been successfuly updated.';
     try {
 
         // verify if id is of mongoose type

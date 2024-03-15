@@ -48,4 +48,8 @@ router.route('/:id/verify')
 router.route('/notifications/:receiver')
     .get(isAuth, adminController.getAllUserNotifications)
 
+// route to verify login authentication code
+router.route('/verify-authentication')
+    .post(controller.verifyLoginAlumni)
+
 module.exports = router

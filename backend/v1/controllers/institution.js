@@ -113,7 +113,7 @@ exports.loginInstitution = async(req, res) => {
         let verifiedInstitution = await Institution.findByIdAndUpdate(id, { verificationCode: verificationCode }, { new: true, useFindAndModify: false })
             // send login notification message
         const subject = "Login Notification",
-            message = `Your login authentication code is: ${verificationCode}  Loumni account. Please contact our support team immediately if you think is an unauthorized user.`
+            message = `Your login authentication code is: ${verificationCode}  Loumni account. Please contact our support team immediately if you think is an unauthorized login attempt.`
         await Institution.sendEmail(emailAddress, subject, message);
         // create a token
         // const token = createToken(institution._id)
