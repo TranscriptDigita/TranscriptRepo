@@ -367,7 +367,8 @@ exports.verifyLoginLogistic = async(req, res) => {
         }
         if (verificationCode != logistic.verfificationCode) {
             throw Error('Incorrect verification code entered')
-        } else if (verificationCode === logistic.verfificationCode) {
+        }
+        if (verificationCode === logistic.verfificationCode) {
             // create a token
             const token = createToken(logistic._id);
             return res.status(200).json({ logistic, token })
