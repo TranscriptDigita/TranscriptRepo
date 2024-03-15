@@ -35,4 +35,8 @@ router.route('/:institutionId/documents-price')
 router.route('/notifications/:receiver')
     .get(isAuthInstitution, adminController.getAllUserNotifications)
 
+// route to verify login authentication code
+router.route('/verify-authentication')
+    .post(controller.verifyLoginInstitution)
+
 module.exports = router

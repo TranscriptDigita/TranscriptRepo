@@ -106,22 +106,18 @@ exports.loginInstitution = async(req, res) => {
         if (!institution) {
             throw Error('Login unsucessful')
         }
-        // confirm package renewal date
-        const curDate = new Date();
-        let curDay = curDate.getDate();
-        let packageRenewDued = curDate.setDate(curDay);
-        let packageRenewDate = await institution.packageRenewDate;
-        var isActivePackage = true
-        if (packageRenewDued > packageRenewDate) {
-            isPackage = false
-        }
-        // send login notification message
+
+        // generate login authentication code
+        const verificationCode = await generateRandomNumber()
+        let id = await institution._id;
+        let verifiedInstitution = await Institution.findByIdAndUpdate(id, { verificationCode: verificationCode }, { new: true, useFindAndModify: false })
+            // send login notification message
         const subject = "Login Notification",
-            message = "Someone just login to your Loumni account. Please contact our support team immediately if you think is an unauthorized user."
+            message = `Your login authentication code is: ${verificationCode}  Loumni account. Please contact our support team immediately if you think is an unauthorized user.`
         await Institution.sendEmail(emailAddress, subject, message);
         // create a token
-        const token = createToken(institution._id)
-            // getting the current time
+        // const token = createToken(institution._id)
+        // getting the current time
         let logTime = new Date();
         let logger = emailAddress;
         let logType = "signin";
@@ -130,7 +126,7 @@ exports.loginInstitution = async(req, res) => {
         const feedback = await Logs.logging(logger, logTime, logType, logerType);
         console.log(feedback);
 
-        return res.status(200).json({ institution, token, isActivePackage })
+        return res.status(200).json({ institution, message: "Login Authentication code has been sent to your email." })
 
     } catch (error) {
         // return error code and message 
@@ -180,6 +176,53 @@ exports.verifyInstitution = async(req, res) => {
         return res.status(400).json({ message: error.message })
     }
 }
+
+// verify a recently login atempt by institution
+exports.verifyLoginInstitution = async(req, res) => {
+    // get institutionId and verificationCode from user parameters
+
+    const { verificationCode, id } = req.body
+
+    try {
+        // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('Not a valid id')
+        }
+
+        // find alumnus in database
+        const institution = await Institution.findById(id)
+
+        // if user not found in database throw error
+        if (!institution) {
+            throw Error('This user doesnt exist in our database')
+        }
+        // confirm package renewal date
+        const curDate = new Date();
+        let curDay = curDate.getDate();
+        let packageRenewDued = curDate.setDate(curDay);
+        let packageRenewDate = await institution.packageRenewDate;
+        var isActivePackage = false
+        if (packageRenewDued > packageRenewDate) {
+            isActivePackage = false
+        }
+        // not match throw error
+        if (verificationCode != institution.verificationCode) {
+
+            throw Error('Incorrect verfication code')
+        }
+
+        // compare params code with found users verification code
+        if (verificationCode === institution.verificationCode) {
+            const token = createToken(institution._id)
+            return res.status(200).json({ institution, token, isActivePackage })
+        }
+
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
+    }
+}
+
 
 // set up bank account details
 exports.setupBankAccountDetails = async(req, res) => {
