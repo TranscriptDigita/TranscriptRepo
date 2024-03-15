@@ -319,7 +319,7 @@ exports.loginLogistic = async(req, res) => {
         // generate verification code
         let verificationCode = await generateRandomNumber()
         let id = logistic._id
-        await Logistic.findByIdAndUpdate(id, { verificationCode: verificationCode });
+        await Logistic.findByIdAndUpdate(id, { verfificationCode: verificationCode });
         // getting the current time
         let logTime = new Date();
         let logger = emailAddress;
@@ -366,7 +366,7 @@ exports.verifyLoginLogistic = async(req, res) => {
             throw Error('Incorrect courier id passed!')
         }
         if (verificationCode != logistic.verfificationCode) {
-            throw Error('Incorrect verification code entere')
+            throw Error('Incorrect verification code entered')
         } else if (verificationCode === logistic.verfificationCode) {
             // create a token
             const token = await createToken(logistic._id);
