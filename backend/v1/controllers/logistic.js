@@ -364,7 +364,7 @@ exports.verifyLoginLogistic = async(req, res) => {
             throw Error('Incorrect courier id passed!')
         }
         let l = logistic.verfificationCode;
-        return res.status(200).json({ verificationCode, l });
+        // return res.status(200).json({ verificationCode, l });
         if (verificationCode != logistic.verfificationCode) {
             throw Error('Incorrect verification code entered')
         }
