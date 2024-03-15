@@ -106,7 +106,15 @@ exports.loginInstitution = async(req, res) => {
         if (!institution) {
             throw Error('Login unsucessful')
         }
-
+        // confirm package renewal date
+        const curDate = new Date();
+        let curDay = curDate.getDate();
+        let packageRenewDued = curDate.setDate(curDay);
+        let packageRenewDate = await institution.packageRenewDate;
+        var isActivePackage = true
+        if (packageRenewDued > packageRenewDate) {
+            isPackage = false
+        }
         // send login notification message
         const subject = "Login Notification",
             message = "Someone just login to your Loumni account. Please contact our support team immediately if you think is an unauthorized user."
@@ -122,7 +130,7 @@ exports.loginInstitution = async(req, res) => {
         const feedback = await Logs.logging(logger, logTime, logType, logerType);
         console.log(feedback);
 
-        return res.status(200).json({ institution, token })
+        return res.status(200).json({ institution, token, isActivePackage })
 
     } catch (error) {
         // return error code and message 

@@ -21,6 +21,8 @@ const institutionSchema = new mongoose.Schema({
     transcriptTypes: [],
     staff: [{ type: Schema.Types.ObjectId, ref: 'Staff' }],
     verificationCode: { type: String },
+    userPackage: { type: String, default: 'Freemium' },
+    packageRenewDate: { type: Number, required: true },
     isActive: { type: Boolean, default: true },
     isVerified: { type: Boolean, default: false },
     phoneNumber: { type: String },
@@ -78,9 +80,11 @@ institutionSchema.statics.signup = async function(name, emailAddress, location, 
     // generating salt to hash password
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)
-
-    // saving instition in database
-    const institution = await this.create({ name, emailAddress, location, password: hash, phoneNumber, verificationCode })
+    const signUpTime = new Date();
+    let signUpDate = signUpTime.getDate();
+    let packageRenewDate = signUpTime.setDate(signUpDate + 1)
+        // saving instition in database
+    const institution = await this.create({ name, emailAddress, location, password: hash, phoneNumber, verificationCode, packageRenewDate })
 
     // returning saved institution as json
     return institution
