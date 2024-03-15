@@ -309,7 +309,7 @@ exports.loginAlumnus = async(req, res) => {
         let verificationCode = generateRandomNumber()
             // update verification code
         let id = alumni._id
-        await Alumni.findByIdAndUpdate(id, { verificationCode: verificationCode }, { new: true, useFindAndModify: false });
+        await Alumni.findByIdAndUpdate(id, { verfificationCode: verificationCode }, { new: true, useFindAndModify: false });
         // create a token
         // getting the current time
         let logTime = new Date();
@@ -334,12 +334,10 @@ exports.loginAlumnus = async(req, res) => {
 
 // verify a recently login atempt by alumni user
 exports.verifyLoginAlumni = async(req, res) => {
-    // get alumnusId and verificationCode from user parameters
-
-    const { verificationCode, id } = req.body
-
     try {
-        // verify if id is valid
+        // get alumniId and verificationCode from user parameters
+        const { verificationCode, id } = req.body
+            // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw Error('Not a valid id')
         }
