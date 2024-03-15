@@ -159,7 +159,10 @@ exports.verifyLoginStaff = async(req, res) => {
     try {
         // get alumniId and verificationCode from user parameters
         const { verificationCode, id } = req.body
-            // verify if id is valid
+        if (!verificationCode || !id) {
+            throw Error('All fields are required.')
+        }
+        // verify if id is valid
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw Error('Not a valid id')
         }
