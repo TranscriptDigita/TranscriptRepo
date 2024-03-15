@@ -356,18 +356,22 @@ exports.verifyLoginLogistic = async(req, res) => {
         }
 
         // find logistic in database
-        const logistic = await Logistic.findOne({
-            _id: id,
-            verfificationCode: verificationCode
-        });
+        const logistic = await Logistic.findById(id);
+
+        // verfificationCode: verificationCode
+
 
         // if user not found in database throw error
         if (!logistic) {
-            throw Error('Incorrect data passed!')
+            throw Error('Incorrect courier id passed!')
         }
-        // create a token
-        const token = await createToken(logistic._id);
-        return res.status(200).json({ logistic, token })
+        if (verificationCode != logistic.verfificationCode) {
+            throw Error('Incorrect verification code entere')
+        } else if (verificationCode === logistic.verfificationCode) {
+            // create a token
+            const token = await createToken(logistic._id);
+            return res.status(200).json({ logistic, token })
+        }
 
     } catch (error) {
         // return error code and message 
