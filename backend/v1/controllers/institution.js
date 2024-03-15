@@ -201,7 +201,7 @@ exports.verifyLoginInstitution = async(req, res) => {
         let curDay = curDate.getDate();
         let packageRenewDued = curDate.setDate(curDay);
         let packageRenewDate = await institution.packageRenewDate;
-        var isActivePackage = false
+        var isActivePackage = true;
         if (packageRenewDued > packageRenewDate) {
             isActivePackage = false
         }
