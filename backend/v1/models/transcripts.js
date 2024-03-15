@@ -10,6 +10,7 @@ const transcriptSchema = new mongoose.Schema({
     degreeType: { type: String, required: true },
     institutionId: { type: String, required: true },
     institutionName: { type: String, required: true },
+    vcName: { type: String, required: true },
     faculty: { type: String, required: true },
     department: { type: String, required: true },
     matricNumber: { type: String, required: true },
@@ -46,7 +47,7 @@ const transcriptSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 // Create new transcript
-transcriptSchema.statics.createNewTranscript = async function(referenceId, typeOfDocument, degreeType, institutionId, institutionName, faculty, department, matricNumber, yearOfGraduation, program, createdBy) {
+transcriptSchema.statics.createNewTranscript = async function(referenceId, typeOfDocument, degreeType, institutionId, institutionName, vcName, faculty, department, matricNumber, yearOfGraduation, program, createdBy) {
 
     // check if all required data are filled
     if (!referenceId || !typeOfDocument || !degreeType || !institutionId || !institutionName || !faculty || !department || !matricNumber || !yearOfGraduation || !program || !createdBy) {

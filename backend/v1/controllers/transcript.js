@@ -108,7 +108,7 @@ exports.getAllTranscripts = async(req, res) => {
 exports.createNewRequest = async(req, res) => {
     try {
         // getting the data from input by destructuring request body
-        const { typeOfDocument, degreeType, institutionId, institutionName, faculty, department, matricNumber, yearOfGraduation, program } = req.body
+        const { typeOfDocument, degreeType, institutionId, institutionName, vcName, faculty, department, matricNumber, yearOfGraduation, program } = req.body
         const myArray = typeOfDocument.split("-");
         let typeOfDocumentTaken = myArray[0];
 
@@ -147,6 +147,7 @@ exports.createNewRequest = async(req, res) => {
             degreeType,
             institutionId,
             institutionName,
+            vcName,
             faculty,
             department,
             matricNumber,
