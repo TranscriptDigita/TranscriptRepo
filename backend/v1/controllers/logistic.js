@@ -359,12 +359,12 @@ exports.verifyLoginLogistic = async(req, res) => {
         const logistic = await Logistic.findById(id);
 
         // verfificationCode: verificationCode
-
-
         // if user not found in database throw error
         if (!logistic) {
             throw Error('Incorrect courier id passed!')
         }
+        let l = logistic.verfificationCode;
+        return { verificationCode, l }
         if (verificationCode != logistic.verfificationCode) {
             throw Error('Incorrect verification code entered')
         }
