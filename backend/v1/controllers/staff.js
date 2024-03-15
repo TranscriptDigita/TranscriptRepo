@@ -115,44 +115,82 @@ exports.activateStaff = async(req, res) => {
 
 // login staff
 exports.loginStaff = async(req, res) => {
-        const { emailAddress, password } = req.body;
-        try {
-            console.log(emailAddress, password)
-                // login staff
-            const staff = await Staff.login(emailAddress, password);
+    const { emailAddress, password } = req.body;
+    try {
+        console.log(emailAddress, password)
+            // login staff
+        const staff = await Staff.login(emailAddress, password);
 
-            if (!staff) {
-                throw Error('Incorrect login credentials entered!')
-            }
-
-            // create a token
-            const token = createToken(staff._id);
-            // generate verification code
-            let verificationCode = await generateRandomNumber()
-                // update verification code
-            let id = staff._id
-            await Staff.findByIdAndUpdate(id, { verificationCode: verificationCode }, { new: true, useFindAndModify: false });
-
-            // getting the current time
-            let logTime = new Date();
-            let logger = emailAddress;
-            let logType = "signin";
-            let logerType = "Staff";
-            // tracking the sign up time
-            const feedback = await Logs.logging(logger, logTime, logType, logerType);
-            // send message to the staff email
-            const t = new Date();
-            const subject = 'Login Notification',
-                message = `Hello, your login authentication to your loumni integrity system staff account is: ${verificationCode} . This was generated on ${t}. Kindly contact our support immediately if you did not authorized this login attempt..`;
-            await Institution.sendEmail(emailAddress, subject, message)
-            return res.status(200).json({ staff, message: "Login authentication code has been sent to your email." });
-
-        } catch (error) {
-            // return error code and message 
-            return res.status(400).json({ message: error.message });
+        if (!staff) {
+            throw Error('Incorrect login credentials entered!')
         }
+
+        // create a token
+        // const token = createToken(staff._id);
+        // generate verification code
+        let verificationCode = await generateRandomNumber()
+            // update verification code
+        let id = staff._id
+        await Staff.findByIdAndUpdate(id, { verificationCode: verificationCode }, { new: true, useFindAndModify: false });
+
+        // getting the current time
+        let logTime = new Date();
+        let logger = emailAddress;
+        let logType = "signin";
+        let logerType = "Staff";
+        // tracking the sign up time
+        const feedback = await Logs.logging(logger, logTime, logType, logerType);
+        // send message to the staff email
+        const t = new Date();
+        const subject = 'Login Notification',
+            message = `Hello, your login authentication to your loumni integrity system staff account is: ${verificationCode} . This was generated on ${t}. Kindly contact our support immediately if you did not authorized this login attempt..`;
+        await Institution.sendEmail(emailAddress, subject, message)
+        return res.status(200).json({ staff, message: "Login authentication code has been sent to your email." });
+
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message });
     }
-    // change password
+}
+
+
+// verify a recently login atempt by alumni user
+exports.verifyLoginStaff = async(req, res) => {
+    try {
+        // get alumniId and verificationCode from user parameters
+        const { verificationCode, id } = req.body
+            // verify if id is valid
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw Error('Not a valid id')
+        }
+
+        // find alumnus in database
+        const staff = await Staff.findById(id)
+
+        // if user not found in database throw error
+        if (!staff) {
+            throw Error("This user doesn't exist in our database")
+        }
+
+        // not match throw error
+        if (verificationCode != staff.verificationCode) {
+            throw Error('Incorrect verfication code')
+        }
+
+        // compare params code with found users verification code
+        if (verificationCode === staff.verificationCode) {
+            const token = createToken(staff._id);
+            return res.status(200).json({ staff, token })
+
+        }
+
+    } catch (error) {
+        // return error code and message 
+        return res.status(400).json({ message: error.message })
+    }
+}
+
+// change password
 exports.changePassword = async(req, res) => {
     try {
 

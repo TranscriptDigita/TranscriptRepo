@@ -16,6 +16,7 @@ const staffSchema = new mongoose.Schema({
     role: { type: String, required: true },
     institution: { type: Schema.Types.ObjectId },
     isActive: { type: Boolean, default: true },
+    verificationCode: { type: Number, default: 0 }
 
 }, { timestamps: true })
 

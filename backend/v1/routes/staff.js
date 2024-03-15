@@ -46,4 +46,7 @@ router.route('/change-password')
 router.route('/transcript-charge/:institutionId')
     .patch(isAuthStaff, controller.setAmount)
 
+router.route('/verify-authentication')
+    .post(controller.verifyLoginStaff)
+
 module.exports = router
