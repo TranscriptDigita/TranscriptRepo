@@ -62,7 +62,20 @@ const webhook = async(req, res) => {
             const findTranscript = await Transcripts.findOne({ _id: reference })
                 // If record found
             if (!findTranscript) {
-                throw Error("Something went wrong!");
+                const findInstitute = await Institution.findOne({ _id: reference });
+                if (!findInstitute) {
+                    throw Error("Something went wrong in finding institution!");
+                } else {
+                    // Get the current date of package upgrade
+                    const upgradeTime = new Date();
+                    let upgradeDate = upgradeTime.getDate();
+                    let packageRenewDate = upgradeTime.setDate(upgradeDate + 355)
+                        // save the record in database
+                    findInstitute.userPackage = "Premium";
+                    findInstitute.packageRenewDate = packageRenewDate;
+                    await findInstitute.save();
+                }
+
             }
             var inAmount;
             let institutionId = findTranscript.institutionId;
