@@ -356,7 +356,7 @@ exports.verifyLoginAlumni = async(req, res) => {
         }
 
         // compare params code with found users verification code
-        if (verificationCode === alumni.verfificationCode) {
+        if (verificationCode == alumni.verfificationCode) {
             const token = createToken(alumni._id);
             return res.status(200).json({ alumni, token })
 

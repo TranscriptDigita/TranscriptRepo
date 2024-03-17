@@ -212,7 +212,7 @@ exports.verifyLoginInstitution = async(req, res) => {
         }
 
         // compare params code with found users verification code
-        if (verificationCode === institution.verificationCode) {
+        if (verificationCode == institution.verificationCode) {
             const token = createToken(institution._id)
             return res.status(200).json({ institution, token, isActivePackage })
         }
