@@ -181,7 +181,8 @@ exports.verifyLoginStaff = async(req, res) => {
         }
 
         // compare params code with found users verification code
-        if (verificationCode === staff.verificationCode) {
+        if (verificationCode == staff.verificationCode) {
+            console.log(staff)
             const token = createToken(staff._id);
             return res.status(200).json({ staff, token })
 
