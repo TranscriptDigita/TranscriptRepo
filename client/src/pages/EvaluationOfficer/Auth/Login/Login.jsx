@@ -64,18 +64,13 @@ const staffToken = getToken();
       const { role, _id: staffId, institution: institutionId } = response.data.staff;
   
       // Store the response in localStorage
-      localStorage.setItem('stafftoken', response.data.token);
-      localStorage.setItem('staff', JSON.stringify(response.data.staff));
+      // localStorage.setItem('stafftoken', response.data.token);
+      // localStorage.setItem('staff', JSON.stringify(response.data.staff));
   
       // Navigate based on the role
-      if (role === 'Evaluation Officer') {
-        navigate(`/evaluationofficer/${staffId}/dashboard`);
-      } else if (role === 'Auditor') {
-        navigate(`/auditor/${institutionId}/${staffToken}/auditordashboard`);
-      } else {
-        // Handle other roles as needed
-        console.error('Unknown role:', role);
-      }
+     
+        navigate(`/staffloginverification/${staffId}`);
+      
     } catch (error) {
       // Handle login error here
       console.error('Login error:', error);
@@ -120,7 +115,7 @@ const staffToken = getToken();
           </div>
           <Button
             variant="contained"
-            className='bg-[#6B3FA0] hover:bg-[#6B3FA0] lowercase'
+            className='bg-[#6B3FA0] hover:bg-[#6B3FA0] '
             onClick={handleLogin}
           >
             Sign in

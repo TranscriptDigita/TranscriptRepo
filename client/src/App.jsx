@@ -21,6 +21,7 @@ import {
   Main,
   AuditorLayout,
   CourierLayout,
+  BursaryLayout,
 } from "./layouts";
 
 // pages imports
@@ -71,6 +72,14 @@ import {
   CourierPrices,
   SetupBankAccountPage,
   VerifyCertificate,
+  Subscription,
+  BursaryDashboard,
+  InstitutionVerifyLogin,
+  AlumniVerifyLogin,
+  CourierVerifyLogin,
+  StaffVerifyLogin,
+  PrivacyPolicy,
+  TermsAndConditions,
 } from "./pages";
 
 // components imports
@@ -248,6 +257,49 @@ function App() {
         },
 
 
+        {
+          path: '/subscription/:id',
+          element: <Subscription/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/institutionloginverification/:id',
+          element: <InstitutionVerifyLogin/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/alumniloginverification/:id',
+          element: <AlumniVerifyLogin/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/courierloginverification/:id',
+          element: <CourierVerifyLogin/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/staffloginverification/:id',
+          element: <StaffVerifyLogin/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/privacypolicy',
+          element: <PrivacyPolicy/>,
+          errorElement: <ErrorPage/>
+        },
+
+        {
+          path: '/termsandconditions',
+          element: <TermsAndConditions/>,
+          errorElement: <ErrorPage/>
+        },
+
+
 
         {
           path: "/evaluationofficer",
@@ -305,6 +357,25 @@ function App() {
             // }
           ],
         },
+
+
+        {
+          path: "/bursary",
+          element: <BursaryLayout/>,
+          errorElement: <ErrorPage />,
+          children: [
+           
+
+            {
+              path: "/bursary/:id/:token/bursarydashboard",
+              element: <BursaryDashboard />,
+              errorElement: <ErrorPage />,
+            },
+
+            
+          ],
+        },
+
 
         {
           path: "/courier",

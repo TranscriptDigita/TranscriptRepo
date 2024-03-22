@@ -52,13 +52,13 @@ function Contact() {
         <div className='md:w-[1064px] md:h-[478px] md:p-5 p-3 bg-[#6B3FA0] bg-opacity-10 w-full grid grid-cols-1 md:grid-cols-2 my-12 items-center rounded-md'>
           <div className='flex flex-col gap-y-[16px]'>
             <div className='flex flex-col gap-y-[8px]'>
-              <h5 className='text-[24px] md:text-[12px]'>Talk to us</h5>
-              <p className='md:text-[16px] text-[8px] font-light'>let us know how we can help you</p>
+              <h5 className='text-[30px] md:text-[40px]'>Talk to us</h5>
+              <p className='md:text-[25px] text-[25px] font-light'>let us know how we can help you</p>
             </div>
             <form onSubmit={handleSubmit} className='flex flex-col gap-y-[10px] md:w-9/12 w-full'>
               <TextField
                 id="outlined-text-input1"
-                label="enter name"
+                label="Your Name"
                 type="text"
                 name="name"
                 onChange={inputChange}
@@ -67,7 +67,7 @@ function Contact() {
 
               <TextField
                 id="outlined-text-input2"
-                label="enter email"
+                label="Your Email Address"
                 type="text"
                 name="email"
                 onChange={inputChange}
@@ -76,7 +76,7 @@ function Contact() {
 
               <TextField
                 id="outlined-text-input3"
-                label="enter message"
+                label="Message"
                 type="text"
                 name="message"
                 onChange={inputChange}

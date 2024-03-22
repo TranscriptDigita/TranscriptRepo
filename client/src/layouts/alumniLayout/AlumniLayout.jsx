@@ -54,7 +54,7 @@ function AlumniLayout() {
       isActive: true,
     },
     {
-      title: 'Tracking',
+      title: 'Requested Credentials',
       icon: <HiViewfinderCircle size={20} />,
       path: `/alumni/${user?.alumni?._id || defaultUser.alumni._id}/trackingpage`,
     },

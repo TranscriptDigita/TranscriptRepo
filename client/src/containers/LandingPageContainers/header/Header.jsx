@@ -82,17 +82,17 @@ function Header() {
         <h1 className='md:text-[60px] text-[30px] font-bold leading-none'>
           {slides[currentSlide].title}
         </h1>
-        <p className='md:text-[16px] text-[12px] font-light'>
+        <p className='md:text-[40px] text-[12px] font-light'>
           {slides[currentSlide].description}
         </p>
         <div className="flex gap-x-4">
   <Link to={slides[currentSlide].buttonLink} className="flex-shrink-0">
-    <Button variant='contained' className='bg-[#6B3FA0]'>
+    <Button variant='contained' className='bg-[#6B3FA0] h-20 w-50'>
       {slides[currentSlide].buttonText}
     </Button>
   </Link>
   <Link to={slides[currentSlide].buttonLink2} className="flex-shrink-0">
-    <Button variant='contained' className='bg-[#6B3FA0]'>
+    <Button variant='contained' className='bg-[#6B3FA0] h-20 w-50'>
       {slides[currentSlide].buttonText2}
     </Button>
   </Link>

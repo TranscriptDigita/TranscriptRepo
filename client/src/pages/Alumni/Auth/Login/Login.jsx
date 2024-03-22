@@ -77,7 +77,7 @@ function Login() {
     }
 
     if(isSuccess || user) {
-        navigate(`/alumni/${user.alumni._id}/dashboard`)
+        navigate(`/alumniloginverification/${user.alumni._id}`)
     }
 
     dispatch(reset())
@@ -126,7 +126,7 @@ function Login() {
             <div className='flex flex-col gap-y-4'>
               <TextField
                 id="outlined-email-input"
-                label="email address"
+                label="Email Address"
                 type="email"
                 name='emailAddress'
                 value={formData.emailAddress}
@@ -147,12 +147,12 @@ function Login() {
             </div>
 
             <div className='text-right text-xs font-light'>
-              <Link to={`/alumni/reset-password`}>forgot password ?</Link>
+              <Link to={`/alumni/reset-password`}>Forgot Password ?</Link>
             </div>
 
             <Button 
               variant="contained"
-              className='bg-[#6B3FA0] hover:bg-[#6B3FA0] lowercase'
+              className='bg-[#6B3FA0] hover:bg-[#6B3FA0] '
               type='submit'
             >
               Sign in
@@ -160,23 +160,23 @@ function Login() {
 
             <Button 
               variant="contained"
-              className='bg-slate-100 text-slate-900 hover:bg-[#CCCCCC] lowercase'
+              className='bg-slate-100 text-slate-900 hover:bg-[#CCCCCC] '
             >
               <Link to={`/alumni/signup`}>
-                create account
+                Create Account
               </Link>
             </Button>
 
-            <Divider>or continue with</Divider>
+            {/* <Divider>or continue with</Divider> */}
 
           {/* Add Sign In with Google feature on the button below */}
-          <Button
+          {/* <Button
             variant="contained"
             endIcon={<FaGoogle />}
             className="bg-[#CCCCCC] text-slate-900 lowercase hover:bg-[#CCCCCC]"
           >
             continue with google
-          </Button>
+          </Button> */}
 
             <p className='text-xs text-center'>by clicking the sign up button you agree to our terms and policies.</p>
           </form>

@@ -103,7 +103,7 @@ function Signup() {
                 <div className='flex flex-col gap-y-4'>
                     <TextField
                         id="outlined-text-input"
-                        label="name"
+                        label="Full Name"
                         type="text"
                         name="fullName"
                         value={formData.fullName}
@@ -113,7 +113,7 @@ function Signup() {
 
                     <TextField
                         id="outlined-email-input"
-                        label="email address"
+                        label="Email Address"
                         type="email"
                         name="emailAddress"
                         value={formData.emailAddress}
@@ -133,7 +133,7 @@ function Signup() {
                     />
 
                     <TextField
-                        label="confirm Password"
+                        label="Confirm Password"
                         type="password"
                         autoComplete="current-password"
                         name="confirmedPassword"
@@ -157,7 +157,7 @@ function Signup() {
 
                 <Button
                     variant="contained"
-                    className='bg-[#6B3FA0] hover:bg-[#6B3FA0] lowercase'
+                    className='bg-[#6B3FA0] hover:bg-[#6B3FA0] '
                     type="submit"
                 >
                     Sign up

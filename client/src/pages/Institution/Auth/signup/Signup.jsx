@@ -152,7 +152,7 @@ function Signup() {
             <div className='grid grid-cols-2 gap-y-4 gap-x-4 '>
               <TextField
                 id='outlined-text-input'
-                label='university name'
+                label='Institution Name'
                 type='text'
                 name='name'
                 className='col-span-2'
@@ -161,7 +161,7 @@ function Signup() {
               />
               <TextField
                 id='outlined-email-input'
-                label='email address'
+                label='Email Address (example@email.com)'
                 type='email'
                 name='emailAddress'
                 value={formData.emailAddress}
@@ -169,7 +169,7 @@ function Signup() {
               />
               <TextField
                 id='outlined-text-input'
-                label='state'
+                label='State'
                 type='text'
                 name='location'
                 value={formData.location}
@@ -177,7 +177,7 @@ function Signup() {
               />
                 <TextField
                   id='outlined-text-input'
-                  label='Phone Number (With Country Code)'
+                  label='Phone Number (Include Country Code)'
                   type='text'
                   name='phoneNumber'
                   value={formData.phoneNumber.startsWith('+') ? formData.phoneNumber : '+' + formData.phoneNumber} // Ensure '+' is always present in the displayed value
@@ -195,7 +195,7 @@ function Signup() {
               />
               <TextField
                 id='outlined-password-input'
-                label='confirm Password'
+                label='Confirm Password'
                 type='password'
                 autoComplete='current-password'
                 name='confirmedPassword'
@@ -205,10 +205,10 @@ function Signup() {
             </div>
             <Button
               variant='contained'
-              className='bg-[#6B3FA0] hover:bg-[#6B3FA0] lowercase'
+              className='bg-[#6B3FA0] hover:bg-[#6B3FA0]'
               onClick={handleSubmit}
             >
-              Sign up
+              Sign Up
             </Button>
             <div className='text-right text-xs font-light'>
               <Link to={`/institution/login`}>Already have an account? Login</Link>

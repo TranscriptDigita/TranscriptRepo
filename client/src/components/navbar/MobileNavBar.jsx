@@ -112,7 +112,7 @@ function MobileNavBar() {
               </Link>
             </>
           )}
-        </div>
+        </div> 
       </div>
 
       {/* Render mobile menu icon */}

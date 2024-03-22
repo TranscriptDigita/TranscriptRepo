@@ -6,3 +6,4 @@ export {default as RegistraLAyout} from './registraLayout/RegistraLayout';
 export {default as EvaluationLayout } from './evaluationOfficerLayout/EvaluationLayout';
 export {default as AuditorLayout } from './Auditor/AuditorLayout'
 export {default as CourierLayout } from './Courier/CourierLayout'
+export {default as BursaryLayout} from './Bursary/BursaryLayout'

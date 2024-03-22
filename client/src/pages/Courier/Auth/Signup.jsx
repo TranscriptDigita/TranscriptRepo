@@ -213,7 +213,7 @@ function Signup() {
               />
               <Button
                 variant='contained'
-                className='bg-[#6B3FA0] hover:bg-[#6B3FA0] lowercase'
+                className='bg-[#6B3FA0] hover:bg-[#6B3FA0] '
                 onClick={handleVerify}
               >
                 Verify
@@ -223,13 +223,13 @@ function Signup() {
           <div className='text-right text-xs font-light'>
             <Link to='/courier/login'>Already have an account? Login</Link>
           </div>
-          <Divider>or continue with</Divider>
-          <Button
+          {/* <Divider>or continue with</Divider> */}
+          {/* <Button
             variant='contained'
             className='bg-[#CCCCCC] text-slate-900 lowercase hover-bg-[#CCCCCC]'
           >
             Continue with Google
-          </Button>
+          </Button> */}
           <p className='text-xs text-center'>By clicking the sign-up button, you agree to our terms and policies.</p>
         </div>
       </form>

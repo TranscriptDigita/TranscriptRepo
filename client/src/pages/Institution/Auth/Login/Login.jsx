@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, TextField } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginInstitution } from '../../../../features/auth/institutionSlice';
 import { Navbar, Spinner } from '../../../../components';
@@ -28,6 +28,7 @@ function Login() {
     };
   }, []);
 
+  const id = useParams()
 
   const [formData, setFormData] = useState({
    
@@ -69,7 +70,7 @@ function Login() {
         // Redirect to the institution's dashboard upon successful login
         const institutionId = response.payload.institution._id; // Replace with the actual response structure
         console.log('Redirecting to dashboard...');
-        navigate(`/institution/${institutionId}/dashboard`);
+        navigate(`/institutionloginverification/${institutionId}`);
       } else {
         console.error('API Error:', response.payload.message);
       }
@@ -110,7 +111,7 @@ function Login() {
         </div>
         <Button
           variant="contained"
-          className="bg-[#6B3FA0] hover:bg-[#6B3FA0] lowercase"
+          className="bg-[#6B3FA0] hover:bg-[#6B3FA0] "
           onClick={handleSubmit}
         >
           Sign in

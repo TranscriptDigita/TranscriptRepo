@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, TextField } from '@mui/material';
+import { Navbar } from '../../components';
 
 function VerifyTranscript() {
   const [transcriptId, setTranscriptId] = useState('');
@@ -52,6 +53,8 @@ function VerifyTranscript() {
   }
 
   return (
+    <div>
+    <Navbar/>
     <div className='w-full flex flex-col justify-center items-center'>
       <div className='flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0'>
         <div className='flex flex-col gap-y-4'>
@@ -85,6 +88,7 @@ function VerifyTranscript() {
           <p style={{ fontSize: '1rem', textAlign: 'center', margin: '0' }}>{displaySentence}</p>
         </div>
       )}
+    </div>
     </div>
   );
   }

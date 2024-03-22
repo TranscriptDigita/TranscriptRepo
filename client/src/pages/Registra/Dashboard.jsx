@@ -192,8 +192,10 @@ function Dashboard() {
           className="custom-dropdown border-2 border-black border-solid rounded-md p-2"
         >
           <option value="">Select Role</option>
-          <option value="Evaluation Officer">Transcript Evaluation Officer</option>
-          <option value="Auditor">Bursary and Cashier</option>
+          <option value="Credentials Evaluation Officer">Credentials Evaluation Officer</option>
+          <option value="Exams And Records">Exams and Records Officer</option>
+          <option value="Bursary">Bursary</option>
+
         </select>
 
                <div className='flex'>

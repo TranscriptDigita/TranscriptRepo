@@ -229,7 +229,7 @@ function Navbar() {
                 <div className="flex items-center justify-end p-4"><img src={lumniImg} alt="Company Logo" className="w-20" /></div>
                   <div>
                     <Link to={`/`} className="font-bold text-white">
-                      TranscriptDigita
+                      Loumni
                     </Link>
                   </div>
                   <nav className="md:text-[14px] justify-evenly flex-1 hidden md:flex">

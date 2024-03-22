@@ -43,7 +43,10 @@ function Footer() {
                     <ul className='text-[14px] font-light gap-y-[6px]'>
                         <li>About</li>
                         <li>Blog</li>
-                        <li>Privacy policy</li>
+                        
+                        <li><Link to={`/privacypolicy`}>Privacy policy</Link></li>
+                        <li><Link to={`/termsandconditions`}>Terms And Conditions</Link></li>
+                       
                     </ul>
                 </div>
                 <div className='flex flex-col gap-y-[8px]'>

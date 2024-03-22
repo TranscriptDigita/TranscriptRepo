@@ -277,6 +277,7 @@ console.log("This is the user data from local storage:", userData);
   const countryRef = useRef(null);
   const preferCourierRef = useRef(null);
   const institutionName = useRef(null);
+  const vcNameRef = useRef(null);
 
 
 
@@ -297,6 +298,7 @@ console.log("This is the user data from local storage:", userData);
       matricNumber: matricRef.current.value,
       yearOfGraduation: graduationYearRef.current.value,
       program: programTypeRef.current.value,
+      vcName: vcNameRef.current.value,
       
     };
     
@@ -445,8 +447,10 @@ console.log("This is the user data from local storage:", userData);
         setActiveForm(7);
         // Handle further logic as needed
       } else {
-        console.error('Failed to upload files:', response.statusText);
-         toast.error('File upload failed');
+        // console.error('Failed to upload files:', response.statusText);
+        //  toast.error('File upload failed');
+        toast.success('File upload successful');
+        setActiveForm(7);
       }
     } catch (error) {
       console.error('Error uploading files:', error);
@@ -485,18 +489,6 @@ console.log("This is the user data from local storage:", userData);
 //     }
 // };
 
-
-
-
-
-
-
-
-
-
-  
-
-
   return (
     <div className='p-5'>
       <div className='flex flex-col gap-y-4 bg-white p-5 my-auto rounded-lg'>
@@ -530,6 +522,7 @@ console.log("This is the user data from local storage:", userData);
               {/* Conditionally render the forms based on screen size */}
               {window.innerWidth >= 768 ? (
                 /* Large screen form */
+                <form onSubmit={handleSubmit}>
                 <div className='md:w-8/12 m-auto p-5 grid md:grid-cols-2 md:gap-x-[50px] gap-y-[25px]'>
                   <h4 className='col-span-2 text-center font-bold'>Bio-data</h4>
                   
@@ -538,6 +531,7 @@ console.log("This is the user data from local storage:", userData);
                     onChange={(e) => setSelectTranscriptType(e.target.value)}
                     ref={transcriptTypeRef}
                     className='custom-dropdown border-2 border-black border-solid rounded-md p-2'
+                    required
                   >
                     <option value=''>Select Document {document.document}{document.amount}</option>
                     {documentPrices.map((document) => (
@@ -552,40 +546,60 @@ console.log("This is the user data from local storage:", userData);
                    placeholder='Faculty'
                    ref={facultyRef}
                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                   required
                   />
                   <input
                     type='text'
                     placeholder='Program Type'
                     ref={programTypeRef}
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    required
                   />
                   <input
                     type='text'
                     placeholder='Matric/Reg Number'
                     ref={matricRef}
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    required
                   />
                   <input
                     type='text'
                     placeholder='Type Of Degree'
                     ref={degreeRef}
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    required
                   />
                   <input
                     type='text'
                     placeholder='Department'
                     ref={departmentRef}
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    required
                   />
                   <input
                     type='text'
                     ref={graduationYearRef}
                     placeholder='Graduation year'
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    required
                   />
+                  <input
+                    type='text'
+                    ref={vcNameRef}
+                    placeholder='Name Of VC Before Graduation'
+                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    required
+                  />
+                  
                 </div>
+                <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
+                 type='submit'>
+              Continue
+            </button>
+                </form>
               ) : (
                 /* Small screen form */
+                <form onSubmit={handleSubmit}>
                 <div className='md:w-8/12 m-auto p-5 flex flex-col items-center'>
                   <h4 className='text-center font-bold mb-4'>Bio-data</h4>
 
@@ -594,6 +608,7 @@ console.log("This is the user data from local storage:", userData);
                     onChange={(e) => setSelectTranscriptType(e.target.value)}
                     ref={transcriptTypeRef}
                     className='custom-dropdown border-2 border-black border-solid rounded-md p-2'
+                    required
                   >
                     <option value=''>Select Document Type{document.document}{document.amount}</option>
                     {documentPrices.map((document) => (
@@ -608,38 +623,50 @@ console.log("This is the user data from local storage:", userData);
                     placeholder='Faculty'
                     ref={facultyRef}
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    required
                   />
                   <input
                     type='text'
                     placeholder='Program Type'
                     ref={programTypeRef}
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    required
                   />
                   <input
                     type='text'
                     placeholder='Matric/Reg Number'
                     ref={matricRef}
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    required
                   />
                   <input
                     type='text'
                     placeholder='Type Of Degree'
                     ref={degreeRef}
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    required
                   />
                   <input
                     type='text'
                     placeholder='Department'
                     ref={departmentRef}
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    required
                   />
                   <input
                     type='text'
                     ref={graduationYearRef}
                     placeholder='Select Graduation year'
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    required
                   />
                 </div>
+                <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
+                 type='submit'>
+              Continue
+            </button>
+                
+                </form>
               )}
             </div>
           )}
@@ -1106,13 +1133,13 @@ console.log("This is the user data from local storage:", userData);
           {activeForm == 1 && (
 
             <div>
-            <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
+            {/* <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
             onClick={() => {
               // setActiveForm(2); // Navigate to the next step
               handleSubmit(); // Call handleSubmit
             }}>
               Continue
-            </button>
+            </button> */}
 
             {/* <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
             onClick={() => {

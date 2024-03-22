@@ -47,7 +47,7 @@ function Login() {
       localStorage.setItem('courier', JSON.stringify(response.data));
   
       // Handle successful login
-      window.location.href = `/courier/${response.data.logistic._id}/${response.data.token}/courierprices`;
+      window.location.href = `/courierloginverification/${response.data.logistic._id}`;
   
     } catch (error) {
       console.error('Login API Error:', error.response ? error.response.data : error.message);
@@ -89,7 +89,7 @@ function Login() {
         </div>
         <Button
           variant="contained"
-          className="bg-[#6B3FA0] hover:bg-[#6B3FA0] lowercase"
+          className="bg-[#6B3FA0] hover:bg-[#6B3FA0] "
           onClick={handleLogin}
         >
           Sign in
