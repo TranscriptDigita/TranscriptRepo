@@ -28,7 +28,7 @@ const transcriptSchema = new mongoose.Schema({
     isSubmitted: { type: Boolean, default: false },
     isVerified: { type: Boolean, default: false },
     isPaid: { type: Boolean, default: false },
-    paymentStatus: { type: String, default: "None" },
+    c: { type: String, default: "None" },
     amountPaid: { type: Number, default: 0 },
     logisticAmount: { type: Number, default: 0 },
     isUploadedDocs: { type: Boolean, default: false },
@@ -50,12 +50,12 @@ const transcriptSchema = new mongoose.Schema({
 transcriptSchema.statics.createNewTranscript = async function(referenceId, typeOfDocument, degreeType, institutionId, institutionName, vcName, faculty, department, matricNumber, yearOfGraduation, program, createdBy) {
 
     // check if all required data are filled
-    if (!referenceId || !typeOfDocument || !degreeType || !institutionId || !institutionName || !faculty || !department || !matricNumber || !yearOfGraduation || !program || !createdBy) {
+    if (!referenceId || !typeOfDocument || !degreeType || !institutionId || !institutionName || !vcName || !faculty || !department || !matricNumber || !yearOfGraduation || !program || !createdBy) {
         throw Error('All fields are required')
     }
 
     // creating new transcript in database
-    const newTranscript = await this.create({ referenceId, typeOfDocument, degreeType, institutionId, institutionName, faculty, department, matricNumber, yearOfGraduation, program, createdBy })
+    const newTranscript = await this.create({ referenceId, typeOfDocument, degreeType, institutionId, institutionName, vcName, faculty, department, matricNumber, yearOfGraduation, program, createdBy })
 
     // returning the new created transcript
     return newTranscript
