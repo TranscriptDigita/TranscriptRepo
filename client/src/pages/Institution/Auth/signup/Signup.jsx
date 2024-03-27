@@ -146,6 +146,7 @@ function Signup() {
       <Navbar/>
    
     <div className='flex flex-col gap-y-4 bg-white p-5 my-auto justify-center align-center mt-10'>
+    <p style={{ fontWeight: 'bold', color: '#6B3FA0', fontSize: '2rem' }}>Create Account </p>
       <form className='flex flex-col'>
         {activeForm === 1 && (
           <div className='flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0' style={{ alignSelf: "center" }}>

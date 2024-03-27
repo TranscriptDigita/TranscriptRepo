@@ -280,6 +280,13 @@ console.log("This is the user data from local storage:", userData);
   const vcNameRef = useRef(null);
 
 
+  const [selectedDegree, setSelectedDegree] = useState('');
+
+  const handleDegreeChange = (event) => {
+    setSelectedDegree(event.target.value);
+  };
+
+
 
   //API SECTION
 
@@ -518,12 +525,12 @@ console.log("This is the user data from local storage:", userData);
 
         <form className='flex flex-col'>
           {activeForm == 1 && (
-            <div className='md:w-8/12 m-auto p-5'>
+            <div className=''>
               {/* Conditionally render the forms based on screen size */}
               {window.innerWidth >= 768 ? (
                 /* Large screen form */
                 <form onSubmit={handleSubmit}>
-                <div className='md:w-8/12 m-auto p-5 grid md:grid-cols-2 md:gap-x-[50px] gap-y-[25px]'>
+                <div className='flex flex-col gap-y-4 bg-white p-5 my-auto rounded-lg'>
                   <h4 className='col-span-2 text-center font-bold'>Bio-data</h4>
                   
                   <select
@@ -548,13 +555,17 @@ console.log("This is the user data from local storage:", userData);
                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
                    required
                   />
-                  <input
-                    type='text'
-                    placeholder='Program Type'
-                    ref={programTypeRef}
-                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-                    required
-                  />
+                  <select
+                  ref={programTypeRef}
+                  className='custom-dropdown border-2 border-black border-solid rounded-md p-2'
+                  required
+                >
+                  <option value=''>Program Type</option>
+                  <option value='Regular Program'>Regular Program</option>
+                  <option value='Sandwich Program'>Sandwich Program</option>
+                  <option value='Part Time Program'>Part Time Program</option>
+                  <option value='Full Time Program'>Full Time Program</option>
+                </select>
                   <input
                     type='text'
                     placeholder='Matric/Reg Number'
@@ -562,13 +573,34 @@ console.log("This is the user data from local storage:", userData);
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
                     required
                   />
-                  <input
-                    type='text'
-                    placeholder='Type Of Degree'
-                    ref={degreeRef}
-                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-                    required
-                  />
+                   <div className='flex flex-col gap-y-4 bg-white  my-auto rounded-lg'>
+      <select
+        ref={degreeRef}
+        value={selectedDegree}
+        onChange={handleDegreeChange}
+        className='custom-dropdown border-2 border-black border-solid rounded-md p-2'
+      >
+        <option value=''>Type Of Degree</option>
+        <option value='Bachelor of Arts (B.A.)'>Bachelor of Arts (B.A.)</option>
+        <option value='Bachelor of Science (B.S.)'>Bachelor of Science (B.S.)</option>
+        <option value='Master of Arts (M.A.)'>Master of Arts (M.A.)</option>
+        <option value='Master of Science (M.S.)'>Master of Science (M.S.)</option>
+        <option value='Doctor of Philosophy (Ph.D.)'>Doctor of Philosophy (Ph.D.)</option>
+        <option value='Doctor of Medicine (M.D.)'>Doctor of Medicine (M.D.)</option>
+        <option value='Juris Doctor (J.D.)'>Juris Doctor (J.D.)</option>
+        <option value='Master of Business Administration (MBA)'>Master of Business Administration (MBA)</option>
+        <option value='Others'>Others</option>
+      </select>
+      
+      {selectedDegree === 'Others' && (
+        <input
+          type='text'
+          placeholder='Enter your degree'
+          className='custom-input border-2 border-black border-solid rounded-md p-2'
+        />
+      )}
+    </div>
+
                   <input
                     type='text'
                     placeholder='Department'
@@ -593,17 +625,17 @@ console.log("This is the user data from local storage:", userData);
                   
                 </div>
                 <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
-                 type='submit'>
+                 type='submit' onClick={handleSubmit}>
               Continue
             </button>
                 </form>
               ) : (
                 /* Small screen form */
                 <form onSubmit={handleSubmit}>
-                <div className='md:w-8/12 m-auto p-5 flex flex-col items-center'>
+                <div className='flex flex-col gap-y-4 bg-white p-5 my-auto rounded-lg'>
                   <h4 className='text-center font-bold mb-4'>Bio-data</h4>
 
-                  <p style={{color: "gray" }}>Select Document Type</p>
+                  
                   <select
                     onChange={(e) => setSelectTranscriptType(e.target.value)}
                     ref={transcriptTypeRef}
@@ -625,13 +657,17 @@ console.log("This is the user data from local storage:", userData);
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
                     required
                   />
-                  <input
-                    type='text'
-                    placeholder='Program Type'
-                    ref={programTypeRef}
-                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-                    required
-                  />
+                  <select
+                  ref={programTypeRef}
+                  className='custom-dropdown border-2 border-black border-solid rounded-md p-2'
+                  required
+                >
+                  <option value=''>Program Type</option>
+                  <option value='Regular Program'>Regular Program</option>
+                  <option value='Sandwich Program'>Sandwich Program</option>
+                  <option value='Part Time Program'>Part Time Program</option>
+                  <option value='Full Time Program'>Full Time Program</option>
+                </select>
                   <input
                     type='text'
                     placeholder='Matric/Reg Number'
@@ -639,13 +675,34 @@ console.log("This is the user data from local storage:", userData);
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
                     required
                   />
-                  <input
-                    type='text'
-                    placeholder='Type Of Degree'
-                    ref={degreeRef}
-                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
-                    required
-                  />
+                 <div className='flex flex-col gap-y-4 bg-white  my-auto rounded-lg'>
+      <select
+        ref={degreeRef}
+        value={selectedDegree}
+        onChange={handleDegreeChange}
+        className='custom-dropdown border-2 border-black border-solid rounded-md p-2'
+      >
+        <option value=''>Type Of Degree</option>
+        <option value='Bachelor of Arts (B.A.)'>Bachelor of Arts (B.A.)</option>
+        <option value='Bachelor of Science (B.S.)'>Bachelor of Science (B.S.)</option>
+        <option value='Master of Arts (M.A.)'>Master of Arts (M.A.)</option>
+        <option value='Master of Science (M.S.)'>Master of Science (M.S.)</option>
+        <option value='Doctor of Philosophy (Ph.D.)'>Doctor of Philosophy (Ph.D.)</option>
+        <option value='Doctor of Medicine (M.D.)'>Doctor of Medicine (M.D.)</option>
+        <option value='Juris Doctor (J.D.)'>Juris Doctor (J.D.)</option>
+        <option value='Master of Business Administration (MBA)'>Master of Business Administration (MBA)</option>
+        <option value='Others'>Others</option>
+      </select>
+      
+      {selectedDegree === 'Others' && (
+        <input
+          type='text'
+          placeholder='Enter your degree'
+          className='custom-input border-2 border-black border-solid rounded-md p-2'
+        />
+      )}
+    </div>
+
                   <input
                     type='text'
                     placeholder='Department'
@@ -660,9 +717,16 @@ console.log("This is the user data from local storage:", userData);
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
                     required
                   />
+                  <input
+                    type='text'
+                    ref={vcNameRef}
+                    placeholder='Name Of VC Before Graduation'
+                    className='custom-textfield border-2 border-black border-solid rounded-md p-2'
+                    required
+                  />
                 </div>
                 <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
-                 type='submit'>
+                 type='submit' onClick={handleSubmit}>
               Continue
             </button>
                 
@@ -673,11 +737,11 @@ console.log("This is the user data from local storage:", userData);
 
         
            {activeForm == 2 && (
-           <div className='md:w-8/12 m-auto grid md:grid-cols-2 grid-cols-1 md:gap-x-[50px] gap-y-[25px] p-5'>
+           <div className=''>
            {/* Conditionally render the delivery method form based on screen size */}
            {window.innerWidth >= 768 ? (
              /* Large screen form */
-             <div className=' '>
+             <div className='flex flex-col gap-y-4 bg-white p-5 my-auto rounded-lg '>
              <h4 className='col-span-2 text-center font-bold'>Delivery Method</h4>
 
 
@@ -744,14 +808,14 @@ console.log("This is the user data from local storage:", userData);
     {courierServiceProviders.map((courier) => (
         <option
             key={courier._id}
-            value={`${courier.businessName}-${selectedCountry?.value === 'Nigeria' ? `${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `-:${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}`}
+            value={`${courier.businessName}-${selectedCountry?.value === 'Nigeria' ? `${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}`}
             disabled={
                 (selectedCountry?.value === 'Nigeria' && courier.localDeliveryPrice === undefined) ||
                 (selectedCountry?.value !== 'Nigeria' && courier.internationalDeliveryPrice === undefined)
             }
             style={{ color: (selectedCountry?.value === 'Nigeria' && courier.localDeliveryPrice === undefined) || (selectedCountry?.value !== 'Nigeria' && courier.internationalDeliveryPrice === undefined) ? 'gray' : 'black' }}
         >
-            {courier.businessName} ₦{selectedCountry?.value === 'Nigeria' ? ` ${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `₦: ${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}
+            {courier.businessName} {selectedCountry?.value === 'Nigeria' ? ` ${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : ` ${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}
         </option>
     ))}
 </select>
@@ -796,7 +860,7 @@ console.log("This is the user data from local storage:", userData);
            </div>
            ) : (
              /* Small screen form */
-             <div className='md:w-8/12 m-auto p-5 flex flex-col items-center'>
+             <div className='flex flex-col gap-y-4 bg-white p-5 my-auto rounded-lg'>
                <h4 className='text-center font-bold mb-4'>Delivery Method</h4>
                <select
                  onChange={handleDeliveryMethodChange}
@@ -840,14 +904,14 @@ console.log("This is the user data from local storage:", userData);
     {courierServiceProviders.map((courier) => (
         <option
             key={courier._id}
-            value={`${courier.businessName}-${selectedCountry?.value === 'Nigeria' ? `${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `-:${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}`}
+            value={`${courier.businessName}-${selectedCountry?.value === 'Nigeria' ? `${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}`}
             disabled={
                 (selectedCountry?.value === 'Nigeria' && courier.localDeliveryPrice === undefined) ||
                 (selectedCountry?.value !== 'Nigeria' && courier.internationalDeliveryPrice === undefined)
             }
             style={{ color: (selectedCountry?.value === 'Nigeria' && courier.localDeliveryPrice === undefined) || (selectedCountry?.value !== 'Nigeria' && courier.internationalDeliveryPrice === undefined) ? 'gray' : 'black' }}
         >
-            {courier.businessName} ₦{selectedCountry?.value === 'Nigeria' ? ` ${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : `₦: ${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}
+            {courier.businessName} {selectedCountry?.value === 'Nigeria' ? ` ${courier.localDeliveryPrice !== undefined ? courier.localDeliveryPrice : 'Unavailable'}` : ` ${courier.internationalDeliveryPrice !== undefined ? courier.internationalDeliveryPrice : 'Unavailable'}`}
         </option>
     ))}
 </select>
@@ -1168,7 +1232,7 @@ console.log("This is the user data from local storage:", userData);
                   handlePatchRequest(selectTranscriptType, event);
                 }}
               >
-                Add Delivery Details
+                Continue
               </button>
 
               {/* <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'

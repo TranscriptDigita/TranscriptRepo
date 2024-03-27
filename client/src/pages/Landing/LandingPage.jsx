@@ -5,10 +5,30 @@ import React from 'react'
 import { Contact, Footer, Header, OurPartners, Services, Testimonials, WNU } from '../../containers'
 import { Navbar } from '../../components'
 import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function LandingPage() {
   const location = useLocation();
+
+  
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    // Check screen size on component mount and resize
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 1200); // Adjust the breakpoint according to your design
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  
+  
+
 
 
   useEffect(() => {
@@ -58,22 +78,20 @@ function LandingPage() {
   }, [location]);
 
   return (
-    
     <div className='flex flex-col flex-1 md:p-5 p-3 mt-5 gap-y-[50px]'>
-      
-      <Navbar/>
-        <Header/>
-        <WNU/>
-        <div id="services"></div>
-        <Services/>
-        <OurPartners/>
-        <div id="testimonials"></div>
-        <Testimonials/>
-        <div id="contact"></div>
-        <Contact/>
-        <Footer/>
+      <Navbar />
+      <Header />
+      {!isSmallScreen && <WNU />}
+      {!isSmallScreen && <div id="services"></div>}
+      {!isSmallScreen && <Services />}
+      {!isSmallScreen && <OurPartners />}
+      {!isSmallScreen && <div id="testimonials"></div>}
+      {!isSmallScreen && <Testimonials />}
+      {!isSmallScreen && <div id="contact"></div>}
+      {!isSmallScreen &&  <Contact />}
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default LandingPage
+export default LandingPage;

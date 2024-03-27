@@ -122,6 +122,7 @@ function Login() {
 
           <form onSubmit={handleSubmit} className='flex flex-col md:w-8/12 m-auto justify-center w-full gap-y-4 p-3 md:p-0'>
             {isLoading ? <Spinner/> : ``}
+            <p style={{ fontWeight: 'bold', color: '#6B3FA0', fontSize: '2rem' }}>Login </p>
             <h4 className='font-semibold'>Welcome Back !</h4>
             <div className='flex flex-col gap-y-4'>
               <TextField
@@ -178,7 +179,7 @@ function Login() {
             continue with google
           </Button> */}
 
-            <p className='text-xs text-center'>by clicking the sign up button you agree to our terms and policies.</p>
+            <p className='text-xs text-center'>By clicking the sign up button you agree to our terms and policies.</p>
           </form>
         </div>
     </div>

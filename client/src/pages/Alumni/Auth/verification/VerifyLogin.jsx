@@ -60,32 +60,41 @@ function VerifyLogin() {
     setIsLoading(true);
 
     try {
-      // Make API call to verify authentication
-      const response = await fetch('https://dacs.onrender.com/api/v1/alumnus/verify-authentication', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ verificationCode, id}), // Adjust the ID source accordingly
-      });
+        // Make API call to verify authentication
+        const response = await fetch('https://dacs.onrender.com/api/v1/alumnus/verify-authentication', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ verificationCode, id }), // Adjust the ID source accordingly
+        });
 
-      const result = await response.json();
-      setIsLoading(false);
+        const result = await response.json();
+        setIsLoading(false);
 
-       // Store the API response in local storage under 'institutionUser'
-       localStorage.setItem('user', JSON.stringify(result));
+        // Store the API response in local storage under 'institutionUser'
+        localStorage.setItem('user', JSON.stringify(result));
 
-      // Assuming the verification is successful
-      // You can add additional checks if needed
-      console.log('Verification Response:', result);
-      navigate(`/alumni/${id}/dashboard`);
+        // Check if verification was successful
+        if (result.message !== "Incorrect verfication code") {
+            // Assuming the verification is successful
+            // You can add additional checks if needed
+            console.log('Verification Response:', result);
+            navigate(`/alumni/${id}/dashboard`);
+        } else {
+            // Handle incorrect verification code scenario
+            console.log('Verification Error:', result.message);
+            setIsError(true);
+            setMessage('Verification Error: ' + result.message);
+        }
     } catch (error) {
-      setIsLoading(false);
-      setIsError(true);
-      setMessage('Verification Error: ' + error.message);
-      console.error('Verification Error:', error);
+        setIsLoading(false);
+        setIsError(true);
+        setMessage('Verification Error: ' + error.message);
+        console.error('Verification Error:', error);
     }
-  };
+};
+
 
   return (
     <div className="flex flex-col md:w-1/2 m-auto flex-1 items-center gap-y-[50px] p-5">
@@ -107,6 +116,7 @@ function VerifyLogin() {
       </form>
 
       {isLoading ? <Spinner /> : null}
+      {isError ? <p className="text-red-500">{message}</p> : null}
 
       <div className="flex flex-col">
         <p className="text-center">Please Insert the 5 digit token sent to your email</p>

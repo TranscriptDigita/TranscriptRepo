@@ -14,6 +14,20 @@ import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
 
 function Header() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    // Check screen size on component mount and resize
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 1200); // Adjust the breakpoint according to your design
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   const slides = [
     {
       title: 'Your Transcripts, Simplified Access, Request, Delivered',
@@ -23,6 +37,10 @@ function Header() {
       buttonLink: '/verifycertificate',
       buttonText2: 'Verify Transcript',
       buttonLink2: '/verifytranscript',
+      buttonText3: 'Credentials Application',
+      buttonLink3: '/alumni/login',
+      buttonText4: 'Login/Sign Up',
+      buttonLink4: '/selectLogin',
       image: headerImg,
     },
     {
@@ -33,6 +51,10 @@ function Header() {
       buttonLink: '/verifycertificate',
       buttonText2: 'Verify Transcript',
       buttonLink2: '/verifytranscript',
+      buttonText3: 'Credentials Application',
+      buttonLink3: '/alumni/login',
+      buttonText4: 'Login/Sign Up',
+      buttonLink4: '/selectLogin',
       image: headerImg,
     },
     {
@@ -43,6 +65,10 @@ function Header() {
       buttonLink: '/verifycertificate',
       buttonText2: 'Verify Transcript',
       buttonLink2: '/verifytranscript',
+      buttonText3: 'Credentials Application',
+      buttonLink3: '/alumni/login',
+      buttonText4: 'Login/Sign Up',
+      buttonLink4: '/selectLogin',
       image: headerImg,
     },
     {
@@ -53,6 +79,10 @@ function Header() {
       buttonLink: '/verifycertificate',
       buttonText2: 'Verify Transcript',
       buttonLink2: '/verifytranscript',
+      buttonText3: 'Credentials Application',
+      buttonLink3: '/alumni/login',
+      buttonText4: 'Login/Sign Up',
+      buttonLink4: '/selectLogin',
       image: headerImg,
     },
   ];
@@ -75,43 +105,54 @@ function Header() {
 
   return (
     <div className='flex-1 grid md:grid-cols-2 grid-cols-1 gap-y-4 md:gap-y-0'>
-      <meta name="description" content="Explore academic credentials processing. Learn about our diverse range of programs, including degrees, certificates, and diplomas. Prepare for a successful career with our accredited and industry-relevant qualifications."/>
+    <meta name="description" content="Explore academic credentials processing. Learn about our diverse range of programs, including degrees, certificates, and diplomas. Prepare for a successful career with our accredited and industry-relevant qualifications."/>
 
-      <div className='flex flex-col bg-white justify-center gap-y-4'>
-     
-        <h1 className='md:text-[60px] text-[30px] font-bold leading-none'>
-          {slides[currentSlide].title}
-        </h1>
-        <p className='md:text-[40px] text-[12px] font-light'>
-          {slides[currentSlide].description}
-        </p>
-        <div className="flex gap-x-4">
-  <Link to={slides[currentSlide].buttonLink} className="flex-shrink-0">
-    <Button variant='contained' className='bg-[#6B3FA0] h-20 w-50'>
-      {slides[currentSlide].buttonText}
-    </Button>
-  </Link>
-  <Link to={slides[currentSlide].buttonLink2} className="flex-shrink-0">
-    <Button variant='contained' className='bg-[#6B3FA0] h-20 w-50'>
-      {slides[currentSlide].buttonText2}
-    </Button>
-  </Link>
-</div>
-
-        <div>
-        {/* <button onClick={() => handleSlideChange(-1)}>
-            <HiChevronLeft />
-          </button>
-          <button onClick={() => handleSlideChange(1)}>
-            <HiChevronRight />
-          </button> */}
-        </div>
+    <div className='flex flex-col bg-white justify-center gap-y-4'>
+      <h1 className='md:text-[30px] text-[30px] font-bold leading-none'>
+        {slides[currentSlide].title}
+      </h1>
+      <p className='md:text-[24px] text-[12px] font-light'>
+        {slides[currentSlide].description}
+      </p>
+      <div className="flex gap-x-4">
+        <Link to={slides[currentSlide].buttonLink} className="flex-shrink-0">
+          <Button variant='contained' className='bg-[#6B3FA0] '>
+            {slides[currentSlide].buttonText}
+          </Button>
+        </Link>
+        <Link to={slides[currentSlide].buttonLink2} className="flex-shrink-0">
+          <Button variant='contained' className='bg-[#6B3FA0] '>
+            {slides[currentSlide].buttonText2}
+          </Button>
+        </Link>
+        
       </div>
-      <div className='flex'>
-        <img src={slides[currentSlide].image} alt='headerimg' />
+      <div className="flex gap-x-4">
+      <Link to={slides[currentSlide].buttonLink3} className="flex-shrink-0">
+          <Button variant='contained' className='bg-[#6B3FA0] '>
+            {slides[currentSlide].buttonText3}
+          </Button>
+        </Link>
+
+        <Link to={slides[currentSlide].buttonLink4} className="flex-shrink-0">
+          <Button variant='contained' className='bg-[#6B3FA0] '>
+            {slides[currentSlide].buttonText4}
+          </Button>
+        </Link>
+
+        
+        </div>
+      <div>
+        {/* Left and Right navigation buttons remain commented out */}
       </div>
     </div>
-  );
+    {/* Conditional rendering of the image based on screen size */}
+    {!isSmallScreen && <div className='flex hidden xl:block'>
+  <img src={slides[currentSlide].image} alt='headerimg' />
+</div>}
+    
+  </div>
+);
 }
 
 export default Header;

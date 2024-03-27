@@ -147,12 +147,12 @@ function Dashboard() {
             <div className='flex flex-col gap-y-4'>
               <h4 className='font-semibold'>Staff List</h4>
             <p className='font-light text-[14px]'>To the <span className='font-semibold'>Registrar,</span></p>
-            <p className='font-light text-[14px]'>Please create dedicated staff roles to handle the transcript process efficiently. Assign responsibilities to these staff members as follows:</p>
+            <p className='font-light text-[14px]'>Please create dedicated staff roles to handle the Credentials Processing efficiently. Assign responsibilities to these staff members as follows:</p>
 
-            <p className='font-light text-[14px]'>1. Transcript Evaluation officer: Responsible for overseeing the entire transcript process, coordinating with relevant departments, and ensuring timely delivery of transcripts.</p>
-            <p className='font-light text-[14px]'>2. Exams and records: Tasked with accurately entering student information into the system, including transcript requests and delivery details.</p>
-            <p className='font-light text-[14px]'>3. Transcript Processor: Responsible for processing transcript requests, verifying academic records, and preparing official transcripts for issuance.</p>
-            <p className='font-light text-[14px]'>4. Communication Liaison: Handles communication with students, faculty, and other departments regarding transcript-related inquiries and updates.</p>
+            <p className='font-light text-[14px]'>1. Credentials Evaluation Officer: Responsible for overseeing the entire transcript process, coordinating with relevant departments, and ensuring timely delivery of transcripts.</p>
+            <p className='font-light text-[14px]'>2. Exams and Records Office: Tasked with accurately entering student information into the system, including transcript requests and delivery details.</p>
+            <p className='font-light text-[14px]'>3. Bursary: Responsible for Keeping and Checking all payments records.</p>
+            {/* <p className='font-light text-[14px]'>4. Communication Liaison: Handles communication with students, faculty, and other departments regarding transcript-related inquiries and updates.</p> */}
 
             </div>
           )}

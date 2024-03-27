@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../../features/auth/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
@@ -16,7 +16,20 @@ function Navbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  
+  // Add state for screen width
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  // Update screenWidth state on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Define a variable to control the visibility of the links
+  const showLinks = screenWidth >= 1200;
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
@@ -236,17 +249,20 @@ function Navbar() {
                   <Link to={`/`} className='flex'>
                             <p>Home</p>
                         </Link>
-                        <Link to={`/#contact`} className='flex'>
-                            <p>Contact</p>
-                        </Link>
-
-                        <Link to={`/#testimonials`} className='flex'>
-                            <p>Testimonials</p>
-                        </Link>
-                  
-                        <Link to={`/#services`} className='flex'>
-                            <p>Services</p>
-                        </Link>
+                          {/* Conditionally render the links based on screen width */}
+          {showLinks && (
+            <>
+              <Link to={`/#contact`} className='flex'>
+                <p>Contact</p>
+              </Link>
+              <Link to={`/#testimonials`} className='flex'>
+                <p>Testimonials</p>
+              </Link>
+              <Link to={`/#services`} className='flex'>
+                <p>Services</p>
+              </Link>
+            </>
+          )}
                    
                   </nav>
 

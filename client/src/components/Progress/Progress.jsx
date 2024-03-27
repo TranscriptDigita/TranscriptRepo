@@ -261,7 +261,7 @@ function Progress() {
       return (
         <button
         onClick={openUploadModal}
-        className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded ml-10"
+        className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mt-5 ml-5"
       >
         Proceed to Upload Your Document
       </button>
@@ -279,7 +279,7 @@ function Progress() {
        
       <button
         onClick={() => window.open(`/receipt/${id}`, '_blank', 'width=600,height=400')}
-        className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mt-5 ml-5"
       >
         View Receipt
       </button>
@@ -312,9 +312,9 @@ function Progress() {
                     <p key={index}>{file.name}</p>
                   ))}
                 </div>
-                <button type='button' onClick={handleUpload} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                {/* <button type='button' onClick={handleUpload} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   Upload Files
-                </button>
+                </button> */}
                 <ToastContainer/>
               </div>
             </div>

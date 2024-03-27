@@ -89,7 +89,9 @@ const staffToken = getToken();
       <Navbar/>
       <div className='w-full flex flex-col justify-center items-center'>
         <div className='flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0'>
+        
           <div className='flex flex-col gap-y-4 mt-20'>
+          <p style={{ fontWeight: 'bold', color: '#6B3FA0', fontSize: '2rem' }}>Login </p>
             <label>Email</label>
             <TextField
               id="outlined-text-input"

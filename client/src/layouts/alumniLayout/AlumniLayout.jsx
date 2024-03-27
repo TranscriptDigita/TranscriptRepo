@@ -175,7 +175,7 @@ console.log("Stored User Data:", storedUserData);
           
           {/* Render MobileNavBar when the screen is smaller */}
 
-          <div className="flex-1 p-4 bg-slate-100 overflow-y-auto">
+          <div className="flex-1  bg-slate-100 overflow-y-auto">
             {/* Use 'overflow-y-auto' to enable vertical scrolling */}
             <Outlet />
           </div>

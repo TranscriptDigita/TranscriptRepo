@@ -33,9 +33,9 @@ function Dashboard() {
   return (
     <div className="flex flex-1 flex-col bg-white rounded-md md:p-5 p-2 gap-y-4">
       <div className="flex justify-center">
-        <div className="flex w-72 p-2 items-center rounded-md border border-solid border-gray-300 bg-opacity-5">
+        {/* <div className="flex w-72 p-2 items-center rounded-md border border-solid border-gray-300 bg-opacity-5">
           <input type="text" placeholder="Search" className="w-full outline-none bg-transparent" />
-        </div>
+        </div> */}
       </div>
 
       <div className="flex flex-col gap-y-5">

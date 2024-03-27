@@ -102,7 +102,7 @@ function RecentRequests() {
       title: 'Name'
     },
     {
-      title: 'Course'
+      title: 'Program'
     },
     {
       title: 'Year Graduated'
@@ -124,7 +124,7 @@ function RecentRequests() {
   .reverse()
   .map((transcript) => ({
     'Name': alumniData[transcript.createdBy]?.fullName || 'No name In the Api Response',
-    'Course': transcript.program,
+    'Program': transcript.program,
     'Year Graduated': transcript.yearOfGraduation,
     'Status': getStatus(transcript),
     'Reference ID': transcript.referenceId,

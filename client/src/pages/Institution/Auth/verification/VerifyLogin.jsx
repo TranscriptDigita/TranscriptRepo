@@ -76,14 +76,18 @@ function VerifyLogin() {
          // Store the API response in local storage under 'institutionUser'
          localStorage.setItem('institutionUser', JSON.stringify(result));
 
-        if (isActivePackage == true) {
+        if (isActivePackage == true && result.message !== "Incorrect verfication code" ) {
             // If package is active, navigate to dashboard
             console.log('Package is active');
             navigate(`/institution/${id}/dashboard`);
-        } else {
+        } else if (isActivePackage == true && result.message !== "Incorrect verfication code" ) {
             // If package is not active, navigate to dashboard22
             console.log('Package is not active');
+            
             navigate(`/subscription/${id}`);
+        } else if (result.message !== "Incorrect verfication code" ) {
+          console.log('Verification Error:', result.message);
+
         }
     } catch (error) {
         setIsLoading(false);
@@ -113,6 +117,7 @@ function VerifyLogin() {
       </form>
 
       {isLoading ? <Spinner /> : null}
+      {isError ? <p className="text-red-500">{message}</p> : null}
 
       <div className="flex flex-col">
         <p className="text-center">Please Insert the 5 digit token sent to your email</p>

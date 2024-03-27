@@ -88,8 +88,19 @@ function VerifyLogin() {
 
       // Assuming the verification is successful
       // You can add additional checks if needed
-      console.log('Verification Response:', result);
-      navigate(`/courier/${id}/${courierToken}/courierprices`);   
+      if (result.message !== "Incorrect verification code entered") {
+        // Assuming the verification is successful
+        // You can add additional checks if needed
+        console.log('Verification Response:', result);
+        navigate(`/courier/${id}/${courierToken}/courierprices`); 
+    } else {
+        // Handle incorrect verification code scenario
+        console.log('Verification Error:', result.message);
+        setIsError(true);
+        setMessage('Verification Error: ' + result.message);
+    }
+      
+        
     } catch (error) {
       setIsLoading(false);
       setIsError(true);
@@ -118,6 +129,7 @@ function VerifyLogin() {
       </form>
 
       {isLoading ? <Spinner /> : null}
+      {isError ? <p className="text-red-500">{message}</p> : null}
 
       <div className="flex flex-col">
         <p className="text-center">Please Insert the 5 digit token sent to your email</p>

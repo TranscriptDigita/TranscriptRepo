@@ -66,6 +66,7 @@ function Login() {
       
       <div className="flex flex-col md:w-4/12 w-full gap-y-4 p-3 md:p-0">
         <div className="flex flex-col gap-y-4">
+        <p style={{ fontWeight: 'bold', color: '#6B3FA0', fontSize: '2rem' }}>Login </p>
           <TextField
             id="outlined-email-input"
             label="Email Address"

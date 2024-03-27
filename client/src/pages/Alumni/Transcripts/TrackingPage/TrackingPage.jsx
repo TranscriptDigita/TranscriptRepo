@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { HiChevronRight } from 'react-icons/hi';
 import { Table, TranscriptGridItem, TranscriptGridItemProgress } from '../../../../components';
 import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 function TrackingPage() {
   const navigate = useNavigate();
@@ -40,16 +41,30 @@ function TrackingPage() {
     fetchData();
   }, [alumniId, user.token]);
 
+  const getUserId = () => {
+    const storedUserData = localStorage.getItem('user');
+    if (storedUserData) {
+      const userDataObject = JSON.parse(storedUserData);
+      return userDataObject?.alumni._id;
+    }
+    return null;
+  };
+
+  const userId = getUserId();
+
   return (
     <div className="flex flex-1 flex-col bg-white rounded-md md:p-5 p-2 gap-y-4">
-      <div className="flex justify-center">
-        <div className="flex w-72 p-2 items-center rounded-md border border-solid border-gray-300 bg-opacity-5">
-          <input type="text" placeholder="Search" className="w-full outline-none bg-transparent" />
-        </div>
-      </div>
+      
+      <Link to={`/alumni/${userId}/dashboard`} className="flex-shrink-0">
+  <Button variant='contained' className='bg-[#6B3FA0] '>
+    Credential Application
+  </Button>
+</Link>
+
+     
 
       <div className="flex flex-col gap-y-5">
-        <Table headers={[{ title: 'Available transcripts' }]} item={transcripts.map((transcript) => (
+        <Table headers={[{ title: 'Applied Credentials' }]} item={transcripts.map((transcript) => (
           <TranscriptGridItemProgress
             key={transcript._id}
             data={transcript.institutionName}

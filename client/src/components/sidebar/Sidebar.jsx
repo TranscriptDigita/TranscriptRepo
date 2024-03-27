@@ -15,7 +15,7 @@ function Sidebar({ menuItems, name }) {
   };
 
   const hideSidebarOnSmallScreen = () => {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 1200) {
       setSidebarOpen(false);
       setTitleText(false);
       console.log("Sidebar Hidden on Small Screen");
