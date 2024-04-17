@@ -49,11 +49,11 @@ function OurPartners() {
   };
 
   return (
-    <div className='py-16 bg-gray-100'>
+    <div className='py-16 bg-purple-100'>
       <div className='container mx-auto'>
         <div className='text-center mb-8'>
-          <h2 className='text-3xl md:text-5xl font-bold mb-2'>Our Partners</h2>
-          <p className='text-lg md:text-xl text-gray-700'>We collaborate with reputable institutions and organizations to provide top-quality services.</p>
+          <h2 className='text-3xl md:text-5xl  mb-2 font-montserrat-bold text-purple-900'>Our Partners</h2>
+          <p className='text-lg md:text-xl text-gray-700 font-montserrat'>We collaborate with reputable institutions and organizations to provide top-quality services.</p>
         </div>
 
         <div className='relative'>
@@ -71,7 +71,7 @@ function OurPartners() {
                   }`}
                 >
                   <div className='bg-white p-4 rounded shadow-md text-center'>
-                  <h3 className='text-xl font-semibold mb-2'>{partner.toUpperCase()}</h3>
+                  <h3 className='text-xl font-montserrat-semibold mb-2'>{partner.toUpperCase()}</h3>
 
                     {/* <p className='text-gray-600'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus feugiat lacus id neque dapibus, sit amet sodales neque lacinia.</p> */}
                   </div>

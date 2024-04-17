@@ -69,8 +69,8 @@ function Services() {
       <div className="w-full max-w-screen-xl">
         <div className="flex flex-col items-center gap-y-[50px]">
           <div className="flex flex-col items-center md:w-7/12 gap-y-[8px]">
-            <h4 className="font-bold md:text-[40px]">Our Services</h4>
-            <p className="font-light md:text-[16px]">
+            <h4 className="font-montserrat-bold text-purple-900 text-3xl md:text-5xl">Our Services</h4>
+            <p className="font-montserrat-light text-lg md:text-xl">
               Unlock the Convenience of our streamlined services and experience the power of hassle-free Academic Credentials retrieval. Say goodbye to time-consuming paperwork and frustrating bureaucracy.
             </p>
           </div>
@@ -85,7 +85,7 @@ function Services() {
             <div className="carousel-slide">
               <img src={images[currentImageIndex]} alt={`services${currentImageIndex + 1}`} style={{ maxWidth: '100%', maxHeight: '100%' }} />
               <div className="flex flex-col p-3" >
-                <h4 className=" ">{slideContent[currentImageIndex].title}</h4>
+                <h4 className=" text-purple-900 ">{slideContent[currentImageIndex].title}</h4>
                 <ul className="font-light p-2 md:text-[16px]">
                   {slideContent[currentImageIndex].list.map((item, index) => (
                     <li key={index}>{item}</li>

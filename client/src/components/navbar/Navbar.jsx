@@ -122,7 +122,7 @@ function Navbar() {
   return (
     <div className="grid grid-cols-1 shadow">
       
-      <div className="p-3 md:p-5 flex justify-between items-center">
+      <div className="p-3 md:p-5  flex bg-purple-50 justify-between items-center">
         {/* Check for user */}
         {storedUser && storedUser.alumni.isVerified === true ? (
           // Render content for logged-in user
@@ -242,24 +242,24 @@ function Navbar() {
                 <div className="flex items-center justify-end p-4"><img src={lumniImg} alt="Company Logo" className="w-20" /></div>
                   <div>
                     <Link to={`/`} className="font-bold text-white">
-                      Loumni
+                     
                     </Link>
                   </div>
                   <nav className="md:text-[14px] justify-evenly flex-1 hidden md:flex">
                   <Link to={`/`} className='flex'>
-                            <p>Home</p>
+                            <p className='font-montserrat text-[20px]'>Home</p>
                         </Link>
                           {/* Conditionally render the links based on screen width */}
           {showLinks && (
             <>
               <Link to={`/#contact`} className='flex'>
-                <p>Contact</p>
+                <p className='font-montserrat text-[20px]'>Contact</p>
               </Link>
               <Link to={`/#testimonials`} className='flex'>
-                <p>Testimonials</p>
+                <p className='font-montserrat text-[20px]'>Testimonials</p>
               </Link>
               <Link to={`/#services`} className='flex'>
-                <p>Services</p>
+                <p className='font-montserrat text-[20px]'>Services</p>
               </Link>
             </>
           )}

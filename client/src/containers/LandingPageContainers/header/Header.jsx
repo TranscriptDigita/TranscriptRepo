@@ -108,40 +108,44 @@ function Header() {
     <meta name="description" content="Explore academic credentials processing. Learn about our diverse range of programs, including degrees, certificates, and diplomas. Prepare for a successful career with our accredited and industry-relevant qualifications."/>
 
     <div className='flex flex-col bg-white justify-center gap-y-4'>
-      <h1 className='md:text-[30px] text-[30px] font-bold leading-none'>
+      <h1 className='md:text-[30px] text-[30px] text-purple-900 font-montserrat-bold leading-none '>
         {slides[currentSlide].title}
       </h1>
-      <p className='md:text-[24px] text-[12px] font-light'>
+      <p className='md:text-[24px] text-[12px]  font-montserrat-light '>
         {slides[currentSlide].description}
       </p>
-      <div className="flex gap-x-4">
-        <Link to={slides[currentSlide].buttonLink} className="flex-shrink-0">
-          <Button variant='contained' className='bg-[#6B3FA0] '>
-            {slides[currentSlide].buttonText}
-          </Button>
-        </Link>
-        <Link to={slides[currentSlide].buttonLink2} className="flex-shrink-0">
-          <Button variant='contained' className='bg-[#6B3FA0] '>
-            {slides[currentSlide].buttonText2}
-          </Button>
-        </Link>
-        
-      </div>
-      <div className="flex gap-x-4">
-      <Link to={slides[currentSlide].buttonLink3} className="flex-shrink-0">
-          <Button variant='contained' className='bg-[#6B3FA0] '>
-            {slides[currentSlide].buttonText3}
-          </Button>
-        </Link>
+      <div class="  p-4">
+  <div class="flex gap-x-4">
+    <Link to={slides[currentSlide].buttonLink} className="flex-grow">
+      <Button variant='contained' className='bg-[#6B3FA0] w-full'>
+        {slides[currentSlide].buttonText}
+      </Button>
+    </Link>
+    <Link to={slides[currentSlide].buttonLink2} className="flex-grow">
+      <Button variant='contained' className='bg-[#6B3FA0] w-full'>
+        {slides[currentSlide].buttonText2}
+      </Button>
+    </Link>
+  </div>
+</div>
 
-        <Link to={slides[currentSlide].buttonLink4} className="flex-shrink-0">
-          <Button variant='contained' className='bg-[#6B3FA0] '>
-            {slides[currentSlide].buttonText4}
-          </Button>
-        </Link>
 
-        
-        </div>
+<div class=" p-4">
+  <div class="flex gap-x-4">
+    <Link to={slides[currentSlide].buttonLink3} className="flex-grow">
+      <Button variant='contained' className='bg-[#6B3FA0] w-full'>
+        {slides[currentSlide].buttonText3}
+      </Button>
+    </Link>
+    <Link to={slides[currentSlide].buttonLink4} className="flex-grow">
+      <Button variant='contained' className='bg-[#6B3FA0] w-full'>
+        {slides[currentSlide].buttonText4}
+      </Button>
+    </Link>
+  </div>
+</div>
+
+
       <div>
         {/* Left and Right navigation buttons remain commented out */}
       </div>

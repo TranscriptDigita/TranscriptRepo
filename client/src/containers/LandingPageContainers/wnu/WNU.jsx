@@ -18,19 +18,19 @@ function WNU() {
       </div>
 
       <div className='flex flex-col gap-y-[50px]'>
-        <h4 className='font-bold md:text-[45px] text-center md:text-right'>
+        <h4 className='font-bold md:text-[45px] text-purple-900 text-center md:text-center font-montserrat'>
           Why need us
         </h4>
-        <p className='font-light md:text-[40px]'>
+        <p className='font-montserrat-light md:text-[30px] '>
           At Loumni we understand the challenges and frustrations that can arise
           when it comes to obtaining your Academic Credentials, That's why we are
           here to simplify the process and provide you with a seamless solution.
           Here's why our customers need us
         </p>
-        <div className='flex flex-col gap-y-[16px] md:w-8/12 w-full self-end'>
+        <div className='flex flex-col gap-y-[16px] md:w-8/12 w-full self-center'>
           <span className='flex items-center p-2 gap-x-2 rounded-full bg-[#F2DF32]'>
             <HiOutlineChevronDoubleRight />
-            <p className='text-[18px]'>Time-saving Convenience</p>
+            <p className='text-[18px] '>Time-saving Convenience</p>
           </span>
 
           <span className='flex items-center p-2 gap-x-2 rounded-full bg-[#FFB6B6]'>

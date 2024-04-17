@@ -508,13 +508,13 @@ console.log("This is the user data from local storage:", userData);
           className='md:w-4/12 mx-auto bg-gray-300'
           onClick={() => {}}
          
-          className='font-bold text-center'
+          className='font-bold text-center text-[15px]'
         >
-         Alumni Academic Credentials Request From 
+         CREDENTIALS APPLICATION FORM 
         </button>
 
-        <h4 className='font-bold text-center'>Fill The Form Below</h4>
-        <p className='text-[14px] font-light text-center'>
+        <h4 className='font-bold text-center text-[25px]'>Fill The Form Below</h4>
+        <p className='text-[20px] font-light text-center'>
           When applying for your your academic credential, please ensure that you carefully and accurately fill out the form below.
           Double-check all the information you provide, including your name, student ID number, course details, and the
           address where you want the academic document to be sent. Any errors or discrepancies may lead to delays in processing
@@ -531,7 +531,7 @@ console.log("This is the user data from local storage:", userData);
                 /* Large screen form */
                 <form onSubmit={handleSubmit}>
                 <div className='flex flex-col gap-y-4 bg-white p-5 my-auto rounded-lg'>
-                  <h4 className='col-span-2 text-center font-bold'>Bio-data</h4>
+                  <h4 className='col-span-2 text-center font-bold text-[15px]'>Bio-data</h4>
                   
                   <select
                     
@@ -618,13 +618,13 @@ console.log("This is the user data from local storage:", userData);
                   <input
                     type='text'
                     ref={vcNameRef}
-                    placeholder='Name Of VC Before Graduation'
+                    placeholder='Name Of Institution Head Before Graduation'
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
                     required
                   />
                   
                 </div>
-                <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
+                <button className='md:w-4/10 mx-auto bg-purple-700  border-2 rounded-md p-2 ml-5'
                  type='submit' onClick={handleSubmit}>
               Continue
             </button>
@@ -720,12 +720,12 @@ console.log("This is the user data from local storage:", userData);
                   <input
                     type='text'
                     ref={vcNameRef}
-                    placeholder='Name Of VC Before Graduation'
+                    placeholder='Name Of Institution Head Before Graduation'
                     className='custom-textfield border-2 border-black border-solid rounded-md p-2'
                     required
                   />
                 </div>
-                <button className='md:w-4/12 mx-auto bg-purple-700  border-2 rounded-md p-2'
+                <button className='md:w-4/10 mx-auto bg-purple-700  border-2 rounded-md p-2 ml-5'
                  type='submit' onClick={handleSubmit}>
               Continue
             </button>

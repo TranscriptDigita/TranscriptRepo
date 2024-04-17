@@ -34,12 +34,12 @@ function Testimonials() {
   return (
     <div className='testimonials-container'>
       <div className='testimonials-content'>
-        <h4 className='testimonials-title'>Testimonials from our valued users</h4>
-        <p className='testimonials-description'>Discover what our satisfied users are saying about their experience with our transcript retrieval services</p>
+        <h4 className='testimonials-title font-montserrat text-purple-900'>Testimonials from our valued users</h4>
+        <p className='testimonials-description  font-montserrat'>Discover what our satisfied users are saying about their experience with our transcript retrieval services</p>
 
-        <div className='testimonial-slide'>
-          <p className='testimonial-text'>{testimonies[currentSlide].testimony}</p>
-          <p className='testimonial-name'>{testimonies[currentSlide].name}</p>
+        <div className='testimonial-slide bg-purple-100'>
+          <p className='testimonial-text font-montserrat'>{testimonies[currentSlide].testimony}</p>
+          <p className='testimonial-name font-montserrat-'>{testimonies[currentSlide].name}</p>
         </div>
 
         <div className='testimonial-controls'>

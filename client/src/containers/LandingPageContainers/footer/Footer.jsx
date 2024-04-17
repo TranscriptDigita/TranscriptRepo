@@ -39,7 +39,7 @@ function Footer() {
                     <h4>Loumni</h4>
                 </div>
                 <div className='flex flex-col gap-y-[8px]'>
-                    <h4 className='font-semibold'>About us</h4>
+                    <h4 className='font-semibold font-montserrat'>About us</h4>
                     <ul className='text-[14px] font-light gap-y-[6px]'>
                         <li>About</li>
                         <li>Blog</li>
@@ -49,8 +49,8 @@ function Footer() {
                        
                     </ul>
                 </div>
-                <div className='flex flex-col gap-y-[8px]'>
-                    <h4 className='font-semibold'>Services</h4>
+                <div className='flex flex-col gap-y-[8px] font-montserrat'>
+                    <h4 className='font-semibold font-montserrat'>Services</h4>
                     <ul className='text-[14px] font-light gap-y-[6px]'>
                         <li>Document Request</li>
                         <li>Document Approval</li>
@@ -58,7 +58,7 @@ function Footer() {
                     </ul>
                 </div>
                 <div className='flex flex-col gap-y-[8px]'>
-                    <h4 className='font-semibold'>Contact Us</h4>
+                    <h4 className='font-montserrat-semibold'>Contact Us</h4>
                     <ul className='text-[14px] font-light gap-y-[6px]'>
                         
                         <li>+2347041417901</li>
@@ -66,7 +66,7 @@ function Footer() {
                     </ul>
                 </div>
                 <div className='flex flex-col gap-y-[8px]'>
-                    <h4 className='font-semibold'>Social</h4>
+                    <h4 className='font-montserrat-semibold '>Social</h4>
                     <div className='grid grid-cols-4 gap-x-[6px]'>
                       <Link>
                         <FaFacebookF size={20}/>
@@ -85,7 +85,7 @@ function Footer() {
             </div>
             <hr />
             <span className='flex justify-center items-end'>     
-                <small className='font-light'> Loumni All Right reserved</small>
+                <small className='font-montserrat-light '> Loumni All Right reserved</small>
                 {/* @{Date.now()} */}
             </span>
         </div>     
